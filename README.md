@@ -1,4 +1,5 @@
 # ContrataDos
+
 ## Doc resumen
 
 - Pensaria como uber
@@ -15,6 +16,7 @@
 - ~~Obtener recomendaciones, ofertas y/o descuentos basados en las búsquedas realizadas y/o trabajos contratados.~~ (Optener localidad automaticamente ?? )
 
 ### Funcionales:
+
 - Las personas podrán registrarse en el sistema como usuarios, ya sea como trabajadores (contratados), contratantes o ámbos.
 - Las personas deberán registrarse con sus datos reales pero podrán tener un sobrenombre ficticio.
 - La registración debe poder hacerse con la cuenta de google, ~~facebook~~ o linkedin.
@@ -27,11 +29,13 @@
 - Sitema de puntuación como uber
 
 ### No Funcionales
+
 - Mongo Backup
 
 ## Programacion
 
 ### Frontend
+
 [Nuxt](https://nuxtjs.org/)
 [Ant Design of Vue](https://antdv.com/docs/vue/introduce/) it have calendar
 https://github.com/AlekseyPleshkov/nuxt-social-meta
@@ -41,6 +45,7 @@ https://github.com/nuxt-community/awesome-nuxt
 https://github.com/mynameiswhm/brotli-webpack-plugin
 
 ### Backend
+
 https://github.com/sindresorhus/awesome-nodejs
 https://github.com/goldbergyoni/nodebestpractices
 https://github.com/goldbergyoni/javascript-testing-best-practices
@@ -132,3 +137,6 @@ https://loopback.io/doc/index.html (TS only ???)
 
 ### Flujo del sistema
 Ver etapa 1
+
+- La fechas siponibles la comfirma el trabajador y con lo que ya tiene ocupado segun db, no tiene
+  sentido perdir la fechas ya que puede tener trabajos desde otro medio o esta ocupado esos dias
