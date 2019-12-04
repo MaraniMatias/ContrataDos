@@ -98,7 +98,7 @@ https://loopback.io/doc/index.html (TS only ???)
   - fechas_disponibles : [{ dia, hora_inicio, hora_fin }]
   - puntuación
   - localidad
-  - zona_trabajo
+  - localidad_trabajo   : [Localidad]
   - cantidad_trabajos
 
 - Habilidades
@@ -109,14 +109,14 @@ https://loopback.io/doc/index.html (TS only ???)
   - Nombre
   - localidades
     - Nombre
-    - codigo_postal
+    - codo_postal
     - coordenadas : { lng, lat }
 
 - Trabajo
   - cliente     : Persona
   - profesional : Persona
   - localidad
-  - servicio
+  - servicios   : Habilidades
   - puntuación
   - foto
   - descripción
