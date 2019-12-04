@@ -88,8 +88,8 @@ https://loopback.io/doc/index.html (TS only ???)
 ### Modelo MongoDB
 
 - Persona
-  - roles : [CLIENTE,PROFESIONAL]
-  - servicios : [Habilidades]
+  - roles       : [CLIENTE,PROFESIONAL]
+  - servicios   : [Habilidades]
   - email
   - nombre
   - apellido
@@ -97,27 +97,37 @@ https://loopback.io/doc/index.html (TS only ???)
   - google_account
   - fechas_disponibles : [{ dia, hora_inicio, hora_fin }]
   - puntuación
+  - localidad
+  - zona_trabajo
   - cantidad_trabajos
 
 - Habilidades
   - Nombre
   - Description
 
+- Provincia
+  - Nombre
+  - localidades
+    - Nombre
+    - codigo_postal
+    - coordenadas : { lng, lat }
+
 - Trabajo
-  - cliente : Persona
+  - cliente     : Persona
   - profesional : Persona
+  - localidad
   - servicio
   - puntuación
   - foto
   - descripción
-  - tipo : PUBLICO | PRIVADO
-  - agenda : [Agenda] // La reprogramacion se cansela una y crea otra
+  - tipo        : PUBLICO | PRIVADO
+  - agenda      : [Agenda] // La reprogramación se cancela una y crea otra
 
 - Agenda (Eventos)
-  - cliente : Persona
+  - cliente     : Persona
   - profesional : Persona
-  - trabajo : Trabajo
-  - estado : PENDIENTE_CONFIRMACIÓN | PENDIENTE_REALIZACIÓN | CANCELADA | EN_PROGRESO | TERMINADA
+  - trabajo     : Trabajo
+  - estado      : PENDIENTE_CONFIRMACIÓN | PENDIENTE_REALIZACIÓN | CANCELADA | EN_PROGRESO | TERMINADA
   - fecha_inicio
   - fecha_fin
 
