@@ -111,7 +111,7 @@ https://loopback.io/doc/index.html (TS only ???)
   - foto
   - descripción
   - tipo : PUBLICO | PRIVADO
-  - agenda : Agenda
+  - agenda : [Agenda] // La reprogramacion se cansela una y crea otra
 
 - Agenda (Eventos)
   - cliente : Persona
