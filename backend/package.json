@@ -33,6 +33,7 @@
     "prettier": "^1.19.1"
   },
   "dependencies": {
+    "agenda": "^2.2.0",
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
