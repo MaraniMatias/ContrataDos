@@ -95,10 +95,9 @@ https://loopback.io/doc/index.html (TS only ???)
   - apellido
   - usuario
   - google_account
-  - fechas_disponibles : [{ dia, hora_inicio, hora_fin }]
   - puntuación
   - localidad
-  - localidad_trabajo   : [Localidad]
+  - zona_trabajo: [Localidad]
   - cantidad_trabajos
 
 - Habilidades
