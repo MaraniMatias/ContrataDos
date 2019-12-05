@@ -15,7 +15,7 @@
 - Poder valorar al trabajador y a los trabajos realizados mediante un sistema de puntuación y/o comentarios controlado (de modo que no se vea perjudicada ninguna de las partes). (Como uber o ML)
 - ~~Obtener recomendaciones, ofertas y/o descuentos basados en las búsquedas realizadas y/o trabajos contratados.~~ (Optener localidad automaticamente ?? )
 
-### Funcionales:
+### Funcionales
 
 - Las personas podrán registrarse en el sistema como usuarios, ya sea como trabajadores (contratados), contratantes o ámbos.
 - Las personas deberán registrarse con sus datos reales pero podrán tener un sobrenombre ficticio.
@@ -38,19 +38,18 @@
 
 [Nuxt](https://nuxtjs.org/)
 [Ant Design of Vue](https://antdv.com/docs/vue/introduce/) it have calendar
-https://github.com/AlekseyPleshkov/nuxt-social-meta
-https://github.com/nuxt-community/analytics-module
-https://github.com/nuxt-community/awesome-nuxt
-
-https://github.com/mynameiswhm/brotli-webpack-plugin
+<https://github.com/AlekseyPleshkov/nuxt-social-meta>
+<https://github.com/nuxt-community/analytics-module>
+<https://github.com/nuxt-community/awesome-nuxt>
+<https://github.com/mynameiswhm/brotli-webpack-plugin>
 
 ### Backend
 
-https://github.com/sindresorhus/awesome-nodejs
-https://github.com/goldbergyoni/nodebestpractices
-https://github.com/goldbergyoni/javascript-testing-best-practices
+<https://github.com/sindresorhus/awesome-nodejs>
+<https://github.com/goldbergyoni/nodebestpractices>
+<https://github.com/goldbergyoni/javascript-testing-best-practices>
 
-
+__Extructura de carpestas__
 controles
 router
 model
@@ -61,34 +60,39 @@ Nodejs
 Expressjs
 mongoose
 MongoDB
-https://github.com/rajikaimal/awesome-express
-https://github.com/expressjs/serve-favicon
-https://github.com/goldbergyoni/nodebestpractices
-https://github.com/expressjs/compression
-https://github.com/animir/node-rate-limiter-flexible
-https://www.npmjs.com/package/bcrypt
+<https://github.com/rajikaimal/awesome-express>
+<https://github.com/expressjs/serve-favicon>
+<https://github.com/goldbergyoni/nodebestpractices>
+<https://github.com/expressjs/compression>
+<https://github.com/animir/node-rate-limiter-flexible>
+<https://www.npmjs.com/package/bcrypt>
 
 #### Validations
-https://express-validator.github.io/docs/
-https://github.com/validatorjs/validator.js#validators
-https://github.com/epoberezkin/ajv
+
+<https://express-validator.github.io/docs/>
+<https://github.com/validatorjs/validator.js#validators>
+<https://github.com/epoberezkin/ajv>
 
 #### Status
-https://github.com/RafalWilinski/express-status-monitor
-https://github.com/lirantal/express-version-route
+
+<https://github.com/RafalWilinski/express-status-monitor>
+<https://github.com/lirantal/express-version-route>
 
 #### Mongoose options scheme
-https://mongoosejs.com/docs/guide.html#options
+
+<https://mongoosejs.com/docs/guide.html#options>
 
 #### MongoDB
-https://mlab.com/ (500mb free)
+
+<https://mlab.com/> (500mb free)
 
 #### Framework
-https://feathersjs.com (using express :D)
-https://github.com/feathersjs/awesome-feathersjs#examples
 
-https://graphql.org/learn/queries/
-https://loopback.io/doc/index.html (TS only ???)
+<https://feathersjs.com> (using express :D)
+<https://github.com/feathersjs/awesome-feathersjs#examples>
+
+<https://graphql.org/learn/queries/>
+<https://loopback.io/doc/index.html> (TS only ???)
 
 ### Modelo MongoDB
 
@@ -136,7 +140,9 @@ https://loopback.io/doc/index.html (TS only ???)
   - fecha_fin
 
 ### Flujo del sistema
+
 Ver etapa 1
 
 - La fechas siponibles la comfirma el trabajador y con lo que ya tiene ocupado segun db, no tiene
   sentido perdir la fechas ya que puede tener trabajos desde otro medio o esta ocupado esos dias
+
