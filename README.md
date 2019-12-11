@@ -94,6 +94,12 @@ MongoDB
 <https://graphql.org/learn/queries/>
 <https://loopback.io/doc/index.html> (TS only ???)
 
+#### Documentation
+
+https://medium.com/@art_deco/how-to-ditch-typescript-for-jsdoc-212ff1978542
+https://github.com/artdecocode/typal/blob/master/README.md
+https://github.com/artdecocode/documentary/blob/master/README.md
+
 ### Modelo MongoDB
 
 - Persona
