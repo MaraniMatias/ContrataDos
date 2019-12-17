@@ -1,0 +1,49 @@
+//- template.pug
+doctype html
+head
+  meta(http-equiv='Content-Type' content='text/html; charset=UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  title Constancia de aplicación
+  style(type='text/css')
+    include email.css
+//- Wrapper for the body of the email
+body
+  center
+    div(style='background-color:#F2F2F2; max-width: 400px; margin: auto;')
+      table(width='400' cellspacing='0' cellpadding='0' border='0' style='max-width:400px; width:100%;' bgcolor='#FFFFFF')
+        tr
+          td(align='center' valign='top' style='padding:0px;')
+            h1= subject
+            //- img(src='http://placehold.it/200x200' align='center')
+            img(src=`${logo}` align='center' style="height:69px;padding:20px")
+        //- email body
+        tr
+          td(align='left' valign='top' style='padding:0px;padding-bottom:20px;')
+            if type == "aplicacion_change_solicitada"
+              p
+                b Solicito verificador
+                |  para la Aplicación prevista para el lote
+            if type == "aplicacion_change_a_verificar"
+              p Se le ha asignado una aplicación para
+                b  VERIFICAR
+                |  en el lote
+            if type == "aplicacion_change_reprogramacion"
+              p Se informa la
+                b  REPROGRAMACION
+                |  de la aplicación a realizarse en el lote
+        tr
+          td(align='left' valign='top' style='padding:0px;padding-left:10px')
+            p #{data.lote}
+            p Productor:
+              b  #{data.productor}
+            p Solicitada por el asesor
+              b  #{data.asesor}
+            p Planificada para el día
+              b  #{data.fecha_realizacion}
+        tr
+          td(align='left' valign='top' style='padding:0px;padding-top:10px')
+            if type == "aplicacion_change_solicitada"
+              p Solicito a ustedes
+                b  asignen VERIFICADOR
+                |  para realizarla.

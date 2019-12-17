@@ -2,13 +2,16 @@
   "name": "contratados",
   "version": "0.0.1",
   "description": "Proyecto final",
-  "main": "index.js",
+  "main": "www/index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "debug": "node --inspect ./index.js",
+    "start": "nodemon www/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": "./www/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MaraniMatias/ContrataDos.git"
@@ -38,6 +41,7 @@
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "date-fns": "^2.8.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-restify-mongoose": "^5.1.0",
@@ -50,6 +54,13 @@
     "passport": "^0.4.1",
     "passport-google-oauth": "^2.0.0",
     "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "pug": "^2.0.4",
     "serve-favicon": "^2.5.0"
+  },
+  "engines": {
+    "node": ">=12.13.1",
+    "npm": "^6.13.4",
+    "yarn": "^1.13.2"
   }
 }
