@@ -7,7 +7,7 @@
 - Poder evaluar la calidad de los trabajadores ofrecidos
 - Conocer la disponibilidad en días y horarios de los trabajadores.
 - Poder registrarse en el sitio con un correo y una clave (google)
-- Registrar y gestionar datos personales (los tipico y zona de trabajo), ~~direcciones, tarjetas de crédito~~  y preferencias del sitio (notification).
+- Registrar y gestionar datos personales (los tipico y zona de trabajo), ~~direcciones, tarjetas de crédito~~ y preferencias del sitio (notification).
 - Permitir reservar un turno con el trabajador (o envuar uno cercano) y ~~abonar el mínimo por su asistencia (mercadopago) anticipado o al asistir el mismo~~ (pagado como google ad si te contratan)
 - ~~Permitir abonar por anticipado o al asistir el trabajador gastos de cotización.~~
 - Recibir una confirmación de parte del trabajador de la asistencia al turno reservado
@@ -49,7 +49,7 @@
 <https://github.com/goldbergyoni/nodebestpractices>
 <https://github.com/goldbergyoni/javascript-testing-best-practices>
 
-__Extructura de carpestas__
+**Extructura de carpestas**
 controles
 router
 model
@@ -103,8 +103,9 @@ https://github.com/artdecocode/documentary/blob/master/README.md
 ### Modelo MongoDB
 
 - Persona
-  - roles       : [CLIENTE,PROFESIONAL]
-  - servicios   : [Habilidades]
+
+  - roles : [CLIENTE,PROFESIONAL]
+  - servicios : [Habilidades]
   - email
   - nombre
   - apellido
@@ -116,10 +117,12 @@ https://github.com/artdecocode/documentary/blob/master/README.md
   - cantidad_trabajos
 
 - Habilidades
+
   - Nombre
   - Description
 
 - Provincia
+
   - Nombre
   - localidades
     - Nombre
@@ -127,21 +130,22 @@ https://github.com/artdecocode/documentary/blob/master/README.md
     - coordenadas : { lng, lat }
 
 - Trabajo
-  - cliente     : Persona
+
+  - cliente : Persona
   - profesional : Persona
   - localidad
-  - servicios   : Habilidades
+  - servicios : Habilidades
   - puntuación
   - foto
   - descripción
-  - tipo        : PUBLICO | PRIVADO
-  - agenda      : [Agenda] // La reprogramación se cancela una y crea otra
+  - tipo : PUBLICO | PRIVADO
+  - agenda : [Agenda] // La reprogramación se cancela una y crea otra
 
 - Agenda (Eventos)
-  - cliente     : Persona
+  - cliente : Persona
   - profesional : Persona
-  - trabajo     : Trabajo
-  - estado      : PENDIENTE_CONFIRMACIÓN | PENDIENTE_REALIZACIÓN | CANCELADA | EN_PROGRESO | TERMINADA
+  - trabajo : Trabajo
+  - estado : PENDIENTE_CONFIRMACIÓN | PENDIENTE_REALIZACIÓN | CANCELADA | EN_PROGRESO | TERMINADA
   - fecha_inicio
   - fecha_fin
 
@@ -152,3 +156,18 @@ Ver etapa 1
 - La fechas siponibles la comfirma el trabajador y con lo que ya tiene ocupado segun db, no tiene
   sentido perdir la fechas ya que puede tener trabajos desde otro medio o esta ocupado esos dias
 
+# Notas
+
+- Localidades trabajos si es vacía trabaja a distancia
+- Localidad por oficio ? Por ahora no
+- Http2 ?
+
+Menú
+
+- Agenda
+- trabajos
+  - pendientes (confinar, reprogramar?)
+  - realizados (puede subir o editar, hacer público o no)
+- perfil
+
+Usuario suba descripción y foto del trabajo requerido, fechas sugeridas ?
