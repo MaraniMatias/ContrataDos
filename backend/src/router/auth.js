@@ -48,7 +48,7 @@ router.get("/me", routAuth.isLogin, function(req, res) {
 });
 
 // POST auth/signup {Alta de un usuario}
-router.post("/signup", routAuth.isAdmin, function(req, res) {
+router.post("/signup", routAuth.isLogin, function(req, res) {
   const errors = checkErrors([
     check(req.body, "apellido").isString(),
     check(req.body, "email").isEmail(),

@@ -37,8 +37,9 @@ const schema = new Schema(
     localidad: [{ type: ObjectId, ref: "localidad" }],
     puntuacion: Number, // TODO 0 al 10, calcular con algun metodo
     cantidad_trabajos: Number, // TODO Incrementar al terminar un trabajo
-    google_account: { type: Object }, // Datos de google,
-    zona_trabajo: [{ type: ObjectId, ref: "localidad" }] // libre todo el mundo
+    google_account: { type: Object, access: "protected" }, // Datos de google,
+    zona_trabajo: [{ type: ObjectId, ref: "localidad" }], // libre todo el mundo
+    deleted: { type: Boolean, default: false }
   },
   { timestamps: true }
 );

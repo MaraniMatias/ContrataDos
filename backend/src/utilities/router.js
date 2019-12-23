@@ -51,8 +51,13 @@ const deleteProp = function(req, _, next) {
   next();
 };
 
+const block = function(req, res, next) {
+  next(false);
+};
+
 module.exports = {
   queryPage,
   sendRes,
-  deleteProp
+  deleteProp,
+  block
 };

@@ -30,7 +30,8 @@ const schema = new Schema(
     ],
     trabajo: [{ type: ObjectId, ref: "trabajo" }],
     fecha_inicio: { type: Date, default: Date.now() },
-    fecha_fin: { type: Date }
+    fecha_fin: { type: Date },
+    deleted: { type: Boolean, default: false }
   },
   { timestamps: true }
 );

@@ -36,45 +36,21 @@ app.use(
   })
 );
 
-app.all("*", (req, res, next) => {
-  // FIXME parche para no renegar, no chequea la version de la app constancia and receta
-  // Check app version
-  const clientVersion = req.header("Client-Version") || "0.0.0";
-  if (process.env.NODE_ENV === "development") next();
-  else if (/^\/(admin|mobile|auth)\/.*$/.test(req.path) === false) next();
-  else if (/^\/mobile\/aplicaciones\/constancia\/(.+\/.*)?$/.test(req.path)) next();
-  else if (/^\/mobile\/aplicaciones\/receta\/(.+\/.*)?$/.test(req.path)) next();
-  else if (clientVersion.split(".")[0] === pkg.version.split(".")[0]) next();
-  else {
-    sendRes(
-      res,
-      444,
-      null,
-      "Actualize la app de Municipio Verde",
-      "This version app is olders"
-    );
-  }
-});
-app.all("/admin/*", routAuth.isResponsableMuniOrAdmin);
-app.all("/mobile/*", (_, __, next) => {
-  if (process.env.NODE_ENV === "development") {
-    console.log("\n>>> You need auth for access to mobile app routes <<<");
-  }
-  next();
-});
+// app.all("*", routAuth.isLogin);
+// app.all("*", (req, res, next) => {
+//   if (process.env.NODE_ENV === "development") next();
+//   else if (/^\/(admin|mobile|auth)\/.*$/.test(req.path) === false) next();
+//   else sendRes(res, 404, null, "page no found", "");
+// });
 
 // ------------------- Agregar routes ----------------------
 // Inicializo las rutas
-app.use("/admin", require("./routes/admin/provincias"));
-app.use("/admin", require("./routes/admin/localidades"));
-app.use("/admin", require("./routes/admin/export"));
-app.use("/mobile", require("./routes/mobile/aplicaciones"));
-app.use("/mobile", require("./routes/mobile/cultivos"));
-app.use("/mobile", require("./routes/mobile/lotes"));
-app.use("/mobile", require("./routes/mobile/maquinaria"));
-app.use("/mobile", require("./routes/mobile/municipios"));
-app.use("/mobile", require("./routes/mobile/personas_empresas"));
-app.use("/auth", require("./routes/auth"));
+app.use("/provincia", require("./router/provincia"));
+app.use("/localidad", require("./router/localidad"));
+app.use("/agenda", require("./router/agenda"));
+app.use("/persona", require("./router/persona"));
+app.use("/trabajo", require("./router/trabajo"));
+app.use("/auth", require("./router/auth"));
 
 // Static, FronEnd
 app.use(express.static(path.join(__dirname, "public")));
@@ -102,10 +78,13 @@ process.on("uncaughtException", function(err) {
 });
 
 // Make dir to save file
-fs.mkdir(path.join(__dirname, "image"), err => {
-  if (err) console.log(err.errno === -17 ? "/image dir created" : err);
-  fs.mkdir(path.join(__dirname, "image", "recetas"), err => {
-    if (err) console.log(err.errno === -17 ? "/image/recetas dir created" : err);
+const path_image = ["perfil", "jobs"];
+fs.mkdir(path.join(__dirname, "images"), err => {
+  if (err) console.log(err.errno === -17 ? "/images dir created" : err);
+  path_image.forEach(folder => {
+    fs.mkdir(path.join(__dirname, "images", folder), err => {
+      if (err) console.log(err.errno === -17 ? `/images/${folder} dir created` : err);
+    });
   });
 });
 

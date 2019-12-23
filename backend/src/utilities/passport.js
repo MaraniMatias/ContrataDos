@@ -1,12 +1,12 @@
-const SECRET_KEY_SESSION = process.env.SECRET_KEY_SESSION || "q$u3t5a&p1";
+const SECRET_KEY_SESSION = process.env.SECRET_KEY_SESSION || "C0n7r47a2_hola:D";
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const ExtractJwt = passportJWT.ExtractJwt;
 const JwtStrategy = passportJWT.Strategy;
-const { sendRes } = require("./../utilities/router");
-const { PersonaRol: Rol, Persona } = require("./../models/persona");
+// const { PersonaRol: Rol, Persona } = require("./../models/persona");
+const { Persona } = require("./../models/persona");
 
 // Config passport
 passport.use(
@@ -109,39 +109,10 @@ passport.deserializeUser(function(id, cb) {
 
 // Validad roles
 const authorization = {
-  isSystemAdmin: [
-    // Para validar la autenticación con el token
-    passport.authenticate("jwt", { session: false }),
-    (req, res) => {
-      return sendRes(res, 403, null, "Unauthorized", "No tienes permiso");
-    }
-  ],
-  isResponsableMuniOrAdmin: [
-    // Para validar la autenticación con el token
-    passport.authenticate("jwt", { session: false }),
-    (req, res, next) => {
-      if (req.user.isRole(Rol.RESPONSABLE_MUN) || req.user.isRole(Rol.ADMIN_AAPRESID)) {
-        next();
-      } else {
-        return sendRes(res, 403, null, "Unauthorized", "No tienes permiso");
-      }
-    }
-  ],
-  isAdmin: [
-    // Para validar la autenticación con el token
-    passport.authenticate("jwt", { session: false }),
-    (req, res, next) => {
-      if (req.user.isRole(Rol.ADMIN_AAPRESID)) {
-        next();
-      } else {
-        return sendRes(res, 403, null, "Unauthorized", "No tienes permiso");
-      }
-    }
-  ],
   isLogin: [
     // Para validar la autenticación con el token
     passport.authenticate("jwt", { session: false }),
-    (req, res, next) => {
+    (req, _, next) => {
       if (req.user && process.env.NODE_ENV === "development") console.log(req.user);
       next();
     }
