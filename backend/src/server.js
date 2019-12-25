@@ -8,12 +8,13 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const restify = require("express-restify-mongoose");
-const { passport, routAuth } = require("./utilities/passport");
+const { passport } = require("./utilities/passport");
 const { sendRes } = require("./utilities/router");
 Object.assign = require("object-assign");
 
 // Sobre escribe la informacion de las tecnologias usadas en backend
 app.use(helmet());
+app.use(helmet.xssFilter({ reportUri: "/report-xss-violation" }));
 
 // Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize());
