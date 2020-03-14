@@ -3,10 +3,10 @@
     <div>
       <logo />
       <h1 class="title">
-        contratados
+        ContrataDos
       </h1>
       <h2 class="subtitle">
-        Frontend para contratados
+        My exceptional Nuxt.js project
       </h2>
       <div class="links">
         <a href="https://nuxtjs.org/" target="_blank" class="button--green">
