@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 /**
  * get
  *
@@ -14,19 +14,17 @@
  * @param setDefault {any}
  * @returns {object[keys]}
  */
-function get(object, keys = "", setDefault) {
-  const arrKeys = keys.split(".");
-  const key = arrKeys[0];
-  if (typeof key === "undefined" && key === "") {
-    return setDefault;
+function get(object, keys = '', setDefault) {
+  const arrKeys = keys.split('.')
+  const key = arrKeys[0]
+  if (typeof key === 'undefined' && key === '') {
+    return setDefault
+  } else if (typeof object[key] !== 'undefined' && object[key] !== null) {
+    return typeof arrKeys[1] !== 'undefined'
+      ? get(object[key], keys.replace(`${key}.`, ''))
+      : object[key]
   } else {
-    if (typeof object[key] !== "undefined" && object[key] !== null) {
-      return typeof arrKeys[1] !== "undefined"
-        ? get(object[key], keys.replace(`${key}.`, ""))
-        : object[key];
-    } else {
-      return setDefault;
-    }
+    return setDefault
   }
 }
-module.exports = get;
+module.exports = get

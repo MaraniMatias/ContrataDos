@@ -1,20 +1,20 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const ObjectId = mongoose.Schema.Types.ObjectId;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const ObjectId = mongoose.Schema.Types.ObjectId
 
 const Estados = {
-  PENDIENTE_CONFIRMACION: "PENDIENTE_CONFIRMACION",
-  PENDIENTE_REALIZACION: "PENDIENTE_REALIZACION",
-  CANCELADA: "CANCELADA",
-  EN_PROGRESO: "EN_PROGRESO",
-  TERMINADA: "TERMINADA"
-};
-module.exports.Estados = Estados;
+  PENDIENTE_CONFIRMACION: 'PENDIENTE_CONFIRMACION',
+  PENDIENTE_REALIZACION: 'PENDIENTE_REALIZACION',
+  CANCELADA: 'CANCELADA',
+  EN_PROGRESO: 'EN_PROGRESO',
+  TERMINADA: 'TERMINADA'
+}
+module.exports.Estados = Estados
 
 const schema = new Schema(
   {
-    cliente: [{ type: ObjectId, ref: "persona" }],
-    profesional: [{ type: ObjectId, ref: "persona" }],
+    cliente: [{ type: ObjectId, ref: 'persona' }],
+    profesional: [{ type: ObjectId, ref: 'persona' }],
     estado: [
       {
         type: String,
@@ -28,12 +28,12 @@ const schema = new Schema(
         ]
       }
     ],
-    trabajo: [{ type: ObjectId, ref: "trabajo" }],
+    trabajo: [{ type: ObjectId, ref: 'trabajo' }],
     fecha_inicio: { type: Date, default: Date.now() },
     fecha_fin: { type: Date },
     deleted: { type: Boolean, default: false }
   },
   { timestamps: true }
-);
+)
 
-module.exports.Agenda = mongoose.model("agenda", schema);
+module.exports.Agenda = mongoose.model('agenda', schema)

@@ -10,7 +10,7 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const restify = require('express-restify-mongoose')
 const pkg = require('../package.json')
-const { passport, routAuth } = require('./utilities/passport')
+const { passport } = require('./utilities/passport')
 const { sendRes } = require('./utilities/router')
 Object.assign = require('object-assign')
 
