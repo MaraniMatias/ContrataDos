@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = function () {
   const mongodbUser = process.env.MONGODB_USER || ''
   const mongoPass = process.env.MONGODB_PASSWORD || ''
   const mongodbName = process.env.MONGODB_DATABASE || 'testdb'

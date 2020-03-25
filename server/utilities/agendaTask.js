@@ -9,13 +9,13 @@ module.exports.jobName = {
   SEND_EMAIL_MEW_USER: 'SEND_EMAIL_MEW_USER',
   SEND_EMAIL_A_VERIFICAR: 'SEND_EMAIL_A_VERIFICAR',
   SEND_EMAIL_REPROGRAMACION: 'SEND_EMAIL_REPROGRAMACION',
-  SEND_EMAIL_SOLICITADA: 'SEND_EMAIL_SOLICITADA'
+  SEND_EMAIL_SOLICITADA: 'SEND_EMAIL_SOLICITADA',
 }
 
 module.exports.jobCreate = (jobName, data) =>
   agenda.create(jobName, data).save()
 
-module.exports.start = async function() {
+module.exports.start = async function () {
   try {
     agenda = new Agenda({ db: { address: getMongoURL() } })
 
@@ -37,7 +37,7 @@ module.exports.start = async function() {
         await sendEmailTo(
           {
             type: 'user_abm',
-            subject: 'Municipio Verde - Modificación de datos de acceso'
+            subject: 'Municipio Verde - Modificación de datos de acceso',
           },
           job.attrs.data
         )
@@ -55,7 +55,7 @@ module.exports.start = async function() {
             subject:
               'Municipio Verde - SOLICITADA - ' +
               data.fecha_realizacion +
-              `hs - Lote: ${data.lote}`
+              `hs - Lote: ${data.lote}`,
           },
           data
         )
@@ -72,7 +72,7 @@ module.exports.start = async function() {
             subject:
               'Municipio Verde - VERIFICAR - ' +
               data.fecha_realizacion +
-              `hs - Lote: ${data.lote}`
+              `hs - Lote: ${data.lote}`,
           },
           data
         )
@@ -89,7 +89,7 @@ module.exports.start = async function() {
             subject:
               'Municipio Verde - REPROGRAMADA - ' +
               data.fecha_realizacion +
-              `hs - Lote: ${data.lote}`
+              `hs - Lote: ${data.lote}`,
           },
           data
         )

@@ -8,7 +8,7 @@ module.exports = (restify, router) => {
     postUpdate: block,
     preCreate: block,
     postCreate: block,
-    preRead: []
+    preRead: [],
   })
   return router
 }

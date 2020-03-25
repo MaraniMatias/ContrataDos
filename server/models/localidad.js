@@ -8,8 +8,8 @@ const schema = new Schema({
   provincia: { type: ObjectId, ref: 'provincia' },
   coordenadas: {
     lat: { type: String, trim: true, required: 'Latitud requerida' },
-    lon: { type: String, trim: true, required: 'Longitud requerida' }
-  }
+    lon: { type: String, trim: true, required: 'Longitud requerida' },
+  },
 })
 
 module.exports.Localidad = mongoose.model('localidad', schema)

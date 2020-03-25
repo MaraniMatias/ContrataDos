@@ -21,7 +21,7 @@ async function start() {
     useNewUrlParser: true,
     useFindAndModify: false,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   }
 
   // Init Nuxt.js
@@ -50,7 +50,7 @@ async function start() {
         getLocalIP()
         consola.ready({
           message: `Server listening on http://${host}:${port}`,
-          badge: true
+          badge: true,
         })
       })
     }

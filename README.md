@@ -39,7 +39,6 @@
 [Nuxt](https://nuxtjs.org/)
 [Ant Design of Vue](https://antdv.com/docs/vue/introduce/) it have calendar
 <https://github.com/AlekseyPleshkov/nuxt-social-meta>
-<https://github.com/nuxt-community/analytics-module>
 <https://github.com/nuxt-community/awesome-nuxt>
 <https://github.com/mynameiswhm/brotli-webpack-plugin>
 
@@ -179,7 +178,6 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 
 - Localidades trabajos si es vacía trabaja a distancia
 - Localidad por oficio ? Por ahora no
-- Http2 ?
 
 Menú
 

@@ -7,7 +7,7 @@ const Estados = {
   PENDIENTE_REALIZACION: 'PENDIENTE_REALIZACION',
   CANCELADA: 'CANCELADA',
   EN_PROGRESO: 'EN_PROGRESO',
-  TERMINADA: 'TERMINADA'
+  TERMINADA: 'TERMINADA',
 }
 module.exports.Estados = Estados
 
@@ -24,14 +24,14 @@ const schema = new Schema(
           Estados.PENDIENTE_REALIZACION,
           Estados.EN_PROGRESO,
           Estados.TERMINADA,
-          Estados.CANCELADA
-        ]
-      }
+          Estados.CANCELADA,
+        ],
+      },
     ],
     trabajo: [{ type: ObjectId, ref: 'trabajo' }],
     fecha_inicio: { type: Date, default: Date.now() },
     fecha_fin: { type: Date },
-    deleted: { type: Boolean, default: false }
+    deleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 )

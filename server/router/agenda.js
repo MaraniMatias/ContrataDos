@@ -10,7 +10,7 @@ module.exports = (restify, router) => {
     postUpdate: [],
     preCreate: routAuth.isLogin, // TODO, solo borrar lo de el
     postCreate: [],
-    preRead: routAuth.isLogin // TODO, solo borrar lo de el
+    preRead: routAuth.isLogin, // TODO, solo borrar lo de el
   })
   return router
 }

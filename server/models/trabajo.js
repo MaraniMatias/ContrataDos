@@ -4,7 +4,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 
 const TipoTrabajo = {
   PUBLICO: 'PUBLICO',
-  PRIVADO: 'PRIVADO'
+  PRIVADO: 'PRIVADO',
 }
 module.exports.TipoTrabajo = TipoTrabajo
 
@@ -17,15 +17,15 @@ const schema = new Schema(
       {
         type: String,
         default: TipoTrabajo.PUBLICO,
-        enum: [TipoTrabajo.PRIVADO, TipoTrabajo.PRIVADO]
-      }
+        enum: [TipoTrabajo.PRIVADO, TipoTrabajo.PRIVADO],
+      },
     ],
     puntuacion: Number,
     // foto, usar el _id para referenciar la foto o mejor un id unico universal
     descripcion: String,
     servicios: [{ type: ObjectId, ref: 'habilidad' }], // para simplificar usaremos uno
     agenda: [{ type: ObjectId, ref: 'agenda' }], // Lista de eventos, agenda, si se re programa tiene varios
-    deleted: { type: Boolean, default: false }
+    deleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 )

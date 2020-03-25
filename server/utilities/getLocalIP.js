@@ -2,7 +2,7 @@ const os = require('os')
 const ifaces = os.networkInterfaces()
 
 // Listar las IP de las interfaces de red.
-module.exports = function() {
+module.exports = function () {
   let ip = 'localhost'
   Object.keys(ifaces).forEach((ifname) => {
     // "VirtualBox Host-Only Network"

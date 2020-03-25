@@ -9,6 +9,9 @@ const cors = require('cors')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const restify = require('express-restify-mongoose')
+const statusMonitor = require('express-status-monitor')
+const favicon = require('serve-favicon')
+const compression = require('compression')
 const pkg = require('../package.json')
 const { passport } = require('./utilities/passport')
 const { sendRes } = require('./utilities/router')
@@ -17,6 +20,24 @@ Object.assign = require('object-assign')
 // Sobre escribe la informacion de las tecnologias usadas en backend
 app.use(helmet())
 app.use(helmet.xssFilter({ reportUri: '/report-xss-violation' }))
+
+// favicon
+app.use(favicon(path.join(__dirname, '../static', 'favicon.ico')))
+
+// Compress request
+app.use(
+  compression({
+    filter(req, res) {
+      // don't compress responses with this request header
+      if (req.headers['x-no-compression']) return false
+      // fallback to standard filter function
+      return compression.filter(req, res)
+    },
+  })
+)
+
+// System monitor
+app.use(statusMonitor({ title: 'ContrataDos Status', path: '/api/status' }))
 
 // Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize())
@@ -30,14 +51,14 @@ app.use(cors({ exposedHeaders: ['X-Total-Count'] }))
 restify.defaults({
   totalCountHeader: true,
   onError: (err, req, res) =>
-    sendRes(res, req.erm.statusCode, null, 'Error', err.message, null)
+    sendRes(res, req.erm.statusCode, null, 'Error', err.message, null),
 })
 
 // Lista las pediciones al servidor en consola
 app.use(
   morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined', {
     skip: (_, res) =>
-      process.env.NODE_ENV !== 'development' && res.statusCode < 400
+      process.env.NODE_ENV !== 'development' && res.statusCode < 400,
   })
 )
 
@@ -57,7 +78,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Get /status
 const date = new Date()
-app.use('/api/status', function(req, res) {
+app.use('/api/status', function (req, res) {
   // const p = { pid: process.pid, ppid: process.ppid };
   res.json({
     server: process.env.NODE_ENV,
@@ -65,7 +86,7 @@ app.use('/api/status', function(req, res) {
     email: process.env.EMAIL_NOMBRE,
     // process: process.env.NODE_ENV === "development" ? p : {},
     version: `v${pkg.version}`,
-    started: date.toString()
+    started: date.toString(),
   })
 })
 

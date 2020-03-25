@@ -5,7 +5,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 const PersonaRol = {
   CLIENTE: 'CLIENTE',
   PROFECIONAL: 'PROFECIONAL',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
 }
 module.exports.PersonaRol = PersonaRol
 
@@ -15,7 +15,7 @@ const schema = new Schema(
     apellido: {
       type: String,
       trim: true,
-      required: 'El apellido es requerido'
+      required: 'El apellido es requerido',
     },
     razon_social: { type: String, trim: true }, // O Nombre fisticio
     email: {
@@ -25,17 +25,17 @@ const schema = new Schema(
       sparse: true,
       required: 'El mail es requerido',
       match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        'Por favor, complete ingrese una dirección de correo electrónico válida'
-      ]
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+        'Por favor, complete ingrese una dirección de correo electrónico válida',
+      ],
     },
     roles: [
       {
         type: String,
         default: PersonaRol.CLIENTE,
         enum: [PersonaRol.CLIENTE, PersonaRol.PROFECIONAL, PersonaRol.ADMIN],
-        required: 'Rol es requerido'
-      }
+        required: 'Rol es requerido',
+      },
     ],
     servicios: [{ type: ObjectId, ref: 'habilidad' }],
     localidad: [{ type: ObjectId, ref: 'localidad' }],
@@ -43,12 +43,12 @@ const schema = new Schema(
     cantidad_trabajos: Number, // TODO Incrementar al terminar un trabajo
     google_account: { type: Object, access: 'protected' }, // Datos de google,
     zona_trabajo: [{ type: ObjectId, ref: 'localidad' }], // libre todo el mundo
-    deleted: { type: Boolean, default: false }
+    deleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 )
 
-schema.virtual('usuario').get(function() {
+schema.virtual('usuario').get(function () {
   return this.razon_social || this.apellido + ' ' + this.nombre
 })
 

@@ -36,14 +36,14 @@ module.exports = (restify, router) => {
     preCreate: block,
     postCreate: block,
     preRead: [
-      function(req, _, next) {
+      function (req, _, next) {
         req.query.select = '-password'
         if (!req.erm.query) req.erm.query = {}
         if (!req.erm.query.select) req.erm.query.select = {}
         req.erm.query.select.password = 0
         next()
-      }
-    ]
+      },
+    ],
   })
   return router
 }

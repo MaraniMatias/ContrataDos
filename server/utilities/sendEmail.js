@@ -1,27 +1,27 @@
+const path = require('path')
 const nodemailer = require('nodemailer')
+const pug = require('pug')
 const options = {
   host: process.env.EMAIL_HOST,
   port: process.env.EMAIL_PORT,
   secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL_AUTH_USER,
-    pass: process.env.EMAIL_AUTH_PASS
+    pass: process.env.EMAIL_AUTH_PASS,
   },
   email_no_replay:
     process.env.EMAIL_NOMBRE + ' <' + process.env.EMAIL_AUTH_USER + '>',
-  logo: process.env.EMAIL_LOGO
+  logo: process.env.EMAIL_LOGO,
 }
 if (process.env.NODE_ENV !== 'production') console.log(options)
-const path = require('path')
-const pug = require('pug')
 const templeteUserABM = pug.compileFile(
-  path.normalize(__dirname + '/templates/email_abm_usuario.pug')
+  path.join(__dirname, 'templates', 'email_abm_usuario.pug')
 )
 const templeteAplicacion = pug.compileFile(
-  path.normalize(__dirname + '/templates/aplicacion_change.pug')
+  path.join(__dirname, 'templates', 'aplicacion_change.pug')
 )
 
-module.exports = async function({ subject, type }, data) {
+module.exports = async function ({ subject, type }, data) {
   const sendEmailTo = data.email || data.sendEmailTo
   if (process.env.NODE_ENV !== 'production') {
     console.log("sendMail '" + subject + "' to", sendEmailTo)
@@ -43,11 +43,11 @@ module.exports = async function({ subject, type }, data) {
     bcc:
       process.env.NODE_ENV === 'production'
         ? process.env.EMAIL_AUTH_USER
-        : void 0,
+        : undefined,
     subject,
     html:
       type === 'user_abm'
         ? templeteUserABM({ data, subject, logo: options.logo })
-        : templeteAplicacion({ data, subject, logo: options.logo, type })
+        : templeteAplicacion({ data, subject, logo: options.logo, type }),
   })
 }

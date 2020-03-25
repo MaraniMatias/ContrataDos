@@ -11,7 +11,7 @@ const get = require('./get')
  * @param {String} error Response Error
  * @returns {Object} {data, message, error}
  */
-const sendRes = function(res, cod = 200, data, message = '', errors = null) {
+const sendRes = function (res, cod = 200, data, message = '', errors = null) {
   res.status(cod)
   return res.json({ data, message, errors })
 }
@@ -35,7 +35,7 @@ const queryPage = (req, _, next) => {
   next()
 }
 
-const deleteProp = function(req, _, next) {
+const deleteProp = function (req, _, next) {
   const entity = req.body
   // delete entity.deleted;
   delete entity.createdAt
@@ -51,7 +51,7 @@ const deleteProp = function(req, _, next) {
   next()
 }
 
-const block = function(req, res, next) {
+const block = function (req, res, next) {
   next(false)
 }
 
@@ -59,5 +59,5 @@ module.exports = {
   queryPage,
   sendRes,
   deleteProp,
-  block
+  block,
 }
