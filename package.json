@@ -47,6 +47,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.4",
+    "qonfucius-nuxt-fontawesome": "^1.0.1",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {

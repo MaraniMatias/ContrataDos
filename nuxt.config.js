@@ -55,6 +55,7 @@ module.exports = {
       },
     ],
     'nuxt-compress',
+    'qonfucius-nuxt-fontawesome',
   ],
   /*
    ** Build configuration
