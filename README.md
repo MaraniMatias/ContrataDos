@@ -8,18 +8,18 @@
 - Conocer la disponibilidad en días y horarios de los trabajadores.
 - Poder registrarse en el sitio con un correo y una clave (google)
 - Registrar y gestionar datos personales (los tipico y zona de trabajo), ~~direcciones, tarjetas de crédito~~ y preferencias del sitio (notification).
-- Permitir reservar un turno con el trabajador (o envuar uno cercano) y ~~abonar el mínimo por su asistencia (mercadopago) anticipado o al asistir el mismo~~ (pagado como google ad si te contratan)
+- Permitir reservar un turno con el trabajador y ~~abonar el mínimo por su asistencia (mercadopago) anticipado o al asistir el mismo~~ (pagado como google ad si te contratan)
 - ~~Permitir abonar por anticipado o al asistir el trabajador gastos de cotización.~~
-- Recibir una confirmación de parte del trabajador de la asistencia al turno reservado
+- ~~Recibir una confirmación de parte del trabajador de la asistencia al turno reservado~~
 - Recibir un recordatorio de la asistencia del trabajador al menos una hora antes de la cita concretada (tanto el cliente como el trabajador). (email)
-- Poder valorar al trabajador y a los trabajos realizados mediante un sistema de puntuación y/o comentarios controlado (de modo que no se vea perjudicada ninguna de las partes). (Como uber o ML)
+- Poder valorar al trabajador y a los trabajos realizados mediante un sistema de puntuación y/o comentarios ~~controlado (de modo que no se vea perjudicada ninguna de las partes). (Como uber o ML)~~
 - ~~Obtener recomendaciones, ofertas y/o descuentos basados en las búsquedas realizadas y/o trabajos contratados.~~ (Optener localidad automaticamente ?? )
 
 ### Funcionales
 
 - Las personas podrán registrarse en el sistema como usuarios, ya sea como trabajadores (contratados), contratantes o ámbos.
 - Las personas deberán registrarse con sus datos reales pero podrán tener un sobrenombre ficticio.
-- La registración debe poder hacerse con la cuenta de google, ~~facebook~~ o linkedin.
+- La registración debe poder hacerse con la cuenta de google, ~~facebook o linkedin.~~
 - Los usuarios contratantes podrán contar con un historial de trabajadores por trabajo contratado y un perfil de usuario.
 - Los usuarios contratantes deberán poder buscar a profesionales según profesión y/o zona de trabajo.
 - Los usuarios contratantes deberán poder ver con facilidad la calificación de los profesionales ofertados y puntuar por el trabajo realizado.
@@ -31,6 +31,7 @@
 ### No Funcionales
 
 - Mongo Backup
+- Inventar otros...
 
 ## Programacion
 
@@ -38,15 +39,15 @@
 
 [Nuxt](https://nuxtjs.org/)
 [Ant Design of Vue](https://antdv.com/docs/vue/introduce/) it have calendar
-<https://github.com/AlekseyPleshkov/nuxt-social-meta>
 <https://github.com/nuxt-community/awesome-nuxt>
-<https://github.com/mynameiswhm/brotli-webpack-plugin>
 
 ### Backend
 
 <https://github.com/sindresorhus/awesome-nodejs>
+<https://github.com/rajikaimal/awesome-express>
 <https://github.com/goldbergyoni/nodebestpractices>
 <https://github.com/goldbergyoni/javascript-testing-best-practices>
+<https://github.com/animir/node-rate-limiter-flexible>
 
 **Extructura de carpestas**
 controles
@@ -59,12 +60,6 @@ Nodejs
 Expressjs
 mongoose
 MongoDB
-<https://github.com/rajikaimal/awesome-express>
-<https://github.com/expressjs/serve-favicon>
-<https://github.com/goldbergyoni/nodebestpractices>
-<https://github.com/expressjs/compression>
-<https://github.com/animir/node-rate-limiter-flexible>
-<https://www.npmjs.com/package/bcrypt>
 
 #### Validations
 
@@ -74,7 +69,6 @@ MongoDB
 
 #### Status
 
-<https://github.com/RafalWilinski/express-status-monitor>
 <https://github.com/lirantal/express-version-route>
 
 #### Mongoose options scheme
@@ -95,9 +89,9 @@ MongoDB
 
 #### Documentation
 
-https://medium.com/@art_deco/how-to-ditch-typescript-for-jsdoc-212ff1978542
-https://github.com/artdecocode/typal/blob/master/README.md
-https://github.com/artdecocode/documentary/blob/master/README.md
+<https://medium.com/@art_deco/how-to-ditch-typescript-for-jsdoc-212ff1978542>
+<https://github.com/artdecocode/typal/blob/master/README.md>
+<https://github.com/artdecocode/documentary/blob/master/README.md>
 
 ### Modelo MongoDB
 
@@ -110,6 +104,7 @@ https://github.com/artdecocode/documentary/blob/master/README.md
   - apellido
   - usuario
   - google_account
+  - password
   - puntuación
   - localidad
   - zona_trabajo: [Localidad]
@@ -148,13 +143,6 @@ https://github.com/artdecocode/documentary/blob/master/README.md
   - fecha_inicio
   - fecha_fin
 
-### Flujo del sistema
-
-Ver etapa 1
-
-- La fechas siponibles la comfirma el trabajador y con lo que ya tiene ocupado segun db, no tiene
-  sentido perdir la fechas ya que puede tener trabajos desde otro medio o esta ocupado esos dias
-
 ## Build Setup
 
 ```bash
@@ -174,17 +162,19 @@ $ npm run generate
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
-# Notas
+## Notas
 
+- Ver etapa para el flujo
+- Las fechas posibles las propone el profesional con lo que ya tiene ocupado
+  según DB y según su disponibilidad. No tiene sentido pedir la fechas ya que
+  puede tener trabajos desde otro medio o esta ocupado esos días.
+- Usuario suba descripción y foto del trabajo requerido, fechas sugeridas ?
 - Localidades trabajos si es vacía trabaja a distancia
 - Localidad por oficio ? Por ahora no
+- Menú
 
-Menú
-
-- Agenda
-- trabajos
-  - pendientes (confinar, reprogramar?)
-  - realizados (puede subir o editar, hacer público o no)
-- perfil
-
-Usuario suba descripción y foto del trabajo requerido, fechas sugeridas ?
+> - Agenda
+> - trabajos
+>   - pendientes (confinar, reprogramar?)
+>   - realizados (puede subir o editar, hacer público o no)
+> - perfil
