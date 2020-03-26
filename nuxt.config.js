@@ -19,7 +19,7 @@ module.exports = {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#086b94' },
   /*
    ** Global CSS
    */
@@ -51,7 +51,7 @@ module.exports = {
         img: '/assets/logo.png',
         locale: 'es_ES',
         twitter: '@maranimaitas',
-        themeColor: '#1976D2',
+        themeColor: '#086b94',
       },
     ],
     'nuxt-compress',

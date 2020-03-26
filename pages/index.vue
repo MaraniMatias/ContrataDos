@@ -1,68 +1,57 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        ContrataDos
-      </h1>
-      <h2 class="subtitle">
-        My exceptional Nuxt.js project
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-  </div>
+  <a-layout>
+    <a-layout-header style="background: transparent;">
+      <a-row type="flex" justify="end" style="width: 100%;">
+        <a-col>
+          <a-dropdown :placement="bottomCenter">
+            <a-avatar
+              icon="user"
+              shape
+              style="margin-left: 12px; margin-top: -4px;"
+              @click="(e) => e.preventDefault()"
+            />
+            <a-menu slot="overlay">
+              <a-menu-item>
+                <a href="javascript:;">1st menu item</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">2nd menu item</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">3rd menu item</a>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
+        </a-col>
+      </a-row>
+    </a-layout-header>
+    <a-layout-content class="app-content">
+      <a-row type="flex" :span="12" justify="center" style="width: 400px;">
+        <img alt="logo" src="~/assets/logo.jpeg" class="logo" />
+        <a-input-search
+          style="margin: 12px 0px;"
+          size="large"
+          @search="onSearch"
+        />
+        <a-button>Buscar profesional</a-button>
+      </a-row>
+    </a-layout-content>
+    <a-layout-footer>
+      <Copyright />
+    </a-layout-footer>
+  </a-layout>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import Copyright from '~/components/Copyright'
 
 export default {
-  components: {
-    Logo,
-  },
+  components: { Copyright },
+  // data: () => ({}),
+  // computed: {},
+  // methods: {},
+  // created(){},
+  // mounted(){},
+  // watch: {}
 }
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>

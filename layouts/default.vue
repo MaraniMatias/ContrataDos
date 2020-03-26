@@ -1,10 +1,13 @@
 <template>
-  <div>
+  <div id="app" ng-cloak>
     <nuxt />
   </div>
 </template>
 
 <style>
+ng-cloak {
+  display: none !important;
+}
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -17,39 +20,36 @@ html {
   box-sizing: border-box;
 }
 
+body {
+  /*  background: #f0f2f5; */
+}
+
 *,
 *:before,
 *:after {
   box-sizing: border-box;
   margin: 0;
 }
+.hide {
+  display: none;
+  visibility: hidden;
+}
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
+a.link-footer {
+  color: black !important;
+  text-decoration-line: none;
   text-decoration: none;
-  padding: 10px 30px;
+}
+a.link-footer:hover {
+  text-decoration: inherit;
+  text-decoration-line: underline;
 }
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+.ant-layout-content.app-content {
+  padding: 0 50px;
+  margin-top: 50px;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
