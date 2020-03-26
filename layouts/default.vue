@@ -44,12 +44,4 @@ a.link-footer:hover {
   text-decoration: inherit;
   text-decoration-line: underline;
 }
-
-.ant-layout-content.app-content {
-  padding: 0 50px;
-  margin-top: 50px;
-  max-width: 1300px;
-  margin-left: auto;
-  margin-right: auto;
-}
 </style>

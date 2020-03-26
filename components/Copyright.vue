@@ -1,12 +1,18 @@
 <template>
-  <a-layout>
-    <p class="text--center" style="margin: 0px;">
-      Copyright © <span v-text="year" /> ContrataDos by
-      <a class="link-footer" href="http://www.qutap.com.ar" target="_blank">
+  <v-layout justify-center align-end py-3 class="grey--text">
+    <p class="mb-0 text-center">
+      <span class="hidden-md-and-down mr-1">Copyright ©</span>
+      <span class="mr-1" v-text="year" />
+      <span class="mx-1 grey--text"> ContrataDos by </span>
+      <a
+        class="link-apunte grey--text"
+        href="http://www.qutap.com.ar"
+        target="_blank"
+      >
         Qutap, We do it.
       </a>
     </p>
-  </a-layout>
+  </v-layout>
 </template>
 
 <script>

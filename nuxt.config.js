@@ -1,9 +1,12 @@
+const colors = require('vuetify/es5/util/colors').default
+
 module.exports = {
   mode: 'universal',
   /*
    ** Headers of the page
    */
   head: {
+    titleTemplate: '%s - ' + process.env.npm_package_name,
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
@@ -23,17 +26,20 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: ['ant-design-vue/dist/antd.css'],
+  css: [],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/antd-ui'],
+  plugins: [],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
+    // Doc: https://github.com/nuxt-community/stylelint-module
+    '@nuxtjs/stylelint-module',
+    '@nuxtjs/vuetify',
   ],
   /*
    ** Nuxt.js modules
@@ -57,6 +63,27 @@ module.exports = {
     'nuxt-compress',
     'qonfucius-nuxt-fontawesome',
   ],
+  /*
+   ** vuetify module configuration
+   ** https://github.com/nuxt-community/vuetify-module
+   */
+  vuetify: {
+    customVariables: ['~/assets/variables.scss'],
+    theme: {
+      dark: true,
+      themes: {
+        dark: {
+          primary: '#086b94', // colors.blue.darken2,
+          accent: colors.grey.darken3,
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3,
+        },
+      },
+    },
+  },
   /*
    ** Build configuration
    */
