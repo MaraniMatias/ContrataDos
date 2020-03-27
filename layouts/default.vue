@@ -44,13 +44,15 @@
     </v-app-bar>
     <v-app-bar v-else fixed app color="transparent" class="elevation-0">
       <v-layout justify-end>
-        <v-icon size="32" class="ml-2" style="cursor: pointer;">
-          account_circle
-        </v-icon>
+        <v-btn icon nuxt to="/login">
+          <v-icon size="32" class="ml-2" style="cursor: pointer;">
+            account_circle
+          </v-icon>
+        </v-btn>
       </v-layout>
     </v-app-bar>
     <v-content>
-      <v-container>
+      <v-container class="fill-height" fluid>
         <nuxt />
       </v-container>
     </v-content>
