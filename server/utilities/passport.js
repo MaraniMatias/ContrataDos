@@ -14,30 +14,30 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: '/auth/google/callback',
+      callbackURL: '/api/auth/google/callback',
     },
-    function (token, tokenSecret, profile, done) {
-      // profile.emails =  [value: 'maranimatias@gmail.com', type: 'account']
-      const email = profile.emails.find(({ type }) => type === 'account').value
+    function (accessToken, refreshToken, profile, done) {
       if (process.env.NODE_ENV === 'development') {
-        console.log({
-          name: profile.name,
-          gender: profile.gender,
-          googleId: profile.id,
-          token,
-          tokenSecret,
-          displayName: profile.displayName,
-          email,
-          organizations: profile._json.organizations,
-        })
+        console.log({ token: accessToken, tokenSecret: refreshToken, profile })
       }
+      const email = profile._json.email
       const user = {
         nombre: profile.name.givenName,
         apellido: profile.name.familyName,
-        mail: email,
         googleId: profile.id,
+        email,
+        picture: profile._json.picture,
+        google_account: {
+          id: profile.id,
+          _json: profile._json,
+          accessToken,
+          refreshToken,
+        },
+        // other
+        gender: profile.gender,
+        organizations: profile._json.organizations,
       }
-      Persona.findOrCreate({ mail: email }, user, (err, userDb) => {
+      Persona.findOrCreate({ email }, user, (err, userDb) => {
         if (err || !userDb) {
           return done(err, null)
         } else {
