@@ -11,6 +11,7 @@
       />
       <v-col cols="12">
         <v-text-field
+          ref="search"
           v-model.lazy="query"
           outlined
           border-radius
@@ -39,6 +40,11 @@ export default {
     search() {
       if (this.query) {
         this.$router.replace({ name: 'search', query: { q: this.query } })
+      } else {
+        const self = this
+        this.$nextTick(function () {
+          self.$refs.search.focus()
+        })
       }
     },
   },
