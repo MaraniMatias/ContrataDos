@@ -1,6 +1,19 @@
 <template>
   <v-app ng-cloak>
-    <v-app-bar v-if="hideAppBar" fixed app color="primary" dark>
+    <v-app-bar
+      v-if="hideAppBar"
+      fixed
+      app
+      color="transparent"
+      class="elevation-0"
+    >
+      <v-layout justify-end>
+        <v-btn icon nuxt to="/login">
+          <v-icon size="32" style="cursor: pointer;">account_circle</v-icon>
+        </v-btn>
+      </v-layout>
+    </v-app-bar>
+    <v-app-bar v-else fixed app color="primary" dark>
       <v-toolbar-title>
         <v-btn nuxt text to="/" color="transparent">
           <logo />
@@ -42,15 +55,6 @@
         </v-menu>
       </v-layout>
     </v-app-bar>
-    <v-app-bar v-else fixed app color="transparent" class="elevation-0">
-      <v-layout justify-end>
-        <v-btn icon nuxt to="/login">
-          <v-icon size="32" class="ml-2" style="cursor: pointer;">
-            account_circle
-          </v-icon>
-        </v-btn>
-      </v-layout>
-    </v-app-bar>
     <v-content>
       <v-container class="fill-height" fluid>
         <nuxt />
@@ -74,7 +78,8 @@ export default {
   }),
   computed: {
     hideAppBar() {
-      return this.$route.name !== 'index'
+      // Todo si no esta logueado
+      return this.$route.name === 'index'
     },
   },
 }
