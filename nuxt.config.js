@@ -61,7 +61,7 @@ module.exports = {
       },
     ],
     'nuxt-compress',
-    'qonfucius-nuxt-fontawesome',
+    'nuxt-material-design-icons',
   ],
   /*
    ** vuetify module configuration

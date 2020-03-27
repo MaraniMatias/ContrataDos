@@ -44,14 +44,9 @@
     </v-app-bar>
     <v-app-bar v-else fixed app color="transparent" class="elevation-0">
       <v-layout justify-end>
-        <v-avatar
-          size="32px"
-          class="ml-2"
-          style="cursor: pointer;"
-          v-on="{ ...menu }"
-        >
-          <img src="~/assets/avatars/elyse.png" />
-        </v-avatar>
+        <v-icon size="32" class="ml-2" style="cursor: pointer;">
+          account_circle
+        </v-icon>
       </v-layout>
     </v-app-bar>
     <v-content>

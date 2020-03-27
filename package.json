@@ -47,13 +47,13 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.4",
-    "qonfucius-nuxt-fontawesome": "^1.0.1",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
-    "@nuxtjs/vuetify": "^1.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
+    "@nuxtjs/stylelint-module": "^3.1.0",
+    "@nuxtjs/vuetify": "^1.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.10.1",
@@ -63,8 +63,8 @@
     "lint-staged": "^10.0.9",
     "markdownlint": "^0.19.0",
     "nodemon": "^2.0.2",
+    "nuxt-material-design-icons": "^1.0.4",
     "prettier": "^2.0.2",
-    "@nuxtjs/stylelint-module": "^3.1.0",
     "stylelint": "^10.1.0"
   }
 }
