@@ -65,7 +65,7 @@ app.use(
 // app.all('/api/v1/*', routAuth.isLogin) // Gran parate de la app es publica
 // ------------------- Agregar routes ----------------------
 // Inicializo las rutas
-app.use('/auth', require('./router/auth'))
+app.use('/api/auth', require('./router/auth'))
 app.use(require('./router/persona')(restify, router))
 app.use(require('./router/provincia')(restify, router))
 app.use(require('./router/localidad')(restify, router))

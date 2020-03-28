@@ -44,6 +44,7 @@ const schema = new Schema(
     puntuacion: Number, // TODO 0 al 10, calcular con algun metodo
     cantidad_trabajos: Number, // TODO Incrementar al terminar un trabajo
     google_account: { type: Object, access: 'protected' }, // Datos de google,
+    picture: String,
     password: { type: String, access: 'protected' },
     zona_trabajo: [{ type: ObjectId, ref: 'localidad' }], // libre todo el mundo
     deleted: { type: Boolean, default: false },
@@ -67,19 +68,17 @@ schema.method('authenticate', function (password) {
   return bcrypt.compare(password, this.password)
 })
 
-/*
-schema.static("findOrCreate", function(condition, user, callback) {
-  const usuario = this;
-  usuario.findOne(condition, (err, result) => {
+schema.static('findOrCreate', function (condition, user, callback) {
+  const self = this
+  self.findOne(condition, (err, result) => {
     if (err || result) {
-      callback(err, result);
+      callback(err, result)
     } else {
-      usuario.create(user, (err, userBD) => {
-        callback(err, userBD);
-      });
+      self.create(user, (err, userBD) => {
+        callback(err, userBD)
+      })
     }
-  });
-});
-*/
+  })
+})
 
 module.exports.Persona = mongoose.model('persona', schema)

@@ -8,20 +8,24 @@ const { sendRes } = require('./../utilities/router')
 const { checkErrors, check } = require('./../utilities/checkProps')
 
 // GET /auth/google
-// router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+)
 
 // GET /auth/google/callback
 router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function (req, res) {
-    // TODO pensar el flujo
-    const user = req.user
-    user.password = null // Avoid sending password encryption
+    // const user = req.user
     const token = jwt.sign({ id: req.user._id }, secretKeySession)
-    const data = { user, token }
+    // const data = { user, token }
     // res, status, data, message, error
-    return sendRes(res, 200, data, 'Success', null)
+    // return sendRes(res, 200, data, 'Success', null)
+    res.setHeader('authorization', 'Bearer ' + token)
+    const string = encodeURIComponent(token)
+    res.redirect('/login?token=' + string)
   }
 )
 
@@ -60,7 +64,7 @@ router.post('/signup', routAuth.isLogin, function (req, res) {
   } else {
     const user = new User({
       apellido: req.body.apellido,
-      mail: req.body.mail,
+      email: req.body.mail,
       nombre: req.body.nombre,
       password: req.body.password,
       role: req.body.role,
