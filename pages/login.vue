@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import CardForm from '../components/CardForm'
 // style="max-width: 400px; margin: auto;"
 
@@ -103,6 +104,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['login']),
     authFacebook() {},
     authLinkedin() {},
     authGoogle() {
@@ -113,7 +115,9 @@ export default {
         // 'width=500,height=600,scrollbars=no'
       )
     },
-    authLocal() {},
+    authLocal() {
+      this.login({ email: this.email, password: this.password })
+    },
   },
 }
 </script>
