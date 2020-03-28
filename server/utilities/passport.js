@@ -18,7 +18,7 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, done) {
       if (process.env.NODE_ENV === 'development') {
-        console.log({ token: accessToken, tokenSecret: refreshToken, profile })
+        console.log({ googleToken: accessToken, profile: profile._json })
       }
       const email = profile._json.email
       const user = {
@@ -59,7 +59,6 @@ passport.use(
             return next(err, false)
           } else {
             if (user.authenticate(password)) {
-              user.password = undefined
               return next(null, user)
             }
             return next(null, false)
@@ -110,13 +109,24 @@ passport.deserializeUser(function (id, cb) {
 
 // Validad roles
 const authorization = {
+  /*
   isLogin: [
     // Para validar la autenticación con el token
     passport.authenticate('jwt', { session: false }),
     (req, _, next) => {
-      if (req.user && process.env.NODE_ENV === 'development')
+      if (req.user && process.env.NODE_ENV === 'development') {
         console.log(req.user)
+      }
       next()
+    },
+  ],
+  */
+  isLogin: [
+    (req, _, next) => {
+      if (process.env.NODE_ENV === 'development') {
+        console.log(req.user)
+      }
+      next(!!(req.user && req.user._id))
     },
   ],
 }
@@ -124,5 +134,4 @@ const authorization = {
 module.exports = {
   passport,
   routAuth: authorization,
-  secretKeySession: SECRET_KEY_SESSION,
 }

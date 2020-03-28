@@ -1,8 +1,8 @@
 require('dotenv').config()
 const session = require('express-session')
 const bodyParser = require('body-parser')
-const { passport } = require('./api/utilities/passport')
-// const colors = require('vuetify/es5/util/colors').default
+const { passport } = require('./server/utilities/passport')
+const apiMiddleware = require('./server/router')
 
 module.exports = {
   mode: 'universal',
@@ -13,7 +13,6 @@ module.exports = {
     // Parsear el cueropo de dato en POST
     bodyParser.json({ limit: '12mb' }),
     bodyParser.urlencoded({ limit: '12mb', extended: true }),
-
     // session middleware
     session({
       secret: process.env.SECRET_KEY_SESSION || 'secretK3y',
@@ -21,10 +20,7 @@ module.exports = {
       saveUninitialized: false,
       cookie: { maxAge: 60000 },
     }),
-    // Api middleware
-    // We add /api/login & /api/logout routes
-    '~/api',
-  ],
+  ].concat(apiMiddleware),
   /*
    ** Headers of the page
    */

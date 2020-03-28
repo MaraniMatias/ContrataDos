@@ -1,9 +1,9 @@
 import express from 'express'
 const passport = require('passport')
-const User = require('./models/persona')
-const { sendRes } = require('./utilities/router')
-const { routAuth } = require('./utilities/passport')
-const { checkErrors, check } = require('./utilities/checkProps')
+const User = require('../models/persona')
+const { sendRes } = require('../utilities/router')
+const { routAuth } = require('../utilities/passport')
+const { checkErrors, check } = require('../utilities/checkProps')
 
 // Create express router
 const router = express.Router()
@@ -19,12 +19,6 @@ router.use((req, res, next) => {
   next()
 })
 
-// Add POST - /api/logout
-router.post('/logout', (req, res) => {
-  delete req.session.authUser
-  res.json({ ok: true })
-})
-
 // GET /auth/google
 router.get(
   '/google',
@@ -37,7 +31,7 @@ router.get(
   passport.authenticate('google', { failureRedirect: '/login' }),
   function (req, res) {
     const user = req.user
-    req.session.authUser = user
+    req.session.authUser = user // TODO save id
     res.redirect('/trabajos')
   }
 )
@@ -45,13 +39,13 @@ router.get(
 // POST auth/login {mail password}
 router.post('/login', passport.authenticate('local'), function (req, res) {
   const user = req.user
-  req.session.authUser = user
+  req.session.authUser = user // TODO save id
   // res, status, data, message, error
   return sendRes(res, 200, user, 'Success', null)
 })
 
 // GET auth/logout
-router.get('/logout', function (req, res) {
+router.post('/logout', function (req, res) {
   delete req.session.authUser
   req.logout()
   // res, status, data, message, error
@@ -92,8 +86,4 @@ router.post('/signup', routAuth.isLogin, function (req, res) {
   }
 })
 
-// Export the server middleware
-export default {
-  path: '/api/auth',
-  handler: router,
-}
+export default router

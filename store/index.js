@@ -1,4 +1,4 @@
-import http from '../utils/http'
+import http from '../api/http'
 
 export const state = () => ({
   user: {},
@@ -19,7 +19,8 @@ export const actions = {
   // nuxtServerInit is called by Nuxt.js before server-rendering every page
   nuxtServerInit({ commit }, { req }) {
     if (req.session && req.session.authUser) {
-      commit('SET_USER', req.session.authUser)
+      // commit('SET_USER', req.session.passport.user)
+      commit('SET_USER_ID', req.session.authUser)
     }
   },
   async login({ commit }, { email, password }) {
