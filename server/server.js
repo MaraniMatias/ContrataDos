@@ -5,13 +5,13 @@ const express = require('express')
 const app = express()
 const router = express.Router()
 const bodyParser = require('body-parser')
-const cors = require('cors')
+// const cors = require('cors')
 const helmet = require('helmet')
-const morgan = require('morgan')
+// const morgan = require('morgan')
 const restify = require('express-restify-mongoose')
 const statusMonitor = require('express-status-monitor')
 const favicon = require('serve-favicon')
-const compression = require('compression')
+// const compression = require('compression')
 const pkg = require('../package.json')
 const { passport } = require('./utilities/passport')
 const { sendRes } = require('./utilities/router')
@@ -25,6 +25,7 @@ app.use(helmet.xssFilter({ reportUri: '/report-xss-violation' }))
 app.use(favicon(path.join(__dirname, '../static', 'favicon.ico')))
 
 // Compress request
+/*
 app.use(
   compression({
     filter(req, res) {
@@ -35,6 +36,7 @@ app.use(
     },
   })
 )
+*/
 
 // System monitor
 app.use(statusMonitor({ title: 'ContrataDos Status', path: '/api/status' }))
@@ -46,7 +48,7 @@ app.use(passport.session())
 // Parsear el cueropo de dato en POST
 app.use(bodyParser.json({ limit: '12mb' }))
 app.use(bodyParser.urlencoded({ limit: '12mb', extended: true }))
-app.use(cors({ exposedHeaders: ['X-Total-Count'] }))
+// app.use(cors({ exposedHeaders: ['X-Total-Count'] }))
 
 restify.defaults({
   totalCountHeader: true,
@@ -55,17 +57,19 @@ restify.defaults({
 })
 
 // Lista las pediciones al servidor en consola
+/*
 app.use(
   morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined', {
     skip: (_, res) =>
       process.env.NODE_ENV !== 'development' && res.statusCode < 400,
   })
 )
+*/
 
 // app.all('/api/v1/*', routAuth.isLogin) // Gran parate de la app es publica
 // ------------------- Agregar routes ----------------------
 // Inicializo las rutas
-app.use('/api/auth', require('./router/auth'))
+// app.use('/api/auth', require('./router/auth'))
 app.use(require('./router/persona')(restify, router))
 app.use(require('./router/provincia')(restify, router))
 app.use(require('./router/localidad')(restify, router))

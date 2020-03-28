@@ -6,7 +6,8 @@ module.exports = {
   mode: 'universal',
   serverMiddleware: [
     // body-parser middleware
-    bodyParser.json(),
+    bodyParser.json({ limit: '12mb' }),
+    bodyParser.urlencoded({ limit: '12mb', extended: true }),
     // session middleware
     session({
       secret: process.env.SECRET_KEY_SESSION || 'secretK3y',

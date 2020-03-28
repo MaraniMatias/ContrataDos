@@ -93,16 +93,9 @@ export default {
     showPass: false,
     password: '',
     email: '',
-    loading: true,
+    loading: false,
   }),
   computed: {},
-  beforeCreate() {
-    if (this.$store.state.token) this.$router.replace('/trabajos')
-  },
-  created() {
-    this.loading = !!this.$store.state.token
-  },
-
   methods: {
     ...mapActions(['login']),
     authFacebook() {},

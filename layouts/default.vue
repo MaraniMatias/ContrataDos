@@ -1,7 +1,7 @@
 <template>
   <v-app ng-cloak>
     <v-app-bar
-      v-if="hideAppBar"
+      v-if="!isLoggedIn"
       fixed
       app
       color="transparent"
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import Logo from '~/components/Logo.vue'
 import Copyright from '~/components/Copyright.vue'
@@ -77,18 +77,17 @@ export default {
   components: { Copyright, Logo },
   data: () => ({
     fixed: false,
-    user: { nombre: 'Matias', apellido: 'marani' },
   }),
   computed: {
-    hideAppBar() {
-      return !this.$store.state.token
+    ...mapGetters(['isLoggedIn']),
+    user() {
+      return this.$store.state.user || {}
     },
   },
   methods: {
-    ...mapMutations({ deleteToken: 'DELETE_TOKEN' }),
-    loginOut() {
-      this.deleteToken()
-      // TODO, send login aut on backend
+    ...mapActions(['logout']),
+    async loginOut() {
+      await this.logout()
       this.$router.replace('/')
     },
   },
