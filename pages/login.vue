@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import CardForm from '../components/CardForm'
 // style="max-width: 400px; margin: auto;"
 
@@ -92,17 +93,11 @@ export default {
     showPass: false,
     password: '',
     email: '',
-    loading: true,
+    loading: false,
   }),
   computed: {},
-  beforeCreate() {
-    if (this.$store.state.token) this.$router.replace('/trabajos')
-  },
-  created() {
-    this.loading = !!this.$store.state.token
-  },
-
   methods: {
+    ...mapActions(['login']),
     authFacebook() {},
     authLinkedin() {},
     authGoogle() {
@@ -113,7 +108,9 @@ export default {
         // 'width=500,height=600,scrollbars=no'
       )
     },
-    authLocal() {},
+    authLocal() {
+      this.login({ email: this.email, password: this.password })
+    },
   },
 }
 </script>

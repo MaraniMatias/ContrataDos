@@ -1,7 +1,24 @@
+const session = require('express-session')
+const bodyParser = require('body-parser')
 // const colors = require('vuetify/es5/util/colors').default
 
 module.exports = {
   mode: 'universal',
+  serverMiddleware: [
+    // body-parser middleware
+    bodyParser.json({ limit: '12mb' }),
+    bodyParser.urlencoded({ limit: '12mb', extended: true }),
+    // session middleware
+    session({
+      secret: process.env.SECRET_KEY_SESSION || 'secretK3y',
+      resave: false,
+      saveUninitialized: false,
+      cookie: { maxAge: 60000 },
+    }),
+    // Api middleware
+    // We add /api/login & /api/logout routes
+    '~/api',
+  ],
   /*
    ** Headers of the page
    */

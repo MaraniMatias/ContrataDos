@@ -23,6 +23,7 @@
   "dependencies": {
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
+    "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
@@ -32,6 +33,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.16.4",
     "express-restify-mongoose": "^6.0.0",
+    "express-session": "^1.17.0",
     "express-status-monitor": "^1.2.9",
     "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
