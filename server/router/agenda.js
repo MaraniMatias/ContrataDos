@@ -1,11 +1,11 @@
-const { routAuth } = require('./../utilities/passport')
-const { deleteProp } = require('./../utilities/router')
+const { deleteProp, block } = require('./../utilities/router')
 // const Batch = require("./../utilities/agendaTask");
 const { Agenda } = require('./../models/agenda')
+const { routAuth } = require('~/api/utilities/passport')
 
 module.exports = (restify, router) => {
   restify.serve(router, Agenda, {
-    preDelete: routAuth.isLogin, // TODO, solo borrar lo de el
+    preDelete: block,
     preUpdate: [routAuth.isLogin, deleteProp], // TODO, solo borrar lo de el
     postUpdate: [],
     preCreate: routAuth.isLogin, // TODO, solo borrar lo de el

@@ -3,17 +3,12 @@ const path = require('path')
 const consola = require('consola')
 const express = require('express')
 const app = express()
-const router = express.Router()
-const bodyParser = require('body-parser')
+// const router = express.Router()
 // const cors = require('cors')
 const helmet = require('helmet')
-// const morgan = require('morgan')
 const restify = require('express-restify-mongoose')
 const statusMonitor = require('express-status-monitor')
 const favicon = require('serve-favicon')
-// const compression = require('compression')
-const pkg = require('../package.json')
-const { passport } = require('./utilities/passport')
 const { sendRes } = require('./utilities/router')
 Object.assign = require('object-assign')
 
@@ -24,31 +19,8 @@ app.use(helmet.xssFilter({ reportUri: '/report-xss-violation' }))
 // favicon
 app.use(favicon(path.join(__dirname, '../static', 'favicon.ico')))
 
-// Compress request
-/*
-app.use(
-  compression({
-    filter(req, res) {
-      // don't compress responses with this request header
-      if (req.headers['x-no-compression']) return false
-      // fallback to standard filter function
-      return compression.filter(req, res)
-    },
-  })
-)
-*/
-
 // System monitor
 app.use(statusMonitor({ title: 'ContrataDos Status', path: '/api/status' }))
-
-// Initialize Passport and restore authentication state, if any, from the session.
-app.use(passport.initialize())
-app.use(passport.session())
-
-// Parsear el cueropo de dato en POST
-app.use(bodyParser.json({ limit: '12mb' }))
-app.use(bodyParser.urlencoded({ limit: '12mb', extended: true }))
-// app.use(cors({ exposedHeaders: ['X-Total-Count'] }))
 
 restify.defaults({
   totalCountHeader: true,
@@ -56,52 +28,17 @@ restify.defaults({
     sendRes(res, req.erm.statusCode, null, 'Error', err.message, null),
 })
 
-// Lista las pediciones al servidor en consola
-/*
-app.use(
-  morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined', {
-    skip: (_, res) =>
-      process.env.NODE_ENV !== 'development' && res.statusCode < 400,
-  })
-)
-*/
-
 // app.all('/api/v1/*', routAuth.isLogin) // Gran parate de la app es publica
 // ------------------- Agregar routes ----------------------
 // Inicializo las rutas
-// app.use('/api/auth', require('./router/auth'))
+/*
 app.use(require('./router/persona')(restify, router))
 app.use(require('./router/provincia')(restify, router))
 app.use(require('./router/localidad')(restify, router))
 app.use(require('./router/agenda')(restify, router))
 app.use(require('./router/trabajo')(restify, router))
-
-// Static, FronEnd
-app.use(express.static(path.join(__dirname, 'public')))
-// ------------------- Agregar routes ----------------------
-
-// Get /status
-const date = new Date()
-app.use('/api/status', function (req, res) {
-  // const p = { pid: process.pid, ppid: process.ppid };
-  res.json({
-    server: process.env.NODE_ENV,
-    uptime: process.uptime(),
-    email: process.env.EMAIL_NOMBRE,
-    // process: process.env.NODE_ENV === "development" ? p : {},
-    version: `v${pkg.version}`,
-    started: date.toString(),
-  })
-})
-
-// Error
-/*
-process.on("uncaughtException", function(err) {
-  console.info(`This process is pid ${process.pid}`);
-  console.info(`The parent process is pid ${process.ppid}`);
-  console.error("Exception", err.stack);
-});
 */
+// ------------------- Agregar routes ----------------------
 
 // Make dir to save file
 const pathImage = ['perfil', 'jobs']

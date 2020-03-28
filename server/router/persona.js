@@ -1,8 +1,8 @@
-const { routAuth } = require('./../utilities/passport')
 const { deleteProp, sendRes, block } = require('./../utilities/router')
 const { checkErrors, check } = require('./../utilities/checkProps')
 // const Batch = require("./../utilities/agendaTask");
 const { Persona } = require('./../models/persona')
+const { routAuth } = require('~/api/utilities/passport')
 
 function isEmailUnique(req, res, next) {
   const entity = req.body

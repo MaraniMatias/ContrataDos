@@ -1,9 +1,9 @@
 import express from 'express'
 const passport = require('passport')
-const User = require('./../server/models/persona')
-const { sendRes } = require('./../server/utilities/router')
-const { routAuth } = require('./../server/utilities/passport')
-const { checkErrors, check } = require('./../server/utilities/checkProps')
+const User = require('./models/persona')
+const { sendRes } = require('./utilities/router')
+const { routAuth } = require('./utilities/passport')
+const { checkErrors, check } = require('./utilities/checkProps')
 
 // Create express router
 const router = express.Router()

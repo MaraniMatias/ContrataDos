@@ -47,7 +47,10 @@
               style="cursor: pointer;"
               v-on="{ ...menu }"
             >
-              <img src="~/assets/avatars/elyse.png" />
+              <v-img
+                :src="user.picture"
+                lazy-src="~/assets/avatars/stevie.png"
+              />
             </v-avatar>
           </template>
           <v-list class="mt-2">

@@ -2,12 +2,10 @@ const consola = require('consola')
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 const { Nuxt, Builder } = require('nuxt')
-const dotenv = require('dotenv')
 const config = require('../nuxt.config.js')
 const getMongoURL = require('./utilities/getMongoURL')
 const getLocalIP = require('./utilities/getLocalIP')
 // const Agenda = require("./utilities/agendaTask");
-dotenv.config()
 
 // Import and Set Nuxt.js options
 const app = require('./server')

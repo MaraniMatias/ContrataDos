@@ -1,13 +1,19 @@
+require('dotenv').config()
 const session = require('express-session')
 const bodyParser = require('body-parser')
+const { passport } = require('./api/utilities/passport')
 // const colors = require('vuetify/es5/util/colors').default
 
 module.exports = {
   mode: 'universal',
   serverMiddleware: [
-    // body-parser middleware
+    // Initialize Passport and restore authentication state, if any, from the session.
+    passport.initialize(),
+    passport.session(),
+    // Parsear el cueropo de dato en POST
     bodyParser.json({ limit: '12mb' }),
     bodyParser.urlencoded({ limit: '12mb', extended: true }),
+
     // session middleware
     session({
       secret: process.env.SECRET_KEY_SESSION || 'secretK3y',
@@ -57,6 +63,7 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/stylelint-module
     '@nuxtjs/stylelint-module',
     '@nuxtjs/vuetify',
+    // ['@nuxtjs/dotenv', { filename: '.env.prod' }],
   ],
   /*
    ** Nuxt.js modules
