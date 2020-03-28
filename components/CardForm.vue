@@ -1,5 +1,5 @@
 <template>
-  <v-card :class="{ 'elevation-3': !transparent }">
+  <v-card outlined :class="{ 'pt-3': hideHeader }">
     <v-toolbar v-if="!hideHeader" color="transparent" flat title>
       <v-toolbar-title><slot name="header" /></v-toolbar-title>
       <v-spacer />
@@ -13,15 +13,12 @@
       @submit.prevent="submit()"
     >
       <v-container class="py-0 px-2" grid-list-md>
-        <v-card-text :class="{ 'py-0': !hideHeader }">
+        <v-card-text class="py-0">
           <slot :rules="rules" />
           <v-flex xs12 my-2><slot name="message" /></v-flex>
         </v-card-text>
       </v-container>
-      <v-card-actions
-        class="pa-4"
-        :class="{ grey: !transparent, 'lighten-3': !transparent }"
-      >
+      <v-card-actions class="pa-4">
         <slot name="actions-left" />
         <v-spacer />
         <slot name="actions" />
