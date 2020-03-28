@@ -86,7 +86,7 @@ import CardForm from '../components/CardForm'
 // style="max-width: 400px; margin: auto;"
 
 export default {
-  middleware: 'auth',
+  middleware: 'authenticated',
   components: { CardForm },
   data: () => ({
     error: '',

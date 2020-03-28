@@ -30,8 +30,6 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function (req, res) {
-    const user = req.user
-    req.session.authUser = user // TODO save id
     res.redirect('/trabajos')
   }
 )
@@ -39,14 +37,12 @@ router.get(
 // POST auth/login {mail password}
 router.post('/login', passport.authenticate('local'), function (req, res) {
   const user = req.user
-  req.session.authUser = user // TODO save id
   // res, status, data, message, error
   return sendRes(res, 200, user, 'Success', null)
 })
 
 // GET auth/logout
 router.post('/logout', function (req, res) {
-  delete req.session.authUser
   req.logout()
   // res, status, data, message, error
   return sendRes(res, 200, null, 'Success', null)
