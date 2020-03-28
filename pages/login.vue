@@ -1,8 +1,8 @@
 <template>
   <v-layout justify-center>
-    <v-layout column justify-center align-center>
-      <v-flex xs12 md6 lg4 xl3 style="max-width: 500px;">
-        <CardForm @submit="submit">
+    <v-layout v-show="!loading" column justify-center align-center>
+      <v-flex xs12 md6 lg4 xl3>
+        <CardForm hide-header @submit="authLocal">
           <template v-slot:header>Acceder</template>
           <template v-slot:default="{ rules }">
             <v-text-field
@@ -38,12 +38,7 @@
             <v-btn text :disabled="loading" :to="{ path: '/register' }" replace>
               Crear Cuenta
             </v-btn>
-            <v-btn
-              :disabled="loading"
-              :loading="loading"
-              color="primary"
-              type="submit"
-            >
+            <v-btn :disabled="loading" color="primary" type="submit">
               Iniciar Sesión
             </v-btn>
           </template>
@@ -78,6 +73,10 @@
         </v-row>
       </v-flex>
     </v-layout>
+    <v-layout v-show="loading" column justify-center align-center>
+      <v-progress-circular :size="70" :width="7" color="grey" indeterminate />
+      <p class="mt-4">Iniciando Sección</p>
+    </v-layout>
   </v-layout>
 </template>
 
@@ -86,25 +85,35 @@ import CardForm from '../components/CardForm'
 // style="max-width: 400px; margin: auto;"
 
 export default {
+  middleware: 'auth',
   components: { CardForm },
   data: () => ({
     error: '',
-    captchaValue: null,
     showPass: false,
-    reenvioMail: false,
     password: '',
     email: '',
+    loading: true,
   }),
+  computed: {},
+  beforeCreate() {
+    if (this.$store.state.token) this.$router.replace('/trabajos')
+  },
+  created() {
+    this.loading = !!this.$store.state.token
+  },
+
   methods: {
     authFacebook() {},
     authLinkedin() {},
     authGoogle() {
-      window.open(
-        'api/auth/google',
-        'Google',
-        'width=500,height=600,scrollbars=no'
+      this.loading = true
+      window.location.replace(
+        'api/auth/google'
+        // 'Google',
+        // 'width=500,height=600,scrollbars=no'
       )
     },
+    authLocal() {},
   },
 }
 </script>

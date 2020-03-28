@@ -7,8 +7,18 @@
       color="transparent"
       class="elevation-0"
     >
+      <v-toolbar-title v-show="$route.name === 'login'">
+        <v-btn nuxt text to="/" color="transparent">
+          <img
+            alt="logo"
+            src="/logo.png"
+            style="margin: 2px 0 0 0; height: 42px;"
+          />
+        </v-btn>
+      </v-toolbar-title>
+      <v-spacer />
       <v-layout justify-end>
-        <v-btn icon nuxt to="/login">
+        <v-btn icon nuxt @click.stop="$router.replace('/login')">
           <v-icon size="32" style="cursor: pointer;">account_circle</v-icon>
         </v-btn>
       </v-layout>
@@ -22,7 +32,7 @@
       <v-spacer />
       <v-layout justify-end align-center>
         <v-btn nuxt text to="/perfil">Agenda</v-btn>
-        <v-btn nuxt text to="/inspire">Trabajos</v-btn>
+        <v-btn nuxt text to="/trabajos">Trabajos</v-btn>
         <v-btn nuxt text to="/perfil">Perfil</v-btn>
         <!--
         <v-btn icon @click.stop="clipped = !clipped">
@@ -41,16 +51,7 @@
             </v-avatar>
           </template>
           <v-list class="mt-2">
-            <v-list-item :to="{ name: 'operador-perfil' }">
-              <v-list-item-title>
-                <h3
-                  class="my-0"
-                  v-text="user.nombre + ' ' + user.apellido"
-                ></h3>
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item nuxt to="/perfil">Perfil</v-list-item>
-            <v-list-item @click="cerrarSesion()">Cerrar Sesión</v-list-item>
+            <v-list-item @click="loginOut()">Cerrar Sesión</v-list-item>
           </v-list>
         </v-menu>
       </v-layout>
@@ -67,6 +68,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 import Logo from '~/components/Logo.vue'
 import Copyright from '~/components/Copyright.vue'
 
@@ -78,8 +81,15 @@ export default {
   }),
   computed: {
     hideAppBar() {
-      // Todo si no esta logueado
-      return this.$route.name === 'index'
+      return !this.$store.state.token
+    },
+  },
+  methods: {
+    ...mapMutations({ deleteToken: 'DELETE_TOKEN' }),
+    loginOut() {
+      this.deleteToken()
+      // TODO, send login aut on backend
+      this.$router.replace('/')
     },
   },
 }

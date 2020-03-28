@@ -36,6 +36,7 @@ export default {
   data: () => ({
     query: '',
   }),
+  computed: {},
   methods: {
     search() {
       if (this.query) {

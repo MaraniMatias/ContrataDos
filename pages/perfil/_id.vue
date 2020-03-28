@@ -1,5 +1,5 @@
 <template>
-  <v-layout></v-layout>
+  <v-layout> </v-layout>
 </template>
 
 <script>
