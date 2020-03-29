@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined :class="{ 'pt-3': hideHeader }">
+  <v-card outlined :class="{ 'pt-4': hideHeader }">
     <v-toolbar v-if="!hideHeader" color="transparent" flat title>
       <v-toolbar-title><slot name="header" /></v-toolbar-title>
       <v-spacer />

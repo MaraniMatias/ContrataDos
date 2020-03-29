@@ -12,8 +12,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Error',
   props: {
-    // eslint-disable-next-line
-    text: { type: [String, Array, Function] },
+    text: { type: [String, Array, Function], required: true },
     type: {
       type: String,
       default: 'error',
