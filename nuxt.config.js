@@ -2,7 +2,6 @@ require('dotenv').config()
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const { passport } = require('./server/utilities/passport')
-// const apiMiddleware = require('./server/router')
 
 module.exports = {
   mode: 'universal',
@@ -27,7 +26,6 @@ module.exports = {
     '~/server/router/localidad',
     '~/server/router/provincia',
   ],
-  // .concat(apiMiddleware),
   /*
    ** Headers of the page
    */
