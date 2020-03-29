@@ -18,7 +18,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-layout justify-end>
-        <v-btn icon nuxt @click.stop="$router.replace('/login')">
+        <v-btn icon nuxt @click="goToPerfil">
           <v-icon size="32" style="cursor: pointer;">account_circle</v-icon>
         </v-btn>
       </v-layout>
@@ -26,7 +26,7 @@
     <v-app-bar v-else fixed app color="primary" dark>
       <v-toolbar-title>
         <v-btn nuxt text to="/" color="transparent">
-          <logo />
+          <Logo />
         </v-btn>
       </v-toolbar-title>
       <v-spacer />
@@ -39,18 +39,10 @@
           <v-icon>mdi-application</v-icon>
         </v-btn>
         -->
+
         <v-menu offset-y bottom>
           <template v-slot:activator="{ on: menu }">
-            <v-avatar
-              size="32px"
-              class="ml-2"
-              style="cursor: pointer;"
-              v-on="{ ...menu }"
-            >
-              <object data="/images/user_default.png" type="image/png">
-                <img :src="user.picture" />
-              </object>
-            </v-avatar>
+            <Avatar class="ml-2" :src="user.picture" :on="menu" />
           </template>
           <v-list class="mt-2">
             <v-list-item @click="loginOut()">Cerrar Sesión</v-list-item>
@@ -73,10 +65,11 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import Logo from '~/components/Logo.vue'
+import Avatar from '~/components/Avatar.vue'
 import Copyright from '~/components/Copyright.vue'
 
 export default {
-  components: { Copyright, Logo },
+  components: { Copyright, Avatar, Logo },
   data: () => ({
     fixed: false,
   }),
@@ -94,6 +87,11 @@ export default {
     async loginOut() {
       await this.logout()
       this.$router.replace('/')
+    },
+    goToPerfil() {
+      if (this.$route.name !== 'login') {
+        this.$router.replace('/login')
+      }
     },
   },
 }
