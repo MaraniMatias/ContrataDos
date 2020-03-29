@@ -31,7 +31,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-layout justify-end align-center>
-        <v-btn nuxt text to="/perfil">Agenda</v-btn>
+        <v-btn nuxt text to="/agenda">Agenda</v-btn>
         <v-btn nuxt text to="/trabajos">Trabajos</v-btn>
         <v-btn nuxt text to="/perfil">Perfil</v-btn>
         <!--
@@ -86,8 +86,11 @@ export default {
       return this.$store.state.user || {}
     },
   },
+  created() {
+    this.getMe()
+  },
   methods: {
-    ...mapActions(['logout']),
+    ...mapActions(['logout', 'getMe']),
     async loginOut() {
       await this.logout()
       this.$router.replace('/')

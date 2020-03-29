@@ -49,7 +49,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['./plugins/globalComponents'],
+  plugins: ['./plugins/globalComponents', './plugins/axion'],
   /*
    ** Nuxt.js dev-modules
    */

@@ -1,5 +1,5 @@
-const { block } = require('./../utilities/router')
-const { Provincia } = require('./../models/provincia')
+const { block } = require('../utilities/router')
+const { Provincia } = require('../models/provincia')
 
 module.exports = (restify, router) => {
   restify.serve(router, Provincia, {

@@ -43,4 +43,13 @@ export const actions = {
     commit('SET_USER_ID', null)
     commit('SET_USER', {})
   },
+  async getMe({ commit }) {
+    try {
+      const { data, error } = await http.get('/api/auth/me')
+      commit('SET_USER', data)
+      return { data, error }
+    } catch (e) {
+      return { error: 'Error' }
+    }
+  },
 }

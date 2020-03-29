@@ -74,7 +74,12 @@
       </v-flex>
     </v-layout>
     <v-layout v-show="loading" column justify-center align-center>
-      <v-progress-circular :size="70" :width="7" color="grey" indeterminate />
+      <v-progress-circular
+        :size="70"
+        :width="7"
+        color="primary"
+        indeterminate
+      />
       <p class="mt-4">Iniciando Sección</p>
     </v-layout>
   </v-layout>

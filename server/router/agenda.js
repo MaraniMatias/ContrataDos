@@ -1,7 +1,7 @@
-const { deleteProp, block } = require('./../utilities/router')
-// const Batch = require("./../utilities/agendaTask");
-const { Agenda } = require('./../models/agenda')
-const { routAuth } = require('~/api/utilities/passport')
+const { deleteProp, block } = require('../utilities/router')
+// const Batch = require("../utilities/agendaTask");
+const { Agenda } = require('../models/agenda')
+const { routAuth } = require('../utilities/passport')
 
 module.exports = (restify, router) => {
   restify.serve(router, Agenda, {

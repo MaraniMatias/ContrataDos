@@ -52,9 +52,8 @@ passport.use(
   new LocalStrategy(
     { usernameField: 'email', passwordField: 'password' },
     function (email, password, next) {
-      Persona.findOne({ email, deleted: false, estado: 'HABILITADO' })
-        .populate('municipio')
-        .exec(function (err, user) {
+      Persona.findOne({ email, deleted: false, estado: 'HABILITADO' }).exec(
+        function (err, user) {
           if (err || !user) {
             return next(err, false)
           } else {
@@ -63,7 +62,8 @@ passport.use(
             }
             return next(null, false)
           }
-        })
+        }
+      )
     }
   )
 )
@@ -93,40 +93,41 @@ passport.use(
 )
 
 passport.serializeUser(function (user, cb) {
-  if (process.env.NODE_ENV === 'development')
+  if (process.env.NODE_ENV === 'development') {
     console.log('serializeUser', user.email)
+  }
   cb(null, user._id)
 })
 
 passport.deserializeUser(function (id, cb) {
   if (process.env.NODE_ENV === 'development') console.log('deserializeUser', id)
   Persona.findById(id, function (err, user) {
-    if (process.env.NODE_ENV === 'development' && user)
+    if (process.env.NODE_ENV === 'development' && user) {
       console.log(user._id, user.roles)
+    }
     cb(err, user)
   })
 })
 
 // Validad roles
 const authorization = {
-  /*
-  isLogin: [
-    // Para validar la autenticación con el token
-    passport.authenticate('jwt', { session: false }),
-    (req, _, next) => {
-      if (req.user && process.env.NODE_ENV === 'development') {
-        console.log(req.user)
-      }
-      next()
-    },
-  ],
-  */
   isLogin: [
     (req, _, next) => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log(req.user)
+      const id =
+        req.session && req.session.passport && req.session.passport.user
+      if (process.env.NODE_ENV === 'development' && id) {
+        console.log('serializeUser', id)
       }
-      next(!!(req.user && req.user._id))
+
+      if (id) {
+        Persona.findById(id, function (err, user) {
+          if (err) next(false)
+          req.user = user
+          next()
+        })
+      } else {
+        next()
+      }
     },
   ],
 }

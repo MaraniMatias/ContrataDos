@@ -18,6 +18,7 @@ router.use((req, res, next) => {
   res.req = req
   next()
 })
+router.use(routAuth.isLogin)
 
 // GET /auth/google
 router.get(
@@ -29,7 +30,7 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
-  function (req, res) {
+  function (_, res) {
     res.redirect('/trabajos')
   }
 )
@@ -50,12 +51,16 @@ router.post('/logout', function (req, res) {
 
 // GET auth/me
 router.get('/me', routAuth.isLogin, function (req, res) {
+  /*
+  if (req.user?._id) return sendRes(res, 200, req.user, 'Success', null)
+  else return sendRes(res, 404, {}, 'Error', null)
+  */
   // res, status, data, message, error
   return sendRes(res, 200, req.user, 'Success', null)
 })
 
 // POST auth/signup {Alta de un usuario}
-router.post('/signup', routAuth.isLogin, function (req, res) {
+router.post('/signup', function (req, res) {
   const errors = checkErrors([
     check(req.body, 'apellido').isString(),
     check(req.body, 'email').isEmail(),
