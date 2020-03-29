@@ -15,8 +15,9 @@ export default {
     data: {},
   }),
   methods: {
-    testApi() {
-      this.data = { name: 'asda' }
+    async testApi() {
+      const { data } = await this.$http.get('http://localhost:3000/api/persona')
+      this.data = data
     },
   },
 }

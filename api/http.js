@@ -43,16 +43,13 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   function (response) {
     showMsg('info', response)
-    const data = response.data?.data || {}
-    const error = response.data?.errors || null
-    const message = response.data?.message || ''
     const totalItems = response.headers['x-total-count']
     if (typeof totalItems !== 'undefined') {
       response.data._totalItems = parseInt(totalItems, 10)
     }
-    response.data = data
-    response.error = error
-    response.message = message
+    response.data = response.data.data || response.data || null
+    response.error = response.data.errors || null
+    response.message = response.data.message || ''
     return response
   },
   // https://github.com/axios/axios#handling-errors
@@ -69,7 +66,7 @@ axios.interceptors.response.use(
         response.data.name === 'MongoError'
           ? 'Error al guardar en mongoDB'
           : response.data.errors || null
-      const message = response.data.message
+      const message = response.data.message || ''
 
       switch (response.status) {
         case 401:
