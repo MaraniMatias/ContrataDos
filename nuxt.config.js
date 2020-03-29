@@ -1,7 +1,7 @@
 require('dotenv').config()
 const session = require('express-session')
 const bodyParser = require('body-parser')
-const { passport } = require('./server/utilities/passport')
+const passport = require('passport')
 
 module.exports = {
   mode: 'universal',

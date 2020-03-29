@@ -1,9 +1,8 @@
 import express from 'express'
-const passport = require('passport')
+import passport from 'passport'
+import { sendRes, auth } from '../utilities/router'
+import { checkErrors, check } from '../utilities/checkProps'
 const { Persona: User } = require('../models/persona')
-const { sendRes } = require('../utilities/router')
-const { routAuth } = require('../utilities/passport')
-const { checkErrors, check } = require('../utilities/checkProps')
 
 // Create express router
 const router = express.Router()
@@ -18,7 +17,7 @@ router.use((req, res, next) => {
   res.req = req
   next()
 })
-router.use(routAuth.isLogin)
+router.use(auth.isLogin)
 
 // GET /auth/google
 router.get(
@@ -50,7 +49,7 @@ router.post('/logout', function (req, res) {
 })
 
 // GET auth/me
-router.get('/me', routAuth.isLogin, function (req, res) {
+router.get('/me', auth.isLogin, function (req, res) {
   /*
   if (req.user?._id) return sendRes(res, 200, req.user, 'Success', null)
   else return sendRes(res, 404, {}, 'Error', null)

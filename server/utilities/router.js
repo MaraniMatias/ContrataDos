@@ -1,4 +1,5 @@
 'use strict'
+const auth = require('./routAuth')
 const get = require('./get')
 /**
  * sendRes
@@ -60,4 +61,5 @@ module.exports = {
   sendRes,
   deleteProp,
   block,
+  auth,
 }

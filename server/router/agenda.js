@@ -1,19 +1,18 @@
 import express from 'express'
 import restify from 'express-restify-mongoose'
-const { deleteProp, block } = require('../utilities/router')
 // const Batch = require("../utilities/agendaTask");
-const { Agenda } = require('../models/agenda')
-const { routAuth } = require('../utilities/passport')
+import { Agenda } from '../models/agenda'
+import { deleteProp, block, auth } from '../utilities/router'
 
 // Create express router
 const router = express.Router()
 
 restify.serve(router, Agenda, {
   preDelete: block,
-  preUpdate: [routAuth.isLogin, deleteProp], // TODO, solo borrar lo de el
+  preUpdate: [auth.isLogin, deleteProp], // TODO, solo borrar lo de el
   postUpdate: [],
-  preCreate: routAuth.isLogin, // TODO, solo borrar lo de el
+  preCreate: auth.isLogin, // TODO, solo borrar lo de el
   postCreate: [],
-  preRead: routAuth.isLogin, // TODO, solo borrar lo de el
+  preRead: auth.isLogin, // TODO, solo borrar lo de el
 })
 export default router

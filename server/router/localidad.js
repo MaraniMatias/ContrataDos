@@ -1,7 +1,7 @@
 import express from 'express'
 import restify from 'express-restify-mongoose'
-const { block } = require('../utilities/router')
-const { Localidad } = require('../models/localidad')
+import { block } from '../utilities/router'
+import { Localidad } from '../models/localidad'
 
 // Create express router
 const router = express.Router()

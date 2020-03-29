@@ -1,7 +1,7 @@
 import express from 'express'
 import restify from 'express-restify-mongoose'
-const { block } = require('../utilities/router')
-const { Provincia } = require('../models/provincia')
+import { block } from '../utilities/router'
+import { Provincia } from '../models/provincia'
 
 // Create express router
 const router = express.Router()

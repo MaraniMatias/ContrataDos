@@ -1,10 +1,9 @@
 import express from 'express'
 import restify from 'express-restify-mongoose'
-const { deleteProp, block } = require('../utilities/router')
+import { deleteProp, block, auth } from '../utilities/router'
 // const { checkErrors, check } = require('../utilities/checkProps')
 // const Batch = require("./../utilities/agendaTask");
-const { Persona } = require('../models/persona')
-const { routAuth } = require('../utilities/passport')
+import { Persona } from '../models/persona'
 
 // Create express router
 const router = express.Router()
@@ -36,7 +35,7 @@ function isEmailUnique(req, res, next) {
 */
 
 restify.serve(router, Persona, {
-  preDelete: routAuth.isLogin, // TODO, solo borrar lo de el
+  preDelete: auth.isLogin, // TODO, solo borrar lo de el
   preUpdate: [deleteProp],
   postUpdate: [],
   preCreate: block,
