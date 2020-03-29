@@ -48,9 +48,11 @@ const schema = new Schema(
     password: { type: String, access: 'protected' },
     zona_trabajo: [{ type: ObjectId, ref: 'localidad' }], // libre todo el mundo
     deleted: { type: Boolean, default: false },
+    show_tutorial: { type: Boolean, default: true },
   },
   { timestamps: true }
 )
+schema.set('toJSON', { virtuals: true })
 
 schema.virtual('display_name').get(function () {
   return this.razon_social || this.apellido + ' ' + this.nombre

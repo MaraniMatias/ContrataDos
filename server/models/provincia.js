@@ -7,6 +7,7 @@ const schema = new Schema({
   nombre: { type: String, trim: true, required: true },
   localidades: [{ type: ObjectId, ref: 'localidad', required: true }],
 })
+schema.set('toJSON', { virtuals: true })
 
 schema.method('updateIdLocalidades', function (callback) {
   const provinciaID = this._id

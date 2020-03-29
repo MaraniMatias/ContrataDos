@@ -29,5 +29,6 @@ const schema = new Schema(
   },
   { timestamps: true }
 )
+schema.set('toJSON', { virtuals: true })
 
 module.exports.Trabajo = mongoose.model('trabajo', schema)
