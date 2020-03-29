@@ -11,5 +11,6 @@ const schema = new Schema({
     lon: { type: String, trim: true, required: 'Longitud requerida' },
   },
 })
+schema.set('toJSON', { virtuals: true })
 
 module.exports.Localidad = mongoose.model('localidad', schema)

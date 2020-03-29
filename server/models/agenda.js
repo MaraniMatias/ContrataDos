@@ -35,5 +35,6 @@ const schema = new Schema(
   },
   { timestamps: true }
 )
+schema.set('toJSON', { virtuals: true })
 
 module.exports.Agenda = mongoose.model('agenda', schema)
