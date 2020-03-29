@@ -23,7 +23,10 @@ app.use(favicon(path.join(__dirname, '../static', 'favicon.ico')))
 app.use(statusMonitor({ title: 'ContrataDos Status', path: '/api/status' }))
 
 restify.defaults({
+  prefix: '/api',
+  version: '',
   totalCountHeader: true,
+  runValidators: true,
   onError: (err, req, res) =>
     sendRes(res, req.erm.statusCode, null, 'Error', err.message, null),
 })

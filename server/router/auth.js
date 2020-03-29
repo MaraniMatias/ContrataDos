@@ -1,6 +1,6 @@
 import express from 'express'
 const passport = require('passport')
-const User = require('../models/persona')
+const { Persona: User } = require('../models/persona')
 const { sendRes } = require('../utilities/router')
 const { routAuth } = require('../utilities/passport')
 const { checkErrors, check } = require('../utilities/checkProps')

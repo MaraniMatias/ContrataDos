@@ -1,9 +1,15 @@
-const { deleteProp, sendRes, block } = require('./../utilities/router')
-const { checkErrors, check } = require('./../utilities/checkProps')
+import express from 'express'
+import restify from 'express-restify-mongoose'
+const { deleteProp, block } = require('../utilities/router')
+// const { checkErrors, check } = require('../utilities/checkProps')
 // const Batch = require("./../utilities/agendaTask");
-const { Persona } = require('./../models/persona')
-const { routAuth } = require('~/api/utilities/passport')
+const { Persona } = require('../models/persona')
+const { routAuth } = require('../utilities/passport')
 
+// Create express router
+const router = express.Router()
+
+/*
 function isEmailUnique(req, res, next) {
   const entity = req.body
   const error = checkErrors([check(entity, 'email').isEmail()])
@@ -27,23 +33,23 @@ function isEmailUnique(req, res, next) {
     })
   }
 }
+*/
 
-module.exports = (restify, router) => {
-  restify.serve(router, Persona, {
-    preDelete: routAuth.isLogin, // TODO, solo borrar lo de el
-    preUpdate: [deleteProp, isEmailUnique],
-    postUpdate: [],
-    preCreate: block,
-    postCreate: block,
-    preRead: [
-      function (req, _, next) {
-        req.query.select = '-password'
-        if (!req.erm.query) req.erm.query = {}
-        if (!req.erm.query.select) req.erm.query.select = {}
-        req.erm.query.select.password = 0
-        next()
-      },
-    ],
-  })
-  return router
-}
+restify.serve(router, Persona, {
+  preDelete: routAuth.isLogin, // TODO, solo borrar lo de el
+  preUpdate: [deleteProp],
+  postUpdate: [],
+  preCreate: block,
+  postCreate: block,
+  preRead: [
+    function (req, _, next) {
+      req.query.select = '-password'
+      if (!req.erm.query) req.erm.query = {}
+      if (!req.erm.query.select) req.erm.query.select = {}
+      req.erm.query.select.password = 0
+      next()
+    },
+  ],
+})
+
+export default router
