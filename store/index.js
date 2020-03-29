@@ -31,17 +31,21 @@ export const actions = {
       const { data } = await http.post('/api/auth/login', { email, password })
       commit('SET_USER_ID', data._id)
       commit('SET_USER', data)
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        throw new Error('Bad credentials')
+      return { data }
+    } catch ({ status }) {
+      return {
+        error: status === 401 && 'Contraseña o email erroneas',
       }
-      throw error
     }
   },
   async logout({ commit }) {
-    await http.post('/api/auth/logout')
-    commit('SET_USER_ID', null)
-    commit('SET_USER', {})
+    try {
+      await http.post('/api/auth/logout')
+      commit('SET_USER_ID', null)
+      commit('SET_USER', {})
+    } catch (e) {
+      return { error: 'Error' }
+    }
   },
   async getMe({ commit }) {
     try {

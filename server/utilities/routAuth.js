@@ -39,11 +39,8 @@ passport.use(
         organizations: profile._json.organizations,
       }
       Persona.findOrCreate({ email }, user, (err, userDb) => {
-        if (err || !userDb) {
-          return done(err, null)
-        } else {
-          return done(err, userDb)
-        }
+        if (err || !userDb) return done(err, null)
+        else return done(err, userDb)
       })
     }
   )
@@ -52,17 +49,27 @@ passport.use(
 passport.use(
   new LocalStrategy(
     { usernameField: 'email', passwordField: 'password' },
-    function (email, password, next) {
-      Persona.findOne({ email, deleted: false }).exec(function (err, user) {
-        if (err || !user) {
-          return next(err, false)
+    async function (email, password, next) {
+      try {
+        // TODO Caundoe este armado el enpoint para singin corregir esto
+        const user = await Persona.findOne({ email, deleted: false })
+        if (!user) {
+          const persona = new Persona({
+            nombre: 'matthew',
+            apellido: 'local',
+            email,
+            password,
+            picture: '/avatars/matthew.png',
+          })
+          const userDB = await persona.save()
+          return next(null, userDB)
         } else {
-          if (user.authenticate(password)) {
-            return next(null, user)
-          }
+          if (await user.authenticate(password)) return next(null, user)
           return next(null, false)
         }
-      })
+      } catch (err) {
+        return next(err, false)
+      }
     }
   )
 )

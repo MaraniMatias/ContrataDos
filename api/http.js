@@ -9,6 +9,7 @@ axios.defaults.headers.post['Cache-Control'] = 'no-cache'
 
 function showMsg(type, response) {
   if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line
     console[type](
       '%c[%s]%c %c%s %c%s\n',
       'font-weight: 600',
@@ -56,30 +57,13 @@ axios.interceptors.response.use(
   function ({ response }) {
     if (response) {
       showMsg('error', response)
-      const data =
-        typeof response.data.data !== 'undefined'
-          ? response.data.data
-          : response.data
-          ? response.data
-          : {}
-      const error =
+      // login out 401 or 403
+      response.error =
         response.data.name === 'MongoError'
           ? 'Error al guardar en mongoDB'
           : response.data.errors || null
-      const message = response.data.message || ''
-
-      switch (response.status) {
-        case 401:
-        case 403:
-          // store.dispatch("auth/signOut");
-          // router.replace("login");
-          break
-        default:
-          response.error = error
-          response.message = message
-          response.data = data
-          break
-      }
+      response.message = response.data.message || ''
+      response.data = response.data.data || response.data || null
     }
     return Promise.reject(response)
   }

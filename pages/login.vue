@@ -113,10 +113,19 @@ export default {
         // 'width=500,height=600,scrollbars=no'
       )
     },
-    authLocal() {
-      this.login({ email: this.email, password: this.password })
+    async authLocal() {
+      this.loading = true
+      const { error } = await this.login({
+        email: this.email,
+        password: this.password,
+      })
+      if (error) {
+        this.error = error
+        this.loading = false
+      } else {
+        this.$router.replace('/trabajos')
+      }
     },
   },
 }
 </script>
->
