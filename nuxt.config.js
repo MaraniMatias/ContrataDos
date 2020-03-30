@@ -5,6 +5,9 @@ const passport = require('passport')
 
 module.exports = {
   mode: 'universal',
+  env: {
+    BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
+  },
   serverMiddleware: [
     // Initialize Passport and restore authentication state, if any, from the session.
     passport.initialize(),
