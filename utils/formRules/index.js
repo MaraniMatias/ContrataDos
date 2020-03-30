@@ -7,17 +7,18 @@ import alphaNum from './alphaNum'
 import alphaSpaces from './alphaSpaces'
 import alphaSpacesNumLodash from './alphaSpacesNumLodash'
 import cash from './cash'
+import cuitCuil from './cuitCuil'
+import decimal from './decimal'
 import email from './email'
 import lapsetext from './lapsetext'
 import numeric from './numeric'
-import decimal from './decimal'
+import objectId from './objectId'
 import pageIntervals from './pageIntervals'
-import password from './password'
 import passwordEqual from './passwordEqual'
+import password from './password'
 import phoneNumber from './phoneNumber'
 import required from './required'
 import requiredIf from './requiredIf'
-import cuitCuil from './cuitCuil'
 import { between, max, min } from './lengthRules'
 
 export default {
@@ -27,16 +28,17 @@ export default {
   between,
   cash,
   cuitCuil,
-  email,
   decimal,
+  email,
   lapsetext,
   max,
   min,
   numeric,
+  objectId,
   pageIntervals,
   password,
-  phoneNumber,
   passwordEqual,
+  phoneNumber,
   required,
   requiredIf,
 }
