@@ -4,7 +4,7 @@ const getAll = (BASE_URL) => async () => {
   try {
     return await http.get(BASE_URL)
   } catch (err) {
-    return { error: err.message || 'ApiError' }
+    return { error: err?.message || 'ApiError' }
   }
 }
 
@@ -12,7 +12,7 @@ const getById = (BASE_URL) => async (_id) => {
   try {
     return await http.get(BASE_URL + `/${_id}`)
   } catch (err) {
-    return { error: err.message || 'ApiError' }
+    return { error: err?.message || 'ApiError' }
   }
 }
 
@@ -21,7 +21,7 @@ const save = (BASE_URL) => async (object = {}) => {
     if (object._id) return await http.post(BASE_URL, object)
     else return await http.path(BASE_URL + `/${object._id}`, object)
   } catch (err) {
-    return { error: err.message || 'ApiError' }
+    return { error: err?.message || 'ApiError' }
   }
 }
 
@@ -29,7 +29,7 @@ const del = (BASE_URL) => async (object = {}) => {
   try {
     return await http.path(BASE_URL + `/${object._id}`, { deleted: true })
   } catch (err) {
-    return { error: err.message || 'ApiError' }
+    return { error: err?.message || 'ApiError' }
   }
 }
 

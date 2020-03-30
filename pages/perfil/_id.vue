@@ -29,6 +29,11 @@ export default {
   data: () => ({
     perfil: {},
   }),
+  computed: {
+    editable() {
+      return !this.$route.params.id
+    },
+  },
   methods: {},
 }
 </script>
