@@ -25,20 +25,20 @@
           <v-btn nuxt text to="/trabajos">Trabajos</v-btn>
           <v-btn nuxt text to="/perfil">Perfil</v-btn>
           <!--
-        <v-btn icon @click.stop="clipped = !clipped">
-          <v-icon>mdi-application</v-icon>
-        </v-btn>
-        -->
+          <v-btn icon @click.stop="clipped = !clipped">
+            <v-icon>mdi-application</v-icon>
+          </v-btn>
+          -->
           <v-menu offset-y bottom>
             <template v-slot:activator="{ on: menu }">
-              <Avatar class="ml-2" :src="user.picture" :on="menu" />
+              <Avatar class="ml-4" :src="user.picture" :on="menu" />
             </template>
             <v-list class="mt-2">
               <v-list-item @click="loginOut()">Cerrar Sesión</v-list-item>
             </v-list>
           </v-menu>
         </template>
-        <v-btn v-else icon class="ml-2" @click="goToPerfil">
+        <v-btn v-else icon class="ml-4" @click="goToPerfil">
           <v-icon size="32" style="cursor: pointer;">account_circle</v-icon>
         </v-btn>
       </v-layout>
