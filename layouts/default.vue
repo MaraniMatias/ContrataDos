@@ -18,18 +18,22 @@
           <Logo v-else />
         </v-btn>
       </v-toolbar-title>
+      <!--
       <v-text-field
         v-show="!hideAppBar"
         dense
-        placeholder="Buscar profesional"
         outlined
         border-radius
         hide-details
         append-icon="search"
       />
+      -->
       <v-spacer />
       <v-layout justify-end align-center>
         <template v-if="isLoggedIn">
+          <v-btn v-show="!hideAppBar" nuxt text icon to="/">
+            <v-icon>search</v-icon>
+          </v-btn>
           <v-btn nuxt text to="/agenda">Agenda</v-btn>
           <v-btn nuxt text to="/trabajos">Trabajos</v-btn>
           <v-btn nuxt text to="/perfil">Perfil</v-btn>
