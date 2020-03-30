@@ -43,27 +43,33 @@ axios.interceptors.request.use(
 // Add a response interceptor
 axios.interceptors.response.use(
   function (response) {
-    showMsg('info', response)
     const totalItems = response.headers['x-total-count']
     if (typeof totalItems !== 'undefined') {
       response.data._totalItems = parseInt(totalItems, 10)
     }
-    response.data = response.data.data || response.data || null
-    response.error = response.data.errors || null
-    response.message = response.data.message || ''
+    const data = response.data.data || response.data || null
+    const error = response.data.error || null
+    const message = response.data.message || ''
+    showMsg('info', response)
+    response.data = data
+    response.error = error
+    response.message = message
     return response
   },
   // https://github.com/axios/axios#handling-errors
   function ({ response }) {
     if (response) {
-      showMsg('error', response)
       // login out 401 or 403
-      response.error =
+      const error =
         response.data.name === 'MongoError'
           ? 'Error al guardar en mongoDB'
-          : response.data.errors || null
-      response.message = response.data.message || ''
-      response.data = response.data.data || response.data || null
+          : response.data.error || null
+      const message = response.data.message || ''
+      const data = response.data.data || response.data || null
+      showMsg('error', response)
+      response.data = data
+      response.error = error
+      response.message = message
     }
     return Promise.reject(response)
   }

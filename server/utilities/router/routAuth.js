@@ -7,7 +7,8 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 // const { PersonaRol: Rol, Persona } = require("./../models/persona");
-const { Persona } = require('./../models/persona')
+const { Persona } = require('./../../models/persona')
+const sendRes = require('./sendRes')
 
 // Config passport
 passport.use(
@@ -118,26 +119,29 @@ passport.deserializeUser(function (id, cb) {
 
 // Validad roles
 const authorization = {
-  isLogin: [
-    (req, _, next) => {
-      // TODO save jwt or create un token
-      const id =
-        req.session && req.session.passport && req.session.passport.user
-      if (process.env.NODE_ENV === 'development' && id) {
-        consola.log('serializeUser', id)
-      }
-
-      if (id) {
-        Persona.findById(id, function (err, user) {
-          if (err) next(false)
-          req.user = user
-          next()
-        })
+  setUser: (req, res, next) => {
+    // TODO save jwt or create un token
+    const id = req.session && req.session.passport && req.session.passport.user
+    if (process.env.NODE_ENV === 'development' && id) {
+      consola.log('serializeUser', id)
+    }
+    if (!id) return next()
+    Persona.findById(id, function (err, user) {
+      if (err || !user) {
+        return sendRes(res, err ? 500 : 404, null, 'Error')
       } else {
-        next()
+        req.user = user
+        return next()
       }
-    },
-  ],
+    })
+  },
+  isLogin: (req, res, next) => {
+    if (req.user) {
+      return next()
+    } else {
+      return sendRes(res, 401, null, 'Unauthorized', 'No tienes permiso')
+    }
+  },
 }
 
 module.exports = authorization

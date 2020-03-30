@@ -17,7 +17,7 @@ router.use((req, res, next) => {
   res.req = req
   next()
 })
-router.use(auth.isLogin)
+router.use(auth.setUser)
 
 // GET /auth/google
 router.get(

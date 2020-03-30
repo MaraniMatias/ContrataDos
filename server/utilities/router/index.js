@@ -1,21 +1,7 @@
 'use strict'
+const get = require('../get')
 const auth = require('./routAuth')
-const get = require('./get')
-/**
- * sendRes
- *
- * Solo con el objetivo de enviar siempre una misma respuesta
- * @param {expressResponse} res
- * @param {String} cod Response Status Cod
- * @param {any} data Response Data
- * @param {String} message Response Message
- * @param {String} error Response Error
- * @returns {Object} {data, message, error}
- */
-const sendRes = function (res, cod = 200, data, message = '', errors = null) {
-  res.status(cod)
-  return res.json({ data, message, errors })
-}
+const sendRes = require('./sendRes')
 
 /**
  * Normalizar parametros para el paginado
@@ -53,7 +39,7 @@ const deleteProp = function (req, _, next) {
 }
 
 const block = function (req, res, next) {
-  next(false)
+  return sendRes(req, 404, null)
 }
 
 module.exports = {
