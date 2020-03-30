@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const escapeHtml = require('escape-html')
 const bcrypt = require('bcrypt')
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Schema.Types.ObjectId
@@ -20,6 +21,7 @@ const schema = new Schema(
       required: 'El apellido es requerido',
     },
     razon_social: { type: String, trim: true }, // O Nombre fisticio
+    bibliography: { type: String, max: 500, trim: true, set: escapeHtml },
     email: {
       type: String,
       unique: true,
