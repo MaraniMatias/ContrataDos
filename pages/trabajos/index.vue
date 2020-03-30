@@ -25,17 +25,16 @@
         </v-card-actions>
       </v-card>
     </v-flex>
-
     <template v-else>
       <v-flex xs12 sm12 md10 lg10 xl6 class="text-center mb-2">
         <span>Resultados de la búsqueda: {{ totalElement }}</span>
       </v-flex>
 
-      <v-flex v-show="loadingApunte" xs12 md10 class="text-center my-12">
+      <v-flex v-show="loadingTrabajos" xs12 md10 class="text-center my-12">
         <v-progress-circular
           width="2"
           indeterminate
-          :active="loadingApunte"
+          :active="loadingTrabajos"
           color="grey darken-1"
         />
         <p class="mt-6">Buscando...</p>
@@ -71,6 +70,7 @@
 export default {
   middleware: 'authenticated',
   data: () => ({
+    loadingTrabajos: false,
     totalElement: 0,
   }),
   computed: {
