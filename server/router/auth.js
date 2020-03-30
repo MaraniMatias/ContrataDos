@@ -38,7 +38,7 @@ router.get(
 router.post('/login', passport.authenticate('local'), function (req, res) {
   const user = req.user
   // res, status, data, message, error
-  return sendRes(res, 200, user, 'Success', null)
+  return sendRes(res, 200, user.toJSON(), 'Success', null)
 })
 
 // GET auth/logout
@@ -55,7 +55,7 @@ router.get('/me', auth.isLogin, function (req, res) {
   else return sendRes(res, 404, {}, 'Error', null)
   */
   // res, status, data, message, error
-  return sendRes(res, 200, req.user, 'Success', null)
+  return sendRes(res, 200, req.user.toJSON(), 'Success', null)
 })
 
 // POST auth/signup {Alta de un usuario}
@@ -80,7 +80,13 @@ router.post('/signup', function (req, res) {
       if (err || !userDB) {
         return sendRes(res, 500, null, 'Error saving new user', err)
       } else {
-        return sendRes(res, 200, userDB, 'User created with success', null)
+        return sendRes(
+          res,
+          200,
+          userDB.toJSON(),
+          'User created with success',
+          null
+        )
       }
     })
   }
