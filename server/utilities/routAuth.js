@@ -120,6 +120,7 @@ passport.deserializeUser(function (id, cb) {
 const authorization = {
   isLogin: [
     (req, _, next) => {
+      // TODO save jwt or create un token
       const id =
         req.session && req.session.passport && req.session.passport.user
       if (process.env.NODE_ENV === 'development' && id) {
