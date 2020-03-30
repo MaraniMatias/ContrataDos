@@ -18,8 +18,8 @@ const getById = (BASE_URL) => async (_id) => {
 
 const save = (BASE_URL) => async (object = {}) => {
   try {
-    if (object._id) return await http.post(BASE_URL, object)
-    else return await http.path(BASE_URL + `/${object._id}`, object)
+    if (object._id) return await http.patch(BASE_URL + `/${object._id}`, object)
+    else return await http.post(BASE_URL, object)
   } catch (err) {
     return { error: err?.message || 'ApiError' }
   }
