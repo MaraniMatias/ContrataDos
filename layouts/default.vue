@@ -18,6 +18,15 @@
           <Logo v-else />
         </v-btn>
       </v-toolbar-title>
+      <v-text-field
+        v-show="!hideAppBar"
+        dense
+        placeholder="Buscar profesional"
+        outlined
+        border-radius
+        hide-details
+        append-icon="search"
+      />
       <v-spacer />
       <v-layout justify-end align-center>
         <template v-if="isLoggedIn">

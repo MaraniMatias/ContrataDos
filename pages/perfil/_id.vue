@@ -1,6 +1,6 @@
 <template>
   <v-layout row pb-12 mb-2 px-2 justify-center>
-    <v-flex xs12 sm12 md10 lg6 xl6 mt-4 mb-2>
+    <v-flex xs12 sm12 md10 lg8 xl6 mt-4 mb-2>
       <v-layout justify-center align-start>
         <v-flex xs12 lg4>
           <v-layout column align-center>
