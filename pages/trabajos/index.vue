@@ -1,6 +1,6 @@
 <template>
-  <v-layout column justify-center pb-12 mb-2 px-2>
-    <v-flex v-if="user.show_tutorial" xs12 sm12 md10 lg10 xl6 mt-4 mb-2>
+  <v-layout column pb-12 mb-2 px-2 align-center>
+    <v-flex v-if="showTutorial" xs12 sm12 md10 lg10 xl6 mt-4 mb-2>
       <v-card class="mx-auto" max-width="344" outlined>
         <v-list-item three-line>
           <v-list-item-content>
@@ -76,6 +76,9 @@ export default {
   computed: {
     user() {
       return this.$store.state.user || {}
+    },
+    showTutorial() {
+      return this.user?.['show_tutorial'] || false
     },
   },
   methods: {},

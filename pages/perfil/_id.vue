@@ -1,22 +1,26 @@
 <template>
-  <v-layout>
-    <pre v-text="perfil" />
+  <v-layout column pb-12 mb-2 px-2 align-center>
+    <v-flex xs12 sm12 md10 lg10 xl6 mt-4 mb-2>
+      <v-layout>
+        <Avatar size="225" src="/avatars/helen.jpg" />
+      </v-layout>
+      <pre v-text="perfil" />
+    </v-flex>
   </v-layout>
 </template>
 
 <script>
 import api from '~/api/baseApi'
+import Avatar from '~/components/Avatar'
 const Persona = api('/Persona')
 
 export default {
   // middleware: 'authenticated', es publico
-  components: {},
+  components: { Avatar },
   validate({ params }) {
-    if (params.id) {
-      return /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i.test(params.id)
-    } else {
-      return true
-    }
+    return params.id
+      ? /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i.test(params.id)
+      : true
   },
   async asyncData({ params, store }) {
     if (params.id) {
