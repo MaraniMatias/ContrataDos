@@ -2,11 +2,13 @@
   <v-hover v-slot:default="{ hover }">
     <v-avatar
       :size="size"
-      :class="{ cursor: editable || hover }"
+      :class="{ cursor: editable && hover }"
       color="grey"
       v-on="{ ...on }"
     >
-      <v-icon v-if="hover" size="96" color="white">camera_alt</v-icon>
+      <v-icon v-if="editable && hover" size="96" color="white">
+        camera_alt
+      </v-icon>
       <template v-else>
         <img
           v-if="!avatarError && !!src"
