@@ -60,7 +60,7 @@ module.exports = {
   plugins: [
     './plugins/globalComponents',
     './plugins/axion',
-    '~/plugins/notifier.js',
+    '~/plugins/notify',
   ],
   /*
    ** Nuxt.js dev-modules
