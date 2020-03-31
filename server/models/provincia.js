@@ -30,3 +30,14 @@ schema.method('updateIdLocalidades', function (callback) {
 })
 
 module.exports.Provincia = mongoose.model('provincia', schema)
+
+/*
+{
+    "_id" : ObjectId("5e82a793c31fc7ae0793416d"),
+    "localidades" : [
+        ObjectId("5e82a7cec31fc7ae0793417c"),
+        ObjectId("5e82a694c31fc7ae07934132")
+    ],
+    "nombre" : "Santa Fe"
+}
+*/

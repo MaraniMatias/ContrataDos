@@ -41,7 +41,8 @@ const schema = new Schema(
         required: 'Rol es requerido',
       },
     ],
-    servicios: [{ type: ObjectId, ref: 'habilidad' }],
+    // servicios: [{ type: ObjectId, ref: 'habilidad' }],
+    servicios: [{ type: String }],
     localidad: { type: ObjectId, ref: 'localidad' }, // Del trabajador
     puntuacion: { type: Number, default: 0 }, // TODO 0 al 100, calcular con algun metodo
     cantidad_trabajos: { type: Number, default: 0 }, // TODO Incrementar al terminar un trabajo

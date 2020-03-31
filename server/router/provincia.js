@@ -9,9 +9,7 @@ const router = express.Router()
 restify.serve(router, Provincia, {
   preDelete: block,
   preUpdate: block,
-  postUpdate: block,
   preCreate: block,
-  postCreate: block,
   preRead: [],
 })
 export default router

@@ -38,8 +38,8 @@ const deleteProp = function (req, _, next) {
   next()
 }
 
-const block = function (req, res, next) {
-  return sendRes(req, 404, null)
+const block = function (_, res) {
+  return sendRes(res, 404, null)
 }
 
 module.exports = {

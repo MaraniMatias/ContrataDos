@@ -37,9 +37,9 @@ function isEmailUnique(req, res, next) {
 restify.serve(router, Persona, {
   preDelete: auth.isLogin, // TODO, solo borrar lo de el
   preUpdate: [deleteProp],
-  postUpdate: [],
+  // postUpdate: [],
   preCreate: block,
-  postCreate: block,
+  // postCreate: [],
   preRead: [
     function (req, _, next) {
       req.query.select = '-password'
