@@ -52,7 +52,8 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.4",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "vue-advanced-cropper": "^0.16.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
