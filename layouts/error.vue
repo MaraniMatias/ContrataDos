@@ -13,7 +13,10 @@
         ></path>
       </svg>
       <h1 v-if="error.statusCode === 404">Esta pagina no existe</h1>
-      <h1 v-else>A ocurrido un error</h1>
+      <template v-else>
+        <h1>A ocurrido un error</h1>
+        <p class="error--text" v-text="error.message" />
+      </template>
       <p class="description mt-4">
         <NuxtLink to="/">Ir al inicio</NuxtLink>
       </p>
