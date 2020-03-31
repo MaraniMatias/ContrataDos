@@ -4,7 +4,12 @@
       <v-layout justify-center align-start>
         <v-flex xs12 lg4>
           <v-layout column align-center>
-            <Avatar size="225" :src="perfil.picture" class="ma-2 elevation-3" />
+            <Avatar
+              size="225"
+              :src="perfil.picture"
+              class="ma-2 elevation-3"
+              :editable="enableEdit"
+            />
             <Rating :value="perfil.puntuacion" star />
           </v-layout>
         </v-flex>
@@ -13,10 +18,99 @@
             <div class="overline mt-2">
               Trabajos: {{ perfil.cantidad_trabajos || 0 }}
             </div>
-            <p class="headline mb-1" v-text="headline" />
-            <p>Profesiones: {{ perfil.servicios }}</p>
-            <p>{{ perfil.bibliography }}</p>
-            <p>Vive en: {{ perfil.localidad }}</p>
+            <v-layout align-center mb-1>
+              <v-flex>
+                <p v-if="!enableEdit" class="headline mb-0" v-text="headline" />
+                <v-layout v-else mt-2>
+                  <v-flex xs12 lg6 mx-2>
+                    <v-text-field
+                      v-model.lazy="form.nombre"
+                      dense
+                      label="Nombre"
+                      outlined
+                      hide-details
+                    />
+                  </v-flex>
+                  <v-flex xs12 lg6 mx-2>
+                    <v-text-field
+                      v-model.lazy="form.apellido"
+                      label="Apellido"
+                      dense
+                      outlined
+                      hide-details
+                    />
+                  </v-flex>
+                </v-layout>
+              </v-flex>
+              <template v-if="showBtnEditable">
+                <v-btn v-show="enableEdit" text color="primary" @click="save()">
+                  Guardar
+                </v-btn>
+                <v-btn
+                  v-show="!enableEdit"
+                  icon
+                  text
+                  @click.stop="enableEdit = true"
+                >
+                  <v-icon>edit</v-icon>
+                </v-btn>
+              </template>
+            </v-layout>
+            <div v-show="!enableEdit">
+              <v-layout align-center>
+                <!-- <p class="mb-0">Profesiones:</p> -->
+                <v-chip
+                  v-for="(h, $i) in perfil.servicios"
+                  :key="$i"
+                  outlined
+                  class="mx-2"
+                  v-text="h"
+                />
+              </v-layout>
+              <p class="my-2">Vive en: {{ perfil.localidad }}</p>
+              <p>{{ perfil.bibliography }}</p>
+            </div>
+            <v-layout v-show="enableEdit" column>
+              <v-layout align-center>
+                <v-flex xs12 lg6 ma-2>
+                  <v-select
+                    v-model.lazy="form.servicios"
+                    dense
+                    hide-details
+                    :items="habilidades"
+                    item-text="_descripcion"
+                    label="Profesiones"
+                    multiple
+                    outlined
+                    return-object
+                  />
+                </v-flex>
+                <v-flex xs12 lg6 ma-2>
+                  <v-select
+                    v-model.lazy="form.localidad"
+                    dense
+                    hide-details
+                    :items="localidades"
+                    item-value="_id"
+                    item-text="nombre"
+                    label="Localidad"
+                    outlined
+                    return-object
+                  />
+                </v-flex>
+              </v-layout>
+              <v-flex xs12 lg6 ma-2>
+                <v-textarea
+                  v-model.lazy="form.bibliography"
+                  auto-grow
+                  counter="500"
+                  dense
+                  hide-details
+                  label="Bibliografía"
+                  outlined
+                />
+              </v-flex>
+            </v-layout>
           </v-layout>
         </v-flex>
       </v-layout>
@@ -126,6 +220,7 @@ import camelCase from '~/utils/capitalizeWords'
 
 import api from '~/api/baseApi'
 const Persona = api('/Persona')
+const Localidad = api('/Localidad')
 
 export default {
   // middleware: 'authenticated', es publico
@@ -144,33 +239,45 @@ export default {
   data: () => ({
     perfil: {},
     loadingTrabajos: true,
+    enableEdit: false,
+    habilidades: ['Ingeniero', 'Plomero'],
+    localidades: [],
+    form: {},
   }),
   computed: {
-    editable() {
+    showBtnEditable() {
       return !this.$route.params.id
     },
     headline() {
       return camelCase(
         this.perfil.razon_social
-          ? this.razon_social + `(${this.perfil.display_name})`
-          : this.perfil.display_name
+          ? this.razon_social +
+              `(${this.perfil.nombre} ${this.perfil.apellido})`
+          : this.perfil.nombre + ' ' + this.perfil.apellido
       )
     },
   },
-  mounted() {
+  async mounted() {
     const self = this
     setTimeout(function () {
       self.loadingTrabajos = false
     }, 3000)
+
+    if (this.showBtnEditable) {
+      this.form = { ...this.perfil }
+    }
+
+    // TODO search query
+    const { data } = await Localidad.getAll()
+    this.localidades = data || []
   },
   methods: {
-    changeBiblo() {
-      Persona.save({
-        _id: this.perfil._id,
-        bibliography: '<p>I <b>think</b> this is good.</p>',
-      })
-    },
     add() {},
+    async save() {
+      const { data } = await Persona.save(this.form)
+      console.log(data)
+      this.enableEdit = false
+    },
   },
 }
 </script>
