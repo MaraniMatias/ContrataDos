@@ -57,7 +57,11 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['./plugins/globalComponents', './plugins/axion'],
+  plugins: [
+    './plugins/globalComponents',
+    './plugins/axion',
+    '~/plugins/notifier.js',
+  ],
   /*
    ** Nuxt.js dev-modules
    */

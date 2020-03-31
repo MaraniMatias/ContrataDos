@@ -1,5 +1,6 @@
 <template>
   <v-app ng-cloak>
+    <Snackbar />
     <v-app-bar
       fixed
       app
@@ -70,12 +71,13 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
+import Snackbar from '~/components/Snackbar.vue'
 import Logo from '~/components/Logo.vue'
 import Avatar from '~/components/Avatar.vue'
 import Copyright from '~/components/Copyright.vue'
 
 export default {
-  components: { Copyright, Avatar, Logo },
+  components: { Copyright, Avatar, Logo, Snackbar },
   data: () => ({
     fixed: false,
   }),
