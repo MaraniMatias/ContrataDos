@@ -3,12 +3,12 @@ const colors = {
   success: 'success',
   error: 'red darken-3',
   warn: 'orange darken-3',
+  none: 'grey darken-4',
 }
 
 function Snackbar({ text, color, timeout = 5000 }) {
   const obj = {
-    color: colors[color],
-    show: true,
+    color: colors[color] || colors.none,
     text,
     timeout: color === 'error' && timeout < 7000 ? 7000 : timeout,
     // button: { show: false },
