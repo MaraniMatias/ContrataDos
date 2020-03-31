@@ -3,10 +3,10 @@
     <v-avatar
       :size="size"
       :class="{ cursor: editable && hover }"
-      color="grey"
+      :color="editable && hover ? '' : ''"
       v-on="{ ...on }"
     >
-      <v-icon v-if="editable && hover" size="96" color="white">
+      <v-icon v-if="editable && hover" size="96">
         camera_alt
       </v-icon>
       <template v-else>
@@ -15,7 +15,7 @@
           :src="src"
           @error.stop="avatarError = true"
         />
-        <img v-else src="~/assets/images/user_default.png" />
+        <v-icon v-else :size="size">account_circle</v-icon>
       </template>
     </v-avatar>
   </v-hover>
