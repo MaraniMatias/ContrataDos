@@ -6,11 +6,11 @@ const colors = {
   none: 'grey darken-4',
 }
 
-function Snackbar({ text, color, timeout = 5000 }) {
+function Snackbar({ text, type, timeout = 5000 }) {
   const obj = {
-    color: colors[color] || colors.none,
+    color: colors[type] || colors.none,
     text,
-    timeout: color === 'error' && timeout < 7000 ? 7000 : timeout,
+    timeout: type === 'error' && timeout < 7000 ? 7000 : timeout,
     // button: { show: false },
   }
 
