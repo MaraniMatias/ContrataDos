@@ -1,14 +1,9 @@
 <template>
   <v-snackbar v-model="show" :color="color" :timeout="timeout" top>
     <error :text="text" type="none" />
-    <!--
-    <v-btn
-      v-if="button.show"
-      text
-      @click="button.cb()"
-      v-text="button.text"
-    />
-    -->
+    <v-btn icon text dark @click.stop="show = false">
+      <v-icon>close</v-icon>
+    </v-btn>
   </v-snackbar>
 </template>
 

@@ -5,21 +5,23 @@ const colors = {
   warn: 'orange darken-3',
 }
 
-function Snackbar({ text, color, timeout = 5000, button }) {
+function Snackbar({ text, color, timeout = 5000 }) {
   const obj = {
     color: colors[color],
     show: true,
     text,
     timeout: color === 'error' && timeout < 7000 ? 7000 : timeout,
-    button: { show: false },
+    // button: { show: false },
   }
 
+  /*
   if (typeof button === 'object') {
     obj.button.show = true
     obj.button.text = button.text
     obj.button.cb = button.cb
     obj.timeout = 7000
   }
+  */
   return obj
 }
 

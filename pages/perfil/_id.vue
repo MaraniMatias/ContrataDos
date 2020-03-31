@@ -67,7 +67,7 @@
                   v-text="h"
                 />
               </v-layout>
-              <p class="my-2">Vive en: {{ perfil.localidad }}</p>
+              <p class="my-2">Vive en: {{ localidadNombre }}</p>
               <p>{{ perfil.bibliography }}</p>
             </div>
             <v-layout v-show="enableEdit" column>
@@ -247,6 +247,9 @@ export default {
   computed: {
     showBtnEditable() {
       return !this.$route.params.id
+    },
+    localidadNombre() {
+      return this.perfil.localidad?.nombre
     },
     headline() {
       return camelCase(

@@ -63,6 +63,7 @@
         </v-flex>
       </v-layout>
     </template>
+    <v-btn @click="show">show</v-btn>
   </v-layout>
 </template>
 
@@ -81,6 +82,10 @@ export default {
       return this.user?.['show_tutorial'] || false
     },
   },
-  methods: {},
+  methods: {
+    show() {
+      this.$notifier.show({ text: 'Hello, snackbar', color: 'info' })
+    },
+  },
 }
 </script>
