@@ -8,7 +8,7 @@
               size="225"
               :src="perfil.picture"
               class="ma-2 elevation-3"
-              :editable="enableEdit"
+              :editable="showBtnEditable"
             />
             <Rating :value="perfil.puntuacion" star />
           </v-layout>
@@ -20,97 +20,26 @@
             </div>
             <v-layout align-center mb-1>
               <v-flex>
-                <p v-if="!enableEdit" class="headline mb-0" v-text="headline" />
-                <v-layout v-else mt-2>
-                  <v-flex xs12 lg6 mx-2>
-                    <v-text-field
-                      v-model.lazy="form.nombre"
-                      dense
-                      label="Nombre"
-                      outlined
-                      hide-details
-                    />
-                  </v-flex>
-                  <v-flex xs12 lg6 mx-2>
-                    <v-text-field
-                      v-model.lazy="form.apellido"
-                      label="Apellido"
-                      dense
-                      outlined
-                      hide-details
-                    />
-                  </v-flex>
-                </v-layout>
+                <p class="headline mb-0" v-text="headline" />
               </v-flex>
               <template v-if="showBtnEditable">
-                <v-btn v-show="enableEdit" text color="primary" @click="save()">
-                  Guardar
-                </v-btn>
-                <v-btn
-                  v-show="!enableEdit"
-                  icon
-                  text
-                  @click.stop="enableEdit = true"
-                >
+                <v-btn icon text @click.stop="showModalEdit = true">
                   <v-icon>edit</v-icon>
                 </v-btn>
               </template>
             </v-layout>
-            <div v-show="!enableEdit">
-              <v-layout align-center>
-                <!-- <p class="mb-0">Profesiones:</p> -->
-                <v-chip
-                  v-for="(h, $i) in perfil.servicios"
-                  :key="$i"
-                  outlined
-                  class="mx-2"
-                  v-text="h"
-                />
-              </v-layout>
-              <p class="my-2">Vive en: {{ localidadNombre }}</p>
-              <p>{{ perfil.bibliography }}</p>
-            </div>
-            <v-layout v-show="enableEdit" column>
-              <v-layout align-center>
-                <v-flex xs12 lg6 ma-2>
-                  <v-select
-                    v-model.lazy="form.servicios"
-                    dense
-                    hide-details
-                    :items="habilidades"
-                    item-text="_descripcion"
-                    label="Profesiones"
-                    multiple
-                    outlined
-                    return-object
-                  />
-                </v-flex>
-                <v-flex xs12 lg6 ma-2>
-                  <v-select
-                    v-model.lazy="form.localidad"
-                    dense
-                    hide-details
-                    :items="localidades"
-                    item-value="_id"
-                    item-text="nombre"
-                    label="Localidad"
-                    outlined
-                    return-object
-                  />
-                </v-flex>
-              </v-layout>
-              <v-flex xs12 lg6 ma-2>
-                <v-textarea
-                  v-model.lazy="form.bibliography"
-                  auto-grow
-                  counter="500"
-                  dense
-                  hide-details
-                  label="Bibliografía"
-                  outlined
-                />
-              </v-flex>
+            <v-layout align-center>
+              <!-- <p class="mb-0">Profesiones:</p> -->
+              <v-chip
+                v-for="(h, $i) in perfil.servicios"
+                :key="$i"
+                outlined
+                class="mx-2"
+                v-text="h"
+              />
             </v-layout>
+            <p class="my-2">Vive en: {{ localidadNombre }}</p>
+            <p>{{ perfil.bibliography }}</p>
           </v-layout>
         </v-flex>
       </v-layout>
@@ -209,12 +138,100 @@
         </v-flex>
       </v-layout>
     </v-flex>
+    <v-dialog v-model="showModalEdit" width="550">
+      <CardForm @submit="submit">
+        <template v-slot:header>Perfil</template>
+        <template v-slot:default="{ rules }">
+          <v-layout mt-2>
+            <v-flex xs12 lg6 mx-2>
+              <v-text-field
+                v-model.lazy="form.nombre"
+                dense
+                hide-details
+                label="Nombre"
+                outlined
+                :readonly="loading"
+                :rules="[rules.required(), rules.alphaSpaces()]"
+              />
+            </v-flex>
+            <v-flex xs12 lg6 mx-2>
+              <v-text-field
+                v-model.lazy="form.apellido"
+                dense
+                hide-details
+                label="Apellido"
+                outlined
+                :readonly="loading"
+                :rules="[rules.required(), rules.alphaSpaces()]"
+              />
+            </v-flex>
+          </v-layout>
+          <v-layout align-center>
+            <v-flex xs12 lg6 ma-2>
+              <v-select
+                v-model.lazy="form.servicios"
+                dense
+                hide-details
+                :items="habilidades"
+                label="Profesiones"
+                multiple
+                outlined
+                return-object
+                :readonly="loading"
+                :rules="[rules.required()]"
+              />
+            </v-flex>
+            <v-flex xs12 lg6 ma-2>
+              <v-select
+                v-model.lazy="form.localidad"
+                dense
+                hide-details
+                :items="localidades"
+                item-text="nombre"
+                item-value="_id"
+                label="Localidad"
+                outlined
+                return-object
+                :readonly="loading"
+                :rules="[rules.required()]"
+              />
+            </v-flex>
+          </v-layout>
+          <v-flex xs12 ma-2>
+            <v-textarea
+              v-model.lazy="form.bibliography"
+              auto-grow
+              counter="500"
+              dense
+              hide-details
+              label="Bibliografía"
+              outlined
+              :readonly="loading"
+              :rules="[rules.max(500)]"
+            />
+          </v-flex>
+        </template>
+        <!--
+        <template v-slot:message>
+          <error :text="error" />
+        </template>
+        -->
+        <template v-slot:actions>
+          <v-btn text :disabled="loading" @click="close">Cancelar </v-btn>
+          <v-btn :disabled="loading" color="primary" type="submit">
+            Guardar
+          </v-btn>
+        </template>
+      </CardForm>
+    </v-dialog>
   </v-layout>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
+import CardForm from '~/components/CardForm'
 import ObjectId from '~/utils/formRules/objectId'
 import camelCase from '~/utils/capitalizeWords'
 
@@ -224,7 +241,7 @@ const Localidad = api('/Localidad')
 
 export default {
   // middleware: 'authenticated', es publico
-  components: { Avatar, Rating },
+  components: { Avatar, Rating, CardForm },
   validate({ params }) {
     return ObjectId()(params.id) === true
   },
@@ -239,7 +256,7 @@ export default {
   data: () => ({
     perfil: {},
     loadingTrabajos: true,
-    enableEdit: false,
+    showModalEdit: false,
     habilidades: ['Ingeniero', 'Plomero'],
     localidades: [],
     form: {},
@@ -275,11 +292,21 @@ export default {
     this.localidades = data || []
   },
   methods: {
+    ...mapMutations({ updateUser: 'SET_USER' }),
     add() {},
-    async save() {
-      const { data } = await Persona.save(this.form)
-      console.log(data)
-      this.enableEdit = false
+    async submit() {
+      const { data, error } = await Persona.save(this.form)
+      if (error) {
+        this.$notify({ color: 'error', text: error })
+      } else {
+        this.updateUser()
+        this.perfil = data
+        this.showModalEdit = false
+      }
+    },
+    close() {
+      this.form = { ...this.perfil }
+      this.showModalEdit = false
     },
   },
 }
