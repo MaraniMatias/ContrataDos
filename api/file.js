@@ -2,8 +2,8 @@ import axios from 'axios'
 const BASE_URL = process.env.BASE_URL + '/api/file'
 let EVENT
 
-function emit(event) {
-  const percentage = event.value * (100 / event.total)
+function emit({ loaded = 0, total }) {
+  const percentage = loaded * (100 / total)
   console.log(EVENT, percentage)
   /*
   const evt = new CustomEvent(EVENT, {
@@ -20,7 +20,7 @@ window.addEventListener(EVENT, function (progress) {
 })
 */
 
-const perfil = async function (file, corp = {}) {
+const trabajo = async function (file, body = {}) {
   try {
     if (typeof file === 'undefined') {
       return new Error('Archivo es requerido.')
@@ -31,19 +31,41 @@ const perfil = async function (file, corp = {}) {
     if (fileValid === false) {
       return new Error('Archivo no valido.')
     }
-    emit({ value: 0, total: file.size, percentage: 0 })
-
-    const onUploadProgress = (event) => {
-      const percentage = event.loaded * (100 / event.total)
-      emit({
-        value: event.loaded,
-        total: event.total,
-        percentage: percentage.toFixed(2),
-      })
-    }
+    emit({ total: file.size })
 
     const formData = new FormData()
-    formData.append('dto', JSON.stringify(corp))
+    formData.append('dto', JSON.stringify(body))
+    formData.append('file', file)
+
+    return await axios({
+      url: BASE_URL + '/trabajo',
+      method: 'POST',
+      data: formData,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress: emit,
+    })
+  } catch (err) {
+    return { error: err?.message || 'ApiError' }
+  }
+}
+
+const perfil = async function (file) {
+  try {
+    if (typeof file === 'undefined') {
+      return new Error('Archivo es requerido.')
+    }
+
+    // const fileValid = ["image/x-png","image/gif","image/jpeg"    ].includes(file.type)
+    const fileValid = /image/.test(file.type)
+    if (fileValid === false) {
+      return new Error('Archivo no valido.')
+    }
+    emit({ total: file.size })
+
+    const formData = new FormData()
     formData.append('file', file)
 
     return await axios({
@@ -54,7 +76,7 @@ const perfil = async function (file, corp = {}) {
         Accept: 'application/json',
         'Content-Type': 'multipart/form-data',
       },
-      onUploadProgress,
+      onUploadProgress: emit,
     })
   } catch (err) {
     return { error: err?.message || 'ApiError' }
@@ -63,7 +85,5 @@ const perfil = async function (file, corp = {}) {
 
 export default (evetName) => {
   EVENT = evetName
-  return {
-    perfil,
-  }
+  return { perfil, trabajo }
 }

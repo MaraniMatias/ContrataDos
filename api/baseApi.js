@@ -1,8 +1,8 @@
 import http from './http'
 
-const getAll = (BASE_URL) => async () => {
+const getAll = (BASE_URL) => async (query = {}) => {
   try {
-    return await http.get(BASE_URL)
+    return await http.get(BASE_URL, { params: query })
   } catch (err) {
     return { error: err?.message || 'ApiError' }
   }
