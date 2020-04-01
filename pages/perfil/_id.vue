@@ -299,10 +299,8 @@ export default {
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
     add() {},
-    async changeUser() {
-      const { data } = await Persona.getById(this.$store.state.user._id)
-      // TODO avatar no detecta cambio de image
-      this.updateUser(data)
+    changeUser(user) {
+      this.updateUser(user)
     },
     async submit(formValid) {
       if (formValid) return

@@ -1,25 +1,11 @@
-import express from 'express'
 import { sendRes, auth } from '../utilities/router'
 // import { checkErrors, check } from '../utilities/checkProps'
 import { save } from '../utilities/fileImagen'
 import { Persona } from '../models/persona'
+import router from './nuxtRouter'
+
 const multer = require('multer')
 const upload = multer()
-
-// Create express router
-const router = express.Router()
-
-// Transform req & res to have the same API as express
-// So we can use res.status() & res.json()
-const app = express()
-router.use((req, res, next) => {
-  Object.setPrototypeOf(req, app.request)
-  Object.setPrototypeOf(res, app.response)
-  req.res = res
-  res.req = req
-  next()
-})
-router.use(auth.setUser)
 
 router.post('/perfil', auth.isLogin, upload.single('file'), async function (
   req,
@@ -31,11 +17,10 @@ router.post('/perfil', auth.isLogin, upload.single('file'), async function (
     const extension = req.file.originalname.match(/[^.]+$/)[0]
     const fileName = _id + '.' + extension
     await save(req.file.buffer, '/perfil/' + fileName)
-    const obj = await Persona.updateOne(
-      { _id },
-      { picture: '/images/perfil/' + fileName }
-    )
-    return sendRes(res, 200, obj.ok, 'Success', null)
+    const picturePath = '/images/perfil/' + fileName
+    await Persona.updateOne({ _id }, { picture: picturePath })
+    req.user.picture = picturePath
+    return sendRes(res, 200, req.user, 'Success', null)
   } catch (err) {
     return sendRes(
       res,
