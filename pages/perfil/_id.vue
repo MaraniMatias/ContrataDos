@@ -119,7 +119,6 @@
               auto-grow
               counter="500"
               dense
-              hide-details
               label="Bibliografía"
               outlined
               :readonly="loading"
