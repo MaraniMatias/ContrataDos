@@ -49,26 +49,10 @@
       <v-layout justify-center align-start mt-4>
         <v-divider />
       </v-layout>
-
-      <v-layout mt-4>
-        <p class="headline">Trabajos</p>
-        <v-flex v-show="loadingTrabajos" xs12 class="text-center my-12">
-          <v-progress-circular
-            width="2"
-            indeterminate
-            :active="loadingTrabajos"
-            color="grey darken-1"
-          />
-        </v-flex>
-      </v-layout>
-      <v-layout v-if="!loadingTrabajos" column>
-        <v-flex v-if="showBtnEditable" xs12>
-          <CardTrabajoAdd />
-        </v-flex>
-        <v-flex xs12>
-          <CardTrabajo />
-        </v-flex>
-      </v-layout>
+      <PerfilTrabajosList
+        :show-add-btn="showBtnEditable"
+        :profil-id="perfil._id"
+      />
     </v-flex>
     <v-dialog v-model="showModalEdit" width="550">
       <CardForm @submit="submit">
@@ -163,8 +147,7 @@
 import { mapMutations } from 'vuex'
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
-import CardTrabajo from '~/components/CardTrabajo'
-import CardTrabajoAdd from '~/components/CardTrabajoAdd'
+import PerfilTrabajosList from '~/components/PerfilTrabajosList'
 import CardForm from '~/components/CardForm'
 import ObjectId from '~/utils/formRules/objectId'
 import camelCase from '~/utils/capitalizeWords'
@@ -175,7 +158,7 @@ const Localidad = api('/Localidad')
 
 export default {
   // middleware: 'authenticated', es publico
-  components: { Avatar, Rating, CardForm, CardTrabajo, CardTrabajoAdd },
+  components: { Avatar, Rating, CardForm, PerfilTrabajosList },
   validate({ params }) {
     return ObjectId()(params.id) === true
   },
@@ -191,7 +174,6 @@ export default {
   },
   data: () => ({
     perfil: {},
-    loadingTrabajos: true,
     loading: false,
     showModalEdit: false,
     habilidades: ['Ingeniero', 'Plomero'], // TODO lerr de db
@@ -215,11 +197,6 @@ export default {
     },
   },
   async mounted() {
-    const self = this
-    setTimeout(function () {
-      self.loadingTrabajos = false
-    }, 3000)
-
     if (this.showBtnEditable) {
       this.form = { ...this.perfil }
     }
