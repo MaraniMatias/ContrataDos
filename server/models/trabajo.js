@@ -10,20 +10,21 @@ module.exports.TipoTrabajo = TipoTrabajo
 
 const schema = new Schema(
   {
-    cliente: [{ type: ObjectId, ref: 'persona' }],
-    profesional: [{ type: ObjectId, ref: 'persona' }],
+    cliente: { type: ObjectId, ref: 'persona' },
+    profesional: { type: ObjectId, ref: 'persona' },
     localidad: { type: ObjectId, ref: 'localidad' },
     tipo: [
       {
         type: String,
-        default: TipoTrabajo.PUBLICO,
+        default: TipoTrabajo.PUBLICO, // Son privados los que son programados/pendientres, o finalizados pero no publicados
         enum: [TipoTrabajo.PRIVADO, TipoTrabajo.PRIVADO],
       },
     ],
-    puntuacion: Number,
+    puntuacion: { type: Number, default: 0 },
     // foto, usar el _id para referenciar la foto o mejor un id unico universal
     descripcion: String,
-    servicios: [{ type: ObjectId, ref: 'habilidad' }], // para simplificar usaremos uno
+    // servicios: [{ type: ObjectId, ref: 'habilidad' }],
+    servicios: [{ type: String }],
     agenda: [{ type: ObjectId, ref: 'agenda' }], // Lista de eventos, agenda, si se re programa tiene varios
     deleted: { type: Boolean, default: false },
   },
