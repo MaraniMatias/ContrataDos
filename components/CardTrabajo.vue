@@ -57,9 +57,12 @@ import dateFormat from '~/utils/dateFormat'
 export default {
   components: { Rating },
   props: {
-    publish: { type: Boolean, default: false },
+    trabajo: { type: Object, required: true },
   },
   computed: {
+    publish() {
+      return typeof this.trabajo.cliente === 'undefined'
+    },
     fechText() {
       const text = this.publish ? 'Publicado ' : 'Realiazdo '
       return text + dateFormat(new Date(), 'd mmm yyyy')
