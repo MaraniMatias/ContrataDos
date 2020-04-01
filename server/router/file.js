@@ -27,16 +27,13 @@ router.post('/perfil', auth.isLogin, upload.single('file'), async function (
 ) {
   try {
     // TODO falta los check del body
-    // TODO corp imagen de perfil
-    const corp = JSON.parse(req.body.dto)
-    console.log(corp)
-
     const _id = req.user._id
     const extension = req.file.originalname.match(/[^.]+$/)[0]
-    await save(req.file.buffer, '/perfil/' + _id + '.' + extension)
+    const fileName = _id + '.' + extension
+    await save(req.file.buffer, '/perfil/' + fileName)
     const obj = await Persona.updateOne(
       { _id },
-      { picture: '/images/perfil/' + _id }
+      { picture: '/images/perfil/' + fileName }
     )
     return sendRes(res, 200, obj.ok, 'Success', null)
   } catch (err) {
