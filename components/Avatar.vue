@@ -6,7 +6,7 @@
         :class="{ cursor: editable && hover, 'elevation-3': elevation }"
         :color="editable && hover ? '' : ''"
         v-on="{ ...on }"
-        @click.stop="modalUpdateImg = true"
+        @click.stop="openCorp"
       >
         <template v-if="editable && hover">
           <v-icon size="96">camera_alt</v-icon>
@@ -58,6 +58,9 @@ export default {
   //   })
   // },
   methods: {
+    openCorp() {
+      if (this.editable) this.modalUpdateImg = true
+    },
     async savePerfilImg({ file }) {
       this.loading = true
       const { data, error } = await savePerfil(file)
