@@ -7,8 +7,10 @@
             <Avatar
               size="225"
               :src="perfil.picture"
-              class="ma-2 elevation-3"
               :editable="showBtnEditable"
+              elevation
+              class="ma-2"
+              @change="changeUser"
             />
             <Rating :value="perfil.puntuacion" star />
           </v-layout>
@@ -245,12 +247,14 @@ export default {
   validate({ params }) {
     return ObjectId()(params.id) === true
   },
-  async asyncData({ params, store }) {
+  async asyncData({ params, store, redirect }) {
     if (params.id) {
       const { data: perfil } = await Persona.getById(params.id)
       return { perfil }
-    } else {
+    } else if (store.getters.isLoggedIn) {
       return { perfil: store.state.user }
+    } else {
+      redirect('/login')
     }
   },
   data: () => ({
@@ -295,6 +299,10 @@ export default {
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
     add() {},
+    changeUser() {
+      this.updateUser()
+      this.perfil = this.$store.state.user || {}
+    },
     async submit(formValid) {
       if (formValid) return
       this.loading = true
@@ -302,7 +310,7 @@ export default {
       if (error) {
         this.$notify({ color: 'error', text: error })
       } else {
-        this.updateUser()
+        this.changeUser()
         this.perfil = data
         this.showModalEdit = false
       }
