@@ -1,29 +1,17 @@
-const fs = require('fs')
-const path = require('path')
 const consola = require('consola')
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 const { Nuxt, Builder } = require('nuxt')
 const config = require('../nuxt.config.js')
+const fileImagen = require('../server/utilities/fileImagen')
 const getMongoURL = require('./utilities/getMongoURL')
 const getLocalIP = require('./utilities/getLocalIP')
 // const Agenda = require("./utilities/agendaTask");
-
 // Import and Set Nuxt.js options
 const app = require('./server')
 config.dev = process.env.NODE_ENV !== 'production'
 
-// Make dir to save file
-const pathImage = ['perfil', 'jobs']
-fs.mkdir(path.join(__dirname, 'images'), (err) => {
-  if (err) consola.log(err.errno === -17 ? '/images dir created' : err)
-  pathImage.forEach((folder) => {
-    fs.mkdir(path.join(__dirname, 'images', folder), (err) => {
-      if (err)
-        consola.log(err.errno === -17 ? `/images/${folder} dir created` : err)
-    })
-  })
-})
+fileImagen.start()
 
 async function start() {
   // MongoDB connect
