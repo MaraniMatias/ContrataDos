@@ -168,7 +168,6 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 - Las fechas posibles las propone el profesional con lo que ya tiene ocupado
   según DB y según su disponibilidad. No tiene sentido pedir la fechas ya que
   puede tener trabajos desde otro medio o esta ocupado esos días.
-- Usuario suba descripción y foto del trabajo requerido, fechas sugeridas ?
 - Localidades trabajos si es vacía trabaja a distancia
 - Localidad por oficio ? Por ahora no
 - Menú
