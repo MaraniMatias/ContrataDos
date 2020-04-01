@@ -61,82 +61,12 @@
           />
         </v-flex>
       </v-layout>
-      <v-layout v-if="!loadingTrabajos" justify-center fill-height mt-0>
+      <v-layout v-if="!loadingTrabajos" column>
+        <v-flex v-if="showBtnEditable" xs12>
+          <CardTrabajoAdd />
+        </v-flex>
         <v-flex xs12>
-          <v-hover v-slot:default="{ hover }" open-delay="200">
-            <v-card
-              outlined
-              :elevation="hover ? 1 : 0"
-              class="my-4"
-              @click="add()"
-            >
-              <v-card-text class="text-center py-4">
-                <v-icon size="120" color="grey lighten-1">
-                  add_circle_outline
-                </v-icon>
-                <p class="headline mb-1">Agregar nuevo trabajo.</p>
-              </v-card-text>
-            </v-card>
-          </v-hover>
-          <!-- -->
-          <v-hover v-slot:default="{ hover }" open-delay="200">
-            <v-card
-              outlined
-              :elevation="hover ? 1 : 0"
-              class="my-4"
-              @click="add()"
-            >
-              <v-card-text>
-                <!-- -->
-                <v-layout :column="$vuetify.breakpoint.smAndDown">
-                  <v-flex xs12 md4 d-inline-flex>
-                    <v-img
-                      src="/avatars/molly.png"
-                      height="225"
-                      width="225"
-                      aspect-ratio="1"
-                    />
-                  </v-flex>
-                  <v-flex xs12 md8>
-                    <v-layout
-                      column
-                      :pt-2="$vuetify.breakpoint.smAndDown"
-                      :pl-4="$vuetify.breakpoint.mdAndUp"
-                    >
-                      <v-layout align-center fill-height mb-2>
-                        <v-flex xs12 md8>
-                          <v-layout
-                            class="flex-row text-no-wrap"
-                            align-center
-                            fill-height
-                          >
-                            <p class="headline black--text text-truncate mb-0">
-                              Reparación de cañería.
-                            </p>
-                          </v-layout>
-                        </v-flex>
-                        <v-flex xs12 md4>
-                          <v-layout justify-end align-start>
-                            <Rating value="3.5" star />
-                          </v-layout>
-                        </v-flex>
-                      </v-layout>
-                      <v-layout column fill-height align-start>
-                        <p>
-                          Material Design Component Framework Vuetify is a Vue
-                          UI Library with beautifully handcrafted Material
-                          Components. No design skills required — everything you
-                          need to create amazing applications is at your
-                          fingertips.
-                        </p>
-                      </v-layout>
-                    </v-layout>
-                  </v-flex>
-                </v-layout>
-                <!-- -->
-              </v-card-text>
-            </v-card>
-          </v-hover>
+          <CardTrabajo />
         </v-flex>
       </v-layout>
     </v-flex>
@@ -233,6 +163,8 @@
 import { mapMutations } from 'vuex'
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
+import CardTrabajo from '~/components/CardTrabajo'
+import CardTrabajoAdd from '~/components/CardTrabajoAdd'
 import CardForm from '~/components/CardForm'
 import ObjectId from '~/utils/formRules/objectId'
 import camelCase from '~/utils/capitalizeWords'
@@ -243,7 +175,7 @@ const Localidad = api('/Localidad')
 
 export default {
   // middleware: 'authenticated', es publico
-  components: { Avatar, Rating, CardForm },
+  components: { Avatar, Rating, CardForm, CardTrabajo, CardTrabajoAdd },
   validate({ params }) {
     return ObjectId()(params.id) === true
   },
@@ -262,7 +194,7 @@ export default {
     loadingTrabajos: true,
     loading: false,
     showModalEdit: false,
-    habilidades: ['Ingeniero', 'Plomero'],
+    habilidades: ['Ingeniero', 'Plomero'], // TODO lerr de db
     localidades: [],
     form: {},
   }),
@@ -298,7 +230,6 @@ export default {
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
-    add() {},
     changeUser(user) {
       this.updateUser(user)
     },
