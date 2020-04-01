@@ -299,9 +299,10 @@ export default {
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
     add() {},
-    changeUser() {
-      this.updateUser()
-      this.perfil = this.$store.state.user || {}
+    async changeUser() {
+      const { data } = await Persona.getById(this.$store.state.user._id)
+      // TODO avatar no detecta cambio de image
+      this.updateUser(data)
     },
     async submit(formValid) {
       if (formValid) return
@@ -310,8 +311,7 @@ export default {
       if (error) {
         this.$notify({ color: 'error', text: error })
       } else {
-        this.changeUser()
-        this.perfil = data
+        this.changeUser(data)
         this.showModalEdit = false
       }
       this.loading = false
