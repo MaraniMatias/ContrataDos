@@ -24,7 +24,7 @@
         </template>
         <template v-else>
           <img
-            v-if="!avatarError && !!src"
+            v-if="(!avatarError && !!src) || !loading"
             :src="src"
             @error.stop="avatarError = true"
           />
@@ -87,6 +87,16 @@ export default {
   }),
   computed: {},
   watch: {},
+  // created() {
+  //   this.$store.subscribe((mutation, { user }) => {
+  //     if (mutation.type === 'SET_USER') {
+  //       this.loading = true
+  //       this.$nextTick(function () {
+  //         this.loading = false
+  //       })
+  //     }
+  //   })
+  // },
   methods: {
     showModalEdit() {
       if (this.editable) this.$refs.file.click()
@@ -97,11 +107,11 @@ export default {
     async savePerfilImg() {
       this.loading = true
       const file = await base64.toFile(this.cropImgBase64, 'perfil')
-      const { error } = await savePerfil(file)
+      const { data, error } = await savePerfil(file)
       if (error) {
         this.$notify({ type: 'error', text: 'Error al subir la foto.' })
       } else {
-        this.$emit('change', this.cropImgBase64)
+        this.$emit('change', data)
         this.modalUpdateImg = false
       }
       this.loading = false
