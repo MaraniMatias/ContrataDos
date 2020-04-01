@@ -23,6 +23,7 @@ const schema = new Schema(
     puntuacion: { type: Number, default: 0 },
     // foto, usar el _id para referenciar la foto o mejor un id unico universal
     descripcion: String,
+    descripcion_breve: { type: String, trim: true, required: true, max: 120 },
     // servicios: [{ type: ObjectId, ref: 'habilidad' }],
     servicios: [{ type: String }],
     agenda: [{ type: ObjectId, ref: 'agenda' }], // Lista de eventos, agenda, si se re programa tiene varios
