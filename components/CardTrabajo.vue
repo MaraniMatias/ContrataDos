@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot:default="{ hover }" open-delay="200">
-    <v-card outlined :elevation="hover ? 1 : 0" class="my-4" @click="add()">
+    <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
       <v-card-text>
         <v-layout :column="$vuetify.breakpoint.smAndDown">
           <v-flex xs12 md4 d-inline-flex>
@@ -12,13 +12,9 @@
             />
           </v-flex>
           <v-flex xs12 md8>
-            <v-layout
-              column
-              :pt-2="$vuetify.breakpoint.smAndDown"
-              :pl-4="$vuetify.breakpoint.mdAndUp"
-            >
-              <v-layout align-center fill-height mb-2>
-                <v-flex xs12 md8>
+            <v-layout column pl-4 fill-height>
+              <v-layout align-center mb-2>
+                <v-flex xs12>
                   <v-layout
                     class="flex-row text-no-wrap"
                     align-center
@@ -27,11 +23,6 @@
                     <p class="headline black--text text-truncate mb-0">
                       Reparación de cañería.
                     </p>
-                  </v-layout>
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-layout justify-end align-start>
-                    <Rating value="3.5" star />
                   </v-layout>
                 </v-flex>
               </v-layout>
@@ -43,6 +34,14 @@
                   applications is at your fingertips.
                 </p>
               </v-layout>
+              <v-layout align-center>
+                <v-flex> {{ fechText }} </v-flex>
+                <v-flex v-if="!publish" xs12 md4>
+                  <v-layout justify-end align-start>
+                    <Rating value="3.5" star />
+                  </v-layout>
+                </v-flex>
+              </v-layout>
             </v-layout>
           </v-flex>
         </v-layout>
@@ -52,7 +51,19 @@
 </template>
 
 <script>
+import Rating from './Rating'
+import dateFormat from '~/utils/dateFormat'
+
 export default {
-  computed: {},
+  components: { Rating },
+  props: {
+    publish: { type: Boolean, default: false },
+  },
+  computed: {
+    fechText() {
+      const text = this.publish ? 'Publicado ' : 'Realiazdo '
+      return text + dateFormat(new Date(), 'd mmm yyyy')
+    },
+  },
 }
 </script>
