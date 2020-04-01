@@ -21,6 +21,7 @@ function start() {
 
 function save(buffer, filePath) {
   return new Promise((resolve, reject) => {
+    // eslint-disable-next-line
     const imageBuffer = new Buffer.from(buffer)
     fs.writeFile(path.join(BASE_PATH, filePath), imageBuffer, function (err) {
       err ? reject(err) : resolve()
