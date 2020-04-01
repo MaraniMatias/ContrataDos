@@ -23,6 +23,7 @@ module.exports = {
       cookie: { maxAge: 60000 },
     }),
     { path: '/api/auth', handler: '~/server/router/auth' },
+    { path: '/api/file', handler: '~/server/router/file' },
     '~/server/router/agenda',
     '~/server/router/persona',
     '~/server/router/trabajo',

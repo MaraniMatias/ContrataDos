@@ -113,7 +113,8 @@ export default {
         // 'width=500,height=600,scrollbars=no'
       )
     },
-    async authLocal() {
+    async authLocal(formValid) {
+      if (!formValid) return
       this.loading = true
       const { error } = await this.login({
         email: this.email,
