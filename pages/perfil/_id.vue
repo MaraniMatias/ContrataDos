@@ -256,6 +256,7 @@ export default {
   data: () => ({
     perfil: {},
     loadingTrabajos: true,
+    loading: false,
     showModalEdit: false,
     habilidades: ['Ingeniero', 'Plomero'],
     localidades: [],
@@ -294,7 +295,9 @@ export default {
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
     add() {},
-    async submit() {
+    async submit(formValid) {
+      if (formValid) return
+      this.loading = true
       const { data, error } = await Persona.save(this.form)
       if (error) {
         this.$notify({ color: 'error', text: error })
@@ -303,6 +306,7 @@ export default {
         this.perfil = data
         this.showModalEdit = false
       }
+      this.loading = false
     },
     close() {
       this.form = { ...this.perfil }
