@@ -201,7 +201,7 @@ export default {
     }
 
     // TODO search query
-    const { data } = await Localidad.getAll()
+    const { data } = await Localidad.get()
     this.localidades = data || []
   },
   methods: {

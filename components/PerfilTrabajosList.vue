@@ -141,14 +141,14 @@ export default {
     this.getTrabajos()
 
     // TODO search query
-    const { data } = await Localidad.getAll()
+    const { data } = await Localidad.get()
     this.localidades = data || []
   },
   methods: {
     async getTrabajos() {
       this.loadingTrabajos = true
       // get los del perfil
-      const { data } = await Trabajo.getAll()
+      const { data } = await Trabajo.get({ profesional: this.profilId })
       this.listTrabajos = data || []
       this.loadingTrabajos = false
     },
