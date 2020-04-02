@@ -9,9 +9,9 @@ const get = (BASE_URL) => async (query = {}) => {
   }
 }
 
-const getAll = (BASE_URL) => async (query = {}) => {
+const getAll = (BASE_URL) => async (params = {}) => {
   try {
-    return await http.get(BASE_URL, { params: query })
+    return await http.get(BASE_URL, { params })
   } catch (err) {
     return { error: err?.message || 'ApiError' }
   }
