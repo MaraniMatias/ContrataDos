@@ -26,14 +26,14 @@
                   </v-layout>
                 </v-flex>
               </v-layout>
-              <v-layout align-center>
+              <v-layout align-center mb-2>
                 <!-- <p class="mb-0">Profesiones:</p> -->
                 <v-chip
                   v-for="(h, $i) in trabajo.servicios"
                   :key="$i"
                   outlined
                   class="mx-2"
-                  v-text="h"
+                  v-text="h.nombre"
                 />
               </v-layout>
               <v-layout column fill-height align-start>
