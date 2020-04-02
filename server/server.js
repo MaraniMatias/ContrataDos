@@ -24,7 +24,7 @@ restify.defaults({
   prefix: '/api',
   version: '',
   totalCountHeader: true,
-  lean: false,
+  // lean: false,
   runValidators: true,
   onError: (err, req, res) =>
     sendRes(res, req.erm.statusCode, null, 'Error', err.message, null),
