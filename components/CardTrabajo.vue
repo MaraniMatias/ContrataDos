@@ -5,7 +5,7 @@
         <v-layout :column="$vuetify.breakpoint.smAndDown">
           <v-flex xs12 md4 d-inline-flex>
             <v-img
-              src="/avatars/molly.png"
+              :src="`/static/aegims/jobs/${trabajo._id}`"
               height="225"
               width="225"
               aspect-ratio="1"
@@ -21,24 +21,19 @@
                     fill-height
                   >
                     <p class="headline black--text text-truncate mb-0">
-                      Reparación de cañería.
+                      {{ trabajo.descripcion_breve }}
                     </p>
                   </v-layout>
                 </v-flex>
               </v-layout>
               <v-layout column fill-height align-start>
-                <p>
-                  Material Design Component Framework Vuetify is a Vue UI
-                  Library with beautifully handcrafted Material Components. No
-                  design skills required — everything you need to create amazing
-                  applications is at your fingertips.
-                </p>
+                <p v-text="trabajo.descripcion" />
               </v-layout>
               <v-layout align-center>
                 <v-flex> {{ fechText }} </v-flex>
                 <v-flex v-if="!publish" xs12 md4>
                   <v-layout justify-end align-start>
-                    <Rating value="3.5" star />
+                    <Rating :value="trabajo.puntuacion" star />
                   </v-layout>
                 </v-flex>
               </v-layout>
@@ -65,7 +60,7 @@ export default {
     },
     fechText() {
       const text = this.publish ? 'Publicado ' : 'Realiazdo '
-      return text + dateFormat(new Date(), 'd mmm yyyy')
+      return text + dateFormat(this.trabajo.created_at, 'dd MM yyyy')
     },
   },
 }
