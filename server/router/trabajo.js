@@ -14,7 +14,10 @@ restify.serve(router, Trabajo, {
   preRead: [
     (req, _, next) => {
       const query = req.query
-      if (req.user._id !== query.profesional) {
+      if (
+        typeof req.user === 'undefined' ||
+        req.user._id !== query.profesional
+      ) {
         query.tipo = TipoTrabajo.PUBLICO
       }
       return next()
