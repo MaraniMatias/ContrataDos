@@ -5,7 +5,7 @@
         <v-layout :column="$vuetify.breakpoint.smAndDown">
           <v-flex xs12 md4 d-inline-flex>
             <v-img
-              :src="`/static/aegims/jobs/${trabajo._id}`"
+              :src="`/images/jobs/${trabajo._id}.jpeg`"
               height="225"
               width="225"
               aspect-ratio="1"
@@ -25,6 +25,16 @@
                     </p>
                   </v-layout>
                 </v-flex>
+              </v-layout>
+              <v-layout align-center>
+                <!-- <p class="mb-0">Profesiones:</p> -->
+                <v-chip
+                  v-for="(h, $i) in trabajo.servicios"
+                  :key="$i"
+                  outlined
+                  class="mx-2"
+                  v-text="h"
+                />
               </v-layout>
               <v-layout column fill-height align-start>
                 <p v-text="trabajo.descripcion" />
@@ -60,7 +70,7 @@ export default {
     },
     fechText() {
       const text = this.publish ? 'Publicado ' : 'Realiazdo '
-      return text + dateFormat(this.trabajo.created_at, 'dd MM yyyy')
+      return text + dateFormat(this.trabajo.createdAt, 'dd MM yyyy')
     },
   },
 }
