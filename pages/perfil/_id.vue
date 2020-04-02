@@ -151,10 +151,7 @@ import CardForm from '~/components/CardForm'
 import ObjectId from '~/utils/formRules/objectId'
 import camelCase from '~/utils/capitalizeWords'
 
-import api from '~/api/baseApi'
-const Persona = api('/Persona')
-const Localidad = api('/Localidad')
-const Habilidad = api('/Habilidad')
+import { Persona, Localidad, Habilidad } from '~/api'
 
 export default {
   // middleware: 'authenticated', es publico

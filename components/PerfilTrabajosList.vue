@@ -124,13 +124,10 @@ import CardTrabajo from '~/components/CardTrabajo'
 import CardForm from '~/components/CardForm'
 import CardCropper from '~/components/CardCropper'
 
+import { Trabajo, Localidad, Habilidad } from '~/api'
 import apiFile from '~/api/file'
-import api from '~/api/baseApi'
 const onFileUpload = 'progressFileUpload'
 const { trabajo: saveImg } = apiFile(onFileUpload)
-const Trabajo = api('/Trabajo')
-const Localidad = api('/Localidad')
-const Habilidad = api('/Habilidad')
 
 export default {
   components: { CardTrabajo, CardTrabajoAdd, CardForm, CardCropper },
