@@ -29,8 +29,7 @@ const schema = new Schema(
       max: 120,
       set: escapeHtml,
     },
-    // servicios: [{ type: ObjectId, ref: 'habilidad' }],
-    servicios: [{ type: String }],
+    servicios: [{ type: ObjectId, ref: 'habilidad' }],
     agenda: [{ type: ObjectId, ref: 'agenda' }], // Lista de eventos, agenda, si se re programa tiene varios
     deleted: { type: Boolean, default: false },
   },
