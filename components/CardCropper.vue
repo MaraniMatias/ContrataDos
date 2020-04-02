@@ -99,7 +99,8 @@ export default {
 
 <style scoped>
 .cropper {
-  height: 350px;
-  background: #ddd;
+  width: 350px;
+  max-height: 350px;
+  background: transparent;
 }
 </style>
