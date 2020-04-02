@@ -46,6 +46,22 @@
           </v-flex>
           <v-flex xs12 ma-2>
             <v-select
+              v-model.lazy="form.servicios"
+              dense
+              hide-details
+              :items="habilidades"
+              item-text="nombre"
+              item-value="_id"
+              label="Profesiones"
+              :loading="habilidades.length === 0"
+              multiple
+              outlined
+              :readonly="loading"
+              :rules="[rules.required()]"
+            />
+          </v-flex>
+          <v-flex xs12 ma-2>
+            <v-select
               v-model.lazy="form.localidad"
               dense
               hide-details
@@ -53,8 +69,8 @@
               item-text="nombre"
               item-value="_id"
               label="Localidad"
+              :loading="localidades.length === 0"
               outlined
-              return-object
               :readonly="loading"
               :rules="[rules.required()]"
             />
@@ -114,6 +130,7 @@ const onFileUpload = 'progressFileUpload'
 const { trabajo: saveImg } = apiFile(onFileUpload)
 const Trabajo = api('/Trabajo')
 const Localidad = api('/Localidad')
+const Habilidad = api('/Habilidad')
 
 export default {
   components: { CardTrabajo, CardTrabajoAdd, CardForm, CardCropper },
@@ -141,14 +158,22 @@ export default {
     this.getTrabajos()
 
     // TODO search query
-    const { data } = await Localidad.get()
-    this.localidades = data || []
+    const { data: l } = await Localidad.get()
+    this.localidades = l || []
+    // TODO search query
+    const { data: h } = await Habilidad.get()
+    this.habilidades = h || []
   },
   methods: {
     async getTrabajos() {
       this.loadingTrabajos = true
       // get los del perfil
-      const { data } = await Trabajo.get({ profesional: this.profilId })
+      const params = {
+        query: { profesional: this.profilId },
+        populate: 'servicios,localidad',
+      }
+      const { data } = await Trabajo.get(params)
+      // populate Localidation Habilidad
       this.listTrabajos = data || []
       this.loadingTrabajos = false
     },
@@ -161,7 +186,7 @@ export default {
       this.loading = true
       const { error } = await saveImg(this.pickedFile, this.form)
       if (error) {
-        this.$notify({ type: 'error', text: 'Error al subir la foto.' })
+        this.$notify({ type: 'error', text: error.message })
       } else {
         this.close()
         this.getTrabajos()
