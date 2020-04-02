@@ -17,7 +17,7 @@ const schema = new Schema(
     tipo: {
       type: String,
       default: TipoTrabajo.PUBLICO, // Son privados los que son programados/pendientres, o finalizados pero no publicados
-      enum: [TipoTrabajo.PRIVADO, TipoTrabajo.PRIVADO],
+      enum: [TipoTrabajo.PUBLICO, TipoTrabajo.PRIVADO],
     },
     puntuacion: { type: Number, default: 0 },
     // foto, usar el _id para referenciar la foto o mejor un id unico universal
