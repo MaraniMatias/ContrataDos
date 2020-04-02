@@ -1,10 +1,8 @@
-import express from 'express'
 import restify from 'express-restify-mongoose'
 import { block } from '../utilities/router'
 import { Habilidad } from '../models/habilidad'
 
-// Create express router
-const router = express.Router()
+import router from './nuxtRouter'
 
 restify.serve(router, Habilidad, {
   preDelete: block,

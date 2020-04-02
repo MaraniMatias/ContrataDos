@@ -1,18 +1,25 @@
-import express from 'express'
 import restify from 'express-restify-mongoose'
 import { deleteProp, auth } from '../utilities/router'
 // const Batch = require("../utilities/agendaTask");
-import { Trabajo } from '../models/trabajo'
+import { Trabajo, TipoTrabajo } from '../models/trabajo'
 
-// Create express router
-const router = express.Router()
+import router from './nuxtRouter'
 
 restify.serve(router, Trabajo, {
   preDelete: auth.isLogin, // TODO, solo borrar lo de el
   preUpdate: [auth.isLogin, deleteProp], // TODO, solo borrar lo de el
   postUpdate: [],
-  preCreate: auth.isLogin, // TODO, solo borrar lo de el
+  preCreate: auth.isLogin,
   postCreate: [],
-  preRead: auth.isLogin, // TODO, solo borrar lo de el
+  preRead: [
+    (req, _, next) => {
+      const query = req.query
+      if (req.user._id !== query.profesional) {
+        query.tipo = TipoTrabajo.PUBLICO
+      }
+      return next()
+    },
+  ],
 })
+
 export default router

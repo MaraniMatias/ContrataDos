@@ -1,11 +1,9 @@
-import express from 'express'
 import restify from 'express-restify-mongoose'
 // const Batch = require("../utilities/agendaTask");
 import { Agenda } from '../models/agenda'
 import { deleteProp, block, auth } from '../utilities/router'
 
-// Create express router
-const router = express.Router()
+import router from './nuxtRouter'
 
 restify.serve(router, Agenda, {
   preDelete: block,

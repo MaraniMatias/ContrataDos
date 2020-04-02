@@ -1,12 +1,10 @@
-import express from 'express'
 import restify from 'express-restify-mongoose'
 import { deleteProp, block, auth } from '../utilities/router'
 // const { checkErrors, check } = require('../utilities/checkProps')
 // const Batch = require("./../utilities/agendaTask");
 import { Persona } from '../models/persona'
 
-// Create express router
-const router = express.Router()
+import router from './nuxtRouter'
 
 /*
 function isEmailUnique(req, res, next) {
