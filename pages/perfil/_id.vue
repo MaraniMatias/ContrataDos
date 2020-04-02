@@ -33,11 +33,11 @@
             <v-layout align-center>
               <!-- <p class="mb-0">Profesiones:</p> -->
               <v-chip
-                v-for="(h, $i) in perfil.servicios"
+                v-for="(h, $i) in serviciosList"
                 :key="$i"
                 outlined
                 class="mx-2"
-                v-text="h"
+                v-text="h.nombre"
               />
             </v-layout>
             <p class="my-2">Vive en: {{ localidadNombre }}</p>
@@ -82,37 +82,37 @@
               />
             </v-flex>
           </v-layout>
-          <v-layout align-center>
-            <v-flex xs12 lg6 ma-2>
-              <v-select
-                v-model.lazy="form.servicios"
-                dense
-                hide-details
-                :items="habilidades"
-                label="Profesiones"
-                multiple
-                outlined
-                return-object
-                :readonly="loading"
-                :rules="[rules.required()]"
-              />
-            </v-flex>
-            <v-flex xs12 lg6 ma-2>
-              <v-select
-                v-model.lazy="form.localidad"
-                dense
-                hide-details
-                :items="localidades"
-                item-text="nombre"
-                item-value="_id"
-                label="Localidad"
-                outlined
-                return-object
-                :readonly="loading"
-                :rules="[rules.required()]"
-              />
-            </v-flex>
-          </v-layout>
+          <v-flex xs12 ma-2>
+            <v-select
+              v-model.lazy="form.servicios"
+              dense
+              hide-details
+              :items="habilidades"
+              item-text="nombre"
+              item-value="_id"
+              label="Profesiones"
+              :loading="habilidades.length === 0"
+              multiple
+              outlined
+              :readonly="loading"
+              :rules="[rules.required()]"
+            />
+          </v-flex>
+          <v-flex xs12 ma-2>
+            <v-select
+              v-model.lazy="form.localidad"
+              dense
+              hide-details
+              :items="localidades"
+              item-text="nombre"
+              item-value="_id"
+              label="Localidad"
+              :loading="localidades.length === 0"
+              outlined
+              :readonly="loading"
+              :rules="[rules.required()]"
+            />
+          </v-flex>
           <v-flex xs12 ma-2>
             <v-textarea
               v-model.lazy="form.bibliography"
@@ -154,6 +154,7 @@ import camelCase from '~/utils/capitalizeWords'
 import api from '~/api/baseApi'
 const Persona = api('/Persona')
 const Localidad = api('/Localidad')
+const Habilidad = api('/Habilidad')
 
 export default {
   // middleware: 'authenticated', es publico
@@ -162,20 +163,22 @@ export default {
     return ObjectId()(params.id) === true
   },
   async asyncData({ params, store, redirect }) {
-    if (params.id) {
-      const { data: perfil } = await Persona.getById(params.id)
-      return { perfil }
-    } else if (store.getters.isLoggedIn) {
-      return { perfil: store.state.user }
-    } else {
+    if (typeof params.id === 'undefined' && !store.getters.isLoggedIn) {
       redirect('/login')
+    } else {
+      const perfil = params.id
+        ? await Persona.getById(params.id).data
+        : store.state.user
+      const localidad = await Localidad.getById(perfil.localidad).data
+      return { perfil, localidad }
     }
   },
   data: () => ({
     perfil: {},
+    localidad: {},
     loading: false,
     showModalEdit: false,
-    habilidades: ['Ingeniero', 'Plomero'], // TODO lerr de db
+    habilidades: [],
     localidades: [],
     form: {},
   }),
@@ -184,7 +187,13 @@ export default {
       return !this.$route.params.id
     },
     localidadNombre() {
-      return this.perfil.localidad?.nombre
+      return this.localidad?.nombre
+    },
+    serviciosList() {
+      // todo se puede pensar de otra forma, con un populate en persona para
+      // habilidades y localidad
+      const habilidades = this.perfil?.servicios || []
+      return this.habilidades.filter(({ _id }) => habilidades.includes(_id))
     },
     headline() {
       return camelCase(
@@ -201,16 +210,20 @@ export default {
     }
 
     // TODO search query
-    const { data } = await Localidad.get()
-    this.localidades = data || []
+    const { data: l } = await Localidad.get()
+    this.localidades = l || []
+    // TODO search query
+    const { data: h } = await Habilidad.get()
+    this.habilidades = h || []
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
     changeUser(user) {
       this.updateUser(user)
+      this.localidad = user.localidad
     },
     async submit(formValid) {
-      if (formValid) return
+      if (!formValid) return
       this.loading = true
       const { data, error } = await Persona.save(this.form)
       if (error) {
