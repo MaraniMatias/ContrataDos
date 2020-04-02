@@ -1,5 +1,14 @@
 import http from './http'
 
+const get = (BASE_URL) => async (query = {}) => {
+  try {
+    query.deleted = false
+    return await http.get(BASE_URL, { params: query })
+  } catch (err) {
+    return { error: err?.message || 'ApiError' }
+  }
+}
+
 const getAll = (BASE_URL) => async (query = {}) => {
   try {
     return await http.get(BASE_URL, { params: query })
@@ -39,6 +48,7 @@ export default (url) => {
     save: save(BASE_URL),
     delete: del(BASE_URL),
     getAll: getAll(BASE_URL),
+    get: get(BASE_URL),
     getById: getById(BASE_URL),
   }
 }
