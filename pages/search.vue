@@ -2,8 +2,18 @@
   <v-layout row pb-12 mb-2 px-2 justify-center>
     <v-flex xs12 sm12 md10 lg8 xl6 mt-4 mb-2>
       <v-layout column justify-start>
-        <v-flex xs12 sm12 md10 lg10 xl6 class="text-center mb-2">
-          <span>Resultados de la búsqueda: {{ totalItems }}</span>
+        <v-flex xs12 sm12 md10 lg10 xl6 mt-1 mb-2 class="text-center">
+          <v-chip
+            v-for="(item, key) in filters"
+            :key="key"
+            class="mx-2"
+            close
+            @click:close="closeFilters(key)"
+            v-text="item.nombre"
+          />
+        </v-flex>
+        <v-flex xs12 class="text-center" mt-1 mb-2>
+          <p class="mb-0">Resultados de la búsqueda: {{ totalItems }}</p>
         </v-flex>
         <v-layout v-show="loading" justify-center mt-3>
           <v-flex xs12 class="text-center">
@@ -15,19 +25,31 @@
             />
           </v-flex>
         </v-layout>
-        <pre>{{ items }}</pre>
+        <!--
+        <v-layout column justify-start>
+          <v-flex xs12 class="text-center mb-2">
+            <pre>{{ items }}</pre>
+          </v-flex>
+        </v-layout>
+        -->
+      </v-layout>
+      <v-layout v-if="!loading" column>
+        <v-flex v-for="(perfil, $i) in items" :key="$i" xs12>
+          <CardPerfil :perfil="perfil" />
+        </v-flex>
       </v-layout>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import { Persona } from '~/api'
+import { Persona, Habilidad, Localidad } from '~/api'
+import CardPerfil from '~/components/CardPerfil'
 
 export default {
-  components: {},
+  components: { CardPerfil },
   asyncData({ query, redirect, error }) {
-    // error({ message: e.message || 'Internal error', statusCode: 500 })
+    // error({ message: 'Internal error', statusCode: 500 })
     if (
       typeof query.profesion === 'undefined' &&
       typeof query.localidad === 'undefined'
@@ -38,20 +60,61 @@ export default {
   data: () => ({
     loading: true,
     items: [],
+    filters: [],
     totalItems: 0,
   }),
-  async mounted() {
-    const query = {}
-    const servicios = this.$route?.query?.profesion
-    const localidad = this.$route?.query?.localidad
-    if (servicios?.length) query.servicios = servicios
-    if (localidad?.length) query.localidad = localidad
-    const { data, totalItems } = await Persona.get({ query })
-    this.items = data
-    this.totalItems = totalItems || 0
-
-    this.loading = false
+  mounted() {
+    this.loadItems()
+    this.loadFilters()
   },
-  methods: {},
+  methods: {
+    async loadItems() {
+      const query = {}
+      const servicios = this.$route?.query?.profesion
+      const localidad = this.$route?.query?.localidad
+      const userLoginId = this.$store.state.userId
+
+      if (servicios?.length) query.servicios = servicios
+      if (localidad?.length) query.localidad = localidad
+      if (userLoginId) query._id = { $nin: userLoginId }
+
+      const { data, totalItems } = await Persona.get({
+        query,
+        populate: JSON.stringify([
+          { path: 'localidad' },
+          { path: 'servicios' },
+        ]),
+      })
+      this.items = data
+      this.totalItems = totalItems || 0
+
+      this.loading = false
+    },
+    async loadFilters() {
+      const query = this.$route?.query
+      if (query.localidad?.length) {
+        const { data: localidades } = await Localidad.getAll({
+          query: { _id: { $in: query.localidad } },
+        })
+        this.filters = this.filters.concat(localidades || [])
+      }
+      if (query.profesion?.length) {
+        const { data: servicios } = await Habilidad.getAll({
+          query: { _id: { $in: query.profesion } },
+        })
+        this.filters = this.filters.concat(servicios || [])
+      }
+    },
+    closeFilters(filterKeyToRemve) {
+      console.log(filterKeyToRemve)
+      //  let query = { q: this.query.nombre || undefined };
+      //  for (let filterKey in this.filters) {
+      //    if (filterKey !== filterKeyToRemve) {
+      //      query[filterKey] = this.filters[filterKey].id;
+      //    }
+      //  }
+      //  this.$router.replace({ name: "search", query });
+    },
+  },
 }
 </script>

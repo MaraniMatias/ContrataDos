@@ -26,6 +26,15 @@
       </v-card>
     </v-flex>
     <template v-else>
+      <v-layout fill-height>
+        <v-flex>
+          <p class="headline mb-0">Trabajos Pendientes</p>
+        </v-flex>
+        <v-btn v-if="showAddBtn" icon text @click.stop="showModal = true">
+          <v-icon>add</v-icon>
+        </v-btn>
+      </v-layout>
+
       <v-flex v-show="loadingTrabajos" xs12 md10 class="text-center my-12">
         <v-progress-circular
           width="2"
