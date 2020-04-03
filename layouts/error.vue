@@ -16,6 +16,7 @@
       <template v-else>
         <h1>A ocurrido un error</h1>
         <p class="error--text" v-text="error.message" />
+        <pre v-if="showErrorObject">{{ error }}</pre>
       </template>
       <p class="description mt-4">
         <NuxtLink to="/">Ir al inicio</NuxtLink>
@@ -34,6 +35,11 @@ export default {
     pageNotFound: '404 Not Found',
     otherError: 'An error occurred',
   }),
+  computed: {
+    showErrorObject() {
+      return process.env.NODE_ENV === 'development'
+    },
+  },
   head() {
     const title =
       this.error.statusCode === 404 ? this.pageNotFound : this.otherError

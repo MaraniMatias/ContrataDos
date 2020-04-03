@@ -1,5 +1,5 @@
 <template>
-  <v-hover v-slot:default="{ hover }" open-delay="200">
+  <v-hover v-slot:default="{ hover }" open-delay="100">
     <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
       <v-card-text>
         <v-layout :column="$vuetify.breakpoint.smAndDown">
