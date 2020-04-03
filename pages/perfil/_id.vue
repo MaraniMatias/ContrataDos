@@ -33,7 +33,7 @@
             <v-layout align-center>
               <!-- <p class="mb-0">Profesiones:</p> -->
               <v-chip
-                v-for="(h, $i) in serviciosList"
+                v-for="(h, $i) in perfil.servicios"
                 :key="$i"
                 outlined
                 class="mx-2"
@@ -166,15 +166,11 @@ export default {
       const perfil = params.id
         ? await Persona.getById(params.id).data
         : store.state.user
-      const localidad = perfil.localidad
-        ? await Localidad.getById(perfil.localidad).data
-        : {}
-      return { perfil, localidad }
+      return { perfil }
     }
   },
   data: () => ({
     perfil: {},
-    localidad: {},
     loading: false,
     showModalEdit: false,
     habilidades: [],
@@ -186,13 +182,7 @@ export default {
       return !this.$route.params.id
     },
     localidadNombre() {
-      return this.localidad?.nombre
-    },
-    serviciosList() {
-      // todo se puede pensar de otra forma, con un populate en persona para
-      // habilidades y localidad
-      const habilidades = this.perfil?.servicios || []
-      return this.habilidades.filter(({ _id }) => habilidades.includes(_id))
+      return camelCase(this.perfil.localidad?.nombre)
     },
     headline() {
       return camelCase(

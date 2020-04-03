@@ -126,14 +126,17 @@ const authorization = {
       consola.log('serializeUser', id)
     }
     if (!id) return next()
-    Persona.findById(id, function (err, user) {
-      if (err || !user) {
-        return sendRes(res, err ? 500 : 404, null, 'Error')
-      } else {
-        req.user = user
-        return next()
-      }
-    })
+    Persona.findById(id)
+      .populate('servicios')
+      .populate('localidad')
+      .exec(function (err, user) {
+        if (err || !user) {
+          return sendRes(res, err ? 500 : 404, null, 'Error')
+        } else {
+          req.user = user
+          return next()
+        }
+      })
   },
   isLogin: (req, res, next) => {
     if (req.user) {

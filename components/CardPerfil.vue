@@ -67,7 +67,7 @@ export default {
       )
     },
     localidadNombre() {
-      return this.perfil.localidad?.nombre
+      return camelCase(this.perfil.localidad?.nombre)
     },
   },
 }
