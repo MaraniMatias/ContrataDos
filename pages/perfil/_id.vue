@@ -166,7 +166,9 @@ export default {
       const perfil = params.id
         ? await Persona.getById(params.id).data
         : store.state.user
-      const localidad = await Localidad.getById(perfil.localidad).data
+      const localidad = perfil.localidad
+        ? await Localidad.getById(perfil.localidad).data
+        : {}
       return { perfil, localidad }
     }
   },
@@ -207,10 +209,10 @@ export default {
     }
 
     // TODO search query
-    const { data: l } = await Localidad.get()
+    const { data: l } = await Localidad.getAll()
     this.localidades = l || []
     // TODO search query
-    const { data: h } = await Habilidad.get()
+    const { data: h } = await Habilidad.getAll()
     this.habilidades = h || []
   },
   methods: {
@@ -224,7 +226,7 @@ export default {
       this.loading = true
       const { data, error } = await Persona.save(this.form)
       if (error) {
-        this.$notify({ color: 'error', text: error })
+        this.$notify({ type: 'error', text: error })
       } else {
         this.changeUser(data)
         this.showModalEdit = false
