@@ -14,7 +14,7 @@
         <v-progress-circular
           width="2"
           indeterminate
-          :active="loadingTrabajos"
+          active
           color="grey darken-1"
         />
       </v-flex>
