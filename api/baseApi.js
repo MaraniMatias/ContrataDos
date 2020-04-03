@@ -1,9 +1,13 @@
 import http from './http'
 
-const get = (BASE_URL) => async (query = {}) => {
+const get = (BASE_URL) => async (params = {}) => {
   try {
-    query.deleted = false
-    return await http.get(BASE_URL, { params: query })
+    if (params.query) {
+      params.query.deleted = false
+    } else {
+      params.query = { deleted: false }
+    }
+    return await http.get(BASE_URL, { params })
   } catch (err) {
     return { error: err?.message || 'ApiError' }
   }

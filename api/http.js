@@ -45,7 +45,7 @@ axios.interceptors.response.use(
   function (response) {
     const totalItems = response.headers['x-total-count']
     if (typeof totalItems !== 'undefined') {
-      response.data._totalItems = parseInt(totalItems, 10)
+      response.totalItems = parseInt(totalItems, 10)
     }
     const data = response.data.data || response.data || null
     const error = response.data.error || null
