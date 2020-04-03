@@ -7,8 +7,6 @@
             v-for="(item, key) in filters"
             :key="key"
             class="mx-2"
-            close
-            @click:close="closeFilters(key)"
             v-text="item.nombre"
           />
         </v-flex>

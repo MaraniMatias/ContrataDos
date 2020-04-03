@@ -14,6 +14,7 @@
           ref="search"
           v-model="select"
           append-icon=""
+          autofocus
           border-radius
           cache-items
           flat
@@ -58,14 +59,12 @@ import { Localidad, Habilidad } from '~/api'
 export default {
   components: {},
   async asyncData() {
-    let items = []
     const { data: localidades } = await Localidad.getAll()
     const localidadList = localidades.map(({ _id, nombre }) => ({
       _id,
       text: nombre,
       type: 'localidad',
     }))
-    items = items.concat(localidadList)
 
     const { data: habilidades } = await Habilidad.getAll()
     const habilidadList = habilidades.map(({ _id, nombre }) => ({
@@ -73,9 +72,8 @@ export default {
       text: nombre,
       type: 'habilidad',
     }))
-    items = items.concat(habilidadList)
 
-    return { items }
+    return { items: localidadList.concat(habilidadList) }
   },
   data: () => ({
     loading: false,
@@ -107,20 +105,11 @@ export default {
           },
         })
       } else {
-        const self = this
         this.$nextTick(function () {
-          self.$refs.search.focus()
+          this.$refs.search.focus()
         })
       }
     },
-    /* querySelections(q) {
-      this.loading = true
-      this.items = []
-      this.$http.get('/api/search', { params: { q } }).then(({ data }) => {
-        this.items = data
-        this.loading = false
-      })
-    }, */
   },
 }
 </script>
