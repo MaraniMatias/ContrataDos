@@ -12,13 +12,13 @@
                 <v-flex xs12 d-inline-flex>
                   <p class="headline mb-0" v-text="headline" />
                 </v-flex>
-                <Rating :value="perfil.puntuacion" />
+                <Rating :value="perfil.puntuacion" star />
                 <!--
-                        <v-layout column align-end>
-                          <Rating :value="perfil.puntuacion" star />
-                          {{ perfil.cantidad_trabajos }} veces contratoados
-                        </v-layout>
-                        -->
+                <v-layout column align-end>
+                  <Rating :value="perfil.puntuacion" star />
+                  {{ perfil.cantidad_trabajos }} veces contratoados
+                </v-layout>
+                -->
               </v-layout>
               <v-layout align-center mb-2>
                 <v-chip

@@ -43,7 +43,7 @@
                 <v-flex> {{ fechText }} </v-flex>
                 <v-flex v-if="!publish" xs12 md4>
                   <v-layout justify-end align-start>
-                    <Rating :value="trabajo.puntuacion" star />
+                    <Rating :value="trabajo.puntuacion" />
                   </v-layout>
                 </v-flex>
               </v-layout>
