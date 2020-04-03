@@ -89,7 +89,7 @@ export default {
       this.loading = false
     },
     async loadFilters() {
-      const query = this.$route?.query
+      const query = this.$route?.query || {}
       if (query.localidad?.length) {
         const { data: localidades } = await Localidad.getAll({
           query: { _id: { $in: query.localidad } },
@@ -102,16 +102,6 @@ export default {
         })
         this.filters = this.filters.concat(servicios || [])
       }
-    },
-    closeFilters(filterKeyToRemve) {
-      console.log(filterKeyToRemve)
-      //  let query = { q: this.query.nombre || undefined };
-      //  for (let filterKey in this.filters) {
-      //    if (filterKey !== filterKeyToRemve) {
-      //      query[filterKey] = this.filters[filterKey].id;
-      //    }
-      //  }
-      //  this.$router.replace({ name: "search", query });
     },
   },
 }
