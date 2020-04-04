@@ -21,9 +21,9 @@ const getAll = (BASE_URL) => async (params = {}) => {
   }
 }
 
-const getById = (BASE_URL) => async (_id) => {
+const getById = (BASE_URL) => async (_id, params = {}) => {
   try {
-    return await http.get(BASE_URL + `/${_id}`)
+    return await http.get(BASE_URL + `/${_id}`, { params })
   } catch (err) {
     return { error: err?.message || 'ApiError' }
   }

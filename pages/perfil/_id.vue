@@ -173,17 +173,17 @@ export default {
     return ObjectId()(params.id) === true
   },
   async asyncData({ params, store, redirect }) {
-    if (typeof params.id === 'undefined' && !store.getters.isLoggedIn) {
-      redirect('/login')
-    } else {
-      return {
-        perfil: params.id
-          ? await Persona.get({
-              query: { _id: params.id },
-              populate: [{ path: 'servicios' }, { path: 'localidad}' }],
-            }).data
-          : store.state.user,
+    if (typeof params.id === 'undefined') {
+      if (store.getters.isLoggedIn) {
+        return { perfil: store.state.user }
+      } else {
+        redirect('/login')
       }
+    } else {
+      const { data } = await Persona.getById(params.id, {
+        populate: 'servicios,localidad',
+      })
+      return { perfil: data }
     }
   },
   data: () => ({
