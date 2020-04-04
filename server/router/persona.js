@@ -35,7 +35,7 @@ restify.serve(router, Persona, {
   preDelete: auth.isLogin, // TODO, solo borrar lo de el
   preUpdate: [
     deleteProp,
-    auth.isLogin,
+    auth.setUser,
     (req, res, next) => {
       // const persona = req.erm.result
       const persona = req.body
