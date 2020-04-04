@@ -35,10 +35,6 @@ router.post('/logout', function (req, res) {
 
 // GET auth/me
 router.get('/me', auth.isLogin, function (req, res) {
-  /*
-  if (req.user?._id) return sendRes(res, 200, req.user, 'Success', null)
-  else return sendRes(res, 404, {}, 'Error', null)
-  */
   // res, status, data, message, error
   return sendRes(res, 200, req.user.toJSON(), 'Success', null)
 })

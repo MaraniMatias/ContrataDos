@@ -71,15 +71,16 @@ schema.method('authenticate', function (password) {
 
 schema.static('findOrCreate', function (condition, user, callback) {
   const self = this
-  self.findOne(condition, (err, result) => {
-    if (err || result) {
-      callback(err, result)
-    } else {
-      self.create(user, (err, userBD) => {
-        callback(err, userBD)
-      })
-    }
-  })
+  this.findOne(condition)
+    .populate('servicios')
+    .populate('localidad')
+    .exec((err, result) => {
+      if (err || result) {
+        callback(err, result)
+      } else {
+        self.create(user, callback)
+      }
+    })
 })
 
 module.exports.Persona = mongoose.model('persona', schema)

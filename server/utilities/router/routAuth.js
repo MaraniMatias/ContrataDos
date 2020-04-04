@@ -1,12 +1,7 @@
 const consola = require('consola')
 const passport = require('passport')
-// const SECRET_KEY_SESSION = process.env.SECRET_KEY_SESSION || 'C0n7r47a2_hola:D'
-// const passportJWT = require('passport-jwt')
-// const ExtractJwt = passportJWT.ExtractJwt
-// const JwtStrategy = passportJWT.Strategy
 const LocalStrategy = require('passport-local').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-// const { PersonaRol: Rol, Persona } = require("./../models/persona");
 const { Persona } = require('./../../models/persona')
 const sendRes = require('./sendRes')
 
@@ -54,6 +49,9 @@ passport.use(
       try {
         // TODO Caundoe este armado el enpoint para singin corregir esto
         const user = await Persona.findOne({ email, deleted: false })
+          .populate('servicios')
+          .populate('localidad')
+
         if (!user) {
           const persona = new Persona({
             nombre: 'matthew',
@@ -105,16 +103,6 @@ passport.serializeUser(function (user, cb) {
     consola.log('serializeUser', user.email)
   }
   cb(null, user._id)
-})
-
-passport.deserializeUser(function (id, cb) {
-  if (process.env.NODE_ENV === 'development') consola.log('deserializeUser', id)
-  Persona.findById(id, function (err, user) {
-    if (process.env.NODE_ENV === 'development' && user) {
-      consola.log(user._id, user.roles)
-    }
-    cb(err, user)
-  })
 })
 
 // Validad roles
