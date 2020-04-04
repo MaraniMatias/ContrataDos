@@ -82,23 +82,7 @@
               />
             </v-flex>
           </v-layout>
-          <v-flex xs12 ma-2>
-            <v-select
-              v-model.lazy="form.servicios"
-              dense
-              hide-details
-              :items="habilidades"
-              item-text="nombre"
-              item-value="_id"
-              label="Profesiones"
-              :loading="habilidades.length === 0"
-              multiple
-              outlined
-              :readonly="loading"
-              :rules="[rules.required()]"
-            />
-          </v-flex>
-          <v-flex xs12 ma-2>
+          <v-flex xs12 ma-2 mt-2>
             <v-select
               v-model.lazy="form.localidad"
               dense
@@ -113,7 +97,40 @@
               :rules="[rules.required()]"
             />
           </v-flex>
-          <v-flex xs12 ma-2>
+          <v-layout align-center ma-2 mt-2>
+            <template v-if="isAProfessional">
+              <v-flex>
+                <v-select
+                  v-model.lazy="form.servicios"
+                  dense
+                  hide-details
+                  :items="habilidades"
+                  item-text="nombre"
+                  item-value="_id"
+                  label="Profesiones"
+                  :loading="habilidades.length === 0"
+                  multiple
+                  outlined
+                  :readonly="loading"
+                  :rules="[rules.required()]"
+                />
+              </v-flex>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn color="red" icon @click="setLikeCliente" v-on="on">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </template>
+                <span>Darme de baja como trabajador</span>
+              </v-tooltip>
+            </template>
+            <v-flex v-else style="height: 48px;">
+              <v-btn color="teal" text block @click="setLikeProfesional">
+                Darme de alta como trabajador
+              </v-btn>
+            </v-flex>
+          </v-layout>
+          <v-flex xs12 ma-2 mt-2>
             <v-textarea
               v-model.lazy="form.bibliography"
               auto-grow
@@ -126,11 +143,6 @@
             />
           </v-flex>
         </template>
-        <!--
-        <template v-slot:message>
-          <error :text="error" />
-        </template>
-        -->
         <template v-slot:actions>
           <v-btn text :disabled="loading" @click="close">Cancelar </v-btn>
           <v-btn :disabled="loading" color="primary" type="submit">
@@ -150,6 +162,7 @@ import PerfilTrabajosList from '~/components/PerfilTrabajosList'
 import CardForm from '~/components/CardForm'
 import ObjectId from '~/utils/formRules/objectId'
 import camelCase from '~/utils/capitalizeWords'
+import { Roles } from '~/utils/enums'
 
 import { Persona, Localidad, Habilidad } from '~/api'
 
@@ -181,9 +194,6 @@ export default {
     showBtnEditable() {
       return !this.$route.params.id
     },
-    localidadNombre() {
-      return camelCase(this.perfil.localidad?.nombre)
-    },
     headline() {
       return camelCase(
         this.perfil.razon_social
@@ -192,10 +202,17 @@ export default {
           : this.perfil.nombre + ' ' + this.perfil.apellido
       )
     },
+    localidadNombre() {
+      return camelCase(this.perfil.localidad?.nombre)
+    },
+    isAProfessional() {
+      return this.form.roles?.includes(Roles.PROFECIONAL)
+    },
   },
   async mounted() {
     if (this.showBtnEditable) {
       this.form = { ...this.perfil }
+      this.form.roles = this.perfil.roles.map((item) => ({ ...item }))
     }
 
     // TODO search query
@@ -211,6 +228,20 @@ export default {
       this.updateUser(user)
       this.localidad = user.localidad
     },
+
+    setLikeProfesional() {
+      const set = new Set(this.perfil.roles)
+      set.add(Roles.PROFECIONAL)
+      set.delete(Roles.CLIENTE)
+      this.form.roles = Array.from(set)
+    },
+    setLikeCliente() {
+      const set = new Set(this.perfil.roles)
+      set.add(Roles.CLIENTE)
+      set.delete(Roles.PROFECIONAL)
+      this.form.roles = Array.from(set)
+    },
+
     async submit(formValid) {
       if (!formValid) return
       this.loading = true
