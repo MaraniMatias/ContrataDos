@@ -10,13 +10,7 @@
     >
       <v-toolbar-title>
         <v-btn nuxt text to="/" color="transparent">
-          <img
-            v-if="hideAppBar"
-            alt="logo"
-            src="/logo.png"
-            style="margin: 2px 0 0 0; height: 42px;"
-          />
-          <Logo v-else />
+          <Logo :bg="!hideAppBar" />
         </v-btn>
       </v-toolbar-title>
       <!--
