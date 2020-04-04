@@ -30,7 +30,7 @@
                 </v-btn>
               </template>
             </v-layout>
-            <v-layout align-center>
+            <v-layout align-center v-show="isAProfessional">
               <!-- <p class="mb-0">Profesiones:</p> -->
               <v-chip
                 v-for="(h, $i) in perfil.servicios"
