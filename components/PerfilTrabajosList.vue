@@ -181,6 +181,7 @@ export default {
     },
     async saveTrabajo() {
       this.loading = true
+      // TODO check que solo el profecional pueda guardar su trabajo como publico
       const { error } = await saveImg(this.pickedFile, this.form)
       if (error) {
         this.$notify({ type: 'error', text: error.message })
