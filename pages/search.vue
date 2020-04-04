@@ -212,13 +212,16 @@ export default {
       if (!formValid) return
       this.loading = true
       // TODO check que no se pueda guardar y/o solitar en nombre de otro
-      const { data, error } = await Trabajo.save(this.form)
+      const { error } = await Trabajo.save(this.form)
       if (error) {
         this.$notify({ type: 'error', text: error })
       } else {
+        this.$notify({
+          type: 'success',
+          text: 'Listo, esperando respuesta de ' + this.form.perfil.nombre,
+        })
         this.showModal = false
       }
-      console.log(data)
       this.loading = false
     },
     close() {
