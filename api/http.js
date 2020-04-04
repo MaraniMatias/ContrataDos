@@ -1,14 +1,12 @@
 'use strict'
 import axios from 'axios'
-// import store from '../store/index'
-// import router from '../router'
 
 // axios defaults
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.headers.post['Cache-Control'] = 'no-cache'
 
 function showMsg(type, response) {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development' && process.client) {
     // eslint-disable-next-line
     console[type](
       '%c[%s]%c %c%s %c%s\n',
