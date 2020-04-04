@@ -39,7 +39,7 @@
       </v-flex>
     </v-layout>
 
-    <v-dialog v-model="showTutorial" width="550">
+    <v-dialog :value="showTutorial" width="550">
       <v-card>
         <v-card-title>
           <p class="headline">Bienvenido</p>
@@ -83,7 +83,7 @@ export default {
       return this.$store.state.user || {}
     },
     showTutorial() {
-      return this.user?.['show_tutorial'] ?? true
+      return this.user?.['show_tutorial'] ?? false
     },
   },
   methods: {
