@@ -43,6 +43,7 @@
 <script>
 import { Persona, Habilidad, Localidad } from '~/api'
 import CardPerfil from '~/components/CardPerfil'
+import { Roles } from '~/utils/enums'
 
 export default {
   components: { CardPerfil },
@@ -67,7 +68,9 @@ export default {
   },
   methods: {
     async loadItems() {
-      const query = {}
+      const query = {
+        roles: { $in: Roles.PROFECIONAL },
+      }
       const servicios = this.$route?.query?.profesion
       const localidad = this.$route?.query?.localidad
       const userLoginId = this.$store.state.userId
