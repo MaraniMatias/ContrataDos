@@ -23,30 +23,107 @@
             />
           </v-flex>
         </v-layout>
-        <!--
-        <v-layout column justify-start>
-          <v-flex xs12 class="text-center mb-2">
-            <pre>{{ items }}</pre>
-          </v-flex>
-        </v-layout>
-        -->
       </v-layout>
       <v-layout v-if="!loading" column>
         <v-flex v-for="(perfil, $i) in items" :key="$i" xs12>
-          <CardPerfil :perfil="perfil" />
+          <CardPerfil :perfil="perfil" @contactar="contactar" />
+        </v-flex>
+        <v-flex v-if="totalItems == 0" class="text-center" xs12 mt-4>
+          <v-btn rounded color="primary" outlined x-large to="/">
+            Volver al buscar
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-flex>
+    <v-dialog v-model="showModal" width="550">
+      <CardForm @submit="submit">
+        <template v-slot:header>
+          Contratar con {{ form.cliente.apellido }} {{ form.cliente.nombre }}
+        </template>
+        <template v-slot:default="{ rules }">
+          <p>
+            Cuente, describa la tarea a realizar, el problema, para que necesita
+            los servicios del profesional.
+          </p>
+          <v-flex xs12 mt-2>
+            <v-text-field
+              v-model.lazy="form.descripcion_breve"
+              dense
+              hide-details
+              label="Asunto"
+              outlined
+              :readonly="loading"
+              counter
+              :rules="[rules.required(), rules.max(120)]"
+            />
+          </v-flex>
+          <v-flex xs12 mt-2>
+            <v-textarea
+              v-model.lazy="form.descripcion"
+              auto-grow
+              counter="500"
+              dense
+              label="Descripción"
+              outlined
+              :readonly="loading"
+              :rules="[rules.max(500)]"
+            />
+          </v-flex>
+          <!-- Avanzada -->
+          <v-flex xs12 mt-2>
+            <v-select
+              v-model.lazy="form.servicios"
+              dense
+              hide-details
+              :items="form.perfil.servicios"
+              item-text="nombre"
+              item-value="_id"
+              label="Profesiones"
+              :disabled="form.perfil.servicios.length === 0"
+              multiple
+              outlined
+              :readonly="loading"
+              :rules="[rules.required()]"
+            />
+          </v-flex>
+          <!--
+          <v-flex xs12 mt-2>
+            <v-select
+              v-model.lazy="form.localidad"
+              dense
+              hide-details
+              :items="form.perfil.localidades"
+              item-text="nombre"
+              item-value="_id"
+              label="Localidad"
+              :loading="form.perfil.localidades.length === 0"
+              outlined
+              :readonly="loading"
+              :rules="[rules.required()]"
+            />
+          </v-flex>
+          -->
+        </template>
+        <template v-slot:actions>
+          <v-btn text :disabled="loading" @click="close">Cancelar </v-btn>
+          <v-btn :disabled="loading" color="primary" type="submit">
+            Guardar
+          </v-btn>
+        </template>
+      </CardForm>
+    </v-dialog>
   </v-layout>
 </template>
 
 <script>
-import { Persona, Habilidad, Localidad } from '~/api'
+import { mapGetters } from 'vuex'
+import { Persona, Habilidad, Localidad, Trabajo } from '~/api'
 import CardPerfil from '~/components/CardPerfil'
-import { Roles } from '~/utils/enums'
+import CardForm from '~/components/CardForm'
+import { Roles, TipoTrabajo } from '~/utils/enums'
 
 export default {
-  components: { CardPerfil },
+  components: { CardPerfil, CardForm },
   async asyncData({ query = {}, redirect, error }) {
     // error({ message: 'Internal error', statusCode: 500 })
     if (
@@ -75,23 +152,31 @@ export default {
     loading: true,
     items: [],
     // filters: [],
+    showModal: false,
     totalItems: 0,
+    form: {},
   }),
+  computed: {
+    ...mapGetters(['isLoggedIn']),
+    user() {
+      return this.$store.state.user
+    },
+  },
   mounted() {
     this.loadItems()
   },
   methods: {
     async loadItems() {
+      const userLoginId = this.user._id
       const query = {
         roles: { $in: Roles.PROFECIONAL },
+        _id: userLoginId ? { $nin: userLoginId } : undefined,
       }
       const servicios = this.$route?.query?.profesion
       const localidad = this.$route?.query?.localidad
-      const userLoginId = this.$store.state.userId
 
       if (servicios?.length) query.servicios = servicios
       if (localidad?.length) query.localidad = localidad
-      if (userLoginId) query._id = { $nin: userLoginId }
 
       const { data, totalItems } = await Persona.get({
         query,
@@ -104,6 +189,41 @@ export default {
       this.totalItems = totalItems || 0
 
       this.loading = false
+    },
+    contactar(perfil) {
+      if (this.isLoggedIn) {
+        this.form = {
+          perfil,
+          cliente: this.user._id,
+          profesional: perfil,
+          localidad: this.user.localidad,
+          tipo: TipoTrabajo.PRIVADO,
+          descripcion: '',
+          descripcion_breve: '', // Asunto
+          servicios: perfil.servicios,
+        }
+        this.showModal = true
+      } else {
+        // TODO si tiene que logearse despues de login ok regresar y abrir el modal para contratar
+        this.$router.replace({ name: 'login', query: { back: 'search' } })
+      }
+    },
+    async submit(formValid) {
+      if (!formValid) return
+      this.loading = true
+      // TODO check que no se pueda guardar y/o solitar en nombre de otro
+      const { data, error } = await Trabajo.save(this.form)
+      if (error) {
+        this.$notify({ type: 'error', text: error })
+      } else {
+        this.showModal = false
+      }
+      console.log(data)
+      this.loading = false
+    },
+    close() {
+      this.showModal = false
+      this.form = {}
     },
   },
 }
