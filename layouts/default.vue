@@ -95,8 +95,8 @@ export default {
   },
   methods: {
     ...mapActions(['logout', 'getMe']),
-    async loginOut() {
-      await this.logout()
+    loginOut() {
+      this.logout()
       this.$router.replace('/')
     },
     goToPerfil() {
