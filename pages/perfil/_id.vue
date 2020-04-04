@@ -217,7 +217,7 @@ export default {
   async mounted() {
     if (this.showBtnEditable) {
       this.form = { ...this.perfil }
-      this.form.roles = this.perfil.roles.map((item) => ({ ...item }))
+      this.form.roles = Array.from(this.perfil.roles)
     }
 
     // TODO search query

@@ -2,7 +2,7 @@ import passport from 'passport'
 import { sendRes, auth } from '../utilities/router'
 import { checkErrors, check } from '../utilities/checkProps'
 import router from './nuxtRouter'
-const { Persona: User } = require('../models/persona')
+const { Persona: User, PersonaRol } = require('../models/persona')
 
 // GET /auth/google
 router.get(
@@ -14,8 +14,10 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
-  function (_, res) {
-    res.redirect('/trabajos')
+  function (req, res) {
+    const user = req.user
+    if (user.roles.includes(PersonaRol.PROFECIONAL)) res.redirect('/trabajos')
+    else res.redirect('/')
   }
 )
 
