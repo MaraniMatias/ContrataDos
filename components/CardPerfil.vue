@@ -38,7 +38,9 @@
               <v-layout align-center>
                 <v-flex xs12> Recide en {{ localidadNombre }} </v-flex>
                 <v-btn color="primary" text :to="perfilLink">Ver Perfil</v-btn>
-                <v-btn color="red darken-4" outlined>Contactar</v-btn>
+                <v-btn color="red darken-4" outlined @click="contactar">
+                  Contactar
+                </v-btn>
               </v-layout>
             </v-layout>
           </v-flex>
@@ -72,6 +74,11 @@ export default {
     },
     perfilLink() {
       return '/perfil/' + this.perfil._id
+    },
+  },
+  methods: {
+    contactar() {
+      this.$emit('contactar', this.perfil)
     },
   },
 }
