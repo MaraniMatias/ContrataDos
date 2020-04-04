@@ -32,7 +32,7 @@ function isEmailUnique(req, res, next) {
 */
 
 restify.serve(router, Persona, {
-  preDelete: auth.isLogin, // TODO, solo borrar lo de el
+  preDelete: [auth.isLogin], // TODO, solo borrar lo de el
   preUpdate: [
     deleteProp,
     auth.setUser,

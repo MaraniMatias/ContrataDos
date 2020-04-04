@@ -1,5 +1,4 @@
 import express from 'express'
-import { auth } from '../utilities/router'
 
 // Create express router
 const router = express.Router()
@@ -14,6 +13,4 @@ router.use((req, res, next) => {
   res.req = req
   next()
 })
-router.use(auth.setUser)
-
 export default router

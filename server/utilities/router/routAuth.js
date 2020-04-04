@@ -106,33 +106,35 @@ passport.serializeUser(function (user, cb) {
 })
 
 // Validad roles
-const authorization = {
-  setUser: (req, res, next) => {
-    // TODO save jwt or create un token
-    const id = req.session && req.session.passport && req.session.passport.user
-    if (process.env.NODE_ENV === 'development' && id) {
-      consola.log('serializeUser', id)
-    }
-    if (!id) return next()
-    Persona.findById(id)
-      .populate('servicios')
-      .populate('localidad')
-      .exec(function (err, user) {
-        if (err || !user) {
-          return sendRes(res, err ? 500 : 404, null, 'Error')
-        } else {
-          req.user = user
-          return next()
-        }
-      })
-  },
-  isLogin: (req, res, next) => {
+const setUser = (req, res, next) => {
+  // TODO save jwt or create un token
+  const id = req.session && req.session.passport && req.session.passport.user
+  if (process.env.NODE_ENV === 'development' && id) {
+    consola.log('serializeUser', id)
+  }
+  if (!id) return next()
+  if (typeof req.user !== 'undefined') return next()
+  Persona.findById(id)
+    .populate('servicios')
+    .populate('localidad')
+    .exec(function (err, user) {
+      if (err || !user) {
+        return sendRes(res, err ? 500 : 404, null, 'Error')
+      } else {
+        req.user = user
+        return next()
+      }
+    })
+}
+const isLogin = [
+  setUser,
+  (req, res, next) => {
     if (req.user) {
       return next()
     } else {
       return sendRes(res, 401, null, 'Unauthorized', 'No tienes permiso')
     }
   },
-}
+]
 
-module.exports = authorization
+module.exports = { setUser, isLogin }

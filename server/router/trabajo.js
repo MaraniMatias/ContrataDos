@@ -6,10 +6,20 @@ import { Trabajo, TipoTrabajo } from '../models/trabajo'
 import router from './nuxtRouter'
 
 restify.serve(router, Trabajo, {
-  preDelete: auth.isLogin, // TODO, solo borrar lo de el
+  preDelete: auth.isLogin,
+  // TODO, solo borrar lo de el
   preUpdate: [auth.isLogin, deleteProp], // TODO, solo borrar lo de el
   postUpdate: [],
-  preCreate: auth.isLogin,
+  preCreate: [
+    auth.isLogin,
+    deleteProp,
+    (req, _, next) => {
+      const body = req.body
+      body.cliente = req.user._id
+      body.tipo = TipoTrabajo.PRIVADO
+      return next()
+    },
+  ],
   postCreate: [],
   preRead: [
     (req, _, next) => {
