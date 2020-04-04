@@ -47,7 +47,7 @@ import { Roles } from '~/utils/enums'
 
 export default {
   components: { CardPerfil },
-  asyncData({ query, redirect, error }) {
+  async asyncData({ query = {}, redirect, error }) {
     // error({ message: 'Internal error', statusCode: 500 })
     if (
       typeof query.profesion === 'undefined' &&
@@ -55,16 +55,30 @@ export default {
     ) {
       redirect('/')
     }
+
+    let filters = []
+    if (query.localidad?.length) {
+      const { data: localidades } = await Localidad.getAll({
+        query: { _id: { $in: query.localidad } },
+      })
+      filters = filters.concat(localidades || [])
+    }
+    if (query.profesion?.length) {
+      const { data: servicios } = await Habilidad.getAll({
+        query: { _id: { $in: query.profesion } },
+      })
+      filters = filters.concat(servicios || [])
+    }
+    return { filters }
   },
   data: () => ({
     loading: true,
     items: [],
-    filters: [],
+    // filters: [],
     totalItems: 0,
   }),
   mounted() {
     this.loadItems()
-    this.loadFilters()
   },
   methods: {
     async loadItems() {
@@ -90,21 +104,6 @@ export default {
       this.totalItems = totalItems || 0
 
       this.loading = false
-    },
-    async loadFilters() {
-      const query = this.$route?.query || {}
-      if (query.localidad?.length) {
-        const { data: localidades } = await Localidad.getAll({
-          query: { _id: { $in: query.localidad } },
-        })
-        this.filters = this.filters.concat(localidades || [])
-      }
-      if (query.profesion?.length) {
-        const { data: servicios } = await Habilidad.getAll({
-          query: { _id: { $in: query.profesion } },
-        })
-        this.filters = this.filters.concat(servicios || [])
-      }
     },
   },
 }

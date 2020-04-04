@@ -77,7 +77,7 @@ export default {
   },
   data: () => ({
     loading: false,
-    items: [],
+    // items: [],
     search: null,
     select: [],
   }),

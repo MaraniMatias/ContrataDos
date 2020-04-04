@@ -176,14 +176,18 @@ export default {
     if (typeof params.id === 'undefined' && !store.getters.isLoggedIn) {
       redirect('/login')
     } else {
-      const perfil = params.id
-        ? await Persona.getById(params.id).data
-        : store.state.user
-      return { perfil }
+      return {
+        perfil: params.id
+          ? await Persona.get({
+              query: { _id: params.id },
+              populate: [{ path: 'servicios' }, { path: 'localidad}' }],
+            }).data
+          : store.state.user,
+      }
     }
   },
   data: () => ({
-    perfil: {},
+    // perfil: {},
     loading: false,
     showModalEdit: false,
     habilidades: [],
@@ -195,11 +199,12 @@ export default {
       return !this.$route.params.id
     },
     headline() {
+      const nombre = this.perfil.nombre || ''
+      const apellido = this.perfil.apellido || ''
       return camelCase(
         this.perfil.razon_social
-          ? this.razon_social +
-              `(${this.perfil.nombre} ${this.perfil.apellido})`
-          : this.perfil.nombre + ' ' + this.perfil.apellido
+          ? this.razon_social + `(${nombre} ${apellido})`
+          : nombre + ' ' + apellido
       )
     },
     localidadNombre() {
