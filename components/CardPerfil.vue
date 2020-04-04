@@ -37,6 +37,7 @@
               </v-layout>
               <v-layout align-center>
                 <v-flex xs12> Recide en {{ localidadNombre }} </v-flex>
+                <v-btn color="primary" text :to="perfilLink">Ver Perfil</v-btn>
                 <v-btn color="red darken-4" outlined>Contactar</v-btn>
               </v-layout>
             </v-layout>
@@ -68,6 +69,9 @@ export default {
     },
     localidadNombre() {
       return camelCase(this.perfil.localidad?.nombre)
+    },
+    perfilLink() {
+      return '/perfil/' + this.perfil._id
     },
   },
 }
