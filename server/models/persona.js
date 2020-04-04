@@ -5,12 +5,8 @@ const Schema = mongoose.Schema
 const ObjectId = mongoose.Schema.Types.ObjectId
 const saltRounds = 10
 
-const PersonaRol = {
-  CLIENTE: 'CLIENTE',
-  PROFECIONAL: 'PROFECIONAL',
-  ADMIN: 'ADMIN',
-}
-module.exports.PersonaRol = PersonaRol
+const { Roles } = require('../../utils/enums')
+module.exports.PersonaRol = Roles
 
 const schema = new Schema(
   {
@@ -36,8 +32,8 @@ const schema = new Schema(
     roles: [
       {
         type: String,
-        default: PersonaRol.CLIENTE,
-        enum: [PersonaRol.CLIENTE, PersonaRol.PROFECIONAL, PersonaRol.ADMIN],
+        default: Roles.CLIENTE,
+        enum: [Roles.CLIENTE, Roles.PROFECIONAL, Roles.ADMIN],
         required: 'Rol es requerido',
       },
     ],

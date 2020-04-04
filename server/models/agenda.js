@@ -2,13 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Schema.Types.ObjectId
 
-const Estados = {
-  PENDIENTE_CONFIRMACION: 'PENDIENTE_CONFIRMACION',
-  PENDIENTE_REALIZACION: 'PENDIENTE_REALIZACION',
-  CANCELADA: 'CANCELADA',
-  EN_PROGRESO: 'EN_PROGRESO',
-  TERMINADA: 'TERMINADA',
-}
+const { Estados } = require('../../utils/enums')
 module.exports.Estados = Estados
 
 const schema = new Schema(
