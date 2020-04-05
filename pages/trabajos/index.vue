@@ -1,9 +1,33 @@
 <template>
   <v-layout pb-12 mb-2 px-2 fill-height>
     <v-layout column>
-      <v-flex xs12 sm12 md10 lg8 xl6 mt-4 mb-2>
-        <p class="headline mb-0">Trabajos Pendientes</p>
+      <v-flex xs12 mb-2>
+        <v-layout align-center>
+          <v-flex xs9>
+            <v-chip-group v-model="filters" multiple>
+              <v-chip v-for="(f, i) in Estados" :key="i" filter outlined>
+                {{ f.label }}
+              </v-chip>
+            </v-chip-group>
+          </v-flex>
+          <v-flex xs3>
+            <v-layout justify-end>
+              <v-chip-group v-model="viewType">
+                <v-chip outlined>
+                  <v-icon left>view_stream</v-icon>
+                  Lista
+                </v-chip>
+                <v-chip outlined>
+                  <v-icon left>view_column</v-icon>
+                  Columnas
+                </v-chip>
+              </v-chip-group>
+            </v-layout>
+          </v-flex>
+        </v-layout>
+      </v-flex>
 
+      <v-flex xs12 sm12 md10 lg8 xl6 mt-4 mb-2>
         <v-flex v-show="loadingTrabajos" x12 mt-4 mb-2 class="text-center">
           <v-progress-circular
             width="2"
@@ -71,14 +95,27 @@
 import { mapMutations } from 'vuex'
 
 import { Persona } from '~/api'
+import { EstadoTrabajoLabel, EstadoTrabajo } from '~/utils/enums'
 
 export default {
   middleware: 'authenticated',
+  asyncData() {
+    const filters = []
+    EstadoTrabajoLabel.forEach(({ key }, index) => {
+      if (![EstadoTrabajo.TERMINADO, EstadoTrabajo.CANCELADO].includes(key)) {
+        filters.push(index)
+      }
+    })
+    return { filters }
+  },
   data: () => ({
     loadingTrabajos: false,
     totalElement: 0,
+    // filters: [],
+    viewType: 0,
   }),
   computed: {
+    Estados: () => EstadoTrabajoLabel,
     user() {
       return this.$store.state.user || {}
     },
