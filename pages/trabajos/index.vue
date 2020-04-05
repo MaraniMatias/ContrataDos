@@ -4,14 +4,30 @@
       <v-flex xs12 mb-2>
         <v-layout align-center>
           <v-flex xs9>
-            <v-chip-group v-model="filters" multiple>
+            <v-chip-group v-model="filters" multiple @change="loadData">
               <v-chip v-for="(f, i) in Estados" :key="i" filter outlined>
                 {{ f.label }}
               </v-chip>
             </v-chip-group>
           </v-flex>
           <v-flex xs3>
-            <v-layout justify-end>
+            <v-layout justify-end align-center>
+              <v-chip-group
+                v-if="isAProfessional"
+                v-model="viewLike"
+                mandatory
+                multiple
+                @change="loadData"
+              >
+                <v-chip outlined>
+                  <v-icon left>account_circle</v-icon>
+                  Cliente
+                </v-chip>
+                <v-chip outlined>
+                  <v-icon left>build</v-icon>
+                  Profecional
+                </v-chip>
+              </v-chip-group>
               <v-chip-group v-model="viewType">
                 <v-chip outlined>
                   <v-icon left>view_stream</v-icon>
@@ -38,8 +54,9 @@
           <p class="mt-6">Buscando...</p>
         </v-flex>
 
-        <v-layout justify-center mt-0>
+        <v-layout v-show="!loadingTrabajos" justify-center mt-0>
           <v-flex xs12 md11 lg10 xl6>
+            <pre>{{ listTrabajos }}</pre>
             <!--
         <Documento
           :doc="doc"
@@ -92,9 +109,9 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 
-import { Persona } from '~/api'
+import { Persona, Trabajo } from '~/api'
 import { EstadoTrabajoLabel, EstadoTrabajo } from '~/utils/enums'
 
 export default {
@@ -111,10 +128,14 @@ export default {
   data: () => ({
     loadingTrabajos: false,
     totalElement: 0,
+    listTrabajos: [],
     // filters: [],
     viewType: 0,
+    viewLike: [0, 1], // Cange de componente
+    viewLikeProfesional: true,
   }),
   computed: {
+    ...mapGetters(['isAProfessional']),
     Estados: () => EstadoTrabajoLabel,
     user() {
       return this.$store.state.user || {}
@@ -122,6 +143,16 @@ export default {
     showTutorial() {
       return this.user?.['show_tutorial'] ?? false
     },
+    filtersLike() {
+      return {
+        profesional: this.viewLike.includes(1),
+        cliente: this.viewLike.includes(0),
+      }
+    },
+  },
+  mounted() {
+    this.viewLike = this.isAProfessional ? [0, 1] : [0]
+    this.loadData()
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
@@ -131,6 +162,32 @@ export default {
         show_tutorial: false,
       })
       if (data) this.updateUser(data)
+    },
+    async loadData() {
+      this.loadingTrabajos = true
+      // get los del perfil
+
+      const params = {
+        query: {
+          estado: this.filters.map((index) => EstadoTrabajoLabel[index].key),
+        },
+        populate: 'servicios,localidad,cliente,profesional',
+      }
+      if (this.filtersLike.profesional && this.filtersLike.cliente) {
+        params.query.$or = [
+          { profesional: this.user._id },
+          { cliente: this.user._id },
+        ]
+      } else {
+        if (this.filtersLike.cliente) params.query.cliente = this.user._id
+        if (this.filtersLike.profesional)
+          params.query.profesional = this.user._id
+      }
+
+      const { data } = await Trabajo.get(params)
+      // populate Localidation Habilidad
+      this.listTrabajos = data || []
+      this.loadingTrabajos = false
     },
   },
 }

@@ -2,6 +2,7 @@
 //  process.client
 
 import http from '../api/http'
+import { Roles } from '../utils/enums'
 
 export const state = () => ({
   user: {},
@@ -10,6 +11,7 @@ export const state = () => ({
 
 export const getters = {
   isLoggedIn: (state) => !!state.user._id,
+  isAProfessional: (state) => state.user.roles?.includes(Roles.PROFECIONAL),
 }
 
 export const mutations = {
