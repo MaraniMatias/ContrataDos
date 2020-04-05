@@ -25,7 +25,6 @@ module.exports = {
     { path: '/api/auth', handler: '~/server/router/auth' },
     { path: '/api/file', handler: '~/server/router/file' },
     // { path: '/api', handler: '~/server/router/search' },
-    '~/server/router/agenda',
     '~/server/router/habilidad',
     '~/server/router/localidad',
     '~/server/router/persona',
