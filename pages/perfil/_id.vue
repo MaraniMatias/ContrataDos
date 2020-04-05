@@ -265,5 +265,8 @@ export default {
       this.showModalEdit = false
     },
   },
+  head() {
+    return { title: this.headline + ' - ContrataDos' }
+  },
 }
 </script>

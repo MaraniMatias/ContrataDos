@@ -36,7 +36,7 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    titleTemplate: '%s - ContrataDos',
+    titleTemplate: '',
     title: 'ContrataDos',
     meta: [
       { charset: 'utf-8' },

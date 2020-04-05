@@ -8,21 +8,12 @@
       :dark="!hideAppBar"
       :class="{ 'elevation-0': hideAppBar }"
     >
+      <v-btn nuxt text to="/" color="transparent">
+        <Logo :bg="!hideAppBar" class="mb-2" />
+      </v-btn>
       <v-toolbar-title>
-        <v-btn nuxt text to="/" color="transparent">
-          <Logo :bg="!hideAppBar" />
-        </v-btn>
+        <h1 v-show="!hideAppBar" class="headline">{{ pageTitle }}</h1>
       </v-toolbar-title>
-      <!--
-      <v-text-field
-        v-show="!hideAppBar"
-        dense
-        outlined
-        border-radius
-        hide-details
-        append-icon="search"
-      />
-      -->
       <v-spacer />
       <v-layout justify-end align-center>
         <template v-if="isLoggedIn">
@@ -83,6 +74,19 @@ export default {
     hideAppBar() {
       return ['index', 'login'].includes(this.$route.name)
     },
+    pageTitle() {
+      switch (this.$route.name) {
+        case 'trabajos':
+          return 'Trabajos'
+        case 'agenda':
+          return 'Agenda'
+        case 'perfil-id':
+          return 'Perfil'
+        default:
+          console.log(this.$route.name)
+          return ''
+      }
+    },
   },
   created() {
     this.getMe()
@@ -98,6 +102,12 @@ export default {
         this.$router.replace('/login')
       }
     },
+  },
+  head() {
+    const base = this.pageTitle ? this.pageTitle + ' - ' : ''
+    return {
+      title: base + 'ContrataDos',
+    }
   },
 }
 </script>
