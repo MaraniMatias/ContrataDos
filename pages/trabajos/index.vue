@@ -28,6 +28,7 @@
                   Profecional
                 </v-chip>
               </v-chip-group>
+              <!--
               <v-chip-group v-model="viewType">
                 <v-chip outlined>
                   <v-icon left>view_stream</v-icon>
@@ -38,6 +39,7 @@
                   Columnas
                 </v-chip>
               </v-chip-group>
+              -->
             </v-layout>
           </v-flex>
         </v-layout>
