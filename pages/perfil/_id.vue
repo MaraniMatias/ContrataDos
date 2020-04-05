@@ -12,7 +12,7 @@
               class="ma-2"
               @change="changeUser"
             />
-            <Rating :value="perfil.puntuacion" star />
+            <Rating v-if="isAProfessional" :value="perfil.puntuacion" star />
           </v-layout>
         </v-flex>
         <v-flex xs12 lg8>
@@ -30,7 +30,7 @@
                 </v-btn>
               </template>
             </v-layout>
-            <v-layout align-center v-show="isAProfessional">
+            <v-layout v-if="isAProfessional" align-center>
               <!-- <p class="mb-0">Profesiones:</p> -->
               <v-chip
                 v-for="(h, $i) in perfil.servicios"
@@ -50,6 +50,7 @@
         <v-divider />
       </v-layout>
       <PerfilTrabajosList
+        v-if="isAProfessional"
         :show-add-btn="showBtnEditable"
         :profil-id="perfil._id"
       />
