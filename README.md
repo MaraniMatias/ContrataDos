@@ -93,56 +93,6 @@ MongoDB
 <https://github.com/artdecocode/typal/blob/master/README.md>
 <https://github.com/artdecocode/documentary/blob/master/README.md>
 
-### Modelo MongoDB
-
-- Persona
-
-  - roles : [CLIENTE,PROFESIONAL]
-  - servicios : [Habilidades]
-  - email
-  - nombre
-  - apellido
-  - usuario
-  - google_account
-  - password
-  - puntuación
-  - localidad
-  - zona_trabajo: [Localidad]
-  - cantidad_trabajos
-
-- Habilidades
-
-  - Nombre
-  - Description
-
-- Provincia
-
-  - Nombre
-  - localidades
-    - Nombre
-    - codo_postal
-    - coordenadas : { lng, lat }
-
-- Trabajo
-
-  - cliente : Persona
-  - profesional : Persona
-  - localidad
-  - servicios : Habilidades
-  - puntuación
-  - foto
-  - descripción
-  - tipo : PUBLICO | PRIVADO
-  - agenda : [Agenda] // La reprogramación se cancela una y crea otra
-
-- Agenda (Eventos)
-  - cliente : Persona
-  - profesional : Persona
-  - trabajo : Trabajo
-  - estado : PENDIENTE_CONFIRMACIÓN | PENDIENTE_REALIZACIÓN | CANCELADA | EN_PROGRESO | TERMINADA
-  - fecha_inicio
-  - fecha_fin
-
 ## Build Setup
 
 ```bash
@@ -170,10 +120,3 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
   puede tener trabajos desde otro medio o esta ocupado esos días.
 - Localidades trabajos si es vacía trabaja a distancia
 - Localidad por oficio ? Por ahora no
-- Menú
-
-> - Agenda
-> - trabajos
->   - pendientes (confinar, reprogramar?)
->   - realizados (puede subir o editar, hacer público o no)
-> - perfil

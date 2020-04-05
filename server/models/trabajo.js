@@ -3,14 +3,27 @@ const escapeHtml = require('escape-html')
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Schema.Types.ObjectId
 
-const { TipoTrabajo } = require('../../utils/enums')
+const { TipoTrabajo, EstadoTrabajo } = require('../../utils/enums')
 module.exports.TipoTrabajo = TipoTrabajo
+module.exports.EstadoTrabajo = EstadoTrabajo
 
 const schema = new Schema(
   {
     cliente: { type: ObjectId, ref: 'persona' },
     profesional: { type: ObjectId, ref: 'persona' },
     localidad: { type: ObjectId, ref: 'localidad' },
+    estado: {
+      type: String,
+      default: EstadoTrabajo.CONSULTA,
+      enum: [
+        EstadoTrabajo.CONSULTA,
+        EstadoTrabajo.PENDIENTE_CONFIRMACION,
+        EstadoTrabajo.PENDIENTE_REALIZACION,
+        EstadoTrabajo.EN_PROGRESO,
+        EstadoTrabajo.TERMINADA,
+        EstadoTrabajo.CANCELADA,
+      ],
+    },
     tipo: {
       type: String,
       default: TipoTrabajo.PUBLICO, // Son privados los que son programados/pendientres, o finalizados pero no publicados
@@ -27,7 +40,13 @@ const schema = new Schema(
       set: escapeHtml,
     },
     servicios: [{ type: ObjectId, ref: 'habilidad' }],
-    agenda: [{ type: ObjectId, ref: 'agenda' }], // Lista de eventos, agenda, si se re programa tiene varios
+    // Lista de eventos, agenda, si se re programa tiene varios
+    agenda: [
+      {
+        fecha_inicio: { type: Date, default: Date.now() },
+        fecha_fin: { type: Date },
+      },
+    ],
     deleted: { type: Boolean, default: false },
   },
   { timestamps: true }
