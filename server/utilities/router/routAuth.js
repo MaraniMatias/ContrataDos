@@ -109,10 +109,9 @@ passport.serializeUser(function (user, cb) {
 const setUser = (req, res, next) => {
   // TODO save jwt or create un token
   const id = req.session && req.session.passport && req.session.passport.user
-  if (process.env.NODE_ENV === 'development' && id) {
-    consola.log('serializeUser', id)
-  }
   if (!id) return next()
+  if (process.env.NODE_ENV === 'development') consola.log('serializeUser', id)
+
   if (typeof req.user !== 'undefined') return next()
   Persona.findById(id)
     .populate('servicios')

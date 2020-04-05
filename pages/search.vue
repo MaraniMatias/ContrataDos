@@ -35,7 +35,7 @@
         </v-flex>
       </v-layout>
     </v-flex>
-    <v-dialog v-model="showModal" width="550">
+    <v-dialog v-model="showModal" width="550" persistent @keyup.esc="close">
       <CardForm @submit="submit">
         <template v-slot:header>
           Contratar con {{ form.cliente.apellido }} {{ form.cliente.nombre }}
