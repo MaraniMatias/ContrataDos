@@ -17,11 +17,11 @@ const schema = new Schema(
       default: EstadoTrabajo.CONSULTA,
       enum: [
         EstadoTrabajo.CONSULTA,
-        EstadoTrabajo.PENDIENTE_CONFIRMACION,
-        EstadoTrabajo.PENDIENTE_REALIZACION,
+        EstadoTrabajo.ACEPTADO,
+        EstadoTrabajo.PENDIENTE,
         EstadoTrabajo.EN_PROGRESO,
-        EstadoTrabajo.TERMINADA,
-        EstadoTrabajo.CANCELADA,
+        EstadoTrabajo.TERMINADO,
+        EstadoTrabajo.CANCELADO,
       ],
     },
     tipo: {

@@ -18,7 +18,7 @@ router.get(
     // const user = req.user
     // if (user.roles.includes(PersonaRol.PROFECIONAL)) res.redirect('/trabajos')
     // else res.redirect('/')
-    res.redirect('/')
+    res.redirect('/trabajos')
   }
 )
 
