@@ -61,16 +61,13 @@
             </v-flex>
           </template>
           <template v-else>
-            <v-btn color="primary" text @click="reject">Rechazar</v-btn>
+            <v-btn color="red darken-4" text @click="reject">
+              {{ showAsCliente ? 'Cancelar' : 'Rechazar' }}
+            </v-btn>
             <v-layout align-center justify-end>
               <v-btn color="black" text @click.stop="showChat = !showChat">
                 {{ showChat ? 'Ocultar chat' : 'Ver chat' }}
               </v-btn>
-              <!--
-              <v-btn color="red darken-4" outlined @click="accept">
-                Aceptar
-              </v-btn>
-              -->
             </v-layout>
           </template>
         </v-layout>
@@ -120,6 +117,61 @@
               </v-layout>
             </template>
           </v-data-iterator>
+          <v-layout>
+            <v-flex xs12 mt-2 mx-2>
+              <v-layout v-show="showSetHours" mx-12>
+                <FieldDate
+                  v-model="form.fecha"
+                  :min="new Date().toISOString().substr(0, 10)"
+                />
+                <FieldTime v-model="form.fecha" />
+              </v-layout>
+              <v-textarea
+                v-show="!showSetHours"
+                v-model.lazy="form.detalle"
+                auto-grow
+                counter="60"
+                dense
+                outlined
+                :readonly="loading"
+              />
+            </v-flex>
+            <v-layout column align-center mx-2 mt-4>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    color="teal"
+                    icon
+                    v-on="on"
+                    @click.stop="showSetHours = !showSetHours"
+                  >
+                    <v-icon v-if="showSetHours">keyboard</v-icon>
+                    <v-icon v-else> insert_invitation</v-icon>
+                  </v-btn>
+                </template>
+                <span v-if="showSetHours">Volver al treclado</span>
+                <span v-else>Proponer una fecha para la cita</span>
+              </v-tooltip>
+              <v-btn
+                v-if="!showSetHours"
+                class="mt-11"
+                color="primary"
+                outlined
+                @click="sendComent"
+              >
+                Enviar
+              </v-btn>
+              <v-btn
+                v-else
+                color="primary"
+                outlined
+                class="mt-11"
+                @click="sendHours"
+              >
+                Proponer fecha
+              </v-btn>
+            </v-layout>
+          </v-layout>
         </v-card-text>
       </v-expand-transition>
     </v-card>
@@ -130,14 +182,16 @@
 import Avatar from './Avatar'
 import Rating from './Rating'
 import CardChat from './CardChat'
-import { Trabajo } from '~/api'
+import FieldDate from './FieldDate'
+import FieldTime from './FieldTime'
+import { Trabajo, Comunicacion } from '~/api'
 
 import dateFormat from '~/utils/dateFormat'
 import camelCase from '~/utils/capitalizeWords'
 import { EstadoTrabajo } from '~/utils/enums'
 
 export default {
-  components: { Rating, Avatar, CardChat },
+  components: { Rating, Avatar, CardChat, FieldDate, FieldTime },
   props: {
     trabajo: { type: Object, required: true },
   },
@@ -145,6 +199,11 @@ export default {
     showChat: false,
     page: 1,
     loading: false,
+    form: {
+      detalle: '',
+      fecha: new Date(),
+    },
+    showSetHours: false,
     comunicaciones: [
       { _id: '1', from: 'cliente', to: 'profesional', detalle: 'Hola' },
       {
@@ -196,6 +255,9 @@ export default {
     cliente() {
       return this.trabajo.cliente
     },
+    showAsCliente() {
+      return this.cliente._id === this.$store.state.user._id
+    },
     fechText() {
       const text = this.isEstado.PUBLICO ? 'Publicado ' : 'Realiazdo '
       return text + dateFormat(this.trabajo.createdAt, 'dd MM yyyy')
@@ -242,6 +304,44 @@ export default {
       const { error } = await Trabajo.save(this.trabajo)
       if (error) {
         this.$notify({ type: 'error', text: error })
+      }
+      this.loading = false
+    },
+    async sendComent() {
+      const chat = {}
+      chat.detalle = this.form.detalle
+      if (this.showAsCliente) {
+        chat.to = this.trabajo.profecional
+        chat.from = this.$store.state.user
+      } else {
+        chat.to = this.$store.state.user
+        chat.from = this.trabajo.profecional
+      }
+      this.loading = true
+      const { data, error } = await Comunicacion.save(this.chat)
+      if (error) {
+        this.$notify({ type: 'error', text: error })
+      } else {
+        this.comunicaciones.push(data)
+      }
+      this.loading = false
+    },
+    async sendHours() {
+      const chat = {}
+      chat.fecha = this.form.fecha
+      if (this.showAsCliente) {
+        chat.to = this.trabajo.profecional
+        chat.from = this.$store.state.user
+      } else {
+        chat.to = this.$store.state.user
+        chat.from = this.trabajo.profecional
+      }
+      this.loading = true
+      const { data, error } = await Comunicacion.save(this.chat)
+      if (error) {
+        this.$notify({ type: 'error', text: error })
+      } else {
+        this.comunicaciones.push(data)
       }
       this.loading = false
     },
