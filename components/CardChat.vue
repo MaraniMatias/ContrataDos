@@ -28,6 +28,7 @@
 
 <script>
 import dateFormat from '~/utils/dateFormat'
+import dateFormatDistanceToNow from '~/utils/dateFormatDistanceToNow'
 
 export default {
   components: {},
@@ -45,7 +46,7 @@ export default {
       return dateFormat(this.chat.fecha, "dd 'de' MMMM 'a las' HH:mm 'hs'")
     },
     fecha() {
-      return dateFormat(this.chat.createdAt, 'dd/mm/yyyy HH:mm')
+      return dateFormatDistanceToNow(this.chat.createdAt, 'dd/mm/yyyy HH:mm')
     },
   },
   methods: {
