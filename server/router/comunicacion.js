@@ -6,7 +6,7 @@ import router from './nuxtRouter'
 
 restify.serve(router, Comunicacion, {
   preDelete: block,
-  preUpdate: [deleteProp, auth.isLogin], // TODO: asolo las de el
+  preUpdate: [deleteProp, auth.isLogin], // TODO: asolo las de el, delete to and form query porps
   preCreate: [auth.isLogin], // TODO: solo las de el
   preRead: [auth.isLogin], // TODO solo las de el
 })
