@@ -130,6 +130,7 @@
 import Avatar from './Avatar'
 import Rating from './Rating'
 import CardChat from './CardChat'
+import { Trabajo } from '~/api'
 
 import dateFormat from '~/utils/dateFormat'
 import camelCase from '~/utils/capitalizeWords'
@@ -143,6 +144,7 @@ export default {
   data: () => ({
     showChat: false,
     page: 1,
+    loading: false,
     comunicaciones: [
       { _id: '1', from: 'cliente', to: 'profesional', detalle: 'Hola' },
       {
@@ -224,8 +226,25 @@ export default {
     formerPage() {
       if (this.canFormerChatPage) this.page -= 1
     },
-    accept() {},
-    reject() {},
+    async accept(fechaInicio) {
+      this.loading = true
+      this.trabajo.estado = EstadoTrabajo.PENDIENTE
+      this.trabajo.agenda = [{ fecha_inicio: fechaInicio }]
+      const { error } = await Trabajo.save(this.trabajo)
+      if (error) {
+        this.$notify({ type: 'error', text: error })
+      }
+      this.loading = false
+    },
+    async reject() {
+      this.loading = true
+      this.trabajo.estado = EstadoTrabajo.CANCELADO
+      const { error } = await Trabajo.save(this.trabajo)
+      if (error) {
+        this.$notify({ type: 'error', text: error })
+      }
+      this.loading = false
+    },
   },
 }
 </script>
