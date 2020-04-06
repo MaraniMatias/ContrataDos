@@ -50,7 +50,7 @@
           </v-flex>
         </v-layout>
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions class="px-4 pb-4">
         <v-layout align-center>
           <template v-if="isEstado.PUBLICO">
             <v-flex> {{ fechText }} </v-flex>
@@ -61,16 +61,67 @@
             </v-flex>
           </template>
           <template v-else>
-            <v-btn color="black" text @click="verChat">Ver chat</v-btn>
+            <v-btn color="primary" text @click="reject">Rechazar</v-btn>
             <v-layout align-center justify-end>
-              <v-btn color="primary" text @click="reject">Rechazar</v-btn>
+              <v-btn color="black" text @click.stop="showChat = !showChat">
+                {{ showChat ? 'Ocultar chat' : 'Ver chat' }}
+              </v-btn>
+              <!--
               <v-btn color="red darken-4" outlined @click="accept">
                 Aceptar
               </v-btn>
+              -->
             </v-layout>
           </template>
         </v-layout>
       </v-card-actions>
+      <v-expand-transition>
+        <v-card-text v-show="showChat" class="pt-0">
+          <v-divider />
+          <v-data-iterator
+            :items="comunicaciones"
+            :page="page"
+            item-key="_id"
+            :items-per-page="7"
+            hide-default-footer
+          >
+            <template v-slot:default="{ items }">
+              <v-layout wrap>
+                <v-flex xs12 md11>
+                  <v-layout column mt-4 class="grey lighten-4" pa-4>
+                    <CardChat
+                      v-for="(chat, i) in items"
+                      :key="i"
+                      :chat="chat"
+                      @accept="accept"
+                    />
+                  </v-layout>
+                </v-flex>
+                <v-flex>
+                  <v-layout column align-center justify-center fill-height>
+                    <v-btn
+                      icon
+                      text
+                      :disabled="canNextChatPage"
+                      @click="formerPage"
+                    >
+                      <v-icon>mdi-chevron-up</v-icon>
+                    </v-btn>
+                    <v-btn
+                      icon
+                      text
+                      :disabled="canFormerChatPage"
+                      @click="nextPage"
+                    >
+                      <v-icon>mdi-chevron-down</v-icon>
+                    </v-btn>
+                  </v-layout>
+                </v-flex>
+              </v-layout>
+            </template>
+          </v-data-iterator>
+        </v-card-text>
+      </v-expand-transition>
     </v-card>
   </v-hover>
 </template>
@@ -78,16 +129,60 @@
 <script>
 import Avatar from './Avatar'
 import Rating from './Rating'
+import CardChat from './CardChat'
 
 import dateFormat from '~/utils/dateFormat'
 import camelCase from '~/utils/capitalizeWords'
 import { EstadoTrabajo } from '~/utils/enums'
 
 export default {
-  components: { Rating, Avatar },
+  components: { Rating, Avatar, CardChat },
   props: {
     trabajo: { type: Object, required: true },
   },
+  data: () => ({
+    showChat: false,
+    page: 1,
+    comunicaciones: [
+      { _id: '1', from: 'cliente', to: 'profesional', detalle: 'Hola' },
+      {
+        _id: '2',
+        to: 'cliente',
+        from: 'profesional',
+        detalle: 'Hola, Todo bien?',
+      },
+      { _id: '3', from: 'cliente', to: 'profesional', detalle: 'Si' },
+      {
+        _id: '4',
+        to: 'cliente',
+        from: 'profesional',
+        detalle: 'A donde es el trabajo?',
+      },
+      { _id: '5', from: 'cliente', to: 'profesional', detalle: 'En casilda' },
+      {
+        _id: '6',
+        to: 'cliente',
+        from: 'profesional',
+        detalle: 'A perfecto, y la direction?',
+      },
+      { _id: '7', from: 'cliente', to: 'profesional', detalle: 'Pasco 2326' },
+      {
+        _id: '8',
+        to: 'cliente',
+        from: 'profesional',
+        detalle: 'Te parece bien la semana que viene?',
+      },
+      { _id: '9', from: 'cliente', to: 'profesional', detalle: 'Si, claro' },
+      {
+        _id: '10',
+        to: 'cliente',
+        from: 'profesional',
+        detalle: 'El viernes?',
+      },
+      { _id: '11', from: 'cliente', to: 'profesional', detalle: 'Si' },
+      { _id: '12', to: 'cliente', from: 'profesional', fecha: new Date() },
+    ],
+  }),
   computed: {
     isEstado() {
       const rta = {}
@@ -112,11 +207,25 @@ export default {
           : nombre + ' ' + apellido
       )
     },
+    numberOfPages() {
+      return Math.ceil(this.comunicaciones.length / 7)
+    },
+    canNextChatPage() {
+      return this.page + 1 <= this.numberOfPages
+    },
+    canFormerChatPage() {
+      return this.page - 1 >= 1
+    },
   },
   methods: {
+    nextPage() {
+      if (this.canNextChatPage) this.page += 1
+    },
+    formerPage() {
+      if (this.canFormerChatPage) this.page -= 1
+    },
     accept() {},
     reject() {},
-    verChat() {},
   },
 }
 </script>

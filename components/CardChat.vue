@@ -1,5 +1,10 @@
 <template>
   <v-layout align-center :justify-end="isToProfesional">
+    <p
+      v-if="isToProfesional"
+      class="caption grey--text mb-0 mr-2"
+      v-text="fecha"
+    />
     <v-card :class="{ 'green lighten-5': isToProfesional }">
       <v-card-text class="py-1">
         <v-layout v-if="chat.fecha" column>
@@ -14,6 +19,11 @@
         <p v-else class="mb-0" v-text="chat.detalle" />
       </v-card-text>
     </v-card>
+    <p
+      v-if="!isToProfesional"
+      class="caption grey--text mb-0 ml-2"
+      v-text="fecha"
+    />
   </v-layout>
 </template>
 
@@ -33,6 +43,9 @@ export default {
     },
     fechText() {
       return dateFormat(this.chat.fecha, "dd 'de' MMMM 'a las' HH:mm")
+    },
+    fecha() {
+      return dateFormat(new Date(), 'dd/mm/yyyy HH:mm')
     },
   },
   methods: {
