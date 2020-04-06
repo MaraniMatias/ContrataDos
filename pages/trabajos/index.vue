@@ -1,86 +1,66 @@
 <template>
-  <v-layout pb-12 mb-2 px-2 fill-height>
-    <v-layout column>
-      <v-flex xs12 mb-2>
-        <v-layout align-center>
-          <v-flex xs9>
+  <v-layout column mb-2 px-2 justify-start fill-height>
+    <v-flex xs12>
+      <v-layout align-center>
+        <v-flex xs9>
+          <v-layout justify-start align-center>
             <v-chip-group v-model="filters" multiple @change="loadData">
               <v-chip v-for="(f, i) in Estados" :key="i" filter outlined>
                 {{ f.label }}
               </v-chip>
             </v-chip-group>
-          </v-flex>
-          <v-flex xs3>
-            <v-layout justify-end align-center>
-              <v-chip-group
-                v-if="isAProfessional"
-                v-model="viewLike"
-                mandatory
-                multiple
-                @change="loadData"
-              >
-                <v-chip outlined>
-                  <v-icon left>account_circle</v-icon>
-                  Cliente
-                </v-chip>
-                <v-chip outlined>
-                  <v-icon left>build</v-icon>
-                  Profecional
-                </v-chip>
-              </v-chip-group>
-              <!--
-              <v-chip-group v-model="viewType">
-                <v-chip outlined>
-                  <v-icon left>view_stream</v-icon>
-                  Lista
-                </v-chip>
-                <v-chip outlined>
-                  <v-icon left>view_column</v-icon>
-                  Columnas
-                </v-chip>
-              </v-chip-group>
-              -->
-            </v-layout>
-          </v-flex>
-        </v-layout>
-      </v-flex>
-
-      <v-flex xs12 sm12 md10 lg8 xl6 mt-4 mb-2>
-        <v-flex v-show="loadingTrabajos" x12 mt-4 mb-2 class="text-center">
-          <v-progress-circular
-            width="2"
-            indeterminate
-            :active="loadingTrabajos"
-            color="grey darken-1"
-          />
-          <p class="mt-6">Buscando...</p>
+          </v-layout>
         </v-flex>
-
-        <v-layout v-show="!loadingTrabajos" justify-center mt-0>
-          <v-flex xs12 md11 lg10 xl6>
-            <pre>{{ listTrabajos }}</pre>
+        <v-flex xs3>
+          <v-layout justify-end align-center>
+            <v-chip-group
+              v-if="isAProfessional"
+              v-model="viewLike"
+              mandatory
+              multiple
+              @change="loadData"
+            >
+              <v-chip outlined>
+                <v-icon left>account_circle</v-icon>
+                Cliente
+              </v-chip>
+              <v-chip outlined>
+                <v-icon left>build</v-icon>
+                Profecional
+              </v-chip>
+            </v-chip-group>
             <!--
-        <Documento
-          :doc="doc"
-          :key="i"
-          v-for="(doc, i) in items"
-          @loadingPreview="loadingPreview"
-          @snackbar="showMsg"
+            <v-chip-group v-model="viewType">
+              <v-chip outlined>
+                <v-icon left>view_stream</v-icon>
+                Lista
+              </v-chip>
+              <v-chip outlined>
+                <v-icon left>view_column</v-icon>
+                Columnas
+              </v-chip>
+            </v-chip-group>
+            -->
+          </v-layout>
+        </v-flex>
+      </v-layout>
+
+      <v-flex v-show="loadingTrabajos" x12 mt-4 mb-2 class="text-center">
+        <v-progress-circular
+          width="2"
+          indeterminate
+          :active="loadingTrabajos"
+          color="grey darken-1"
         />
-        <infinite-loading
-          spinner="spiral"
-          @infinite="infiniteHandler"
-        >
-          <template v-slot:no-more>Eso es todo.</template>
-          <template v-slot:no-results>
-            <span>Eso es todo.</span>
-          </template>
-        </infinite-loading>
-        -->
-          </v-flex>
-        </v-layout>
+        <p class="mt-6">Buscando...</p>
       </v-flex>
-    </v-layout>
+
+      <v-layout v-show="!loadingTrabajos" justify-center mt-0>
+        <v-flex v-for="(j, $i) in listTrabajos" :key="$i" xs12 md11 lg10 xl6>
+          <CardTrabajo :trabajo="j" />
+        </v-flex>
+      </v-layout>
+    </v-flex>
 
     <v-dialog :value="showTutorial" width="550">
       <v-card>
@@ -113,11 +93,13 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 
+import CardTrabajo from '~/components/CardTrabajo'
 import { Persona, Trabajo } from '~/api'
 import { EstadoTrabajoLabel, EstadoTrabajo } from '~/utils/enums'
 
 export default {
   middleware: 'authenticated',
+  components: { CardTrabajo },
   asyncData() {
     const filters = []
     EstadoTrabajoLabel.forEach(({ key }, index) => {
