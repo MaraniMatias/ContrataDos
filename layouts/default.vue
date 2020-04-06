@@ -72,7 +72,7 @@ export default {
       return this.$store.state.user || {}
     },
     hideAppBar() {
-      return ['index', 'login'].includes(this.$route.name)
+      return ['index', 'login', 'loginout'].includes(this.$route.name)
     },
     pageTitle() {
       switch (this.$route.name) {
@@ -94,8 +94,8 @@ export default {
   methods: {
     ...mapActions(['logout', 'getMe']),
     loginOut() {
-      this.$router.replace('/')
       this.logout()
+      this.$router.replace('/loginout')
     },
     goToPerfil() {
       if (this.$route.name !== 'login') {
