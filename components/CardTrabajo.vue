@@ -79,6 +79,7 @@
             :items="comunicaciones"
             :page="page"
             item-key="_id"
+            :loading="loading"
             :items-per-page="7"
             hide-default-footer
           >
@@ -88,12 +89,13 @@
               </v-layout>
             </template>
             <template v-slot:default="{ items }">
-              <v-layout wrap>
+              <v-layout>
                 <v-flex xs12 md11>
-                  <v-layout column mt-4 class="grey lighten-4" pa-4>
+                  <v-layout column mt-4 class="grey lighten-4" pa-4 pt-1>
                     <CardChat
                       v-for="(chat, i) in items"
                       :key="i"
+                      :editable="isEstado.CONSULTA"
                       :chat="chat"
                       @accept="accept"
                     />
@@ -254,26 +256,28 @@ export default {
       return Math.ceil(this.comunicaciones.length / 7)
     },
     canNextChatPage() {
-      return this.page + 1 <= this.numberOfPages
+      return this.page < this.numberOfPages
     },
     canFormerChatPage() {
-      return this.page - 1 >= 1
+      return this.page > 0
     },
   },
   created() {
     const self = this
-    Comunicacion.get({ query: { trabajo: this.trabajo._id } }).then(
-      ({ data }) => {
-        self.comunicaciones = data
-      }
-    )
+    Comunicacion.getAll({
+      query: { trabajo: this.trabajo._id },
+      sort: 'createdAt',
+    }).then(({ data }) => {
+      self.comunicaciones = data
+      self.page = self.numberOfPages
+    })
   },
   methods: {
     nextPage() {
-      if (this.canNextChatPage) this.page += 1
+      if (this.page + 1 <= this.numberOfPages) this.page += 1
     },
     formerPage() {
-      if (this.canFormerChatPage) this.page -= 1
+      if (this.page - 1 >= 1) this.page -= 1
     },
     async accept(fechaInicio) {
       this.loading = true
@@ -298,11 +302,11 @@ export default {
       const chat = { trabajo: this.trabajo._id }
       chat.detalle = this.form.detalle
       if (this.showAsCliente) {
-        chat.to = this.trabajo.profesional
+        chat.to = this.profesional
         chat.from = this.$store.state.user
       } else {
         chat.to = this.$store.state.user
-        chat.from = this.trabajo.profesional
+        chat.from = this.profesional
       }
       this.loading = true
       const { data, error } = await Comunicacion.save(chat)
@@ -331,6 +335,7 @@ export default {
       } else {
         this.form.fecha = new Date()
         this.comunicaciones.push(data)
+        this.showSetHours = false
       }
       this.loading = false
     },
