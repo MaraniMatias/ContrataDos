@@ -83,7 +83,7 @@ export default {
         case 'perfil-id':
           return 'Perfil'
         default:
-          console.log(this.$route.name)
+          // console.log(this.$route.name)
           return ''
       }
     },
@@ -94,8 +94,8 @@ export default {
   methods: {
     ...mapActions(['logout', 'getMe']),
     loginOut() {
-      this.logout()
       this.$router.replace('/')
+      this.logout()
     },
     goToPerfil() {
       if (this.$route.name !== 'login') {
