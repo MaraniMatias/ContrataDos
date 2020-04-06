@@ -124,6 +124,8 @@ import CardTrabajo from '~/components/CardTrabajo'
 import CardForm from '~/components/CardForm'
 import CardCropper from '~/components/CardCropper'
 
+import { TipoTrabajo } from '~/utils/enums'
+
 import { Trabajo, Localidad, Habilidad } from '~/api'
 import apiFile from '~/api/file'
 const onFileUpload = 'progressFileUpload'
@@ -142,9 +144,11 @@ export default {
     pickupImg: false,
     showModal: false,
     localidades: [],
+    habilidades: [],
     form: {
       fileName: '',
       localidad: {},
+      servicios: [],
       descripcion_breve: '',
       descripcion: '',
     },
@@ -155,10 +159,10 @@ export default {
     this.getTrabajos()
 
     // TODO search query
-    const { data: l } = await Localidad.get()
+    const { data: l } = await Localidad.getAll()
     this.localidades = l || []
     // TODO search query
-    const { data: h } = await Habilidad.get()
+    const { data: h } = await Habilidad.getAll()
     this.habilidades = h || []
   },
   methods: {
@@ -166,7 +170,7 @@ export default {
       this.loadingTrabajos = true
       // get los del perfil
       const params = {
-        query: { profesional: this.profilId },
+        query: { profesional: this.profilId, tipo: TipoTrabajo.PUBLICO },
         populate: 'servicios,localidad,cliente,profesional',
       }
       const { data } = await Trabajo.get(params)
@@ -184,7 +188,7 @@ export default {
       // TODO check que solo el profecional pueda guardar su trabajo como publico
       const { error } = await saveImg(this.pickedFile, this.form)
       if (error) {
-        this.$notify({ type: 'error', text: error.message })
+        this.$notify({ type: 'error', text: error.message || error })
       } else {
         this.close()
         this.getTrabajos()
@@ -198,6 +202,7 @@ export default {
       this.form = {
         fileName: '',
         localidad: {},
+        servicios: [],
         descripcion_breve: '',
         descripcion: '',
       }

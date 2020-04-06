@@ -14,7 +14,7 @@
           <p class="mb-0 body-1">Estado: {{ estadoLabel }}</p>
         </v-layout>
       </v-card-title>
-      <v-card-text class="pb-0">
+      <v-card-text :class="{ 'pb-0': !isPablic }">
         <v-layout :column="$vuetify.breakpoint.smAndDown">
           <v-flex v-if="isPablic" xs12 md4 d-inline-flex>
             <v-img
@@ -50,30 +50,28 @@
                   v-text="h.nombre"
                 />
               </v-layout>
+              <v-layout v-if="isPablic" align-center>
+                <v-flex> {{ displayFecha }} </v-flex>
+                <v-flex xs12 md4>
+                  <v-layout justify-end align-start>
+                    <Rating :value="trabajo.puntuacion" />
+                  </v-layout>
+                </v-flex>
+              </v-layout>
             </v-layout>
           </v-flex>
         </v-layout>
       </v-card-text>
-      <v-card-actions class="px-4 pb-4">
+      <v-card-actions v-if="!isPablic" class="px-4 pb-4">
         <v-layout align-center>
-          <template v-if="isPablic">
-            <v-flex> {{ displayFecha }} </v-flex>
-            <v-flex v-if="!isPablic" xs12 md4>
-              <v-layout justify-end align-start>
-                <Rating :value="trabajo.puntuacion" />
-              </v-layout>
-            </v-flex>
-          </template>
-          <template v-else>
-            <v-btn color="red darken-4" text @click="reject">
-              {{ showAsCliente ? 'Cancelar' : 'Rechazar' }}
+          <v-btn color="red darken-4" text @click="reject">
+            {{ showAsCliente ? 'Cancelar' : 'Rechazar' }}
+          </v-btn>
+          <v-layout align-center justify-end>
+            <v-btn color="black" text @click.stop="showChat = !showChat">
+              {{ showChat ? 'Ocultar chat' : 'Ver chat' }}
             </v-btn>
-            <v-layout align-center justify-end>
-              <v-btn color="black" text @click.stop="showChat = !showChat">
-                {{ showChat ? 'Ocultar chat' : 'Ver chat' }}
-              </v-btn>
-            </v-layout>
-          </template>
+          </v-layout>
         </v-layout>
       </v-card-actions>
       <v-expand-transition>
@@ -264,11 +262,10 @@ export default {
     },
     displayFecha() {
       const len = this.trabajo.agenda.length - 1
-      const hours = len
-        ? this.trabajo.agenda[len].fecha_inicio
-        : this.trabajo.createdAt
+      const hours =
+        len > 0 ? this.trabajo.agenda[len].fecha_inicio : this.trabajo.createdAt
       if (this.isPablic) {
-        const text = this.trabajo.estado ? 'Realiazdo' : 'Publicado '
+        const text = this.trabajo.estado ? 'Realiazdo ' : 'Publicado '
         return text + dateFormat(hours, 'dd/MM/yyyy')
       } else {
         return camelCase(dateFormat(hours, "EEEE HH:mm 'hs'"))

@@ -55,9 +55,13 @@
         <p class="mt-6">Buscando...</p>
       </v-flex>
 
-      <v-layout v-show="!loadingTrabajos" justify-center mt-0>
-        <v-flex v-for="(j, $i) in listTrabajos" :key="$i" xs12 lg9 xl5>
-          <CardTrabajo :trabajo="j" />
+      <v-layout v-show="!loadingTrabajos" justify-center>
+        <v-flex xs12 lg7 xl5>
+          <v-layout align-center mt-0 column>
+            <v-flex v-for="(j, $i) in listTrabajos" :key="$i">
+              <CardTrabajo :trabajo="j" />
+            </v-flex>
+          </v-layout>
         </v-flex>
       </v-layout>
     </v-flex>
@@ -95,7 +99,7 @@ import { mapMutations, mapGetters } from 'vuex'
 
 import CardTrabajo from '~/components/CardTrabajo'
 import { Persona, Trabajo } from '~/api'
-import { EstadoTrabajoLabel, EstadoTrabajo } from '~/utils/enums'
+import { EstadoTrabajoLabel, EstadoTrabajo, TipoTrabajo } from '~/utils/enums'
 
 export default {
   middleware: 'authenticated',
@@ -154,6 +158,7 @@ export default {
       const params = {
         query: {
           estado: this.filters.map((index) => EstadoTrabajoLabel[index].key),
+          tipo: TipoTrabajo.PRIVADO,
         },
         populate: 'servicios,localidad,cliente,profesional',
       }
