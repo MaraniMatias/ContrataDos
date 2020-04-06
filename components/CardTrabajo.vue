@@ -3,10 +3,10 @@
     <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
       <v-card-title v-if="!isEstado.PUBLICO">
         <v-layout align-center>
-          <Avatar size="64" :src="cliente.picture" class="ma-2" />
+          <Avatar size="64" :src="displayPicture" class="ma-2" />
           <v-layout column justify-center>
-            <p class="title mb-0" v-text="clienteDiplayName" />
-            <span class="body-1" v-text="cliente.email" />
+            <p class="title mb-0" v-text="displayName" />
+            <span class="body-1" v-text="displayEmail" />
           </v-layout>
         </v-layout>
       </v-card-title>
@@ -82,6 +82,11 @@
             :items-per-page="7"
             hide-default-footer
           >
+            <template v-slot:no-data>
+              <v-layout column mt-4 class="grey lighten-4" pa-4>
+                <p class="mb-0 title text-center">Chat vació</p>
+              </v-layout>
+            </template>
             <template v-slot:default="{ items }">
               <v-layout wrap>
                 <v-flex xs12 md11>
@@ -204,45 +209,7 @@ export default {
       fecha: new Date(),
     },
     showSetHours: false,
-    comunicaciones: [
-      { _id: '1', from: 'cliente', to: 'profesional', detalle: 'Hola' },
-      {
-        _id: '2',
-        to: 'cliente',
-        from: 'profesional',
-        detalle: 'Hola, Todo bien?',
-      },
-      { _id: '3', from: 'cliente', to: 'profesional', detalle: 'Si' },
-      {
-        _id: '4',
-        to: 'cliente',
-        from: 'profesional',
-        detalle: 'A donde es el trabajo?',
-      },
-      { _id: '5', from: 'cliente', to: 'profesional', detalle: 'En casilda' },
-      {
-        _id: '6',
-        to: 'cliente',
-        from: 'profesional',
-        detalle: 'A perfecto, y la direction?',
-      },
-      { _id: '7', from: 'cliente', to: 'profesional', detalle: 'Pasco 2326' },
-      {
-        _id: '8',
-        to: 'cliente',
-        from: 'profesional',
-        detalle: 'Te parece bien la semana que viene?',
-      },
-      { _id: '9', from: 'cliente', to: 'profesional', detalle: 'Si, claro' },
-      {
-        _id: '10',
-        to: 'cliente',
-        from: 'profesional',
-        detalle: 'El viernes?',
-      },
-      { _id: '11', from: 'cliente', to: 'profesional', detalle: 'Si' },
-      { _id: '12', to: 'cliente', from: 'profesional', fecha: new Date() },
-    ],
+    comunicaciones: [],
   }),
   computed: {
     isEstado() {
@@ -255,6 +222,9 @@ export default {
     cliente() {
       return this.trabajo.cliente
     },
+    profesional() {
+      return this.trabajo.profesional
+    },
     showAsCliente() {
       return this.cliente._id === this.$store.state.user._id
     },
@@ -262,14 +232,23 @@ export default {
       const text = this.isEstado.PUBLICO ? 'Publicado ' : 'Realiazdo '
       return text + dateFormat(this.trabajo.createdAt, 'dd MM yyyy')
     },
-    clienteDiplayName() {
-      const nombre = this.cliente.nombre || ''
-      const apellido = this.cliente.apellido || ''
+    displayName() {
+      const key = this.showAsCliente ? 'profesional' : 'cliente'
+      const nombre = this[key].nombre || ''
+      const apellido = this[key].apellido || ''
       return camelCase(
-        this.trabajo.razon_social
-          ? this.trabajo.razon_social + `(${nombre} ${apellido})`
+        this[key].razon_social
+          ? this[key].razon_social + `(${nombre} ${apellido})`
           : nombre + ' ' + apellido
       )
+    },
+    displayPicture() {
+      const key = this.showAsCliente ? 'profesional' : 'cliente'
+      return this.trabajo[key].picture
+    },
+    displayEmail() {
+      const key = this.showAsCliente ? 'profesional' : 'cliente'
+      return this.trabajo[key].email
     },
     numberOfPages() {
       return Math.ceil(this.comunicaciones.length / 7)
@@ -280,6 +259,14 @@ export default {
     canFormerChatPage() {
       return this.page - 1 >= 1
     },
+  },
+  created() {
+    const self = this
+    Comunicacion.get({ query: { trabajo: this.trabajo._id } }).then(
+      ({ data }) => {
+        self.comunicaciones = data
+      }
+    )
   },
   methods: {
     nextPage() {
@@ -308,39 +295,41 @@ export default {
       this.loading = false
     },
     async sendComent() {
-      const chat = {}
+      const chat = { trabajo: this.trabajo._id }
       chat.detalle = this.form.detalle
       if (this.showAsCliente) {
-        chat.to = this.trabajo.profecional
+        chat.to = this.trabajo.profesional
         chat.from = this.$store.state.user
       } else {
         chat.to = this.$store.state.user
-        chat.from = this.trabajo.profecional
+        chat.from = this.trabajo.profesional
       }
       this.loading = true
-      const { data, error } = await Comunicacion.save(this.chat)
+      const { data, error } = await Comunicacion.save(chat)
       if (error) {
         this.$notify({ type: 'error', text: error })
       } else {
+        this.form.detalle = ''
         this.comunicaciones.push(data)
       }
       this.loading = false
     },
     async sendHours() {
-      const chat = {}
+      const chat = { trabajo: this.trabajo._id }
       chat.fecha = this.form.fecha
       if (this.showAsCliente) {
-        chat.to = this.trabajo.profecional
+        chat.to = this.trabajo.profesional
         chat.from = this.$store.state.user
       } else {
         chat.to = this.$store.state.user
-        chat.from = this.trabajo.profecional
+        chat.from = this.trabajo.profesional
       }
       this.loading = true
-      const { data, error } = await Comunicacion.save(this.chat)
+      const { data, error } = await Comunicacion.save(chat)
       if (error) {
         this.$notify({ type: 'error', text: error })
       } else {
+        this.form.fecha = new Date()
         this.comunicaciones.push(data)
       }
       this.loading = false
