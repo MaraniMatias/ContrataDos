@@ -1,0 +1,43 @@
+<template>
+  <v-layout align-center :justify-end="isToProfesional">
+    <v-card :class="{ 'green lighten-5': isToProfesional }">
+      <v-card-text class="py-1">
+        <v-layout v-if="chat.fecha" column>
+          <p class="mb-1">
+            ¿Te parece una cita para el
+            <span class="body-1 font-weight-black">{{ fechText }}</span> ?
+          </p>
+          <v-btn color="teal" text class="mb-1" @click="accept">
+            Concretar la cita
+          </v-btn>
+        </v-layout>
+        <p v-else class="mb-0" v-text="chat.detalle" />
+      </v-card-text>
+    </v-card>
+  </v-layout>
+</template>
+
+<script>
+import dateFormat from '~/utils/dateFormat'
+
+export default {
+  components: {},
+  props: {
+    chat: { type: Object, required: true },
+  },
+  data: () => ({}),
+  computed: {
+    isToProfesional() {
+      return this.chat.to === 'profesional' // this.$store.state.user._id
+    },
+    fechText() {
+      return dateFormat(this.chat.fecha, "dd 'de' MMMM 'a las' HH:mm")
+    },
+  },
+  methods: {
+    accept() {
+      this.$emit('accept', this.chat.fecha)
+    },
+  },
+}
+</script>
