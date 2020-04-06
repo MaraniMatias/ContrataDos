@@ -7,7 +7,7 @@
             ¿Te parece una cita para el
             <span class="body-1 font-weight-black">{{ fechText }}</span> ?
           </p>
-          <v-btn color="teal" text class="mb-1" @click="accept">
+          <v-btn v-if="editable" color="teal" text class="mb-1" @click="accept">
             Concretar la cita
           </v-btn>
         </v-layout>
@@ -24,6 +24,7 @@ export default {
   components: {},
   props: {
     chat: { type: Object, required: true },
+    editable: { type: Boolean, default: true },
   },
   data: () => ({}),
   computed: {
