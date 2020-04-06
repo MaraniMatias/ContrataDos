@@ -167,7 +167,7 @@ export default {
       // get los del perfil
       const params = {
         query: { profesional: this.profilId },
-        populate: 'servicios,localidad',
+        populate: 'servicios,localidad,cliente,profesional',
       }
       const { data } = await Trabajo.get(params)
       // populate Localidation Habilidad
