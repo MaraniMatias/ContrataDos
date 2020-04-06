@@ -42,7 +42,7 @@ export default {
       return this.chat.to === 'profesional' // this.$store.state.user._id
     },
     fechText() {
-      return dateFormat(this.chat.fecha, "dd 'de' MMMM 'a las' HH:mm")
+      return dateFormat(this.chat.fecha, "dd 'de' MMMM 'a las' HH:mm 'hs'")
     },
     fecha() {
       return dateFormat(new Date(), 'dd/mm/yyyy HH:mm')
