@@ -17,7 +17,6 @@ const schema = new Schema(
       default: EstadoTrabajo.CONSULTA,
       enum: [
         EstadoTrabajo.CONSULTA,
-        EstadoTrabajo.ACEPTADO,
         EstadoTrabajo.PENDIENTE,
         EstadoTrabajo.EN_PROGRESO,
         EstadoTrabajo.TERMINADO,

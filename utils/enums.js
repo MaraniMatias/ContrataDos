@@ -8,7 +8,6 @@ module.exports.Roles = {
 
 module.exports.EstadoTrabajo = {
   CONSULTA: 'CONSULTA', // El cleinte indica que necesita al profesional
-  ACEPTADO: 'ACEPTADO', // El profesional acepta y elige la fecha
   PENDIENTE: 'PENDIENTE', // El cliente acepta la fecha elegida por el profesional
   EN_PROGRESO: 'EN_PROGRESO', // A partir de la fecha_inicio y hasta que el profesional marque como terminada
   TERMINADO: 'TERMINADO', // Estos son los que puedne ser publicados
@@ -19,7 +18,6 @@ module.exports.EstadoTrabajoLabel = Object.keys(
 ).map((key) => ({ key, label: capitalizeWords(key) }))
 /* [
   [EstadoTrabajo.CONSULTA]:{label:"Consulta"},
-  [EstadoTrabajo.ACEPTADO]:{label:"Aceptado"},
   [EstadoTrabajo.PENDIENTE]: {label: "Pendiente"},
   [EstadoTrabajo.EN_PROGRESO]:{label:"En progreso"},
   [EstadoTrabajo.TERMINADO]: {label:"Terminado"},
