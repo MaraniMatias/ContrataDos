@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot:default="{ hover }" open-delay="100">
     <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
-      <v-card-title v-if="!isEstado.PUBLICO">
+      <v-card-title v-if="!isPablic">
         <v-layout align-center>
           <Avatar size="64" :src="displayPicture" class="ma-2" />
           <v-layout column justify-center>
@@ -9,10 +9,14 @@
             <span class="body-1" v-text="displayEmail" />
           </v-layout>
         </v-layout>
+        <v-layout column justify-center align-end>
+          <p class="mb-0 display-1 font-weight-black">{{ displayFecha }}</p>
+          <p class="mb-0 body-1">Estado: {{ estadoLabel }}</p>
+        </v-layout>
       </v-card-title>
       <v-card-text class="pb-0">
         <v-layout :column="$vuetify.breakpoint.smAndDown">
-          <v-flex v-if="isEstado.PUBLICO" xs12 md4 d-inline-flex>
+          <v-flex v-if="isPablic" xs12 md4 d-inline-flex>
             <v-img
               :src="`/images/jobs/${trabajo._id}.jpeg`"
               height="225"
@@ -20,7 +24,7 @@
               aspect-ratio="1"
             />
           </v-flex>
-          <v-flex xs12 :md8="isEstado.PUBLICO">
+          <v-flex xs12 :md8="isPablic">
             <v-layout column pl-4 fill-height>
               <v-layout align-center mb-2>
                 <v-flex xs12>
@@ -52,9 +56,9 @@
       </v-card-text>
       <v-card-actions class="px-4 pb-4">
         <v-layout align-center>
-          <template v-if="isEstado.PUBLICO">
-            <v-flex> {{ fechText }} </v-flex>
-            <v-flex v-if="!isEstado.PUBLICO" xs12 md4>
+          <template v-if="isPablic">
+            <v-flex> {{ displayFecha }} </v-flex>
+            <v-flex v-if="!isPablic" xs12 md4>
               <v-layout justify-end align-start>
                 <Rating :value="trabajo.puntuacion" />
               </v-layout>
@@ -87,6 +91,9 @@
               <v-layout column mt-4 class="grey lighten-4" pa-4>
                 <p class="mb-0 title text-center">Chat vació</p>
               </v-layout>
+            </template>
+            <template v-slot:loading>
+              <v-progress-circular indeterminate active />
             </template>
             <template v-slot:default="{ items }">
               <v-layout>
@@ -124,7 +131,7 @@
               </v-layout>
             </template>
           </v-data-iterator>
-          <v-layout>
+          <v-layout v-show="!isEstado.CANCELADO">
             <v-flex xs12 mt-2 mx-2>
               <v-layout v-show="showSetHours" mx-12>
                 <FieldDate
@@ -147,6 +154,7 @@
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                   <v-btn
+                    :disabled="!isEstado.CONSULTA"
                     color="teal"
                     icon
                     v-on="on"
@@ -160,22 +168,22 @@
                 <span v-else>Proponer una fecha para la cita</span>
               </v-tooltip>
               <v-btn
-                v-if="!showSetHours"
-                class="mt-11"
-                color="primary"
-                outlined
-                @click="sendComent"
-              >
-                Enviar
-              </v-btn>
-              <v-btn
-                v-else
+                v-if="showSetHours && isEstado.CONSULTA"
                 color="primary"
                 outlined
                 class="mt-11"
                 @click="sendHours"
               >
                 Proponer fecha
+              </v-btn>
+              <v-btn
+                v-else
+                class="mt-11"
+                color="primary"
+                outlined
+                @click="sendComent"
+              >
+                Enviar
               </v-btn>
             </v-layout>
           </v-layout>
@@ -195,7 +203,7 @@ import { Trabajo, Comunicacion } from '~/api'
 
 import dateFormat from '~/utils/dateFormat'
 import camelCase from '~/utils/capitalizeWords'
-import { EstadoTrabajo } from '~/utils/enums'
+import { EstadoTrabajo, TipoTrabajo } from '~/utils/enums'
 
 export default {
   components: { Rating, Avatar, CardChat, FieldDate, FieldTime },
@@ -221,6 +229,12 @@ export default {
       }
       return rta
     },
+    isPablic() {
+      return this.trabajo.tipo === TipoTrabajo.PUBLICO
+    },
+    estadoLabel() {
+      return camelCase(this.trabajo.estado)
+    },
     cliente() {
       return this.trabajo.cliente
     },
@@ -229,10 +243,6 @@ export default {
     },
     showAsCliente() {
       return this.cliente._id === this.$store.state.user._id
-    },
-    fechText() {
-      const text = this.isEstado.PUBLICO ? 'Publicado ' : 'Realiazdo '
-      return text + dateFormat(this.trabajo.createdAt, 'dd MM yyyy')
     },
     displayName() {
       const key = this.showAsCliente ? 'profesional' : 'cliente'
@@ -252,6 +262,18 @@ export default {
       const key = this.showAsCliente ? 'profesional' : 'cliente'
       return this.trabajo[key].email
     },
+    displayFecha() {
+      const len = this.trabajo.agenda.length - 1
+      const hours = len
+        ? this.trabajo.agenda[len].fecha_inicio
+        : this.trabajo.createdAt
+      if (this.isPablic) {
+        const text = this.trabajo.estado ? 'Realiazdo' : 'Publicado '
+        return text + dateFormat(hours, 'dd/MM/yyyy')
+      } else {
+        return camelCase(dateFormat(hours, "EEEE HH:mm 'hs'"))
+      }
+    },
     numberOfPages() {
       return Math.ceil(this.comunicaciones.length / 7)
     },
@@ -259,7 +281,7 @@ export default {
       return this.page < this.numberOfPages
     },
     canFormerChatPage() {
-      return this.page > 0
+      return this.page > 1
     },
   },
   created() {
