@@ -124,7 +124,7 @@ import CardTrabajo from '~/components/CardTrabajo'
 import CardForm from '~/components/CardForm'
 import CardCropper from '~/components/CardCropper'
 
-import { TipoTrabajo } from '~/utils/enums'
+import { TipoTrabajo, EstadoTrabajo } from '~/utils/enums'
 
 import { Trabajo, Localidad, Habilidad } from '~/api'
 import apiFile from '~/api/file'
@@ -146,6 +146,7 @@ export default {
     localidades: [],
     habilidades: [],
     form: {
+      estado: EstadoTrabajo.TERMINADO,
       fileName: '',
       localidad: {},
       servicios: [],
@@ -200,6 +201,7 @@ export default {
       this.pickedFile = null
       this.pickupImg = false
       this.form = {
+        estado: EstadoTrabajo.TERMINADO,
         fileName: '',
         localidad: {},
         servicios: [],
