@@ -172,20 +172,25 @@ export default {
       const max = new Date(`${end.date}T23:59:59`)
 
       const { data } = await Trabajo.get({
-        query: { 'agenda.fecha_inicio': { $gte: min, $lt: max } },
+        query: {
+          'agenda.fecha_inicio': { $gte: min, $lt: max },
+          $or: [{ profesional: this.user._id }, { cliente: this.user._id }],
+        },
         populate: 'servicios,localidad,cliente,profesional',
       })
-      data.forEach((trabajo) => {
-        const len = trabajo.agenda.length - 1
-        const agenda = trabajo.agenda[len]
-        events.push({
-          trabajo,
-          name: trabajo.descripcion_breve,
-          start: this.formatDate(agenda.fecha_inicio),
-          end: this.formatDate(agenda.fecha_fin),
-          color: EstadoTrabajoColor[trabajo.estado],
+      if (data) {
+        data.forEach((trabajo) => {
+          const len = trabajo.agenda.length - 1
+          const agenda = trabajo.agenda[len]
+          events.push({
+            trabajo,
+            name: trabajo.descripcion_breve,
+            start: this.formatDate(agenda.fecha_inicio),
+            end: this.formatDate(agenda.fecha_fin),
+            color: EstadoTrabajoColor[trabajo.estado],
+          })
         })
-      })
+      }
       this.start = start
       this.end = end
       this.events = events
