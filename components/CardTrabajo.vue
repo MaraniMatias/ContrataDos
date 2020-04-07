@@ -130,7 +130,7 @@
             </template>
           </v-data-iterator>
           <v-layout v-show="!isEstado.CANCELADO">
-            <v-flex xs12 mt-2 mx-2>
+            <v-flex xs12 mt-2>
               <v-layout v-show="showSetHours" mx-12>
                 <FieldDate
                   v-model="form.fecha"
@@ -148,7 +148,7 @@
                 :readonly="loading"
               />
             </v-flex>
-            <v-layout column align-center mx-2 mt-4>
+            <v-layout column align-center mx-2 mt-4 ml-4>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                   <v-btn

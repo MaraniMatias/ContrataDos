@@ -53,6 +53,7 @@
     "passport-local": "^1.0.0",
     "pug": "^2.0.4",
     "serve-favicon": "^2.5.0",
+    "tiptap-vuetify": "^2.13.2",
     "vue-advanced-cropper": "^0.16.1"
   },
   "devDependencies": {

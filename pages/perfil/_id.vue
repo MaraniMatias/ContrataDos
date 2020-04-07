@@ -12,7 +12,10 @@
               class="ma-2"
               @change="changeUser"
             />
-            <Rating v-if="isAProfessional" :value="perfil.puntuacion" star />
+            <template v-if="isAProfessional">
+              <Rating v-if="showRating" :value="perfil.puntuacion" star />
+              <p v-else class="mb-0">Todavía no tiene suficientes trabajos</p>
+            </template>
           </v-layout>
         </v-flex>
         <v-flex xs12 lg8>
@@ -41,7 +44,7 @@
               />
             </v-layout>
             <p class="my-2">Vive en: {{ localidadNombre }}</p>
-            <p>{{ perfil.bibliography }}</p>
+            <div v-html="perfil.bibliography" />
           </v-layout>
         </v-flex>
       </v-layout>
@@ -132,6 +135,8 @@
             </v-flex>
           </v-layout>
           <v-flex xs12 ma-2 mt-2>
+            <FieldTextArea v-model.lazy="form.bibliography" />
+            <!--
             <v-textarea
               v-model.lazy="form.bibliography"
               auto-grow
@@ -142,6 +147,7 @@
               :readonly="loading"
               :rules="[rules.max(500)]"
             />
+            -->
           </v-flex>
         </template>
         <template v-slot:actions>
@@ -159,6 +165,7 @@
 import { mapMutations } from 'vuex'
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
+import FieldTextArea from '~/components/FieldTextArea'
 import PerfilTrabajosList from '~/components/PerfilTrabajosList'
 import CardForm from '~/components/CardForm'
 import ObjectId from '~/utils/formRules/objectId'
@@ -169,7 +176,7 @@ import { Persona, Localidad, Habilidad } from '~/api'
 
 export default {
   // middleware: 'authenticated', es publico
-  components: { Avatar, Rating, CardForm, PerfilTrabajosList },
+  components: { Avatar, Rating, CardForm, PerfilTrabajosList, FieldTextArea },
   validate({ params }) {
     return ObjectId()(params.id) === true
   },
@@ -193,7 +200,7 @@ export default {
     showModalEdit: false,
     habilidades: [],
     localidades: [],
-    form: {},
+    form: {}, // TODO: zona_trabajo: [], localidad: {}   razon_social: {}
   }),
   computed: {
     showBtnEditable() {
@@ -213,6 +220,9 @@ export default {
     },
     isAProfessional() {
       return this.form.roles?.includes(Roles.PROFECIONAL)
+    },
+    showRating() {
+      return this.perfil.cantidad_trabajos > 10
     },
   },
   async mounted() {
@@ -255,6 +265,7 @@ export default {
       if (error) {
         this.$notify({ type: 'error', text: error })
       } else {
+        // TODO gettMe
         this.changeUser(data)
         this.showModalEdit = false
       }

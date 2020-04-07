@@ -61,9 +61,10 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    { src: '~/plugins/tiptapVuetify', mode: 'client' },
+    { src: '~/plugins/notify', mode: 'client' },
     './plugins/globalComponents',
     './plugins/axion',
-    '~/plugins/notify',
   ],
   /*
    ** Nuxt.js dev-modules

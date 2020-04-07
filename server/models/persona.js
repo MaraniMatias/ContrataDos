@@ -10,14 +10,19 @@ module.exports.PersonaRol = Roles
 
 const schema = new Schema(
   {
-    nombre: { type: String, trim: true, required: 'El nombre es requerido' },
+    nombre: {
+      type: String,
+      trim: true,
+      required: 'El nombre es requerido',
+      set: escapeHtml,
+    },
     apellido: {
       type: String,
       trim: true,
       required: 'El apellido es requerido',
+      set: escapeHtml,
     },
-    razon_social: { type: String, trim: true }, // O Nombre fisticio
-    bibliography: { type: String, max: 500, trim: true, set: escapeHtml },
+    bibliography: { type: String, max: 500, trim: true /*, set: escapeHtml */ },
     email: {
       type: String,
       unique: true,
@@ -44,10 +49,11 @@ const schema = new Schema(
     google_account: { type: Object, access: 'protected' }, // Datos de google,
     picture: String,
     password: { type: String, access: 'protected' },
-    zona_trabajo: [{ type: ObjectId, ref: 'localidad' }], // libre todo el mundo
-    deleted: { type: Boolean, default: false },
     show_tutorial: { type: Boolean, default: true },
+    razon_social: { type: String, trim: true }, // O Nombre fisticio
+    zona_trabajo: [{ type: ObjectId, ref: 'localidad' }], // libre todo el mundo
     // tags: [{ type: String, access: 'protected' }],
+    deleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 )
