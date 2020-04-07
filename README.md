@@ -38,8 +38,9 @@
 ### Frontend
 
 [Nuxt](https://nuxtjs.org/)
-[Ant Design of Vue](https://antdv.com/docs/vue/introduce/) it have calendar
 <https://github.com/nuxt-community/awesome-nuxt>
+Vuetify
+Ver package
 
 ### Backend
 
