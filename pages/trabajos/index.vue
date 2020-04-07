@@ -137,6 +137,7 @@ export default {
     viewType: 0,
     viewLike: [0, 1], // Cange de componente
     viewLikeProfesional: true,
+    ready: true,
   }),
   computed: {
     ...mapGetters(['isAProfessional']),
@@ -152,11 +153,13 @@ export default {
       return this.user?.['show_tutorial'] ?? false
     },
   },
-  mounted() {
-    const self = this
-    setTimeout(function () {
-      self.loadData()
-    }, 1000)
+  created() {
+    this.$store.subscribe((mutation) => {
+      if (this.ready && mutation.type === 'SET_USER') {
+        this.loadData()
+        this.ready = false
+      }
+    })
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
