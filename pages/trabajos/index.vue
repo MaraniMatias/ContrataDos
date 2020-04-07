@@ -70,6 +70,7 @@
                 v-for="(j, $i) in listTrabajos"
                 :key="$i"
                 :trabajo="j"
+                @change="loadData"
               />
             </v-flex>
           </v-layout>
