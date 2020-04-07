@@ -9,7 +9,8 @@
                 v-for="(f, i) in Estados"
                 :key="i"
                 filter
-                outlined
+                :outlined="!filters.includes(i)"
+                class="white--text"
                 :color="f.color"
               >
                 {{ f.label }}
@@ -152,9 +153,10 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick(function () {
-      this.loadData()
-    })
+    const self = this
+    setTimeout(function () {
+      self.loadData()
+    }, 1000)
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
