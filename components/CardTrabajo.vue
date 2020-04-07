@@ -68,7 +68,7 @@
             {{ showAsCliente ? 'Cancelar' : 'Rechazar' }}
           </v-btn>
           <v-layout align-center justify-end>
-            <v-btn color="black" text @click.stop="showChat = !showChat">
+            <v-btn color="black" text @click="openChat">
               {{ showChat ? 'Ocultar chat' : 'Ver chat' }}
             </v-btn>
           </v-layout>
@@ -77,58 +77,17 @@
       <v-expand-transition>
         <v-card-text v-show="showChat" class="pt-0">
           <v-divider />
-          <v-data-iterator
-            :items="comunicaciones"
-            :page="page"
-            item-key="_id"
-            :loading="loading"
-            :items-per-page="7"
-            hide-default-footer
-          >
-            <template v-slot:no-data>
-              <v-layout column mt-4 class="grey lighten-4" pa-4>
-                <p class="mb-0 title text-center">Chat vació</p>
-              </v-layout>
-            </template>
-            <template v-slot:loading>
-              <v-progress-circular indeterminate active />
-            </template>
-            <template v-slot:default="{ items }">
-              <v-layout>
-                <v-flex xs12 md11>
-                  <v-layout column mt-4 class="grey lighten-4" pa-4 pt-1>
-                    <CardChat
-                      v-for="(chat, i) in items"
-                      :key="i"
-                      :editable="isEstado.CONSULTA"
-                      :chat="chat"
-                      @accept="accept"
-                    />
-                  </v-layout>
-                </v-flex>
-                <v-flex>
-                  <v-layout column align-center justify-center fill-height>
-                    <v-btn
-                      icon
-                      text
-                      :disabled="canNextChatPage"
-                      @click="formerPage"
-                    >
-                      <v-icon>mdi-chevron-up</v-icon>
-                    </v-btn>
-                    <v-btn
-                      icon
-                      text
-                      :disabled="canFormerChatPage"
-                      @click="nextPage"
-                    >
-                      <v-icon>mdi-chevron-down</v-icon>
-                    </v-btn>
-                  </v-layout>
-                </v-flex>
-              </v-layout>
-            </template>
-          </v-data-iterator>
+          <div ref="chat" class="grey lighten-4 mt-4 mb-3 pa-4 chat-box">
+            <v-progress-circular v-show="loading" indeterminate active />
+            <CardChat
+              v-for="(chat, i) in comunicaciones"
+              :key="i"
+              :editable="isEstado.CONSULTA"
+              :chat="chat"
+              @accept="accept"
+            />
+            <div class="mb-4" />
+          </div>
           <v-layout v-show="!isEstado.CANCELADO">
             <v-flex xs12 mt-2>
               <v-layout v-show="showSetHours" mx-12>
@@ -210,7 +169,6 @@ export default {
   },
   data: () => ({
     showChat: false,
-    page: 1,
     loading: false,
     form: {
       detalle: '',
@@ -273,15 +231,6 @@ export default {
         return camelCase(dateFormat(hours, "EEEE HH:mm 'hs'"))
       }
     },
-    numberOfPages() {
-      return Math.ceil(this.comunicaciones.length / 7)
-    },
-    canNextChatPage() {
-      return this.page < this.numberOfPages
-    },
-    canFormerChatPage() {
-      return this.page > 1
-    },
   },
   created() {
     const self = this
@@ -294,11 +243,14 @@ export default {
     })
   },
   methods: {
-    nextPage() {
-      if (this.page + 1 <= this.numberOfPages) this.page += 1
+    openChat() {
+      this.showChat = !this.showChat
+      this.scrollChatToBottom()
     },
-    formerPage() {
-      if (this.page - 1 >= 1) this.page -= 1
+    scrollChatToBottom() {
+      this.$nextTick(function () {
+        this.$refs.chat.scrollTo(0, 300)
+      })
     },
     async accept(fechaInicio) {
       const fechaFin = new Date(fechaInicio).set(fechaInicio.getHours() + 3)
@@ -337,6 +289,7 @@ export default {
       } else {
         this.form.detalle = ''
         this.comunicaciones.push(data)
+        this.scrollChatToBottom()
       }
       this.loading = false
     },
@@ -358,9 +311,18 @@ export default {
         this.form.fecha = new Date()
         this.comunicaciones.push(data)
         this.showSetHours = false
+        this.scrollChatToBottom()
       }
       this.loading = false
     },
   },
 }
 </script>
+
+<style scoped>
+div.chat-box {
+  box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.3);
+  overflow-y: scroll;
+  height: 250px;
+}
+</style>
