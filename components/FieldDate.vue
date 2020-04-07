@@ -16,6 +16,7 @@
         :label="label"
         :hide-details="hideDetails"
         :clearable="clearable"
+        class="pt-0"
         prepend-icon="event"
         :dense="dense"
         :color="color"
@@ -100,7 +101,7 @@ export default {
           parseDate.setFullYear(year)
           parseDate.setMonth(month - 1)
           parseDate.setDate(day)
-          if (this.resetHours) {
+          if (this.resetHours && this.value) {
             parseDate.setHours(0, 0, 0, 0)
           } else {
             parseDate.setHours(this.value.getHours(), this.value.getMinutes())

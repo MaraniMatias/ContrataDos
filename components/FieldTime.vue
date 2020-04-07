@@ -16,6 +16,7 @@
         :label="label"
         :hide-details="hideDetails"
         :clearable="clearable"
+        class="pt-0"
         prepend-icon="event"
         :dense="dense"
         :color="color"
