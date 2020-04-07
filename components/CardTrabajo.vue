@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot:default="{ hover }" open-delay="100">
     <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
-      <v-card-title v-if="!isPablic">
+      <v-card-title v-if="!isPablic" class="pb-0">
         <v-layout align-center>
           <Avatar size="64" :src="displayPicture" class="ma-2" />
           <v-layout column justify-center>
@@ -64,11 +64,19 @@
       </v-card-text>
       <v-card-actions v-if="!isPablic" class="px-4 pb-4">
         <v-layout align-center>
-          <v-btn color="red darken-4" text @click="reject">
+          <v-btn
+            v-if="isEstado.CONSULTA"
+            color="red darken-4"
+            text
+            @click="reject"
+          >
             {{ showAsCliente ? 'Cancelar' : 'Rechazar' }}
           </v-btn>
+          <v-btn v-else color="teal" outlined @click.stop="optionsModal = true">
+            Opciones
+          </v-btn>
           <v-layout align-center justify-end>
-            <v-btn color="black" text @click="openChat">
+            <v-btn color="black" outlined @click="openChat">
               {{ showChat ? 'Ocultar chat' : 'Ver chat' }}
             </v-btn>
           </v-layout>
@@ -76,9 +84,23 @@
       </v-card-actions>
       <v-expand-transition>
         <v-card-text v-show="showChat" class="pt-0">
-          <v-divider />
-          <div ref="chat" class="grey lighten-4 mt-4 mb-3 pa-4 chat-box">
-            <v-progress-circular v-show="loading" indeterminate active />
+          <div ref="chat" class="grey lighten-4 mb-3 pa-4 chat-box">
+            <v-layout
+              v-if="comunicaciones.length === 0"
+              column
+              fill-height
+              align-center
+              justify-center
+            >
+              <v-icon size="96">mail</v-icon>
+              <v-progress-linear
+                v-if="loading"
+                indeterminate
+                active
+                color="black"
+              />
+              <p v-else class="headline">Sin mensajes.</p>
+            </v-layout>
             <CardChat
               v-for="(chat, i) in comunicaciones"
               :key="i"
@@ -176,6 +198,7 @@ export default {
     },
     showSetHours: false,
     comunicaciones: [],
+    optionsModal: false,
   }),
   computed: {
     isEstado() {
@@ -238,7 +261,7 @@ export default {
       query: { trabajo: this.trabajo._id },
       sort: 'createdAt',
     }).then(({ data }) => {
-      self.comunicaciones = data
+      self.comunicaciones = data || []
       self.page = self.numberOfPages
     })
   },
@@ -315,6 +338,7 @@ export default {
       }
       this.loading = false
     },
+    updateTrabajo() {},
   },
 }
 </script>
