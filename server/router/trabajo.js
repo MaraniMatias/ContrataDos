@@ -16,7 +16,6 @@ restify.serve(router, Trabajo, {
     (req, _, next) => {
       const body = req.body
       body.cliente = req.user._id
-      body.tipo = TipoTrabajo.PRIVADO
       return next()
     },
   ],
