@@ -150,16 +150,11 @@ export default {
     showTutorial() {
       return this.user?.['show_tutorial'] ?? false
     },
-    filtersLike() {
-      return {
-        profesional: this.viewLike.includes(1),
-        cliente: this.viewLike.includes(0),
-      }
-    },
   },
   mounted() {
-    this.viewLike = this.isAProfessional ? [0, 1] : [0]
-    this.loadData()
+    this.$nextTick(function () {
+      this.loadData()
+    })
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
@@ -172,28 +167,31 @@ export default {
     },
     async loadData() {
       this.loadingTrabajos = true
-      // get los del perfil
-
-      const params = {
-        query: {
-          estado: this.filters.map((index) => EstadoTrabajoLabel[index].key),
-          tipo: TipoTrabajo.PRIVADO,
-        },
-        populate: 'servicios,localidad,cliente,profesional',
+      const filtersLike = {
+        profesional: this.viewLike.includes(1),
+        cliente: this.viewLike.includes(0),
       }
-      if (this.filtersLike.profesional && this.filtersLike.cliente) {
-        params.query.$or = [
-          { profesional: this.user._id },
-          { cliente: this.user._id },
-        ]
+      const populate = 'servicios,localidad,cliente,profesional'
+      const query = {
+        estado: this.filters.map((index) => EstadoTrabajoLabel[index].key),
+        tipo: TipoTrabajo.PRIVADO,
+      }
+
+      if (this.isAProfessional) {
+        if (filtersLike.profesional && filtersLike.cliente) {
+          query.$or = [
+            { profesional: this.user._id },
+            { cliente: this.user._id },
+          ]
+        } else {
+          if (filtersLike.cliente) query.cliente = this.user._id
+          if (filtersLike.profesional) query.profesional = this.user._id
+        }
       } else {
-        if (this.filtersLike.cliente) params.query.cliente = this.user._id
-        if (this.filtersLike.profesional)
-          params.query.profesional = this.user._id
+        query.cliente = this.user._id
       }
 
-      const { data } = await Trabajo.get(params)
-      // populate Localidation Habilidad
+      const { data } = await Trabajo.get({ query, populate })
       this.listTrabajos = data || []
       this.loadingTrabajos = false
     },
