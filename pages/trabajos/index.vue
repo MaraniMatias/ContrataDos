@@ -5,7 +5,13 @@
         <v-flex xs9>
           <v-layout justify-start align-center>
             <v-chip-group v-model="filters" multiple @change="loadData">
-              <v-chip v-for="(f, i) in Estados" :key="i" filter outlined>
+              <v-chip
+                v-for="(f, i) in Estados"
+                :key="i"
+                filter
+                outlined
+                :color="f.color"
+              >
                 {{ f.label }}
               </v-chip>
             </v-chip-group>
@@ -103,7 +109,12 @@ import { mapMutations, mapGetters } from 'vuex'
 
 import CardTrabajo from '~/components/CardTrabajo'
 import { Persona, Trabajo } from '~/api'
-import { EstadoTrabajoLabel, EstadoTrabajo, TipoTrabajo } from '~/utils/enums'
+import {
+  EstadoTrabajoLabel,
+  EstadoTrabajo,
+  TipoTrabajo,
+  EstadoTrabajoColor,
+} from '~/utils/enums'
 
 export default {
   middleware: 'authenticated',
@@ -128,7 +139,11 @@ export default {
   }),
   computed: {
     ...mapGetters(['isAProfessional']),
-    Estados: () => EstadoTrabajoLabel,
+    Estados: () =>
+      EstadoTrabajoLabel.map((ele) => ({
+        ...ele,
+        color: EstadoTrabajoColor[ele.key],
+      })),
     user() {
       return this.$store.state.user || {}
     },
