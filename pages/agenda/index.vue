@@ -47,7 +47,6 @@
             :events="events"
             locale="es"
             :event-color="getEventColor"
-            :now="today"
             :type="type"
             @click:event="showEvent"
             @click:more="viewDay"
@@ -62,26 +61,16 @@
           >
             <v-card color="grey lighten-4" min-width="350px" flat>
               <v-toolbar :color="selectedEvent.color" dark>
-                <v-btn icon>
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-                <v-toolbar-title v-html="selectedEvent.name" />
+                <v-toolbar-title v-text="selectedEvent.name" />
                 <v-spacer />
-                <v-btn icon>
-                  <v-icon>mdi-heart</v-icon>
-                </v-btn>
-                <v-btn icon>
-                  <v-icon>mdi-dots-vertical</v-icon>
+                <v-btn icon @click="selectedOpen = false">
+                  <v-icon>close</v-icon>
                 </v-btn>
               </v-toolbar>
               <v-card-text>
-                <span v-html="selectedEvent.details" />
+                <p>{{ selectedEvent.trabajo.descripcion }}</p>
               </v-card-text>
-              <v-card-actions>
-                <v-btn text color="secondary" @click="selectedOpen = false">
-                  Cancel
-                </v-btn>
-              </v-card-actions>
+              <v-card-actions> </v-card-actions>
             </v-card>
           </v-menu>
         </v-sheet>
@@ -91,49 +80,27 @@
 </template>
 
 <script>
+import { Trabajo } from '~/api'
+import { EstadoTrabajoColor } from '~/utils/enums'
+import dateFormat from '~/utils/dateFormat'
+
 export default {
   middleware: 'authenticated',
   data: () => ({
     focus: '',
     type: 'month',
-    typeToLabel: {
-      month: 'Mes',
-      week: 'Semana',
-      day: 'Día',
-      '4day': '4 Días',
-    },
+    typeToLabel: { month: 'Mes', week: 'Semana', day: 'Día', '4day': '4 Días' },
     start: null,
     end: null,
-    selectedEvent: {},
+    selectedEvent: { trabajo: {} },
     selectedElement: null,
     selectedOpen: false,
     events: [],
-    colors: [
-      'blue',
-      'indigo',
-      'deep-purple',
-      'cyan',
-      'green',
-      'orange',
-      'grey darken-1',
-    ],
-    names: [
-      'Meeting',
-      'Holiday',
-      'PTO',
-      'Travel',
-      'Event',
-      'Birthday',
-      'Conference',
-      'Party',
-    ],
   }),
   computed: {
     title() {
       const { start, end } = this
-      if (!start || !end) {
-        return ''
-      }
+      if (!start || !end) return ''
 
       const startMonth = this.monthFormatter(start)
       const endMonth = this.monthFormatter(end)
@@ -143,9 +110,8 @@ export default {
       const endYear = end.year
       const suffixYear = endYear // startYear === endYear ? '' : endYear
 
-      const startDay = start.day // + this.nth(start.day)
-      const endDay = end.day // + this.nth(end.day)
-
+      const startDay = start.day
+      const endDay = end.day
       switch (this.type) {
         case 'month':
           return `${startMonth} ${startYear}`
@@ -176,7 +142,7 @@ export default {
       return event.color
     },
     setToday() {
-      this.focus = this.today
+      this.focus = dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
     },
     prev() {
       this.$refs.calendar.prev()
@@ -200,47 +166,35 @@ export default {
 
       nativeEvent.stopPropagation()
     },
-    updateRange({ start, end }) {
+    async updateRange({ start, end }) {
       const events = []
-
       const min = new Date(`${start.date}T00:00:00`)
       const max = new Date(`${end.date}T23:59:59`)
-      const days = (max.getTime() - min.getTime()) / 86400000
-      const eventCount = this.rnd(days, days + 20)
 
-      for (let i = 0; i < eventCount; i++) {
-        const allDay = this.rnd(0, 3) === 0
-        const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-        const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-        const second = new Date(first.getTime() + secondTimestamp)
-
+      const { data } = await Trabajo.get({
+        query: { 'agenda.fecha_inicio': { $gte: min, $lt: max } },
+        populate: 'servicios,localidad,cliente,profesional',
+      })
+      data.forEach((trabajo) => {
+        const len = trabajo.agenda.length - 1
+        const agenda = trabajo.agenda[len]
         events.push({
-          name: this.names[this.rnd(0, this.names.length - 1)],
-          start: this.formatDate(first, !allDay),
-          end: this.formatDate(second, !allDay),
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
+          trabajo,
+          name: trabajo.descripcion_breve,
+          start: this.formatDate(agenda.fecha_inicio),
+          end: this.formatDate(agenda.fecha_fin),
+          color: EstadoTrabajoColor[trabajo.estado],
         })
-      }
-
+      })
       this.start = start
       this.end = end
       this.events = events
     },
-    nth(d) {
-      return d > 3 && d < 21
-        ? 'th'
-        : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][d % 10]
-    },
-    rnd(a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a
-    },
-    formatDate(a, withTime) {
-      return withTime
-        ? `${a.getFullYear()}-${
-            a.getMonth() + 1
-          }-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
-        : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`
+    formatDate(date) {
+      const a = new Date(date)
+      return `${a.getFullYear()}-${
+        a.getMonth() + 1
+      }-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
     },
   },
 }

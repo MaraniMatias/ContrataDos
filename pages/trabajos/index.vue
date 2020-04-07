@@ -58,8 +58,12 @@
       <v-layout v-show="!loadingTrabajos" justify-center>
         <v-flex xs12 lg7 xl5>
           <v-layout align-center mt-0 column>
-            <v-flex v-for="(j, $i) in listTrabajos" :key="$i">
-              <CardTrabajo :trabajo="j" />
+            <v-flex>
+              <CardTrabajo
+                v-for="(j, $i) in listTrabajos"
+                :key="$i"
+                :trabajo="j"
+              />
             </v-flex>
           </v-layout>
         </v-flex>

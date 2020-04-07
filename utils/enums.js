@@ -16,13 +16,13 @@ module.exports.EstadoTrabajo = {
 module.exports.EstadoTrabajoLabel = Object.keys(
   this.EstadoTrabajo
 ).map((key) => ({ key, label: capitalizeWords(key) }))
-/* [
-  [EstadoTrabajo.CONSULTA]:{label:"Consulta"},
-  [EstadoTrabajo.PENDIENTE]: {label: "Pendiente"},
-  [EstadoTrabajo.EN_PROGRESO]:{label:"En progreso"},
-  [EstadoTrabajo.TERMINADO]: {label:"Terminado"},
-  [EstadoTrabajo.CANCELADO]: {label:"Cancelado"}
-] */
+module.exports.EstadoTrabajoColor = {
+  [this.EstadoTrabajo.CONSULTA]: 'cyan',
+  [this.EstadoTrabajo.PENDIENTE]: 'blue',
+  [this.EstadoTrabajo.EN_PROGRESO]: 'indigo',
+  [this.EstadoTrabajo.TERMINADO]: 'deep-purple',
+  [this.EstadoTrabajo.CANCELADO]: 'grey darken-1',
+}
 
 module.exports.TipoTrabajo = {
   PUBLICO: 'PUBLICO',

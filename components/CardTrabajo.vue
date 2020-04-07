@@ -263,7 +263,9 @@ export default {
     displayFecha() {
       const len = this.trabajo.agenda.length - 1
       const hours =
-        len > 0 ? this.trabajo.agenda[len].fecha_inicio : this.trabajo.createdAt
+        len >= 0
+          ? this.trabajo.agenda[len].fecha_inicio
+          : this.trabajo.createdAt
       if (this.isPablic) {
         const text = this.trabajo.estado ? 'Realiazdo ' : 'Publicado '
         return text + dateFormat(hours, 'dd/MM/yyyy')
@@ -299,9 +301,10 @@ export default {
       if (this.page - 1 >= 1) this.page -= 1
     },
     async accept(fechaInicio) {
+      const fechaFin = new Date(fechaInicio).set(fechaInicio.getHours() + 3)
       this.loading = true
       this.trabajo.estado = EstadoTrabajo.PENDIENTE
-      this.trabajo.agenda = [{ fecha_inicio: fechaInicio }]
+      this.trabajo.agenda = [{ fecha_inicio: fechaInicio, fecha_fin: fechaFin }]
       const { error } = await Trabajo.save(this.trabajo)
       if (error) {
         this.$notify({ type: 'error', text: error })
