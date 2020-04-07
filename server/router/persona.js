@@ -50,10 +50,11 @@ restify.serve(router, Persona, {
   // postCreate: [],
   preRead: [
     function (req, _, next) {
-      req.query.select = '-password'
-      if (!req.erm.query) req.erm.query = {}
-      if (!req.erm.query.select) req.erm.query.select = {}
-      req.erm.query.select.password = 0
+      const { query } = req.erm.query
+      query.select = '-password'
+      if (!query) req.erm.query = {}
+      if (!query.select) query.select = {}
+      query.select.password = 0
       return next()
     },
   ],
