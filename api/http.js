@@ -1,30 +1,7 @@
 'use strict'
 import axios from 'axios'
+import Token from './Token'
 
-const token = (function () {
-  let _token = null
-  const isClient = !process.server
-  return {
-    set(token) {
-      // `Bearer ${token}`;
-      if (isClient) localStorage.setItem('_t', token)
-      _token = token
-    },
-    get() {
-      if (!isClient) return _token
-      if (_token) return _token
-      _token = localStorage.getItem('_t')
-      return _token
-    },
-    delete() {
-      if (isClient) localStorage.removeItem('_t')
-      _token = null
-    },
-    deleteAll() {
-      if (isClient) localStorage.clear()
-    },
-  }
-})()
 function showMsg(type, response) {
   if (process.env.NODE_ENV === 'development' && !process.server) {
     // eslint-disable-next-line
@@ -54,7 +31,7 @@ axios.defaults.headers.post['Cache-Control'] = 'no-cache'
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
-    if (token.get()) config.headers.Authorization = token.get()
+    if (Token.get()) config.headers.Authorization = Token.get()
     return config
   },
   function (error) {
@@ -66,9 +43,9 @@ axios.interceptors.request.use(
 // Add a response interceptor
 axios.interceptors.response.use(
   function (response) {
-    if (!token.get()) {
+    if (!Token.get()) {
       const token = response.headers.Authorization
-      if (token) token.set(token)
+      if (token) Token.set(token)
     }
 
     const totalItems = response.headers['x-total-count']
@@ -99,7 +76,7 @@ axios.interceptors.response.use(
       response.error = error
       response.message = message
       if (response.status === 401 || response.status === 403) {
-        token.deleteAll()
+        Token.deleteAll()
         // if (!process.server) window.location.replace('/login')
       }
     }
