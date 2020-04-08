@@ -5,11 +5,14 @@ let agenda
 
 // Tasks
 module.exports.jobName = {
+  SEND_EMAIL_ANULADA: 'SEND_EMAIL_ANULADA',
+  SEND_EMAIL_A_VERIFICAR: 'SEND_EMAIL_A_VERIFICAR',
   SEND_EMAIL_EDIT_USER: 'SEND_EMAIL_EDIT_USER',
   SEND_EMAIL_MEW_USER: 'SEND_EMAIL_MEW_USER',
-  SEND_EMAIL_A_VERIFICAR: 'SEND_EMAIL_A_VERIFICAR',
+  SEND_EMAIL_RECHAZADA: 'SEND_EMAIL_RECHAZADA',
   SEND_EMAIL_REPROGRAMACION: 'SEND_EMAIL_REPROGRAMACION',
   SEND_EMAIL_SOLICITADA: 'SEND_EMAIL_SOLICITADA',
+  SEND_EMAIL_VERIFICADA: 'SEND_EMAIL_VERIFICADA',
 }
 
 module.exports.jobCreate = (jobName, data) =>
@@ -87,7 +90,59 @@ module.exports.start = async function () {
           {
             type: 'aplicacion_change_reprogramacion',
             subject:
-              'Municipio Verde - REPROGRAMADA - ' +
+              // "Municipio Verde - REPROGRAMACIÓN - " +
+              'Municipio Verde - MODIFICACIÓN - ' +
+              data.fecha_realizacion +
+              `hs - Lote: ${data.lote}`,
+          },
+          data
+        )
+      }
+    )
+    agenda.define(
+      this.jobName.SEND_EMAIL_ANULADA,
+      { priority: 'normal', concurrency: 2 },
+      async (job) => {
+        const data = job.attrs.data
+        await sendEmailTo(
+          {
+            type: 'aplicacion_change_anulada',
+            subject:
+              'Municipio Verde - ANULACIÓN - ' +
+              data.fecha_realizacion +
+              `hs - Lote: ${data.lote}`,
+          },
+          data
+        )
+      }
+    )
+    agenda.define(
+      this.jobName.SEND_EMAIL_RECHAZADA,
+      { priority: 'normal', concurrency: 2 },
+      async (job) => {
+        const data = job.attrs.data
+        await sendEmailTo(
+          {
+            type: 'aplicacion_change_rechazada',
+            subject:
+              'Municipio Verde - RECHAZO - ' +
+              data.fecha_realizacion +
+              `hs - Lote: ${data.lote}`,
+          },
+          data
+        )
+      }
+    )
+    agenda.define(
+      this.jobName.SEND_EMAIL_VERIFICADA,
+      { priority: 'normal', concurrency: 2 },
+      async (job) => {
+        const data = job.attrs.data
+        await sendEmailTo(
+          {
+            type: 'aplicacion_change_verificada',
+            subject:
+              'Municipio Verde - VERIFICADA - ' +
               data.fecha_realizacion +
               `hs - Lote: ${data.lote}`,
           },

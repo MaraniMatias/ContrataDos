@@ -8,6 +8,7 @@ mongoose.Promise = global.Promise
 const fileImagen = require('../server/utilities/fileImagen')
 const getMongoURL = require('./utilities/getMongoURL')
 const getLocalIP = require('./utilities/getLocalIP')
+const Agenda = require('./utilities/agendaTask')
 const app = require('./server')
 
 fileImagen.start()
@@ -32,6 +33,7 @@ function startServer() {
             `Express server running as Worker ${cluster.worker.id} running @ process ${cluster.worker.process.pid}`
           )
         }
+        Agenda.start()
         getLocalIP()
       })
     }

@@ -1,9 +1,12 @@
 const path = require('path')
-const nodemailer = require('nodemailer')
 const pug = require('pug')
+const nodemailer = require('nodemailer')
+const smtpTransport = require('nodemailer-smtp-transport')
+
 const options = {
+  service: 'gmail', // only smtp and google account
   host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
+  port: Number(process.env.EMAIL_PORT),
   secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL_AUTH_USER,
@@ -27,15 +30,19 @@ module.exports = async function ({ subject, type }, data) {
     console.log("sendMail '" + subject + "' to", sendEmailTo)
   }
   // Generate test SMTP service account from ethereal.email
-  await nodemailer.createTestAccount()
-  // create reusable transporter object using the default SMTP transport
-  const transporter = nodemailer.createTransport(options)
+  // await nodemailer.createTestAccount();
 
   // create reusable transporter object using the default SMTP transport
-  // transporter.verify(function(error, success) {
-  //   if (error) console.log(error);
-  //   else console.log("Server is ready to take our messages", success);
-  // });
+  // let transporter = nodemailer.createTransport(options);
+  const transporter = nodemailer.createTransport(smtpTransport(options))
+
+  if (process.env.NODE_ENV !== 'production') {
+    // create reusable transporter object using the default SMTP transport
+    transporter.verify(function (error) {
+      if (error) console.log(error)
+      else console.log('Server is ready to take our messages')
+    })
+  }
 
   await transporter.sendMail({
     from: options.email_no_replay,
