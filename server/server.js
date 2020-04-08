@@ -22,7 +22,6 @@ app.use(compress())
 
 // Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize())
-app.use(passport.session())
 // app.all('/api/*', auth.isLogin)
 
 // Parsear el cueropo de dato en POST

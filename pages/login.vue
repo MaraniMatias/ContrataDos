@@ -105,7 +105,7 @@ export default {
     if (token) {
       Token.set(token)
     } else {
-      this.loading = false
+      this.loading = !Token.get()
     }
   },
   methods: {
