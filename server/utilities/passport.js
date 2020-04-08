@@ -112,4 +112,3 @@ passport.deserializeUser(function (id, cb) {
   }
   Persona.findById(id, cb)
 })
-
