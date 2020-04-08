@@ -1,9 +1,9 @@
-import restify from 'express-restify-mongoose'
-import { deleteProp, block, auth, sendRes } from '../utilities/router'
-// const { checkErrors, check } = require('../utilities/checkProps')
+const express = require('express')
+const restify = require('express-restify-mongoose')
+const router = express.Router()
+const { deleteProp, block, auth, sendRes } = require('../utilities/router')
 // const Batch = require("./../utilities/agendaTask");
-import { Persona } from '../models/persona'
-import router from './nuxtRouter'
+const { Persona } = require('../models/persona')
 
 /*
 function isEmailUnique(req, res, next) {
@@ -35,7 +35,6 @@ restify.serve(router, Persona, {
   preDelete: [auth.isLogin], // TODO, solo borrar lo de el
   preUpdate: [
     deleteProp,
-    auth.setUser,
     (req, res, next) => {
       // const persona = req.erm.result
       const persona = req.body
@@ -60,41 +59,4 @@ restify.serve(router, Persona, {
   ],
 })
 
-export default router
-
-/*
-router.get('/search', async function (req, res) {
-  console.log(req.query) // plomero + casilda
-  const query = 'profesor en casida' //  y plomero en rosario'
-  console.log(query)
-
-  // TODO, Servicio, localidad, bilbiografia, nombre, apellido, razon_social
-  const search = await User.find({ tags: { $in: tokenizer.tokenize(query) } })
-
-  // -----------------
-  const source = 'Soy profesor y plomero, realizo trabajos en casilda y zona'
-  const target = 'plomero en casilda'
-  console.log(natural.LevenshteinDistance(source, target))
-  console.log(natural.LevenshteinDistance(source, 'profesor en rosario'))
-  console.log(natural.LevenshteinDistance(source, 'profesor'))
-
-  // res, status, data, message, error
-  return sendRes(res, 200, search, 'Success', null)
-})
-import natural from 'natural'
-import { Habilidad } from '../models/habilidad'
-import { Location } from '../models/localidad'
-const tokenizer = new natural.AggressiveTokenizerEs()
-        // TODO filtar solo profeciones, y localidades
-        const biblo = tokenizer.tokenize(persona.bibliography)
-        const tags = new Set(biblo)
-        tags.add(persona.nombre)
-        tags.add(persona.apellido)
-        tags.add(persona.email)
-        tags.add(persona.razon_social)
-        // const servicios = await Habilidad.find({_id:persona.servicios})
-        // tags.add() // add habilidades
-        const servicios = await Location.findById(persona.localidad)
-        tags.add(servicios) // add localidad
-        persona.tags = Array.from(tags)
-*/
+module.exports = router

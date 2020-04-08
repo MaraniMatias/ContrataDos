@@ -1,5 +1,5 @@
 'use strict'
-const get = require('./get')
+const get = require('../get')
 
 function isDefined(prop) {
   return typeof prop !== 'undefined' && prop !== null

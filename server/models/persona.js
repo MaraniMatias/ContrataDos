@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const ObjectId = mongoose.Schema.Types.ObjectId
 const saltRounds = 10
 
-const { Roles } = require('../../utils/enums')
+const { Roles } = require('../utilities/enums')
 module.exports.PersonaRol = Roles
 
 const schema = new Schema(

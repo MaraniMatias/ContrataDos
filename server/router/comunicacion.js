@@ -1,8 +1,8 @@
-import restify from 'express-restify-mongoose'
-import { deleteProp, auth, block } from '../utilities/router'
-import { Comunicacion } from '../models/comunicacion'
-
-import router from './nuxtRouter'
+const express = require('express')
+const restify = require('express-restify-mongoose')
+const router = express.Router()
+const { deleteProp, auth, block } = require('../utilities/router')
+const { Comunicacion } = require('../models/comunicacion')
 
 restify.serve(router, Comunicacion, {
   preDelete: block,
@@ -11,4 +11,4 @@ restify.serve(router, Comunicacion, {
   preRead: [auth.isLogin], // TODO solo las de el
 })
 
-export default router
+module.exports = router

@@ -1,8 +1,8 @@
-import restify from 'express-restify-mongoose'
-import { block } from '../utilities/router'
-import { Habilidad } from '../models/habilidad'
-
-import router from './nuxtRouter'
+const express = require('express')
+const restify = require('express-restify-mongoose')
+const router = express.Router()
+const { block } = require('../utilities/router')
+const { Habilidad } = require('../models/habilidad')
 
 restify.serve(router, Habilidad, {
   preDelete: block,
@@ -10,6 +10,8 @@ restify.serve(router, Habilidad, {
   preCreate: block,
   preRead: [],
 })
+
+module.exports = router
 
 /*
 import baseApi from '~/api/baseApi'
@@ -20,4 +22,3 @@ h.save({ nombre: 'Plomero', descripcion: 'descripcion para Plomero' })
 h.save({ nombre: 'Electricista', descripcion: 'descripcion para Electricista' })
 h.save({ nombre: 'Niñera', descripcion: 'descripcion para Niñera' })
 */
-export default router

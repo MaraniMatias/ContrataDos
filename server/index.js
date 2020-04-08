@@ -1,59 +1,66 @@
-const consola = require('consola')
+require('dotenv').config()
+const PORT = process.env.PORT || 3000
+const cluster = require('cluster')
+const numCPUs = require('os').cpus().length
+
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
-const { Nuxt, Builder } = require('nuxt')
-const config = require('../nuxt.config.js')
 const fileImagen = require('../server/utilities/fileImagen')
 const getMongoURL = require('./utilities/getMongoURL')
 const getLocalIP = require('./utilities/getLocalIP')
-// const Agenda = require("./utilities/agendaTask");
-// Import and Set Nuxt.js options
 const app = require('./server')
-config.dev = process.env.NODE_ENV !== 'production'
 
 fileImagen.start()
 
-async function start() {
-  // MongoDB connect
+function startServer() {
   const mongoURL = getMongoURL()
-  consola.log('MongoDB URL', mongoURL)
+  console.log('MongoDB URL', mongoURL)
   const mongooseOptions = {
     useNewUrlParser: true,
-    useFindAndModify: false,
+    // useFindAndModify: false,
     useCreateIndex: true,
     useUnifiedTopology: true,
   }
-
-  // Init Nuxt.js
-  const nuxt = new Nuxt(config)
-
-  const { host, port } = nuxt.options.server
-
-  await nuxt.ready()
-  // Build only in dev mode
-  if (config.dev) {
-    const builder = new Builder(nuxt)
-    await builder.build()
-  }
-
-  // Give nuxt middleware to express
-  app.use(nuxt.render)
-
   mongoose.connect(mongoURL, mongooseOptions, (err) => {
     if (err) {
-      consola.error('Error al conectar a la base de datos: ' + err)
+      console.error('Error al conectar a la base de datos: ' + err)
       process.exit()
     } else {
-      consola.log(`Conexón establecida con '${mongoose.connections[0].name}'`)
-      // Listen the server
-      app.listen(port, host, () => {
+      app.listen(PORT, '0.0.0.0', () => {
+        if (!cluster.isMaster) {
+          console.info(
+            `Express server running as Worker ${cluster.worker.id} running @ process ${cluster.worker.process.pid}`
+          )
+        }
         getLocalIP()
-        consola.ready({
-          message: `Server listening on http://${host}:${port}`,
-          badge: true,
-        })
       })
     }
   })
 }
-start()
+
+if (process.env.NODE_ENV === 'development') {
+  startServer()
+} else if (cluster.isMaster) {
+  console.log(`Master ${process.pid} is running`)
+
+  // Fork workers.
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork()
+  }
+
+  cluster.on('exit', (worker) => {
+    console.log(`worker ${worker.process.pid} died`)
+    cluster.fork() // Create a New Worker, If Worker is Dead
+  })
+} else {
+  console.log(`This process is pid ${process.pid}`)
+  console.log(`The parent process is pid ${process.ppid}`)
+  startServer()
+}
+
+// Error
+process.on('uncaughtException', function (err) {
+  console.info(`This process is pid ${process.pid}`)
+  console.info(`The parent process is pid ${process.ppid}`)
+  console.error('Exception', err.stack)
+})
