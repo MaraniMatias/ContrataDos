@@ -47,16 +47,7 @@ restify.serve(router, Persona, {
   // postUpdate: [],
   preCreate: block,
   // postCreate: [],
-  preRead: [
-    function (req, _, next) {
-      const { query } = req.erm.query
-      query.select = '-password'
-      if (!query) req.erm.query = {}
-      if (!query.select) query.select = {}
-      query.select.password = 0
-      return next()
-    },
-  ],
+  // preRead: [],
 })
 
 module.exports = router

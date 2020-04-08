@@ -124,7 +124,7 @@ import { Roles, TipoTrabajo } from '~~/server/utilities/enums'
 
 export default {
   components: { CardPerfil, CardForm },
-  async asyncData({ query = {}, redirect, error }) {
+  asyncData({ query = {}, redirect, error }) {
     // error({ message: 'Internal error', statusCode: 500 })
     if (
       typeof query.profesion === 'undefined' &&
@@ -132,8 +132,26 @@ export default {
     ) {
       redirect('/')
     }
+  },
+  data: () => ({
+    loading: true,
+    items: [],
+    filters: [],
+    showModal: false,
+    totalItems: 0,
+    form: {},
+  }),
+  computed: {
+    ...mapGetters(['isLoggedIn']),
+    user() {
+      return this.$store.state.user
+    },
+  },
+  async mounted() {
+    this.loadItems()
 
     let filters = []
+    const query = this.$route.query
     if (query.localidad?.length) {
       const { data: localidades } = await Localidad.getAll({
         query: { _id: { $in: query.localidad } },
@@ -146,24 +164,7 @@ export default {
       })
       filters = filters.concat(servicios || [])
     }
-    return { filters }
-  },
-  data: () => ({
-    loading: true,
-    items: [],
-    // filters: [],
-    showModal: false,
-    totalItems: 0,
-    form: {},
-  }),
-  computed: {
-    ...mapGetters(['isLoggedIn']),
-    user() {
-      return this.$store.state.user
-    },
-  },
-  mounted() {
-    this.loadItems()
+    this.filters = filters
   },
   methods: {
     async loadItems() {
