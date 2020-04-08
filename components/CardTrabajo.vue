@@ -424,9 +424,7 @@ export default {
     cancel() {
       this.optionsModal = false
       this.form = {
-        estado: EstadoTrabajo.CONSULTA,
         fechaFin: new Date(),
-        detalle: '',
         fechaInicio: new Date(),
       }
     },

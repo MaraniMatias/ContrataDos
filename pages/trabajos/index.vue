@@ -2,7 +2,7 @@
   <v-layout column mb-2 px-2 justify-start fill-height>
     <v-flex xs12>
       <v-layout align-center>
-        <v-flex xs9>
+        <v-flex xs12 lg8>
           <v-layout justify-start align-center>
             <v-chip-group v-model="filters" multiple @change="loadData">
               <v-chip
@@ -18,7 +18,7 @@
             </v-chip-group>
           </v-layout>
         </v-flex>
-        <v-flex xs3>
+        <v-flex xs12 lg4>
           <v-layout justify-end align-center>
             <v-chip-group
               v-if="isAProfessional"
