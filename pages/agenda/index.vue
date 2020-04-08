@@ -1,44 +1,49 @@
 <template>
   <v-layout column mb-2 px-2 justify-start fill-height pb-12>
     <v-row class="mx-4 fill-height">
-      <v-col>
-        <v-sheet height="64">
-          <v-toolbar flat color="white">
-            <v-btn
-              outlined
-              class="mr-4"
-              color="grey darken-2"
-              @click="setToday"
-            >
-              Hoy
-            </v-btn>
-            <v-btn fab text small color="grey darken-2" @click="prev">
-              <v-icon small>mdi-chevron-left</v-icon>
-            </v-btn>
-            <v-btn fab text small color="grey darken-2" @click="next">
-              <v-icon small>mdi-chevron-right</v-icon>
-            </v-btn>
-            <v-toolbar-title>{{ title }}</v-toolbar-title>
-            <v-spacer />
-            <v-menu bottom right>
-              <template v-slot:activator="{ on }">
-                <v-btn outlined color="grey darken-2" v-on="on">
-                  <span>{{ typeToLabel[type] }}</span>
-                  <v-icon right>mdi-menu-down</v-icon>
+      <v-col class="pt-0">
+        <v-toolbar flat color="white">
+          <v-layout align-center>
+            <v-flex xs12 lg4>
+              <v-btn outlined color="grey darken-2" @click="setToday">
+                Hoy
+              </v-btn>
+              <v-menu bottom right>
+                <template v-slot:activator="{ on }">
+                  <v-btn outlined color="grey darken-2" v-on="on">
+                    <span>{{ typeToLabel[type] }}</span>
+                    <v-icon right>mdi-menu-down</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="key in Object.keys(typeToLabel)"
+                    :key="key"
+                    @click="type = key"
+                  >
+                    <v-list-item-title v-text="typeToLabel[key]" />
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-flex>
+            <v-flex xs12 lg4>
+              <v-layout justify-center align-center>
+                <v-btn fab text small color="grey darken-2" @click="prev">
+                  <v-icon small>mdi-chevron-left</v-icon>
                 </v-btn>
-              </template>
-              <v-list>
-                <v-list-item
-                  v-for="key in Object.keys(typeToLabel)"
-                  :key="key"
-                  @click="type = key"
-                >
-                  <v-list-item-title>{{ typeToLabel[key] }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-toolbar>
-        </v-sheet>
+                <v-toolbar-title class="mx-6">{{ title }}</v-toolbar-title>
+                <v-btn fab text small color="grey darken-2" @click="next">
+                  <v-icon small>mdi-chevron-right</v-icon>
+                </v-btn>
+              </v-layout>
+            </v-flex>
+            <v-flex xs12 lg4>
+              <v-layout justify-end>
+                <v-btn outlined class="mr-4">Agregar trabajo</v-btn>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+        </v-toolbar>
         <v-sheet height="100%">
           <v-calendar
             ref="calendar"
@@ -83,6 +88,7 @@
 import { Trabajo } from '~/api'
 import { EstadoTrabajoColor } from '~/utils/enums'
 import dateFormat from '~/utils/dateFormat'
+import camelCase from '~/utils/capitalizeWords'
 
 export default {
   middleware: 'authenticated',
@@ -102,8 +108,8 @@ export default {
       const { start, end } = this
       if (!start || !end) return ''
 
-      const startMonth = this.monthFormatter(start)
-      const endMonth = this.monthFormatter(end)
+      const startMonth = camelCase(this.monthFormatter(start))
+      const endMonth = camelCase(this.monthFormatter(end))
       const suffixMonth = endMonth // startMonth === endMonth ? '' : endMonth
 
       const startYear = start.year
@@ -128,6 +134,9 @@ export default {
         timeZone: 'UTC',
         month: 'long',
       })
+    },
+    user() {
+      return this.$store.state.user || {}
     },
   },
   mounted() {
