@@ -3,7 +3,7 @@ const restify = require('express-restify-mongoose')
 const router = express.Router()
 const { deleteProp, auth } = require('../utilities/router')
 // const Batch = require("../utilities/agendaTask");
-const { Trabajo, TipoTrabajo } = require('../models/trabajo')
+const { Trabajo } = require('../models/trabajo')
 
 restify.serve(router, Trabajo, {
   preDelete: auth.isLogin,
@@ -22,6 +22,8 @@ restify.serve(router, Trabajo, {
   postCreate: [],
   preRead: [
     (req, _, next) => {
+      console.log(req.erm.query, req.user)
+      /*
       const { query } = req.erm.query
       const $or = query.$or || []
       const profesional = query.profesional || ($or[0] && $or[0].profesional)
@@ -46,6 +48,7 @@ restify.serve(router, Trabajo, {
       }
 
       query.tipo = TipoTrabajo.PUBLICO
+      */
       return next()
     },
   ],

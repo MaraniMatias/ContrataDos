@@ -104,6 +104,7 @@ export default {
     const token = this.$route.query.token
     if (token) Token.set(token)
     else if (!Token.get()) this.loading = false
+    else this.loading = false
   },
   methods: {
     ...mapActions(['login']),
