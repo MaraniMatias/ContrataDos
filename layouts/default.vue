@@ -90,8 +90,11 @@ export default {
   },
   async created() {
     const { data } = await this.getMe()
-    if (data) this.$router.replace('/trabajos')
-    else this.$router.replace('/login')
+    if (data) {
+      this.$router.replace('/trabajos')
+    } else if (this.$route.name !== 'login') {
+      this.$router.replace('/login')
+    }
   },
   methods: {
     ...mapActions(['logout', 'getMe']),
