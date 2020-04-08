@@ -48,5 +48,6 @@ restify.defaults({
 
 // Agregar routes
 Routers.setTo(app)
+// app.all('/api/*', passport.authenticate('jwt', { session: false }))
 
 module.exports = app
