@@ -169,8 +169,8 @@ import FieldTextArea from '~/components/FieldTextArea'
 import PerfilTrabajosList from '~/components/PerfilTrabajosList'
 import CardForm from '~/components/CardForm'
 import ObjectId from '~/utils/formRules/objectId'
-import camelCase from '~/utils/capitalizeWords'
-import { Roles } from '~/utils/enums'
+import camelCase from '~~/server/utilities/capitalizeWords'
+import { Roles } from '~~/server/utilities/enums'
 
 import { Persona, Localidad, Habilidad } from '~/api'
 

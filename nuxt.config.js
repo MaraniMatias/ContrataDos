@@ -1,37 +1,8 @@
-require('dotenv').config()
-const session = require('express-session')
-const bodyParser = require('body-parser')
-const passport = require('passport')
-
 module.exports = {
   mode: 'universal',
   env: {
     BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
   },
-  serverMiddleware: [
-    // Initialize Passport and restore authentication state, if any, from the session.
-    passport.initialize(),
-    passport.session(),
-    // Parsear el cueropo de dato en POST
-    bodyParser.json({ limit: '12mb' }),
-    bodyParser.urlencoded({ limit: '12mb', extended: true }),
-    // session middleware
-    session({
-      secret: process.env.SECRET_KEY_SESSION || 'secretK3y',
-      resave: false,
-      saveUninitialized: false,
-      cookie: { maxAge: 60000 },
-    }),
-    { path: '/api/auth', handler: '~/server/router/auth' },
-    { path: '/api/file', handler: '~/server/router/file' },
-    // { path: '/api', handler: '~/server/router/search' },
-    '~/server/router/comunicacion',
-    '~/server/router/habilidad',
-    '~/server/router/localidad',
-    '~/server/router/persona',
-    '~/server/router/provincia',
-    '~/server/router/trabajo',
-  ],
   /*
    ** Headers of the page
    */
@@ -63,8 +34,8 @@ module.exports = {
   plugins: [
     { src: '~/plugins/tiptapVuetify', mode: 'client' },
     { src: '~/plugins/notify', mode: 'client' },
-    './plugins/globalComponents',
-    './plugins/axion',
+    { src: './plugins/axion', mode: 'client' },
+    { src: './plugins/globalComponents', mode: 'client' },
   ],
   /*
    ** Nuxt.js dev-modules
@@ -79,7 +50,6 @@ module.exports = {
    ** Nuxt.js modules
    */
   modules: [
-    '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
     [
@@ -96,7 +66,6 @@ module.exports = {
     ],
     'nuxt-compress',
     'nuxt-material-design-icons',
-    'nuxt-helmet',
   ],
   /*
    ** vuetify module configuration
@@ -112,24 +81,6 @@ module.exports = {
         },
       },
     },
-  },
-  // helmet options
-  // @see https://helmetjs.github.io/docs/
-  helmet: {
-    /*
-    dnsPrefetchControl: true,
-    expectCt: true,
-    featurePolicy: true,
-    frameguard: true,
-    hidePoweredBy: true,
-    hsts: true,
-    ieNoOpen: true,
-    noCache: true,
-    noSniff: true,
-    permittedCrossDomainPolicies: true,
-    referrerPolicy: true,
-    xssFilter: true,
-    */
   },
   /*
    ** Build configuration

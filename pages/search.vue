@@ -120,7 +120,7 @@ import { mapGetters } from 'vuex'
 import { Persona, Habilidad, Localidad, Trabajo } from '~/api'
 import CardPerfil from '~/components/CardPerfil'
 import CardForm from '~/components/CardForm'
-import { Roles, TipoTrabajo } from '~/utils/enums'
+import { Roles, TipoTrabajo } from '~~/server/utilities/enums'
 
 export default {
   components: { CardPerfil, CardForm },

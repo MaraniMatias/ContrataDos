@@ -116,7 +116,7 @@ import {
   EstadoTrabajo,
   TipoTrabajo,
   EstadoTrabajoColor,
-} from '~/utils/enums'
+} from '~~/server/utilities/enums'
 
 export default {
   middleware: 'authenticated',

@@ -2,7 +2,7 @@
 //  process.client
 
 import http from '../api/http'
-import { Roles } from '../utils/enums'
+import { Roles } from '~~/server/utilities/enums'
 
 export const state = () => ({
   user: {},

@@ -86,9 +86,9 @@
 
 <script>
 import { Trabajo } from '~/api'
-import { EstadoTrabajoColor } from '~/utils/enums'
+import { EstadoTrabajoColor } from '~~/server/utilities/enums'
 import dateFormat from '~/utils/dateFormat'
-import camelCase from '~/utils/capitalizeWords'
+import camelCase from '~~/server/utilities/capitalizeWords'
 
 export default {
   middleware: 'authenticated',
