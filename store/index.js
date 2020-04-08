@@ -24,11 +24,7 @@ export const actions = {
   // nuxtServerInit({ commit }, { req }) {commit('SET_TOKEN', req.session.passport.user)},
   async login({ commit }, { email, password }) {
     try {
-      const { data, token } = await http.post('/api/auth/login', {
-        email,
-        password,
-      })
-      if (process.client) localStorage.setItem('_t', token)
+      const { data } = await http.post('/api/auth/login', { email, password })
       commit('SET_USER', data)
       return { data }
     } catch ({ status }) {
@@ -40,7 +36,6 @@ export const actions = {
   async logout({ commit }) {
     try {
       await http.post('/api/auth/logout')
-      if (process.client) localStorage.removeItem('_t')
       commit('SET_USER', {})
     } catch (e) {
       return { error: 'Error' }
