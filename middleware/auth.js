@@ -1,7 +1,11 @@
+import Token from '~/api/Token'
 // Guardar el token
-export default async function ({ store, query }) {
-  if (query?.token) {
-    await store.commit('SET_TOKEN', query.token, { root: true })
-    // TODO ger me save
+export default function ({ route, redirect }) {
+  const token = route.query?.token
+  console.log(route.query)
+  if (Token.get()) return redirect('/trabajos')
+  if (token) {
+    Token.set(token)
+    return redirect('/trabajos')
   }
 }

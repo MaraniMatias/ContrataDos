@@ -1,7 +1,7 @@
 //  process.server
 //  process.client
 
-import http from '../api/http'
+import http from '~/api/http'
 import { Roles } from '~~/server/utilities/enums'
 
 export const state = () => ({

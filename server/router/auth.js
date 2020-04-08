@@ -13,16 +13,17 @@ router.get(
   })
 )
 
-// TODO corregir url
 // GET /auth/google/callback
 router.get(
   '/api/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: '/login',
-    successRedirect: '/trabajos',
+    failureRedirect: process.env.URL + '/login?error=google_token',
+    // sauccessRedirect: '/me',
   }),
-  function (_) {
-    console.log(_)
+  function (req, res) {
+    const token = passport.setTokeTo(res, { value: req.user._id })
+    res.redirect(process.env.URL + '/login?token=' + token)
+    // res.redirect('back')
     // res, status, data, message, error
     // return sendRes(res, 200, req.user.toJSON(), 'Success', null)
   }
