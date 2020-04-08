@@ -1,8 +1,8 @@
-import restify from 'express-restify-mongoose'
-import { block } from '../utilities/router'
-import { Localidad } from '../models/localidad'
-
-import router from './nuxtRouter'
+const express = require('express')
+const restify = require('express-restify-mongoose')
+const router = express.Router()
+const { block } = require('../utilities/router')
+const { Localidad } = require('../models/localidad')
 
 restify.serve(router, Localidad, {
   preDelete: block,
@@ -10,4 +10,5 @@ restify.serve(router, Localidad, {
   preCreate: block,
   preRead: [],
 })
-export default router
+
+module.exports = router

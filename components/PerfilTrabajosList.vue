@@ -124,7 +124,7 @@ import CardTrabajo from '~/components/CardTrabajo'
 import CardForm from '~/components/CardForm'
 import CardCropper from '~/components/CardCropper'
 
-import { TipoTrabajo, EstadoTrabajo } from '~/utils/enums'
+import { TipoTrabajo, EstadoTrabajo } from '~~/server/utilities/enums'
 
 import { Trabajo, Localidad, Habilidad } from '~/api'
 import apiFile from '~/api/file'

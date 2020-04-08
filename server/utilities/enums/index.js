@@ -1,4 +1,4 @@
-const capitalizeWords = require('./../utils/capitalizeWords')
+const capitalizeWords = require('./../capitalizeWords')
 
 module.exports.Roles = {
   CLIENTE: 'CLIENTE',

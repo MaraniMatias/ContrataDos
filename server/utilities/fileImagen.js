@@ -4,7 +4,8 @@ const path = require('path')
 const consola = require('consola')
 
 // Make dir to save file
-const BASE_PATH = path.join(__dirname, '..', '..', 'static', 'images')
+const STATIC_PATH = process.env.NODE_ENV === 'production' ? 'public' : 'static'
+const BASE_PATH = path.join(__dirname, '..', '..', STATIC_PATH, 'images')
 const PATH_IMAGE = ['perfil', 'jobs']
 
 function start() {

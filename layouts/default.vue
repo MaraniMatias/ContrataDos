@@ -88,13 +88,18 @@ export default {
       }
     },
   },
-  created() {
-    this.getMe()
+  async created() {
+    const { data } = await this.getMe()
+    if (data) {
+      this.$router.replace('/trabajos')
+    } else if (this.$route.name !== 'login') {
+      this.$router.replace('/login')
+    }
   },
   methods: {
     ...mapActions(['logout', 'getMe']),
-    loginOut() {
-      this.logout()
+    async loginOut() {
+      await this.logout()
       this.$router.replace('/loginout')
     },
     goToPerfil() {

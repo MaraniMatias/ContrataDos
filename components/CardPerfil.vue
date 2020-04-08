@@ -53,7 +53,7 @@
 <script>
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
-import camelCase from '~/utils/capitalizeWords'
+import camelCase from '~~/server/utilities/capitalizeWords'
 
 export default {
   components: { Avatar, Rating },

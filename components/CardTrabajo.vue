@@ -237,8 +237,12 @@ import FieldTime from './FieldTime'
 import { Trabajo, Comunicacion } from '~/api'
 
 import dateFormat from '~/utils/dateFormat'
-import camelCase from '~/utils/capitalizeWords'
-import { EstadoTrabajoLabel, EstadoTrabajo, TipoTrabajo } from '~/utils/enums'
+import camelCase from '~~/server/utilities/capitalizeWords'
+import {
+  EstadoTrabajoLabel,
+  EstadoTrabajo,
+  TipoTrabajo,
+} from '~~/server/utilities/enums'
 
 export default {
   components: { Rating, Avatar, CardChat, FieldDate, FieldTime },

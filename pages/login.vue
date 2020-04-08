@@ -88,30 +88,36 @@
 <script>
 import { mapActions } from 'vuex'
 import CardForm from '../components/CardForm'
-// style="max-width: 400px; margin: auto;"
+import Token from '~/api/Token'
 
 export default {
-  middleware: 'authenticated',
   components: { CardForm },
   data: () => ({
     error: '',
     showPass: false,
     password: '',
     email: '',
-    loading: false,
+    loading: true,
   }),
   computed: {},
+  created() {
+    const token = this.$route.query.token
+    if (token) Token.set(token)
+    else if (!Token.get()) this.loading = false
+    else this.loading = false
+  },
   methods: {
     ...mapActions(['login']),
     authFacebook() {},
     authLinkedin() {},
     authGoogle() {
       this.loading = true
-      window.location.replace(
-        'api/auth/google'
-        // 'Google',
-        // 'width=500,height=600,scrollbars=no'
-      )
+      /* window.open(
+        process.env.BASE_URL + '/api/auth/google',
+        'Google',
+        'width=500,height=600,scrollbars=no'
+      ) */
+      window.location.replace(process.env.BASE_URL + '/api/auth/google')
     },
     async authLocal(formValid) {
       if (!formValid) return

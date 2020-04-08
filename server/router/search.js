@@ -1,10 +1,10 @@
-import { sendRes } from '../utilities/router'
-// const { checkErrors, check } = require('../utilities/checkProps')
-import { Habilidad } from '../models/habilidad'
-import { Localidad } from '../models/localidad'
-import router from './nuxtRouter'
+const express = require('express')
+const router = express.Router()
+const { sendRes } = require('../utilities/router')
+const { Habilidad } = require('../models/habilidad')
+const { Localidad } = require('../models/localidad')
 
-router.get('/search', async function (req, res) {
+router.get('/api/search', async function (req, res) {
   try {
     const query = req.query.q // plomero + casilda
     let items = []
@@ -36,7 +36,8 @@ router.get('/search', async function (req, res) {
   }
 })
 
-export default router
+module.exports = router
+
 /*
 router.get('/search', async function (req, res) {
   console.log(req.query) // plomero + casilda

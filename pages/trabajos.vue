@@ -116,7 +116,7 @@ import {
   EstadoTrabajo,
   TipoTrabajo,
   EstadoTrabajoColor,
-} from '~/utils/enums'
+} from '~~/server/utilities/enums'
 
 export default {
   middleware: 'authenticated',
@@ -154,13 +154,16 @@ export default {
       return this.user?.['show_tutorial'] ?? false
     },
   },
-  created() {
-    this.$store.subscribe((mutation) => {
-      if (this.ready && mutation.type === 'SET_USER') {
-        this.loadData()
-        this.ready = false
-      }
-    })
+  // created() {
+  //   this.$store.subscribe((mutation) => {
+  //     if (this.ready && mutation.type === 'SET_USER') {
+  //       this.loadData()
+  //       this.ready = false
+  //     }
+  //   })
+  // },
+  mounted() {
+    this.loadData()
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),

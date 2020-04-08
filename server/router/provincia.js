@@ -1,8 +1,8 @@
-import restify from 'express-restify-mongoose'
-import { block } from '../utilities/router'
-import { Provincia } from '../models/provincia'
-
-import router from './nuxtRouter'
+const express = require('express')
+const restify = require('express-restify-mongoose')
+const router = express.Router()
+const { block } = require('../utilities/router')
+const { Provincia } = require('../models/provincia')
 
 restify.serve(router, Provincia, {
   preDelete: block,
@@ -10,4 +10,5 @@ restify.serve(router, Provincia, {
   preCreate: block,
   preRead: [],
 })
-export default router
+
+module.exports = router

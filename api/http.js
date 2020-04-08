@@ -1,12 +1,9 @@
 'use strict'
 import axios from 'axios'
-
-// axios defaults
-axios.defaults.headers.post['Content-Type'] = 'application/json'
-axios.defaults.headers.post['Cache-Control'] = 'no-cache'
+import Token from './Token'
 
 function showMsg(type, response) {
-  if (process.env.NODE_ENV === 'development' && process.client) {
+  if (process.env.NODE_ENV === 'development' && !process.server) {
     // eslint-disable-next-line
     console[type](
       '%c[%s]%c %c%s %c%s\n',
@@ -26,10 +23,15 @@ function showMsg(type, response) {
   }
 }
 
+// axios defaults
+axios.defaults.baseURL = process.env.BASE_URL
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.post['Cache-Control'] = 'no-cache'
+
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
-    // if (store.state.token) config.headers.authorization = `Bearer ${store.state.token}`
+    if (Token.get()) config.headers.Authorization = Token.get()
     return config
   },
   function (error) {
@@ -41,6 +43,11 @@ axios.interceptors.request.use(
 // Add a response interceptor
 axios.interceptors.response.use(
   function (response) {
+    if (!Token.get()) {
+      const token = response.headers.Authorization
+      if (token) Token.set(token)
+    }
+
     const totalItems = response.headers['x-total-count']
     if (typeof totalItems !== 'undefined') {
       response.totalItems = parseInt(totalItems, 10)
@@ -68,6 +75,10 @@ axios.interceptors.response.use(
       response.data = data
       response.error = error
       response.message = message
+      if (response.status === 401 || response.status === 403) {
+        Token.deleteAll()
+        // if (!process.server) window.location.replace('/login')
+      }
     }
     return Promise.reject(response)
   }

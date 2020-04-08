@@ -3,7 +3,7 @@ const escapeHtml = require('escape-html')
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Schema.Types.ObjectId
 
-const { TipoTrabajo, EstadoTrabajo } = require('../../utils/enums')
+const { TipoTrabajo, EstadoTrabajo } = require('../utilities/enums')
 module.exports.TipoTrabajo = TipoTrabajo
 module.exports.EstadoTrabajo = EstadoTrabajo
 
