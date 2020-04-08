@@ -1,13 +1,35 @@
 'use strict'
 import axios from 'axios'
-const token = process.client ? localStorage.getItem('_t') : undefined
+
+const token = (function () {
+  let _token = null
+  const isClient = !process.server
+  return {
+    set(token) {
+      // `Bearer ${token}`;
+      if (isClient) localStorage.setItem('_t', token)
+      _token = token
+    },
+    get() {
+      if (!isClient) return _token
+      if (_token) return _token
+      _token = localStorage.getItem('_t')
+      return _token
+    },
+    delete() {
+      if (isClient) localStorage.removeItem('_t')
+      _token = null
+    },
+  }
+})()
 
 // axios defaults
+axios.defaults.baseURL = process.env.BASE_URL
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.headers.post['Cache-Control'] = 'no-cache'
 
 function showMsg(type, response) {
-  if (process.env.NODE_ENV === 'development' && process.client) {
+  if (process.env.NODE_ENV === 'development' && !process.server) {
     // eslint-disable-next-line
     console[type](
       '%c[%s]%c %c%s %c%s\n',
@@ -30,8 +52,7 @@ function showMsg(type, response) {
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
-    if (token) config.headers.authorization = token
-    // `Bearer ${token}`;
+    if (token.get()) config.headers.authorization = token.get()
     return config
   },
   function (error) {
@@ -43,6 +64,11 @@ axios.interceptors.request.use(
 // Add a response interceptor
 axios.interceptors.response.use(
   function (response) {
+    if (!token.get()) {
+      const token = response.headers.authorization
+      if (token) token.set(token)
+    }
+
     const totalItems = response.headers['x-total-count']
     if (typeof totalItems !== 'undefined') {
       response.totalItems = parseInt(totalItems, 10)
@@ -70,6 +96,10 @@ axios.interceptors.response.use(
       response.data = data
       response.error = error
       response.message = message
+      if (response.status === 401 || response.status === 403) {
+        token.delete()
+        if (!process.server) window.location.replace('/login')
+      }
     }
     return Promise.reject(response)
   }
