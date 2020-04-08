@@ -20,14 +20,11 @@ const token = (function () {
       if (isClient) localStorage.removeItem('_t')
       _token = null
     },
+    deleteAll() {
+      if (isClient) localStorage.clear()
+    },
   }
 })()
-
-// axios defaults
-axios.defaults.baseURL = process.env.BASE_URL
-axios.defaults.headers.post['Content-Type'] = 'application/json'
-axios.defaults.headers.post['Cache-Control'] = 'no-cache'
-
 function showMsg(type, response) {
   if (process.env.NODE_ENV === 'development' && !process.server) {
     // eslint-disable-next-line
@@ -49,10 +46,15 @@ function showMsg(type, response) {
   }
 }
 
+// axios defaults
+axios.defaults.baseURL = process.env.BASE_URL
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.post['Cache-Control'] = 'no-cache'
+
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
-    if (token.get()) config.headers.authorization = token.get()
+    if (token.get()) config.headers.Authorization = token.get()
     return config
   },
   function (error) {
@@ -65,7 +67,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   function (response) {
     if (!token.get()) {
-      const token = response.headers.authorization
+      const token = response.headers.Authorization
       if (token) token.set(token)
     }
 
@@ -97,8 +99,8 @@ axios.interceptors.response.use(
       response.error = error
       response.message = message
       if (response.status === 401 || response.status === 403) {
-        token.delete()
-        if (!process.server) window.location.replace('/login')
+        token.deleteAll()
+        // if (!process.server) window.location.replace('/login')
       }
     }
     return Promise.reject(response)

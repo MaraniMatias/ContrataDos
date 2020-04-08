@@ -78,6 +78,7 @@ schema.method('authenticate', function (password) {
 schema.static('findOrCreate', function (condition, user, callback) {
   const self = this
   this.findOne(condition)
+    .select('-password') // Selecciona todos los campos menos password
     .populate('servicios')
     .populate('localidad')
     .exec((err, result) => {

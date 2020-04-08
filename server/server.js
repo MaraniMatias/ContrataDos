@@ -1,22 +1,24 @@
 require('dotenv').config()
 const path = require('path')
+const bodyParser = require('body-parser')
+const compress = require('compression')
+const cors = require('cors')
 const express = require('express')
 const app = express()
-const bodyParser = require('body-parser')
-const passport = require('passport')
-const cors = require('cors')
+const favicon = require('serve-favicon')
 const helmet = require('helmet')
 const restify = require('express-restify-mongoose')
 const statusMonitor = require('express-status-monitor')
-const favicon = require('serve-favicon')
-const { sendRes } = require('./utilities/router')
 const Routers = require('./router')
+const passport = require('./utilities/passport')
+const { sendRes } = require('./utilities/router')
 Object.assign = require('object-assign')
 const STATIC_PATH = process.env.NODE_ENV === 'production' ? 'public' : 'static'
 
 // Sobre escribe la informacion de las tecnologias usadas en backend
 app.use(helmet())
 app.use(helmet.xssFilter({ reportUri: '/report-xss-violation' }))
+app.use(compress())
 
 // Initialize Passport and restore authentication state, if any, from the session.
 app.use(passport.initialize())

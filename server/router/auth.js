@@ -6,41 +6,54 @@ const { Persona: User } = require('../models/persona')
 
 // GET /auth/google
 router.get(
-  '/api/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
+  '/api/auth/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    session: false,
+  })
 )
 
+// TODO corregir url
 // GET /auth/google/callback
 router.get(
-  '/api/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function (_, res) {
-    res.redirect('/trabajos')
+  '/api/auth/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: '/login',
+    successRedirect: '/trabajos',
+  }),
+  function (_) {
+    console.log(_)
+    // res, status, data, message, error
+    // return sendRes(res, 200, req.user.toJSON(), 'Success', null)
   }
 )
 
 // POST auth/login {mail password}
-router.post('/api/login', passport.authenticate('local'), function (req, res) {
-  const user = req.user
-  // res, status, data, message, error
-  return sendRes(res, 200, user.toJSON(), 'Success', null)
-})
+router.post(
+  '/api/auth/login',
+  passport.authenticate('local', { session: false }),
+  (req, res) => {
+    passport.setTokeTo(res, { value: req.user._id })
+    // res, status, data, message, error
+    return sendRes(res, 200, req.user.toJSON(), 'Success', null)
+  }
+)
 
 // GET auth/logout
-router.post('/api/logout', function (req, res) {
+router.post('/api/auth/logout', function (req, res) {
   req.logout()
   // res, status, data, message, error
   return sendRes(res, 200, null, 'Success', null)
 })
 
 // GET auth/me
-router.get('/api/me', auth.isLogin, function (req, res) {
+router.get('/api/auth/me', auth.isLogin, function (req, res) {
   // res, status, data, message, error
   return sendRes(res, 200, req.user.toJSON(), 'Success', null)
 })
 
 // POST auth/signup {Alta de un usuario}
-router.post('/api/signup', function (req, res) {
+router.post('/api/auth/signup', function (req, res) {
   const errors = checkErrors([
     check(req.body, 'apellido').isString(),
     check(req.body, 'email').isEmail(),

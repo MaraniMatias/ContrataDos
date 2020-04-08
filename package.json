@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "npx run server && nuxt",
+    "dev": "npx run server & nuxt",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "server": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
@@ -34,7 +34,6 @@
     "escape-html": "^1.0.3",
     "express": "^4.16.4",
     "express-restify-mongoose": "^6.0.0",
-    "express-session": "^1.17.0",
     "express-status-monitor": "^1.2.10",
     "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
@@ -45,6 +44,7 @@
     "nodemailer": "^6.4.6",
     "nuxt": "^2.12.2",
     "nuxt-compress": "^1.1.0",
+    "nuxt-material-design-icons": "^1.0.4",
     "nuxt-social-meta": "0.0.1",
     "object-assign": "^4.1.1",
     "passport": "^0.4.1",
@@ -54,7 +54,6 @@
     "pug": "^2.0.4",
     "serve-favicon": "^2.5.0",
     "tiptap-vuetify": "^2.13.2",
-    "nuxt-material-design-icons": "^1.0.4",
     "vue-advanced-cropper": "^0.16.1"
   },
   "devDependencies": {

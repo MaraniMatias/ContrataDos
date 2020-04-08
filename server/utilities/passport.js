@@ -1,11 +1,12 @@
 const SECRET_KEY_SESSION = process.env.SECRET_KEY_SESSION || 'C0n7r47a2_hola:D'
 const passportJWT = require('passport-jwt')
+const jwt = require('jsonwebtoken')
 const ExtractJwt = passportJWT.ExtractJwt
 const JwtStrategy = passportJWT.Strategy
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-const { Persona } = require('./../../models/persona')
+const { Persona } = require('./../models/persona')
 
 // Config passport
 passport.use(
@@ -13,7 +14,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: '/api/auth/google/callback',
+      callbackURL: process.env.BASE_URL + '/api/auth/google/callback',
     },
     function (accessToken, refreshToken, profile, done) {
       if (process.env.NODE_ENV === 'development') {
@@ -65,7 +66,10 @@ passport.use(
           const userDB = await persona.save()
           return next(null, userDB)
         } else {
-          if (await user.authenticate(password)) return next(null, user)
+          if (await user.authenticate(password)) {
+            user.password = null
+            return next(null, user)
+          }
           return next(null, false)
         }
       } catch (err) {
@@ -84,9 +88,9 @@ passport.use(
       ignoreExpiration: process.env.NODE_ENV === 'development',
     },
     function (jwtPayload, next) {
-      console.log('payload received', jwtPayload)
+      console.log('payload received', jwtPayload.value)
       // usually this would be a database call:
-      Persona.findById(jwtPayload.id)
+      Persona.findById(jwtPayload.value)
         .select('-password') // Selecciona todos los campos menos password
         .populate('servicios')
         .populate('localidad')
@@ -112,3 +116,11 @@ passport.deserializeUser(function (id, cb) {
   }
   Persona.findById(id, cb)
 })
+
+passport.setTokeTo = (res, { value }) => {
+  const token = jwt.sign({ value }, SECRET_KEY_SESSION)
+  res.setHeader('Authorization', 'Bearer ' + token)
+  return token
+}
+
+module.exports = passport
