@@ -2,6 +2,7 @@
 //  process.client
 
 import http from '~/api/http'
+import Token from '~/api/Token'
 import { Roles } from '~~/server/utilities/enums'
 
 export const state = () => ({
@@ -35,8 +36,10 @@ export const actions = {
   },
   async logout({ commit }) {
     try {
-      await http.post('/api/auth/logout')
+      const { data } = await http.post('/api/auth/logout')
+      Token.deleteAll()
       commit('SET_USER', {})
+      return { data }
     } catch (e) {
       return { error: 'Error' }
     }
