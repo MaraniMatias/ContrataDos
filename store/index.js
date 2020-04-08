@@ -6,7 +6,6 @@ import { Roles } from '../utils/enums'
 
 export const state = () => ({
   user: {},
-  token: null,
 })
 
 export const getters = {
@@ -18,24 +17,18 @@ export const mutations = {
   SET_USER(state, user) {
     state.user = user
   },
-  SET_TOKEN(state, val) {
-    state.token = val
-  },
 }
 
 export const actions = {
   // nuxtServerInit is called by Nuxt.js before server-rendering every page
-  nuxtServerInit({ commit }, { req }) {
-    // console.log('nuxtServerInit', req.headers)
-    if (req.session?.passport?.user) {
-      commit('SET_TOKEN', req.session.passport.user) // user es _id
-      //  commit('SET_USER', req.session.authUser)
-    }
-  },
+  // nuxtServerInit({ commit }, { req }) {commit('SET_TOKEN', req.session.passport.user)},
   async login({ commit }, { email, password }) {
     try {
-      const { data } = await http.post('/api/auth/login', { email, password })
-      commit('SET_TOKEN', data._id)
+      const { data, token } = await http.post('/api/auth/login', {
+        email,
+        password,
+      })
+      if (process.client) localStorage.setItem('_t', token)
       commit('SET_USER', data)
       return { data }
     } catch ({ status }) {
@@ -47,7 +40,7 @@ export const actions = {
   async logout({ commit }) {
     try {
       await http.post('/api/auth/logout')
-      commit('SET_TOKEN', null)
+      if (process.client) localStorage.removeItem('_t')
       commit('SET_USER', {})
     } catch (e) {
       return { error: 'Error' }

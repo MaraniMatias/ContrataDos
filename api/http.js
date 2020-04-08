@@ -1,5 +1,6 @@
 'use strict'
 import axios from 'axios'
+const token = process.client ? localStorage.getItem('_t') : undefined
 
 // axios defaults
 axios.defaults.headers.post['Content-Type'] = 'application/json'
@@ -29,7 +30,8 @@ function showMsg(type, response) {
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
-    // if (store.state.token) config.headers.authorization = `Bearer ${store.state.token}`
+    if (token) config.headers.authorization = token
+    // `Bearer ${token}`;
     return config
   },
   function (error) {
