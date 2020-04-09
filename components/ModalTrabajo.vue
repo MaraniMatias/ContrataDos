@@ -1,9 +1,10 @@
 <template>
   <v-card color="grey lighten-4" min-width="350px" flat>
     <v-toolbar :color="color" dark dense flat>
-      <v-toolbar-title v-text="trabajo.descripcion_breve" />
+      <v-toolbar-title v-text="displayTitle" />
       <v-spacer />
-      <v-btn icon small class="mr-0" @click.stop="$emit('close')">
+      {{ displayEstado }}
+      <v-btn icon small class="mr-0 ml-2" @click.stop="$emit('close')">
         <v-icon>close</v-icon>
       </v-btn>
     </v-toolbar>
@@ -17,10 +18,12 @@
           </v-layout>
         </v-layout>
         <v-layout column justify-center>
-          <p class="mb-0 headline font-weight-black">{{ displayFecha }}</p>
-          <p class="mb-0 body-1">Duración: {{ displayDuracion }}</p>
+          <p class="mb-0 headline font-weight-black">
+            {{ displayFecha }}
+            <spam class="body-2"> ({{ displayDuracion }}) </spam>
+          </p>
         </v-layout>
-        <p class="mb-0 body-1">Estado: {{ estadoLabel }}</p>
+        <p class="mb-0 body-1">Dirrecion: {{ localidadNombre }}</p>
 
         <p>{{ trabajo.descripcion }}</p>
       </v-layout>
@@ -39,7 +42,7 @@ import Avatar from './Avatar'
 
 import dateFormat from '~/utils/dateFormat'
 import camelCase from '~~/server/utilities/capitalizeWords'
-import dateFormatDistance from '~/utils/dateFormatDistance'
+// import dateFormatDistance from '~/utils/dateFormatDistance'
 import {
   EstadoTrabajoLabel,
   EstadoTrabajo,
@@ -68,7 +71,7 @@ export default {
     isPablic() {
       return this.trabajo.tipo === TipoTrabajo.PUBLICO
     },
-    estadoLabel() {
+    displayEstado() {
       return camelCase(this.trabajo.estado)
     },
     cliente() {
@@ -98,6 +101,12 @@ export default {
       const key = this.showAsCliente ? 'profesional' : 'cliente'
       return this.trabajo[key].email
     },
+    displayTitle() {
+      return camelCase(this.trabajo.descripcion_breve)
+    },
+    localidadNombre() {
+      return camelCase(this.trabajo.localidad?.nombre)
+    },
     agenda() {
       const len = this.trabajo.agenda.length - 1
       if (len === 0) return {}
@@ -106,10 +115,16 @@ export default {
     displayFecha() {
       const hours = this.agenda.fecha_inicio
       // "dd/mm/yyyy HH:mm"
-      return camelCase(dateFormat(hours, "EEEE dd/mm 'a las' HH:mm 'hs'"))
+      return camelCase(dateFormat(hours, "EEEE dd/MM 'a las' HH:mm 'hs'"))
     },
     displayDuracion() {
-      return dateFormatDistance(this.agenda.fecha_fin, this.agenda.fecha_inicio)
+      // return dateFormatDistance(this.agenda.fecha_fin, this.agenda.fecha_inicio)
+      const fechaInicio = new Date(this.agenda.fecha_inicio).getTime()
+      const fechaFin = new Date(this.agenda.fecha_fin).getTime()
+      const deltaTime = fechaFin - fechaInicio
+      const hours = Math.floor(deltaTime / 3600000)
+      const minutes = (deltaTime - hours * 3600000) / 60000
+      return hours + 'hs ' + minutes + 'm'
     },
   },
   created() {},

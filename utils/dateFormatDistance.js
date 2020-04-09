@@ -1,5 +1,5 @@
 // https://date-fns.org/v2.0.1/docs/I18n
-import format from 'date-fns/formatDistance'
+import format from 'date-fns/formatDistanceStrict'
 import es from 'date-fns/locale/es'
 // const locales = { es }
 
@@ -9,5 +9,6 @@ export default function (date, dateBase) {
   return format(d1, d2, {
     // locale: locales[window.__localeId__], // or global.__localeId__
     locale: es,
+    unit: 'minute',
   })
 }
