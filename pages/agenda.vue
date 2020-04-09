@@ -58,29 +58,12 @@
             @click:date="viewDay"
             @change="updateRange"
           />
-          <v-menu
-            v-model="selectedOpen"
-            :close-on-content-click="false"
-            :activator="selectedElement"
-            offset-x
-          >
-            <v-card color="grey lighten-4" min-width="350px" flat>
-              <v-toolbar :color="selectedEvent.color" dark>
-                <v-toolbar-title v-text="selectedEvent.name" />
-                <v-spacer />
-                <v-btn icon @click="selectedOpen = false">
-                  <v-icon>close</v-icon>
-                </v-btn>
-              </v-toolbar>
-              <v-card-text>
-                <p>{{ selectedEvent.trabajo.descripcion }}</p>
-              </v-card-text>
-              <v-card-actions> </v-card-actions>
-            </v-card>
-          </v-menu>
         </v-sheet>
       </v-col>
     </v-row>
+    <v-dialog v-model="selectedOpen" max-width="450">
+      <ModalTrabajo v-bind="selectedEvent" @close="selectedOpen = false" />
+    </v-dialog>
   </v-layout>
 </template>
 
@@ -89,9 +72,11 @@ import { Trabajo } from '~/api'
 import { EstadoTrabajoColor } from '~~/server/utilities/enums'
 import dateFormat from '~/utils/dateFormat'
 import camelCase from '~~/server/utilities/capitalizeWords'
+import ModalTrabajo from '~/components/ModalTrabajo'
 
 export default {
   middleware: 'authenticated',
+  components: { ModalTrabajo },
   data: () => ({
     focus: '',
     type: 'month',
