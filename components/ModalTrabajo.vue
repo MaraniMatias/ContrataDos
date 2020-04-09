@@ -1,21 +1,36 @@
 <template>
   <v-card color="grey lighten-4" min-width="350px" flat>
-    <v-toolbar :color="color" dark>
+    <v-toolbar :color="color" dark dense flat>
       <v-toolbar-title v-text="trabajo.descripcion_breve" />
       <v-spacer />
-      <v-btn icon @click.stop="$emit('close')">
+      <v-btn icon small class="mr-0" @click.stop="$emit('close')">
         <v-icon>close</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-card-text>
-      <p>{{ trabajo.descripcion }}</p>
+    <v-card-text class="px-3 pb-3 pt-1">
+      <v-layout column>
+        <v-layout align-center mb-2>
+          <Avatar size="42" :src="displayPicture" />
+          <v-layout column justify-center ml-2>
+            <p class="title mb-0" v-text="displayName" />
+            <span class="body-1" v-text="displayEmail" />
+          </v-layout>
+        </v-layout>
+        <v-layout column justify-center>
+          <p class="mb-0 headline font-weight-black">{{ displayFecha }}</p>
+          <p class="mb-0 body-1">Duración: {{ displayDuracion }}</p>
+        </v-layout>
+        <p class="mb-0 body-1">Estado: {{ estadoLabel }}</p>
+
+        <p>{{ trabajo.descripcion }}</p>
+      </v-layout>
     </v-card-text>
     <v-card-actions> </v-card-actions>
   </v-card>
 </template>
 
 <script>
-// import Avatar from './Avatar'
+import Avatar from './Avatar'
 // import Rating from './Rating'
 // import CardChat from './CardChat'
 // import FieldDate from './FieldDate'
@@ -24,6 +39,7 @@
 
 import dateFormat from '~/utils/dateFormat'
 import camelCase from '~~/server/utilities/capitalizeWords'
+import dateFormatDistance from '~/utils/dateFormatDistance'
 import {
   EstadoTrabajoLabel,
   EstadoTrabajo,
@@ -32,6 +48,7 @@ import {
 
 export default {
   // components: { Rating, Avatar, CardChat, FieldDate, FieldTime },
+  components: { Avatar },
   props: {
     trabajo: { type: Object, required: true },
     color: { type: String, default: 'primary' },
@@ -81,18 +98,18 @@ export default {
       const key = this.showAsCliente ? 'profesional' : 'cliente'
       return this.trabajo[key].email
     },
-    displayFecha() {
+    agenda() {
       const len = this.trabajo.agenda.length - 1
-      const hours =
-        len >= 0
-          ? this.trabajo.agenda[len].fecha_inicio
-          : this.trabajo.createdAt
-      if (this.isPablic) {
-        const text = this.trabajo.estado ? 'Realiazdo ' : 'Publicado '
-        return text + dateFormat(hours, 'dd/MM/yyyy')
-      } else {
-        return camelCase(dateFormat(hours, "EEEE HH:mm 'hs'"))
-      }
+      if (len === 0) return {}
+      return this.trabajo.agenda[len]
+    },
+    displayFecha() {
+      const hours = this.agenda.fecha_inicio
+      // "dd/mm/yyyy HH:mm"
+      return camelCase(dateFormat(hours, "EEEE dd/mm 'a las' HH:mm 'hs'"))
+    },
+    displayDuracion() {
+      return dateFormatDistance(this.agenda.fecha_fin, this.agenda.fecha_inicio)
     },
   },
   created() {},
