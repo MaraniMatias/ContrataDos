@@ -1,10 +1,29 @@
 <template>
   <div>
     <v-dialog
+      v-model="notesModal"
+      max-width="500"
+      persistent
+      @keyup.esc="cancel"
+    >
+      <v-card>
+        <v-card-title class="headline">Notas</v-card-title>
+        <v-card-text class="pb-0 px-2">
+          <FieldTextArea v-model.lazy="form.notas" heading />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn text @click="cancel()">Cancelar</v-btn>
+          <v-btn color="primary" @click="updateTrabajo()">Aceptar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- add notas -->
+    <v-dialog
       v-model="optionsModal"
       max-width="350"
       persistent
-      @keyup.esc="cliente"
+      @keyup.esc="cancel"
     >
       <v-card>
         <v-card-title class="headline">Opciones</v-card-title>
@@ -138,6 +157,9 @@
               Opciones
             </v-btn>
             <v-layout align-center justify-end>
+              <v-btn color="primary" class="mx-2" text @click="addNotes">
+                Notas
+              </v-btn>
               <v-btn color="black" outlined @click="openChat">
                 {{ showChat ? 'Ocultar chat' : 'Ver chat' }}
               </v-btn>
@@ -202,7 +224,7 @@
                       @click.stop="showSetHours = !showSetHours"
                     >
                       <v-icon v-if="showSetHours">keyboard</v-icon>
-                      <v-icon v-else> insert_invitation</v-icon>
+                      <v-icon v-else>insert_invitation</v-icon>
                     </v-btn>
                   </template>
                   <span v-if="showSetHours">Volver al treclado</span>
@@ -241,6 +263,7 @@ import Rating from './Rating'
 import CardChat from './CardChat'
 import FieldDate from './FieldDate'
 import FieldTime from './FieldTime'
+import FieldTextArea from './FieldTextArea'
 import { Trabajo, Comunicacion } from '~/api'
 
 import dateFormat from '~/utils/dateFormat'
@@ -252,7 +275,7 @@ import {
 } from '~~/server/utilities/enums'
 
 export default {
-  components: { Rating, Avatar, CardChat, FieldDate, FieldTime },
+  components: { Rating, Avatar, CardChat, FieldDate, FieldTime, FieldTextArea },
   props: {
     trabajo: { type: Object, required: true },
   },
@@ -262,12 +285,14 @@ export default {
     form: {
       estado: null,
       fechaFin: new Date(),
+      notas: '',
       detalle: '',
       fechaInicio: new Date(),
     },
     showSetHours: false,
     comunicaciones: [],
     optionsModal: false,
+    notesModal: false,
   }),
   computed: {
     Estados: () => EstadoTrabajoLabel,
@@ -312,17 +337,18 @@ export default {
       return this.trabajo[key].email
     },
     displayFecha() {
-      const len = this.trabajo.agenda.length - 1
-      const hours =
-        len >= 0
-          ? this.trabajo.agenda[len].fecha_inicio
-          : this.trabajo.createdAt
+      const hours = this.agenda.fecha_inicio || this.trabajo.createdAt
       if (this.isPablic) {
         const text = this.trabajo.estado ? 'Realiazdo ' : 'Publicado '
         return text + dateFormat(hours, 'dd/MM/yyyy')
       } else {
         return camelCase(dateFormat(hours, "EEEE HH:mm 'hs'"))
       }
+    },
+    agenda() {
+      const len = this.trabajo.agenda.length - 1
+      if (len === 0) return {}
+      return this.trabajo.agenda[len] || {}
     },
   },
   created() {
@@ -334,13 +360,7 @@ export default {
       self.comunicaciones = data || []
       self.page = self.numberOfPages
     })
-    const len = this.trabajo.agenda.length
-    this.form.estado = this.trabajo.estado
-    if (len) {
-      const agenda = this.trabajo.agenda[len - 1]
-      this.form.fechaInicio = new Date(agenda.fecha_inicio)
-      this.form.fechaFin = new Date(agenda.fecha_fin)
-    }
+    this.cancel()
   },
   methods: {
     openChat() {
@@ -418,6 +438,7 @@ export default {
     async updateTrabajo() {
       this.loading = true
       this.trabajo.estado = this.form.estado
+      this.trabajo.notas = this.from.notas
       this.trabajo.agenda.push({
         fecha_inicio: this.form.fechaInicio,
         fecha_fin: this.form.fechaFin,
@@ -434,10 +455,19 @@ export default {
     },
     cancel() {
       this.optionsModal = false
+      this.notesModal = false
       this.form = {
-        fechaFin: new Date(),
-        fechaInicio: new Date(),
+        // trabajo
+        estado: this.trabajo.estado,
+        notas: this.trabajo.notas,
+        // Chat
+        fechaInicio: new Date(this.agenda.fecha_inicio),
+        fechaFin: new Date(this.agenda.fecha_fin),
+        detalle: '',
       }
+    },
+    addNotes() {
+      this.notesModal = true
     },
   },
 }
