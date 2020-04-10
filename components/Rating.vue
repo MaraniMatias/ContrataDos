@@ -39,7 +39,7 @@ export default {
     editable: { type: Boolean, default: false },
     star: { type: Boolean, default: false },
     like: { type: Boolean, default: false },
-    size: { type: Number, default: 0 },
+    size: { type: [String, Number], default: 0 },
   },
   data: () => ({}),
   computed: {
