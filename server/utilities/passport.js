@@ -50,26 +50,13 @@ passport.use(
     { usernameField: 'email', passwordField: 'password' },
     async function (email, password, next) {
       try {
-        // TODO Caundoe este armado el enpoint para singin corregir esto
         const user = await Persona.findOne({ email, deleted: false })
           .populate('servicios')
           .populate('localidad')
-
-        if (!user) {
-          const persona = new Persona({
-            nombre: 'matthew',
-            apellido: 'local',
-            email,
-            password,
-            picture: '/avatars/matthew.png',
-          })
-          const userDB = await persona.save()
-          return next(null, userDB)
+        if (user && (await user.authenticate(password))) {
+          user.password = null
+          return next(null, user)
         } else {
-          if (await user.authenticate(password)) {
-            user.password = null
-            return next(null, user)
-          }
           return next(null, false)
         }
       } catch (err) {

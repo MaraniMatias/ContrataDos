@@ -34,6 +34,7 @@ const schema = new Schema(
         'Por favor, complete ingrese una dirección de correo electrónico válida',
       ],
     },
+    email_verified: { type: Boolean, default: false },
     roles: [
       {
         type: String,
@@ -70,7 +71,6 @@ schema.pre('save', async function (next) {
 })
 
 // Checks password match
-// XXX using awit
 schema.method('authenticate', function (password) {
   return bcrypt.compare(password, this.password)
 })

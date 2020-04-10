@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 const Agenda = require('agenda')
-const sendEmailTo = require('./emails/send')
 let agenda
 
-// Tasks
+// Auto load Tasks
+/*
 module.exports.jobs = {
   SEND_EMAIL: {
     VERIFICAR_EAMIL: 'SEND_EMAIL_VERIFICAR_EAMIL',
@@ -17,6 +17,7 @@ module.exports.jobs = {
     TRABAJOS_PARA_HOY: 'TRABAJOS_PARA_HOY',
   },
 }
+*/
 
 module.exports.jobCreate = (jobName, data) =>
   agenda.create(jobName, data).save()
@@ -25,6 +26,8 @@ module.exports.start = async function () {
   try {
     agenda = new Agenda({ mongo: mongoose.connection })
 
+    // Auto load task
+    /*
     agenda.define(
       this.jobs.SEND_EMAIL.VERIFICAR_EAMIL,
       { priority: 'normal', concurrency: 2 },
@@ -35,6 +38,7 @@ module.exports.start = async function () {
         )
       }
     )
+    */
 
     await agenda.start()
   } catch (e) {

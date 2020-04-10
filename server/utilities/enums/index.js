@@ -5,6 +5,11 @@ module.exports.Roles = {
   PROFECIONAL: 'PROFECIONAL',
   ADMIN: 'ADMIN',
 }
+module.exports.RolesLabel = Object.keys(this.Roles).map((key) => ({
+  key,
+  show: key !== this.Roles.ADMIN,
+  label: capitalizeWords(key),
+}))
 
 module.exports.EstadoTrabajo = {
   CONSULTA: 'CONSULTA', // El cleinte indica que necesita al profesional

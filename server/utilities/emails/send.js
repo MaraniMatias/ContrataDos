@@ -17,14 +17,15 @@ const options = {
   logo: process.env.EMAIL_LOGO,
 }
 if (process.env.NODE_ENV !== 'production') console.log(options)
-const templeteUserABM = pug.compileFile(
-  path.join(__dirname, 'templates', 'email_abm_usuario.pug')
-)
-const templeteAplicacion = pug.compileFile(
-  path.join(__dirname, 'templates', 'aplicacion_change.pug')
-)
 
-module.exports = async function ({ subject, type }, data) {
+const getHtmlEmail = (file, obj = {}) => {
+  return pug.compileFile(path.join(__dirname, 'templates', file))({
+    ...obj,
+    logo: options.logo,
+  })
+}
+
+module.exports = async function ({ subject, template }, data) {
   const sendEmailTo = data.email || data.sendEmailTo
   if (process.env.NODE_ENV !== 'production') {
     console.log("sendMail '" + subject + "' to", sendEmailTo)
@@ -51,10 +52,7 @@ module.exports = async function ({ subject, type }, data) {
       process.env.NODE_ENV === 'production'
         ? process.env.EMAIL_AUTH_USER
         : undefined,
-    subject,
-    html:
-      type === 'user_abm'
-        ? templeteUserABM({ data, subject, logo: options.logo })
-        : templeteAplicacion({ data, subject, logo: options.logo, type }),
+    subject: subject + ' - ' + process.env.EMAIL_NOMBRE,
+    html: getHtmlEmail(template, { data, subject }),
   })
 }
