@@ -54,4 +54,24 @@ restify.serve(router, Trabajo, {
   ],
 })
 
+/*
+router.get('/api/custom/trabajo/score', auth.isLogin, async (req, res) => {
+  try {
+    // TODO aggregate
+    const trabajosTerminados = await Trabajo.find({
+      profesional: req.user._id,
+      estado: EstadoTrabajo.TERMINADO,
+    })
+    const data = {
+      count: trabajosTerminados.length,
+      like: trabajosTerminados.filter((jobs) => jobs.like).length,
+      dontLike: trabajosTerminados.filter((jobs) => jobs.dontLike).length,
+    }
+    return sendRes(res, 200, data, 'success', null)
+  } catch (err) {
+    return sendRes(res, 500, null, 'error', err)
+  }
+})
+*/
+
 module.exports = router

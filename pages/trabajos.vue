@@ -2,7 +2,7 @@
   <v-layout column mb-2 px-2 justify-start fill-height>
     <v-flex xs12>
       <v-layout align-center>
-        <v-flex xs12 lg8>
+        <v-flex xs12 lg4>
           <v-layout justify-start align-center>
             <v-chip-group v-model="filters" multiple @change="loadData">
               <v-chip
@@ -16,6 +16,15 @@
                 {{ f.label }}
               </v-chip>
             </v-chip-group>
+          </v-layout>
+        </v-flex>
+        <v-flex xs12 lg4>
+          <v-layout align-center justify-center>
+            <span>Trabajos terminados: {{ score.total }} </span>
+            <v-icon small class="mx-2">mdi-thumb-up</v-icon>
+            {{ score.like }}
+            <v-icon small class="mx-2">mdi-thumb-down</v-icon>
+            {{ score.dontLike }}
           </v-layout>
         </v-flex>
         <v-flex xs12 lg4>
@@ -139,6 +148,7 @@ export default {
     viewLike: [0, 1], // Cange de componente
     viewLikeProfesional: true,
     ready: true,
+    score: {},
   }),
   computed: {
     ...mapGetters(['isAProfessional']),
@@ -163,10 +173,24 @@ export default {
   //   })
   // },
   mounted() {
+    this.getScore()
     this.loadData()
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
+    async getScore() {
+      const { data } = await Trabajo.get({
+        query: {
+          profesional: this.user._id,
+          estado: EstadoTrabajo.TERMINADO,
+        },
+      })
+      this.score = {
+        total: data.length || 0,
+        like: data.filter((jobs) => jobs.like).length || 0,
+        dontLike: data.filter((jobs) => jobs.dontLike).length || 0,
+      }
+    },
     async close() {
       const { data } = await Persona.save({
         _id: this.user._id,
