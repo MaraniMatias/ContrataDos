@@ -20,21 +20,44 @@
         <v-layout column justify-center>
           <p class="mb-0 headline font-weight-black">
             {{ displayFecha }}
-            <spam class="body-2"> ({{ displayDuracion }}) </spam>
+            <span class="body-2" v-text="displayDuracion" />
           </p>
         </v-layout>
-        <p class="mb-0 body-1">Dirrecion: {{ localidadNombre }}</p>
-
-        <p>{{ trabajo.descripcion }}</p>
+        <p class="mb-1 body-1">Dirrecion: {{ localidadNombre }}</p>
+        <p class="mb-1">{{ trabajo.descripcion }}</p>
+        <v-layout align-center>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <div v-on="on">
+                <Rating :like="trabajo.like" size="22" />
+              </div>
+            </template>
+            Opinion del cliente:
+          </v-tooltip>
+          <v-layout align-center justify-end>
+            <v-btn color="black" outlined :to="'/trabajo/' + trabajo._id">
+              Ver
+            </v-btn>
+            <!--
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn text icon @click="addNote" v-on="on">
+                  <v-icon>note_add</v-icon>
+                </v-btn>
+              </template>
+              Agregar Notas
+            </v-tooltip>
+          -->
+          </v-layout>
+        </v-layout>
       </v-layout>
     </v-card-text>
-    <v-card-actions> </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import Avatar from './Avatar'
-// import Rating from './Rating'
+import Rating from './Rating'
 // import CardChat from './CardChat'
 // import FieldDate from './FieldDate'
 // import FieldTime from './FieldTime'
@@ -51,7 +74,7 @@ import {
 
 export default {
   // components: { Rating, Avatar, CardChat, FieldDate, FieldTime },
-  components: { Avatar },
+  components: { Avatar, Rating },
   props: {
     trabajo: { type: Object, required: true },
     color: { type: String, default: 'primary' },
@@ -118,16 +141,18 @@ export default {
       return camelCase(dateFormat(hours, "EEEE dd/MM 'a las' HH:mm 'hs'"))
     },
     displayDuracion() {
-      // return dateFormatDistance(this.agenda.fecha_fin, this.agenda.fecha_inicio)
+      if (this.isEstado.CONSULTA) return ''
       const fechaInicio = new Date(this.agenda.fecha_inicio).getTime()
       const fechaFin = new Date(this.agenda.fecha_fin).getTime()
       const deltaTime = fechaFin - fechaInicio
       const hours = Math.floor(deltaTime / 3600000)
       const minutes = (deltaTime - hours * 3600000) / 60000
-      return hours + 'hs ' + minutes + 'm'
+      return `(${hours} hs ${minutes}m )`
     },
   },
   created() {},
-  methods: {},
+  methods: {
+    addNote() {},
+  },
 }
 </script>
