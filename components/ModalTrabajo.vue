@@ -35,7 +35,7 @@
             Opinion del cliente
           </v-tooltip>
           <v-layout align-center justify-end>
-            <v-btn color="black" text :to="'/trabajo/' + trabajo._id">
+            <v-btn color="black" text :to="'/trabajos/' + trabajo._id">
               Ver
             </v-btn>
             <v-btn
