@@ -19,7 +19,8 @@
         <pre v-if="showErrorObject">{{ error }}</pre>
       </template>
       <p class="description mt-4">
-        <NuxtLink to="/">Ir al inicio</NuxtLink>
+        <a v-if="error.statusCode === 404" @click="$router.back()">Volver</a>
+        <n-link v-else to="/">Ir al inicio</n-link>
       </p>
     </div>
   </v-row>
