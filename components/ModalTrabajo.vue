@@ -26,7 +26,7 @@
         <p class="mb-1 body-1">Dirrecion: {{ localidadNombre }}</p>
         <p class="mb-1">{{ trabajo.descripcion }}</p>
         <v-layout align-center>
-          <v-tooltip bottom>
+          <v-tooltip v-if="trabajo.like || trabajo.dontLike" bottom>
             <template v-slot:activator="{ on }">
               <div v-on="on">
                 <Rating :like="trabajo.like" size="22" />
@@ -35,8 +35,16 @@
             Opinion del cliente
           </v-tooltip>
           <v-layout align-center justify-end>
-            <v-btn color="black" outlined :to="'/trabajo/' + trabajo._id">
+            <v-btn color="black" text :to="'/trabajo/' + trabajo._id">
               Ver
+            </v-btn>
+            <v-btn
+              dark
+              class="mr-0 ml-2"
+              :color="color"
+              @click.stop="$emit('close')"
+            >
+              Cerrar
             </v-btn>
             <!--
             <v-tooltip bottom>
