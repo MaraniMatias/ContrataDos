@@ -31,6 +31,7 @@ const schema = new Schema(
     like: { type: Boolean },
     dontLike: { type: Boolean },
     // foto, usar el _id para referenciar la foto o mejor un id unico universal
+    notas: { type: String, max: 500, trim: true },
     descripcion: { type: String, max: 500, trim: true, set: escapeHtml },
     descripcion_breve: {
       type: String,
