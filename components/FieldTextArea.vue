@@ -10,7 +10,7 @@
 <script>
 import {
   TiptapVuetify,
-  // Heading,
+  Heading,
   Bold,
   Italic,
   Strike,
@@ -31,31 +31,38 @@ export default {
   components: { TiptapVuetify },
   props: {
     disabled: { type: Boolean, default: false },
-    value: [Date, String],
+    value: { type: [Date, String], default: '' },
+    heading: { type: Boolean, default: false },
     required: { type: Boolean, default: false },
   },
   data: () => ({
-    extensions: [
-      // History,
-      Blockquote,
-      // Link,
-      Underline,
-      Strike,
-      Italic,
-      ListItem,
-      BulletList,
-      OrderedList,
-      // [Heading, { options: { levels: [1, 2, 3] } }],
-      Bold,
-      // Code,
-      HorizontalRule,
-      Paragraph,
-      HardBreak,
-    ],
     // starting editor's content
     content: '',
   }),
-  computed: {},
+  computed: {
+    extensions() {
+      const arr = [
+        // History,
+        Blockquote,
+        // Link,
+        Underline,
+        Strike,
+        Italic,
+        ListItem,
+        BulletList,
+        OrderedList,
+        Bold,
+        // Code,
+        HorizontalRule,
+        Paragraph,
+        HardBreak,
+      ]
+      if (this.heading) {
+        arr.push([Heading, { options: { levels: [1, 2] } }])
+      }
+      return arr
+    },
+  },
   watch: {
     content(val) {
       this.$emit('input', val)
