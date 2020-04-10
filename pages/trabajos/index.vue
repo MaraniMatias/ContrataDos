@@ -2,7 +2,7 @@
   <v-layout column mb-2 px-2 justify-start fill-height>
     <v-flex xs12>
       <v-layout align-center>
-        <v-flex xs12 lg4>
+        <v-flex xs12 lg6 xl4>
           <v-layout justify-start align-center>
             <v-chip-group v-model="filters" multiple @change="loadData">
               <v-chip
@@ -18,7 +18,7 @@
             </v-chip-group>
           </v-layout>
         </v-flex>
-        <v-flex xs12 lg4>
+        <v-flex xs12 lg3 xl4>
           <v-layout align-center justify-center>
             <span>Trabajos terminados: {{ score.total }} </span>
             <v-icon small class="mx-2">mdi-thumb-up</v-icon>
@@ -27,7 +27,7 @@
             {{ score.dontLike }}
           </v-layout>
         </v-flex>
-        <v-flex xs12 lg4>
+        <v-flex xs12 lg3 xl4>
           <v-layout justify-end align-center>
             <v-chip-group
               v-if="isAProfessional"
