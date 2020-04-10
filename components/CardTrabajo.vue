@@ -104,7 +104,14 @@
                   <v-flex> {{ displayFecha }} </v-flex>
                   <v-flex xs12 md4>
                     <v-layout justify-end align-start>
-                      <Rating :value="trabajo.puntuacion" />
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on }">
+                          <div v-on="on">
+                            <Rating :like="trabajo.like" size="22" />
+                          </div>
+                        </template>
+                        Opinion del cliente
+                      </v-tooltip>
                     </v-layout>
                   </v-flex>
                 </v-layout>

@@ -32,7 +32,7 @@
                 <Rating :like="trabajo.like" size="22" />
               </div>
             </template>
-            Opinion del cliente:
+            Opinion del cliente
           </v-tooltip>
           <v-layout align-center justify-end>
             <v-btn color="black" outlined :to="'/trabajo/' + trabajo._id">
@@ -58,14 +58,9 @@
 <script>
 import Avatar from './Avatar'
 import Rating from './Rating'
-// import CardChat from './CardChat'
-// import FieldDate from './FieldDate'
-// import FieldTime from './FieldTime'
-// import { Trabajo, Comunicacion } from '~/api'
 
 import dateFormat from '~/utils/dateFormat'
 import camelCase from '~~/server/utilities/capitalizeWords'
-// import dateFormatDistance from '~/utils/dateFormatDistance'
 import {
   EstadoTrabajoLabel,
   EstadoTrabajo,
@@ -73,7 +68,6 @@ import {
 } from '~~/server/utilities/enums'
 
 export default {
-  // components: { Rating, Avatar, CardChat, FieldDate, FieldTime },
   components: { Avatar, Rating },
   props: {
     trabajo: { type: Object, required: true },
