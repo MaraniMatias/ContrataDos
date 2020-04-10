@@ -27,7 +27,7 @@
     >
       <v-card>
         <v-card-title class="headline">Opciones</v-card-title>
-        <v-card-text>
+        <v-card-text class="pb-0">
           <p>
             Para cambiar la fecha de la cita, cambie el estado a
             <a @click.stop="form.estado = 'CONSULTA'">CONSULTA</a>
@@ -155,6 +155,15 @@
               @click.stop="optionsModal = true"
             >
               Opciones
+            </v-btn>
+            <v-btn
+              v-show="isEstado.EN_PROGRESO"
+              color="deep-purple"
+              class="mx-2"
+              text
+              @click="markAsDone"
+            >
+              Trabajo terminado
             </v-btn>
             <v-layout align-center justify-end>
               <v-btn color="primary" class="mx-2" text @click="addNotes">
@@ -438,7 +447,7 @@ export default {
     async updateTrabajo() {
       this.loading = true
       this.trabajo.estado = this.form.estado
-      this.trabajo.notas = this.from.notas
+      this.trabajo.notas = this.form.notas
       this.trabajo.agenda.push({
         fecha_inicio: this.form.fechaInicio,
         fecha_fin: this.form.fechaFin,
@@ -468,6 +477,19 @@ export default {
     },
     addNotes() {
       this.notesModal = true
+    },
+    async markAsDone() {
+      this.loading = true
+      this.trabajo.estado = EstadoTrabajo.TERMINADO
+      const { error } = await Trabajo.save(this.trabajo)
+      if (error) {
+        this.$notify({ type: 'error', text: error })
+      } else {
+        this.$notify({ type: 'success', text: 'Trabajo actualizado.' })
+        this.$emit('change')
+        this.cancel()
+      }
+      this.loading = false
     },
   },
 }
