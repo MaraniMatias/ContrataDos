@@ -27,7 +27,11 @@ app.use(passport.initialize())
 // Parsear el cueropo de dato en POST
 app.use(bodyParser.json(/* { limit: '12mb' } */))
 app.use(bodyParser.urlencoded({ /*  limit: '12mb', */ extended: true }))
-app.use(cors({ exposedHeaders: ['X-Total-Count'] }))
+app.use(
+  cors({
+    exposedHeaders: ['X-Total-Count', 'Content-Type', 'Authorization'],
+  })
+)
 
 // favicon
 app.use(favicon(path.join(__dirname, '..', STATIC_PATH, 'favicon.ico')))

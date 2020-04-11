@@ -16,7 +16,7 @@ function sendVerifyEmail(email) {
       .then((token) => {
         Agenda.jobCreate(Agenda.jobs.SEND_EMAIL.VERIFICAR_EAMIL, {
           email,
-          link: `${process.env.BASE_URL}/login?token=${token}&email=${email}`,
+          link: `${process.env.FRONT_URL}/login?token=${token}&email=${email}`,
         })
         resolve()
       })
@@ -36,12 +36,12 @@ router.get(
 router.get(
   '/api/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: process.env.URL + '/login?error=google_token',
+    failureRedirect: process.env.FRONT_URL + '/login?error=google_token',
     // sauccessRedirect: '/me',
   }),
   function (req, res) {
     const token = passport.setTokeTo(res, { value: req.user._id })
-    res.redirect(process.env.URL + '/login?token=' + token)
+    res.redirect(process.env.FRONT_URL + '/login?token=' + token)
     // res.redirect('back')
     // res, status, data, message, error
     // return sendRes(res, 200, req.user.toJSON(), 'Success', null)
@@ -63,7 +63,7 @@ router.post(
   }
 )
 
-// GET api/auth/logout
+// POST api/auth/logout
 router.post('/api/auth/logout', function (req, res) {
   req.logout()
   // res, status, data, message, error
@@ -102,17 +102,27 @@ router.post('/api/auth/signup', async function (req, res) {
   }
 })
 
-// GET api/auth/singh/verification?token&email
-router.get('/api/auth/singh/verification', async function (req, res) {
+// POST api/auth/signup/verification?token&email
+router.post('/api/auth/signup/verification', async function (req, res) {
   try {
-    const { token, email } = req.query
+    const errors = checkErrors([
+      check(req.body, 'email').isEmail(),
+      check(req.body, 'token').isString(),
+    ])
+    if (errors.length > 0) {
+      return sendRes(res, 400, null, 'Body validation errors', errors)
+    }
+    const { token, email } = req.body
     const password = email + emailTokenSecret
     if (await bcrypt.compare(password, token)) {
       const user = await User.findOne({ email, email_verified: false })
-      user.email_verified = true
-      await user.save()
-      // res, status, data, message, error
-      return sendRes(res, 200, user, 'Success', null)
+      if (user) {
+        user.email_verified = true
+        await user.save()
+        return sendRes(res, 200, null, 'Success', null)
+      } else {
+        return sendRes(res, 404, null, 'page not found', null)
+      }
     } else {
       return sendRes(res, 404, null, 'page not found', null)
     }
@@ -121,6 +131,7 @@ router.get('/api/auth/singh/verification', async function (req, res) {
   }
 })
 
+// POST /api/auth/sendemail {email}
 router.post('/api/auth/sendemail', function (req, res) {
   const errors = checkErrors([check(req.body, 'email').isEmail()])
   if (errors.length > 0) {
@@ -134,6 +145,10 @@ router.post('/api/auth/sendemail', function (req, res) {
       return sendRes(res, 500, null, 'Error saving new user', err)
     })
 })
+
+// POST /api/auth/login {mail password}
+// TODO suar mongoose para detectar el cambio de pass, generada automaticamente
+router.post('/api/auth/forgetpassword', (req, res) => {})
 
 // GET api/auth/me
 router.get('/api/auth/me', auth.isLogin, function (req, res) {

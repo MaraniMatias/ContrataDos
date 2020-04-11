@@ -26,12 +26,22 @@ export const actions = {
   async login({ commit }, { email, password }) {
     try {
       const { data } = await http.post('/api/auth/login', { email, password })
-      commit('SET_USER', data)
+      if (data.email_verified) {
+        commit('SET_USER', data)
+      }
       return { data }
     } catch ({ status }) {
       return {
         error: status === 401 && 'Contraseña o email erroneas',
       }
+    }
+  },
+  async signup(_, user) {
+    try {
+      const { data } = await http.post('/api/auth/signup', user)
+      return { data }
+    } catch ({ error }) {
+      return { error }
     }
   },
   async logout({ commit }) {
@@ -44,11 +54,21 @@ export const actions = {
       return { error: 'Error' }
     }
   },
+  async sendEmail(_, { email }) {
+    try {
+      const { data } = await http.post('/api/auth/sendemail', { email })
+      return { data }
+    } catch (e) {
+      return { error: 'Error' }
+    }
+  },
   async getMe({ commit }) {
     try {
+      // if (Token.get()) {
       const { data, error } = await http.get('/api/auth/me')
       commit('SET_USER', data)
       return { data, error }
+      // } else return {}
     } catch (e) {
       return { error: 'Error' }
     }
