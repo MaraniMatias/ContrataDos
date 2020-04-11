@@ -1,7 +1,7 @@
 module.exports = {
   mode: 'universal',
   env: {
-    BASE_URL: process.env.BASE_URL || 'http://localhost:8080',
+    SERVER_URL: process.env.SERVER_URL || 'http://localhost:8080',
   },
   /*
    ** Headers of the page

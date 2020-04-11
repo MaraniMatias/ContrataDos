@@ -47,7 +47,7 @@ const del = (BASE_URL) => async (object = {}) => {
 }
 
 export default (url) => {
-  const BASE_URL = process.env.BASE_URL + '/api' + url
+  const BASE_URL = process.env.SERVER_URL + '/api' + url
   return {
     save: save(BASE_URL),
     delete: del(BASE_URL),
