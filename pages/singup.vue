@@ -1,6 +1,6 @@
 <template>
   <v-layout column mb-2 px-2 justify-start fill-height>
-    <v-layout v-show="!loading" justify-center align-center>
+    <v-layout justify-center align-center>
       <v-flex xs12 md6 lg4 mb-12>
         <CardForm @submit="authLocal">
           <template v-slot:header>Crear Cuenta</template>
@@ -161,17 +161,17 @@ export default {
     else this.loading = false
   },
   methods: {
-    ...mapActions(['singup']),
+    ...mapActions(['signup']),
     async authLocal(formValid) {
       if (!formValid) return
       this.loading = true
       const { error } = await this.signup(this.form)
       if (error) {
         this.error = error
-        this.loading = false
       } else {
         this.dialog = true
       }
+      this.loading = false
     },
   },
 }
