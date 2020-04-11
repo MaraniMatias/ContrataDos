@@ -9,10 +9,15 @@
               v-model.lazy="email"
               label="E-mail"
               name="email"
+              :success="emailValid"
+              :hint="emailValid ? 'Email validado con exito' : void 0"
+              :append-icon="emailValid ? 'check' : void 0"
+              :persistent-hint="emailValid"
               required
               type="email"
               :rules="[rules.required(), rules.email()]"
               :readonly="loading"
+              @change="emailValid = false"
             />
             <v-text-field
               v-model.lazy="password"
@@ -35,7 +40,7 @@
             <error :text="error" />
           </template>
           <template v-slot:actions>
-            <v-btn text :disabled="loading" :to="{ path: '/register' }" replace>
+            <v-btn text :disabled="loading" to="/singup" replace>
               Crear Cuenta
             </v-btn>
             <v-btn :disabled="loading" color="primary" type="submit">
@@ -82,6 +87,21 @@
       />
       <p class="mt-4">Iniciando Sección</p>
     </v-layout>
+    <v-dialog v-model="reenvioMail" persistent max-width="290">
+      <v-card>
+        <CardForm>
+          <template v-slot:header>Email no verificado</template>
+          <template>
+            <p>Verifique su casilla de correo no deseados.</p>
+            ¿No recibiste el email?
+            <p><a @click="reSendEmail()">Volver a enviar el email</a></p>
+          </template>
+          <template v-slot:actions>
+            <v-btn color="primary" @click="reenvioMail = false">Aceptar</v-btn>
+          </template>
+        </CardForm>
+      </v-card>
+    </v-dialog>
   </v-layout>
 </template>
 
@@ -89,15 +109,22 @@
 import { mapActions } from 'vuex'
 import CardForm from '../components/CardForm'
 import Token from '~/api/Token'
+import http from '~/api/http'
 
 export default {
   components: { CardForm },
+  asyncData({ query = {} }) {
+    const { token, email } = query
+    return { validThisEmail: token && email ? query : null }
+  },
   data: () => ({
     error: '',
     showPass: false,
     password: '',
     email: '',
     loading: true,
+    reenvioMail: false,
+    emailValid: false,
   }),
   computed: {},
   created() {
@@ -106,32 +133,55 @@ export default {
     else if (!Token.get()) this.loading = false
     else this.loading = false
   },
+  async mounted() {
+    if (this.validThisEmail) {
+      const { error } = await http.post(
+        '/api/auth/signup/verification',
+        this.validThisEmail
+      )
+      this.email = this.validThisEmail.email
+      this.loading = false
+      this.emailValid = !error
+    }
+  },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions(['login', 'sendEmail']),
     authFacebook() {},
     authLinkedin() {},
     authGoogle() {
       this.loading = true
       /* window.open(
-        process.env.BASE_URL + '/api/auth/google',
+        process.env.SERVER_URL + '/api/auth/google',
         'Google',
         'width=500,height=600,scrollbars=no'
       ) */
-      window.location.replace(process.env.BASE_URL + '/api/auth/google')
+      window.location.replace(process.env.SERVER_URL + '/api/auth/google')
     },
     async authLocal(formValid) {
       if (!formValid) return
       this.loading = true
-      const { error } = await this.login({
+      const { error, data } = await this.login({
         email: this.email,
         password: this.password,
       })
       if (error) {
         this.error = error
-        this.loading = false
-      } else {
+      } else if (data.email_verified) {
         this.$router.replace('/trabajos')
+      } else {
+        this.reenvioMail = true
       }
+      this.loading = false
+    },
+    async reSendEmail() {
+      this.loading = true
+      const { error } = await this.sendEmail({ email: this.email })
+      if (error) {
+        this.error = error
+      } else {
+        this.reenvioMail = false
+      }
+      this.loading = false
     },
   },
 }

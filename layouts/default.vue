@@ -72,7 +72,7 @@ export default {
       return this.$store.state.user || {}
     },
     hideAppBar() {
-      return ['index', 'login', 'loginout'].includes(this.$route.name)
+      return ['index', 'login', 'loginout', 'singup'].includes(this.$route.name)
     },
     pageTitle() {
       switch (this.$route.name) {
