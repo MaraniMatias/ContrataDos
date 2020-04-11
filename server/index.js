@@ -8,7 +8,7 @@ mongoose.Promise = global.Promise
 const fileImagen = require('../server/utilities/fileImagen')
 const getMongoURL = require('./utilities/getMongoURL')
 const getLocalIP = require('./utilities/getLocalIP')
-const Agenda = require('./utilities/agendaTask')
+const Agenda = require('./utilities/agenda')
 const app = require('./server')
 
 fileImagen.start()

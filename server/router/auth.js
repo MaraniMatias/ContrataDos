@@ -6,7 +6,8 @@ const saltRounds = 10
 const { sendRes, auth, check, checkErrors } = require('../utilities/router')
 const { Persona: User } = require('../models/persona')
 const emailTokenSecret = 'QdVYGl3pXU562loudRC3_QTP'
-const Agenda = require('../utilities/agendaTask')
+const { Agenda } = require('../utilities/agenda')
+const sendEmailVerificarEamil = require('../utilities/agenda/send_email_verificar_eamil.job')
 
 function sendVerifyEmail(email) {
   return new Promise(function (resolve, reject) {
@@ -14,7 +15,7 @@ function sendVerifyEmail(email) {
       .hash(email + emailTokenSecret, saltRounds)
       .catch(reject)
       .then((token) => {
-        Agenda.jobCreate(Agenda.jobs.SEND_EMAIL.VERIFICAR_EAMIL, {
+        sendEmailVerificarEamil.jobCreate(Agenda, {
           email,
           link: `${process.env.FRONT_URL}/login?token=${token}&email=${email}`,
         })

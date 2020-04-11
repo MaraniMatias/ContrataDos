@@ -1,8 +1,9 @@
+const fs = require('fs')
+const path = require('path')
 const mongoose = require('mongoose')
 const Agenda = require('agenda')
 let agenda
 
-// Auto load Tasks
 /*
 module.exports.jobs = {
   SEND_EMAIL: {
@@ -19,29 +20,24 @@ module.exports.jobs = {
 }
 */
 
-module.exports.jobCreate = (jobName, data) =>
-  agenda.create(jobName, data).save()
-
 module.exports.start = async function () {
   try {
     agenda = new Agenda({ mongo: mongoose.connection })
 
     // Auto load task
-    /*
-    agenda.define(
-      this.jobs.SEND_EMAIL.VERIFICAR_EAMIL,
-      { priority: 'normal', concurrency: 2 },
-      async (job) => {
-        await sendEmailTo(
-          { subject: 'Bienvenido', template: 'new_user.pug' },
-          job.attrs.data
-        )
-      }
-    )
-    */
+    fs.readdirSync(__dirname)
+      .filter((fileName) => /^.+\.job\.js$/.test(fileName))
+      .map((fileName) => {
+        const { name, job, options } = require(path.join(__dirname, fileName))
+        console.log('Load Agenda job', name, 'in', fileName)
+        const agendaOptions = options || { priority: 'normal', concurrency: 2 }
+        agenda.define(name, agendaOptions, job)
+      })
 
     await agenda.start()
   } catch (e) {
     console.error('Error al cargar agenda')
   }
 }
+
+module.exports.Agenda = agenda
