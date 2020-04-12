@@ -293,10 +293,10 @@ export default {
     loading: false,
     form: {
       estado: null,
-      fechaFin: new Date(),
+      fechaFin: null,
       notas: '',
       detalle: '',
-      fechaInicio: new Date(),
+      fechaInicio: null,
     },
     showSetHours: false,
     comunicaciones: [],
@@ -470,8 +470,12 @@ export default {
         estado: this.trabajo.estado,
         notas: this.trabajo.notas,
         // Chat
-        fechaInicio: new Date(this.agenda.fecha_inicio),
-        fechaFin: new Date(this.agenda.fecha_fin),
+        fechaInicio: this.agenda.fecha_inicio
+          ? new Date(this.agenda.fecha_inicio)
+          : new Date(),
+        fechaFin: this.agenda.fecha_fin
+          ? new Date(this.agenda.fecha_fin)
+          : new Date(),
         detalle: '',
       }
     },
