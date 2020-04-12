@@ -5,22 +5,6 @@ const Agenda = require('agenda')
 
 module.exports.Agenda = new Agenda({ mongo: mongoose.connection })
 
-/*
-module.exports.jobs = {
-  SEND_EMAIL: {
-    VERIFICAR_EAMIL: 'SEND_EMAIL_VERIFICAR_EAMIL',
-    NUEVA_CONSULTA: 'NUEVA_CONSULTA',
-    NUEVO_MENSAJE: 'NUEVO_MENSAJE',
-    CITA_ACEPTADA: 'CITA_ACEPTADA',
-    CLASIFICAR_TRABAJO: 'CLASIFICAR_TRABAJO',
-    TRABAJO_CANCELADO: 'TRABAJO_CANCELADO',
-  },
-  AUTOMATICA: {
-    TRABAJOS_PARA_HOY: 'TRABAJOS_PARA_HOY',
-  },
-}
-*/
-
 module.exports.start = async function () {
   try {
     const agenda = this.Agenda
