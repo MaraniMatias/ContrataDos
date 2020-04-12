@@ -12,12 +12,10 @@
           <v-icon size="96">camera_alt</v-icon>
         </template>
         <template v-else>
-          <img
-            v-if="(!avatarError && !!src) || !loading"
-            :src="src"
-            @error.stop="avatarError = true"
-          />
-          <v-icon v-else :size="size">account_circle</v-icon>
+          <v-icon v-if="avatarError || !src || loading" :size="size">
+            account_circle
+          </v-icon>
+          <img v-else :src="base64img" />
         </template>
       </v-avatar>
     </v-hover>
@@ -41,12 +39,18 @@ export default {
     elevation: { type: Boolean, default: false },
   },
   data: () => ({
-    avatarError: false,
+    avatarError: true,
     modalUpdateImg: false,
     loading: false,
+    base64img: null,
   }),
   computed: {},
-  watch: {},
+  watch: {
+    src: 'loadImg',
+  },
+  mounted() {
+    this.loadImg()
+  },
   // created() {
   //   this.$store.subscribe((mutation, { user }) => {
   //     if (mutation.type === 'SET_USER') {
@@ -71,6 +75,22 @@ export default {
         this.modalUpdateImg = false
       }
       this.loading = false
+    },
+    async loadImg() {
+      try {
+        this.loading = true
+        const { data: imgFile } = await this.$http.get(this.src, {
+          responseType: 'arraybuffer',
+        })
+        this.base64img =
+          'data:image/jpeg;base64,' +
+          Buffer.from(imgFile, 'binary').toString('base64')
+        this.avatarError = false
+      } catch (err) {
+        this.avatarError = true
+      } finally {
+        this.loading = false
+      }
     },
   },
 }
