@@ -74,7 +74,7 @@
           <v-layout align-center>
             <Avatar size="64" :src="displayPicture" class="ma-2" />
             <v-layout column justify-center>
-              <p class="title mb-0" v-text="displayName" />
+              <a class="title mb-0" @click="goToPerfi">{{ displayName }}</a>
               <span class="body-1" v-text="displayEmail" />
             </v-layout>
           </v-layout>
@@ -166,7 +166,13 @@
               Trabajo terminado
             </v-btn>
             <v-layout align-center justify-end>
-              <v-btn color="primary" class="mx-2" text @click="addNotes">
+              <v-btn
+                v-if="!showAsCliente"
+                color="primary"
+                class="mx-2"
+                text
+                @click="addNotes"
+              >
                 Notas
               </v-btn>
               <v-btn color="black" outlined @click="openChat">
@@ -372,6 +378,11 @@ export default {
     this.cancel()
   },
   methods: {
+    goToPerfi() {
+      const key = this.showAsCliente ? 'profesional' : 'cliente'
+      const _id = this.trabajo[key]._id
+      this.$router.replace('/perfil/' + _id)
+    },
     openChat() {
       this.showChat = !this.showChat
       this.scrollChatToBottom()
