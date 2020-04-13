@@ -5,14 +5,32 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 const { sendRes, auth, check, checkErrors } = require('../utilities/router')
 const { Persona: User } = require('../models/persona')
-const emailTokenSecret = 'QdVYGl3pXU562loudRC3_QTP'
+
 const { Agenda } = require('../utilities/agenda')
-const sendEmailVerificarEamil = require('../utilities/agenda/send_email_verificar_eamil.job')
+const verificarEamilSecret = 'QdVYGl3pXU562loudRC3_QTP1'
+const sendEmailVerificarEamil = require('../utilities/agenda/send_email_verify_email.job')
+const forgetPasswordSecret = 'QdVYGl3pXU562loudRC3_QTP2'
+const sendEmailForgetPassword = require('../utilities/agenda/send_email_forget_password.job')
+
+function sendForgetPassword(_id, email) {
+  return new Promise(function (resolve, reject) {
+    bcrypt
+      .hash(_id + forgetPasswordSecret, saltRounds)
+      .catch(reject)
+      .then((token) => {
+        sendEmailForgetPassword.jobCreate(Agenda, {
+          email,
+          link: `${process.env.FRONT_URL}/forget-password?token=${token}&email=${email}`,
+        })
+        resolve()
+      })
+  })
+}
 
 function sendVerifyEmail(email) {
   return new Promise(function (resolve, reject) {
     bcrypt
-      .hash(email + emailTokenSecret, saltRounds)
+      .hash(email + verificarEamilSecret, saltRounds)
       .catch(reject)
       .then((token) => {
         sendEmailVerificarEamil.jobCreate(Agenda, {
@@ -103,7 +121,7 @@ router.post('/api/auth/signup', async function (req, res) {
   }
 })
 
-// POST api/auth/signup/verification?token&email
+// POST api/auth/signup/verification {token,email}
 router.post('/api/auth/signup/verification', async function (req, res) {
   try {
     const errors = checkErrors([
@@ -114,8 +132,7 @@ router.post('/api/auth/signup/verification', async function (req, res) {
       return sendRes(res, 400, null, 'Body validation errors', errors)
     }
     const { token, email } = req.body
-    const password = email + emailTokenSecret
-    if (await bcrypt.compare(password, token)) {
+    if (await bcrypt.compare(email + verificarEamilSecret, token)) {
       const user = await User.findOne({ email, email_verified: false })
       if (user) {
         user.email_verified = true
@@ -148,8 +165,51 @@ router.post('/api/auth/sendemail', function (req, res) {
 })
 
 // POST /api/auth/login {mail password}
-// TODO suar mongoose para detectar el cambio de pass, generada automaticamente
-router.post('/api/auth/forgetpassword', (req, res) => {})
+router.post('/api/auth/forgetpassword', async (req, res) => {
+  try {
+    const errors = checkErrors([check(req.body, 'email').isEmail()])
+    if (errors.length > 0) {
+      return sendRes(res, 400, null, 'Body validation errors', errors)
+    }
+    const user = await User.findOne({ email: req.body.email })
+    user.forget_password = true
+    await user.save()
+    await sendForgetPassword(user._id, req.body.email)
+    return sendRes(res, 200, null, 'Success', null)
+  } catch (err) {
+    return sendRes(res, 500, null, 'Error saving new user', err)
+  }
+})
+// POST api/auth/forgetpassword/change {token,email,password}
+router.post('/api/auth/forgetpassword/change', async function (req, res) {
+  try {
+    const errors = checkErrors([
+      check(req.body, 'email').isEmail(),
+      check(req.body, 'token').isString(),
+      check(req.body, 'password').isPassword(),
+    ])
+    if (errors.length > 0) {
+      return sendRes(res, 400, null, 'Body validation errors', errors)
+    }
+    const { token, email } = req.body
+    if (await bcrypt.compare(email + forgetPasswordSecret, token)) {
+      const user = await User.findOne({ email, forget_password: true })
+      if (user) {
+        user.password = req.body.password
+        user.forget_password = false
+        await user.save()
+        passport.setTokeTo(res, { value: user._id })
+        return sendRes(res, 200, req.user, 'Success', null)
+      } else {
+        return sendRes(res, 404, null, 'page not found', null)
+      }
+    } else {
+      return sendRes(res, 404, null, 'page not found', null)
+    }
+  } catch (err) {
+    return sendRes(res, 500, null, 'Error saving new user', err)
+  }
+})
 
 // GET api/auth/me
 router.get('/api/auth/me', auth.isLogin, function (req, res) {

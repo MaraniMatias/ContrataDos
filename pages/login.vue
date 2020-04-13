@@ -128,6 +128,7 @@ export default {
   }),
   computed: {},
   created() {
+    // obtener el token desde la url que trabajo google
     const token = this.$route.query.token
     if (token) Token.set(token)
     else if (!Token.get()) this.loading = false
@@ -150,11 +151,19 @@ export default {
     authLinkedin() {},
     authGoogle() {
       this.loading = true
-      /* window.open(
+      /*
+      const win = window.open(
         process.env.SERVER_URL + '/api/auth/google',
         'Google',
         'width=500,height=600,scrollbars=no'
-      ) */
+      )
+      const interVal = setInterval(function () {
+        if (win.closed) {
+          console.log('close')
+          clearInterval(interVal)
+        }
+      }, 500)
+      */
       window.location.replace(process.env.SERVER_URL + '/api/auth/google')
     },
     async authLocal(formValid) {
