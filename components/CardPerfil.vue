@@ -33,7 +33,7 @@
                 {{ perfil.cantidad_trabajos }} veces contratoados
               </v-layout>
               <v-layout column fill-height align-start>
-                <p class="mb-2" v-text="perfil.bibliography" />
+                <p class="mb-2" v-html="perfil.bibliography" />
               </v-layout>
               <v-layout align-center>
                 <v-flex xs12> Recide en {{ localidadNombre }} </v-flex>
