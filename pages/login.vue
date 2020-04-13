@@ -125,7 +125,6 @@
 import { mapActions } from 'vuex'
 import CardForm from '../components/CardForm'
 import Token from '~/api/Token'
-import http from '~/api/http'
 
 export default {
   components: { CardForm },
@@ -153,17 +152,19 @@ export default {
   },
   async mounted() {
     if (this.validThisEmail) {
-      const { error } = await http.post(
-        '/api/auth/signup/verification',
-        this.validThisEmail
-      )
+      const { error } = await this.signupVerification(this.validThisEmail)
       this.email = this.validThisEmail.email
       this.loading = false
       this.emailValid = !error
     }
   },
   methods: {
-    ...mapActions(['login', 'sendEmail', 'forgetPassword']),
+    ...mapActions([
+      'login',
+      'sendEmail',
+      'forgetPassword',
+      'signupVerification',
+    ]),
     authFacebook() {},
     authLinkedin() {},
     authGoogle() {

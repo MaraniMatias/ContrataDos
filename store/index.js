@@ -50,24 +50,47 @@ export const actions = {
       Token.deleteAll()
       commit('SET_USER', {})
       return { data }
-    } catch (e) {
-      return { error: 'Error' }
+    } catch ({ error }) {
+      return { error }
     }
   },
   async sendEmail(_, { email }) {
     try {
       const { data } = await http.post('/api/auth/sendemail', { email })
       return { data }
-    } catch (e) {
-      return { error: 'Error' }
+    } catch ({ error }) {
+      return { error }
+    }
+  },
+  async signupVerification(_, { email, token }) {
+    try {
+      const { data } = await http.post('/api/auth/signup/verification', {
+        email,
+        token,
+      })
+      return { data }
+    } catch ({ error }) {
+      return { error }
     }
   },
   async forgetPassword(_, { email }) {
     try {
       const { data } = await http.post('/api/auth/forgetpassword', { email })
       return { data }
-    } catch (e) {
-      return { error: 'Error' }
+    } catch ({ error }) {
+      return { error }
+    }
+  },
+  async changeForgetPassword(_, { email, password, token }) {
+    try {
+      const { data } = await http.post('/api/auth/forgetpassword/change', {
+        email,
+        token,
+        password,
+      })
+      return { data }
+    } catch ({ error }) {
+      return { error }
     }
   },
   async getMe({ commit }) {
@@ -77,8 +100,8 @@ export const actions = {
       commit('SET_USER', data)
       return { data, error }
       // } else return {}
-    } catch (e) {
-      return { error: 'Error' }
+    } catch ({ error }) {
+      return { error }
     }
   },
 }

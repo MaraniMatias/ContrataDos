@@ -183,6 +183,7 @@ router.post('/api/auth/forgetpassword', async (req, res) => {
 // POST api/auth/forgetpassword/change {token,email,password}
 router.post('/api/auth/forgetpassword/change', async function (req, res) {
   try {
+    // TODO pensar el link algo mas unico por las dudas
     const errors = checkErrors([
       check(req.body, 'email').isEmail(),
       check(req.body, 'token').isString(),
@@ -192,14 +193,13 @@ router.post('/api/auth/forgetpassword/change', async function (req, res) {
       return sendRes(res, 400, null, 'Body validation errors', errors)
     }
     const { token, email } = req.body
-    if (await bcrypt.compare(email + forgetPasswordSecret, token)) {
-      const user = await User.findOne({ email, forget_password: true })
+    const user = await User.findOne({ email, forget_password: true })
+    if (await bcrypt.compare(user._id + forgetPasswordSecret, token)) {
       if (user) {
         user.password = req.body.password
         user.forget_password = false
         await user.save()
-        passport.setTokeTo(res, { value: user._id })
-        return sendRes(res, 200, req.user, 'Success', null)
+        return sendRes(res, 200, null, 'Success', null)
       } else {
         return sendRes(res, 404, null, 'page not found', null)
       }

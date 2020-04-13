@@ -89,10 +89,12 @@ export default {
     },
   },
   async created() {
+    // TODO esto se mejora con los layout ??
+    // o mejor con el middleware
     const { data } = await this.getMe()
     if (data) {
       this.$router.replace('/trabajos')
-    } else if (this.$route.name !== 'login') {
+    } else if (!['login', 'forget-password'].includes(this.$route.name)) {
       this.$router.replace('/login')
     }
   },
