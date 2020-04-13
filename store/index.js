@@ -62,6 +62,14 @@ export const actions = {
       return { error: 'Error' }
     }
   },
+  async forgetPassword(_, { email }) {
+    try {
+      const { data } = await http.post('/api/auth/forgetpassword', { email })
+      return { data }
+    } catch (e) {
+      return { error: 'Error' }
+    }
+  },
   async getMe({ commit }) {
     try {
       // if (Token.get()) {

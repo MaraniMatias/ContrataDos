@@ -31,7 +31,7 @@
               @click:append="showPass = !showPass"
             />
             <v-flex xs12 my-1 pb-2>
-              <a :disabled="loading" href="#/forget-password">
+              <a :disabled="loading" @click="sendEmailForgetPassword">
                 ¿Olvidaste tu contraseña?
               </a>
             </v-flex>
@@ -102,6 +102,22 @@
         </CardForm>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="modalForgetPassword" persistent max-width="290">
+      <v-card>
+        <CardForm>
+          <template v-slot:header>Cambio de contraseña.</template>
+          <template>
+            Hemos enviado un email a su dirección de correo electrónico para
+            continuar con el cambio de contraseña.
+          </template>
+          <template v-slot:actions>
+            <v-btn color="primary" @click.stop="modalForgetPassword = false">
+              Aceptar
+            </v-btn>
+          </template>
+        </CardForm>
+      </v-card>
+    </v-dialog>
   </v-layout>
 </template>
 
@@ -125,6 +141,7 @@ export default {
     loading: true,
     reenvioMail: false,
     emailValid: false,
+    modalForgetPassword: false,
   }),
   computed: {},
   created() {
@@ -146,7 +163,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['login', 'sendEmail']),
+    ...mapActions(['login', 'sendEmail', 'forgetPassword']),
     authFacebook() {},
     authLinkedin() {},
     authGoogle() {
@@ -189,6 +206,17 @@ export default {
         this.error = error
       } else {
         this.reenvioMail = false
+      }
+      this.loading = false
+    },
+    async sendEmailForgetPassword() {
+      if (!this.email) return
+      this.loading = true
+      const { error } = await this.forgetPassword({ email: this.email })
+      if (error) {
+        this.error = error
+      } else {
+        this.modalForgetPassword = true
       }
       this.loading = false
     },
