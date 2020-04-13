@@ -78,7 +78,12 @@
               <span class="body-1" v-text="displayEmail" />
             </v-layout>
           </v-layout>
-          <v-layout column justify-center align-end>
+          <v-layout
+            v-show="isEstado.PENDIENTE || isEstado.EN_PROGRESO"
+            column
+            justify-center
+            align-end
+          >
             <p class="mb-0 display-1 font-weight-black">{{ displayFecha }}</p>
             <p class="mb-0 body-1">Estado: {{ estadoLabel }}</p>
           </v-layout>

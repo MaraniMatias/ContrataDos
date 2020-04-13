@@ -1,51 +1,50 @@
 <template>
-  <v-layout column mb-2 px-2 justify-start fill-height>
-    <v-flex xs12>
-      <v-layout align-center>
-        <v-flex xs12 lg6 xl4>
-          <v-layout justify-start align-center>
-            <v-chip-group v-model="filters" multiple @change="loadData">
-              <v-chip
-                v-for="(f, i) in Estados"
-                :key="i"
-                filter
-                :outlined="!filters.includes(i)"
-                class="white--text"
-                :color="f.color"
-              >
-                {{ f.label }}
-              </v-chip>
-            </v-chip-group>
-          </v-layout>
-        </v-flex>
-        <v-flex xs12 lg3 xl4>
-          <v-layout align-center justify-center>
-            <span>Trabajos terminados: {{ score.total }} </span>
-            <v-icon small class="mx-2">mdi-thumb-up</v-icon>
-            {{ score.like }}
-            <v-icon small class="mx-2">mdi-thumb-down</v-icon>
-            {{ score.dontLike }}
-          </v-layout>
-        </v-flex>
-        <v-flex xs12 lg3 xl4>
-          <v-layout justify-end align-center>
-            <v-chip-group
-              v-if="isAProfessional"
-              v-model="viewLike"
-              mandatory
-              multiple
-              @change="loadData"
+  <v-layout column mb-2 px-2>
+    <v-layout align-center>
+      <v-flex xs12 lg6 xl4>
+        <v-layout justify-start align-center>
+          <v-chip-group v-model="filters" multiple @change="loadData">
+            <v-chip
+              v-for="(f, i) in Estados"
+              :key="i"
+              filter
+              :outlined="!filters.includes(i)"
+              class="white--text"
+              :color="f.color"
             >
-              <v-chip outlined>
-                <v-icon left>account_circle</v-icon>
-                Cliente
-              </v-chip>
-              <v-chip outlined>
-                <v-icon left>build</v-icon>
-                Profecional
-              </v-chip>
-            </v-chip-group>
-            <!--
+              {{ f.label }}
+            </v-chip>
+          </v-chip-group>
+        </v-layout>
+      </v-flex>
+      <v-flex xs12 lg3 xl4>
+        <v-layout align-center justify-center>
+          <span>Trabajos terminados: {{ score.total }} </span>
+          <v-icon small class="mx-2">mdi-thumb-up</v-icon>
+          {{ score.like }}
+          <v-icon small class="mx-2">mdi-thumb-down</v-icon>
+          {{ score.dontLike }}
+        </v-layout>
+      </v-flex>
+      <v-flex xs12 lg3 xl4>
+        <v-layout justify-end align-center>
+          <v-chip-group
+            v-if="isAProfessional"
+            v-model="viewLike"
+            mandatory
+            multiple
+            @change="loadData"
+          >
+            <v-chip outlined>
+              <v-icon left>account_circle</v-icon>
+              Cliente
+            </v-chip>
+            <v-chip outlined>
+              <v-icon left>build</v-icon>
+              Profecional
+            </v-chip>
+          </v-chip-group>
+          <!--
             <v-chip-group v-model="viewType">
               <v-chip outlined>
                 <v-icon left>view_stream</v-icon>
@@ -57,35 +56,30 @@
               </v-chip>
             </v-chip-group>
             -->
-          </v-layout>
-        </v-flex>
-      </v-layout>
-
-      <v-flex v-show="loadingTrabajos" x12 mt-4 mb-2 class="text-center">
-        <v-progress-circular
-          width="2"
-          indeterminate
-          :active="loadingTrabajos"
-          color="grey darken-1"
-        />
-        <p class="mt-6">Buscando...</p>
+        </v-layout>
       </v-flex>
+    </v-layout>
 
-      <v-layout v-show="!loadingTrabajos" justify-center>
-        <v-flex xs12 lg7 xl5>
-          <v-layout align-center mt-0 column>
-            <v-flex>
-              <CardTrabajo
-                v-for="(j, $i) in listTrabajos"
-                :key="$i"
-                :trabajo="j"
-                @change="loadData"
-              />
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
+    <v-flex v-show="loadingTrabajos" x12 mt-4 mb-2 class="text-center">
+      <v-progress-circular
+        width="2"
+        indeterminate
+        :active="loadingTrabajos"
+        color="grey darken-1"
+      />
+      <p class="mt-6">Buscando...</p>
     </v-flex>
+
+    <v-layout v-show="!loadingTrabajos" justify-center fill-height mt-0>
+      <v-flex xs12 md11 lg10 xl5>
+        <CardTrabajo
+          v-for="(j, $i) in listTrabajos"
+          :key="$i"
+          :trabajo="j"
+          @change="loadData"
+        />
+      </v-flex>
+    </v-layout>
 
     <v-dialog :value="showTutorial" width="550">
       <v-card>
