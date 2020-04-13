@@ -223,7 +223,8 @@ export default {
         query.cliente = this.user._id
       }
 
-      const { data } = await Trabajo.get({ query, populate })
+      const params = { query, populate, sort: '-createdAt' }
+      const { data } = await Trabajo.get(params)
       this.listTrabajos = data || []
       this.loadingTrabajos = false
     },
