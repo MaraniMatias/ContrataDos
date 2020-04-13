@@ -35,13 +35,15 @@ restify.serve(router, Persona, {
   preDelete: [auth.isLogin], // TODO, solo borrar lo de el
   preUpdate: [
     deleteProp,
+    auth.isLogin,
     (req, res, next) => {
       // const persona = req.erm.result
       const persona = req.body
-      if (!req.user._id.equals(persona._id)) {
+      if (req.user._id.equals(persona._id)) {
+        return next()
+      } else {
         return sendRes(res, 401, null, 'Unauthorized', 'No tienes permiso')
       }
-      return next()
     },
   ],
   // postUpdate: [],

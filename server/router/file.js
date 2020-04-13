@@ -10,7 +10,7 @@ const { Trabajo } = require('../models/trabajo')
 const upload = multer()
 
 router.post(
-  '/api/trabajo',
+  '/api/file/trabajo',
   auth.isLogin,
   upload.single('file'),
   async function (req, res) {
@@ -39,26 +39,34 @@ router.post(
   }
 )
 
-router.post('/api/perfil', auth.isLogin, upload.single('file'), async function (
-  req,
-  res
-) {
-  try {
-    // TODO falta los check del body
-    const _id = req.user._id
+router.post(
+  '/api/file/perfil',
+  auth.isLogin,
+  upload.single('file'),
+  async function (req, res) {
+    try {
+      // TODO falta los check del body
+      const _id = req.user._id
 
-    const extension = req.file.originalname.match(/[^.]+$/)[0]
-    const fileName = _id + '.' + extension
-    await save(req.file.buffer, '/perfil/' + fileName)
+      const extension = req.file.originalname.match(/[^.]+$/)[0]
+      const fileName = _id + '.' + extension
+      await save(req.file.buffer, '/perfil/' + fileName)
 
-    const picturePath = '/images/perfil/' + fileName
-    await Persona.findByIdAndUpdate(_id, { picture: picturePath })
-    req.user.picture = picturePath
-    return sendRes(res, 200, req.user, 'Success', null)
-  } catch (err) {
-    return sendRes(res, 500, null, err ? err.message : 'Algo salio mal :(', err)
+      const picturePath = '/images/perfil/' + fileName
+      await Persona.findByIdAndUpdate(_id, { picture: picturePath })
+      req.user.picture = picturePath
+      return sendRes(res, 200, req.user, 'Success', null)
+    } catch (err) {
+      return sendRes(
+        res,
+        500,
+        null,
+        err ? err.message : 'Algo salio mal :(',
+        err
+      )
+    }
   }
-})
+)
 
 /*
 router.get('/api/perfil', async function (req, res) {
