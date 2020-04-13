@@ -93,17 +93,16 @@
           <p class="headline">Bienvenido</p>
         </v-card-title>
         <v-card-text>
-          <p>
-            Eres nuevo, deberías completar tus perfil y contarnos de tus
-            trabajos terminados.
-          </p>
-          <v-divider />
-          <p class="title my-2">Soy un trabajador</p>
-          <p>
-            Para ayudar a que otros encuentre tus trabajo y tus servicios, te
-            recomendamos completar tu perfil.
-            <a nuxt href="/perfil" class="black--text"> Ir a tú perfil </a>
-          </p>
+          <p>Eres nuevo, deberías completar tus perfil.</p>
+          <template v-if="isAProfessional">
+            <v-divider />
+            <p class="title my-2">Soy un trabajador</p>
+            <p>
+              Para ayudar a que otros encuentre tus trabajo y tus servicios, te
+              recomendamos completar tu perfil.
+            </p>
+          </template>
+          <a nuxt href="/perfil" class="black--text"> Ir a tú perfil </a>
           <v-layout justify-end align-center>
             <v-btn text color="primary" @click="close">
               Aceptar
