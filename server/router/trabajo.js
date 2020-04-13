@@ -1,6 +1,8 @@
 const express = require('express')
 const restify = require('express-restify-mongoose')
 const router = express.Router()
+const { Agenda } = require('../utilities/agenda')
+const sendEmailNuevaConsulta = require('../utilities/agenda/send_email_nueva_consulta.job')
 const { deleteProp, auth } = require('../utilities/router')
 // const Batch = require("../utilities/agendaTask");
 const { Trabajo } = require('../models/trabajo')
@@ -19,7 +21,16 @@ restify.serve(router, Trabajo, {
       return next()
     },
   ],
-  postCreate: [],
+  postCreate: [
+    (req, _, next) => {
+      const trabajo = req.erm.result
+      sendEmailNuevaConsulta.jobCreate(Agenda, {
+        email: req.body.profesional.email, // TODO usar el id y buscar el email
+        link: process.env.FRONT_URL + '/trabajos/' + trabajo._id,
+      })
+      return next()
+    },
+  ],
   preRead: [
     (req, _, next) => {
       console.log(req.erm.query, req.user)

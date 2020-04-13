@@ -37,7 +37,6 @@ restify.serve(router, Persona, {
     deleteProp,
     auth.isLogin,
     (req, res, next) => {
-      // const persona = req.erm.result
       const persona = req.body
       if (req.user._id.equals(persona._id)) {
         return next()

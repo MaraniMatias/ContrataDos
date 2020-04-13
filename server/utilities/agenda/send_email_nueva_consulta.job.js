@@ -10,7 +10,7 @@ module.exports.options = {}
 // Export job or task
 module.exports.job = async (job) => {
   await sendEmailTo(
-    { subject: 'Cambio de contraseña', template: 'new_pass_user.pug' },
+    { subject: 'Nuevo trabajo', template: 'new_job.pug' },
     job.attrs.data
   )
 }
