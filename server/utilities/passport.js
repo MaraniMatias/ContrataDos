@@ -50,6 +50,7 @@ passport.use(
     { usernameField: 'email', passwordField: 'password' },
     async function (email, password, next) {
       try {
+        // La validacion del elmail, lo hacemos des el endpoint su perrior
         const user = await Persona.findOne({ email, deleted: false })
           .populate('servicios')
           .populate('localidad')
