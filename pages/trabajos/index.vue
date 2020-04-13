@@ -1,6 +1,6 @@
 <template>
   <v-layout column mb-2 px-2>
-    <v-layout align-center>
+    <v-layout>
       <v-flex xs12 lg6 xl4>
         <v-layout justify-start align-center>
           <v-chip-group v-model="filters" multiple @change="loadData">
@@ -17,7 +17,7 @@
           </v-chip-group>
         </v-layout>
       </v-flex>
-      <v-flex xs12 lg3 xl4>
+      <v-flex xs12 lg3 xl4 style="margin: auto;">
         <v-layout align-center justify-center>
           <span>Trabajos terminados: {{ score.total }} </span>
           <v-icon small class="mx-2">mdi-thumb-up</v-icon>
