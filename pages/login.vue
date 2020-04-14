@@ -54,7 +54,7 @@
         <v-flex>
           <v-layout align-center my-3>
             <v-divider class="mr-4" />
-            <span>Iniciar Sección o Crear Cuenta</span>
+            <span>Iniciar Sesión o Crear Cuenta</span>
             <v-divider class="ml-4" />
           </v-layout>
         </v-flex>
@@ -85,7 +85,7 @@
         color="primary"
         indeterminate
       />
-      <p class="mt-4">Iniciando Sección</p>
+      <p class="mt-4">Iniciando Sesión</p>
     </v-layout>
     <v-dialog v-model="reenvioMail" persistent max-width="290">
       <v-card>
