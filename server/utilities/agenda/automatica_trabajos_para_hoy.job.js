@@ -1,4 +1,4 @@
-const { Trabajo } = require('../../models/trabajo')
+const { Trabajo, EstadoTrabajo } = require('../../models/trabajo')
 const sendEmailTrabajosParaHoy = require('../agenda/send_email_trabajos_para_hoy.job')
 const dateFormat = require('./../dateFormat')
 const camelCase = require('./../capitalizeWords')
@@ -18,12 +18,17 @@ module.exports.options = { priority: 'low', concurrency: 1 }
 module.exports.job = async () => {
   console.log('informar de los trabajos para hoy')
   const trabajosList = await Trabajo.find({
-    // agenda: { fecha_inicio: { $gt: new Date().setHours(0, 0, 0, 0) } },
+    estado: EstadoTrabajo.PENDIENTE,
+    deleted: false,
   })
     .populate('profesional', 'email')
-    .populate('cliente', 'email') // TODO al cliente tambien le avisamos
+    .populate('cliente', 'email')
+    .where('agenda.fecha_inicio')
+    .gte(new Date().setHours(0, 0, 0, 0))
+    .where('agenda.fecha_inicio')
+    .lt(new Date().setHours(0, 0, 0, 0))
 
-  const orderList = groupBy(trabajosList)
+  const orderList = groupByAndFilter(trabajosList)
   Object.values(orderList).forEach(({ profesional, jobs }) => {
     const data = []
     jobs.forEach((job) => {
@@ -47,10 +52,12 @@ module.exports.job = async () => {
   })
 }
 
+function getAgenda(job) {
+  const agendaIndex = job.agenda.length - 1
+  return job.agenda[agendaIndex]
+}
 function getUtilDate(job) {
-  // const agendaIndex = job.agenda.length - 1
-  // const hours = job.agenda[agendaIndex].fecha_inicio
-  const hours = job.createdAt
+  const hours = getAgenda(job).fecha_inicio
   return {
     link: process.env.FRONT_URL + '/trabajos/' + job._id,
     descripcion: job.descripcion_breve,
@@ -58,7 +65,7 @@ function getUtilDate(job) {
   }
 }
 
-function groupBy(trabajosList) {
+function groupByAndFilter(trabajosList) {
   const jobByProfession = {
     /* [_id]: {
      *  profesional: {},
@@ -68,13 +75,17 @@ function groupBy(trabajosList) {
   }
   trabajosList.forEach((trabajo) => {
     const key = trabajo.profesional._id
-    if (typeof jobByProfession[key] === 'undefined') {
-      jobByProfession[key] = {
-        profesional: trabajo.profesional,
-        jobs: [trabajo],
+    const gte = new Date(getAgenda(trabajo).fecha_inicio).getTime()
+    const lt = new Date().setHours(0, 0, 0, 0).getTime()
+    if (gte >= lt) {
+      if (typeof jobByProfession[key] === 'undefined') {
+        jobByProfession[key] = {
+          profesional: trabajo.profesional,
+          jobs: [trabajo],
+        }
+      } else {
+        jobByProfession[key].jobs.push(trabajo)
       }
-    } else {
-      jobByProfession[key].jobs.push(trabajo)
     }
   })
   return jobByProfession
