@@ -286,6 +286,7 @@
 
 <script>
 import addHours from 'date-fns/addHours'
+import isDateAfter from 'date-fns/isAfter'
 import Avatar from './Avatar'
 import Rating from './Rating'
 import CardChat from './CardChat'
@@ -302,6 +303,8 @@ import {
   EstadoTrabajo,
   TipoTrabajo,
 } from '~~/server/utilities/enums'
+
+const NOW = new Date()
 
 export default {
   components: { Rating, Avatar, CardChat, FieldDate, FieldTime, FieldTextArea },
@@ -337,9 +340,6 @@ export default {
     },
     isPablic() {
       return this.trabajo.tipo === TipoTrabajo.PUBLICO
-    },
-    estadoLabel() {
-      return camelCase(this.trabajo.estado)
     },
     cliente() {
       return this.trabajo.cliente
@@ -382,6 +382,14 @@ export default {
       if (len === 0) return {}
       return this.trabajo.agenda[len] || {}
     },
+    estadoLabel() {
+      const hours = new Date(this.agenda.fecha_inicio)
+      if (hours && isDateAfter(NOW, hours)) {
+        return camelCase(EstadoTrabajo.EN_PROGRESO)
+      } else {
+        return camelCase(this.trabajo.estado)
+      }
+    },
   },
   created() {
     const self = this
@@ -395,6 +403,7 @@ export default {
     this.trabajo.oldEstado = this.trabajo.estado
     this.cancel()
   },
+  mounted() {},
   methods: {
     goToPerfi() {
       const key = this.showAsCliente ? 'profesional' : 'cliente'
