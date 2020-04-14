@@ -1,0 +1,11 @@
+extends base_email.pug
+//- email body
+block email
+  each job in data.data
+    tr
+      td(align='center' valign='top' style='padding:0px;padding-top:20px')
+        p Trabajo:
+          b  #{job.descripcion}
+        p Fecha:
+          b  #{job.fecha}
+        a(href!=`${job.link}`) Ver los detalle del trabajo
