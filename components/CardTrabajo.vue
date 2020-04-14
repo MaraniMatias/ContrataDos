@@ -71,21 +71,28 @@
     <v-hover v-slot:default="{ hover }" open-delay="100">
       <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
         <v-card-title v-if="!isPablic" class="pb-0">
-          <v-layout align-center>
-            <Avatar size="64" :src="displayPicture" class="ma-2" />
-            <v-layout column justify-center>
-              <a class="title mb-0" @click="goToPerfi">{{ displayName }}</a>
-              <span class="body-1" v-text="displayEmail" />
+          <v-layout>
+            <v-layout align-center>
+              <Avatar size="64" :src="displayPicture" class="ma-2" />
+              <v-layout column justify-center>
+                <a class="title mb-0" @click="goToPerfi">{{ displayName }}</a>
+                <span class="body-1" v-text="displayEmail" />
+              </v-layout>
             </v-layout>
-          </v-layout>
-          <v-layout
-            v-show="isEstado.PENDIENTE || isEstado.EN_PROGRESO"
-            column
-            justify-center
-            align-end
-          >
-            <p class="mb-0 display-1 font-weight-black">{{ displayFecha }}</p>
-            <p class="mb-0 body-1">Estado: {{ estadoLabel }}</p>
+            <v-layout column justify-start align-end fill-height>
+              <v-chip
+                outlined
+                :color="estadosColor"
+                small
+                v-text="estadoLabel"
+              />
+              <p
+                v-show="isEstado.PENDIENTE || isEstado.EN_PROGRESO"
+                class="mb-0 display-1 font-weight-black"
+              >
+                {{ displayFecha }}
+              </p>
+            </v-layout>
           </v-layout>
         </v-card-title>
         <v-card-text :class="{ 'pb-0': !isPablic }">
@@ -116,7 +123,7 @@
                 <v-layout column fill-height align-start>
                   <p v-text="trabajo.descripcion" />
                 </v-layout>
-                <v-layout align-center mb-2>
+                <v-layout align-center>
                   <v-chip
                     v-for="(h, $i) in trabajo.servicios"
                     :key="$i"
@@ -154,7 +161,7 @@
               {{ showAsCliente ? 'Cancelar' : 'Rechazar' }}
             </v-btn>
             <v-btn
-              v-else
+              v-if="isEstado.PENDIENTE && isEstado.EN_PROGRESO"
               color="teal"
               outlined
               @click.stop="optionsModal = true"
@@ -289,6 +296,7 @@ import { Trabajo, Comunicacion } from '~/api'
 import dateFormat from '~/utils/dateFormat'
 import camelCase from '~~/server/utilities/capitalizeWords'
 import {
+  EstadoTrabajoColor,
   EstadoTrabajoLabel,
   EstadoTrabajo,
   TipoTrabajo,
@@ -316,6 +324,9 @@ export default {
   }),
   computed: {
     Estados: () => EstadoTrabajoLabel,
+    estadosColor() {
+      return EstadoTrabajoColor[this.trabajo.estado]
+    },
     isEstado() {
       const rta = {}
       for (const key in EstadoTrabajo) {
