@@ -5,6 +5,7 @@ const numCPUs = require('os').cpus().length
 
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
+// const Agendash = require('agendash')
 const fileImagen = require('../server/utilities/fileImagen')
 const getMongoURL = require('./utilities/getMongoURL')
 const getLocalIP = require('./utilities/getLocalIP')
@@ -34,6 +35,9 @@ function startServer() {
           )
         }
         Agenda.start()
+        // .then(() => {
+        //   // app.use('/api/dash', Agendash(Agenda.Agenda))
+        // })
         getLocalIP()
       })
     }
