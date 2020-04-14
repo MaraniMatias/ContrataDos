@@ -1,0 +1,6 @@
+extends base_email.pug
+//- email body
+block email
+  tr
+    td(align='left' valign='top' style='padding:0px;padding-left:10px')
+      a(href!=`${data.link}`) Ver mensaje
