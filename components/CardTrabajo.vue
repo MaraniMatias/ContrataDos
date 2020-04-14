@@ -285,6 +285,7 @@
 </template>
 
 <script>
+import addHours from 'date-fns/addHours'
 import Avatar from './Avatar'
 import Rating from './Rating'
 import CardChat from './CardChat'
@@ -391,6 +392,7 @@ export default {
       self.comunicaciones = data || []
       self.page = self.numberOfPages
     })
+    this.trabajo.oldEstado = this.trabajo.estado
     this.cancel()
   },
   methods: {
@@ -408,23 +410,33 @@ export default {
         this.$refs.chat.scrollTo(0, 300)
       })
     },
-    async accept(fechaInicio) {
-      const fechaFin = new Date(fechaInicio).set(fechaInicio.getHours() + 3)
+    async accept(fecha) {
+      const fechaInicio = new Date(fecha)
+      const fechaFin = addHours(fechaInicio, 3)
       this.loading = true
       this.trabajo.estado = EstadoTrabajo.PENDIENTE
-      this.trabajo.agenda = [{ fecha_inicio: fechaInicio, fecha_fin: fechaFin }]
-      const { error } = await Trabajo.save(this.trabajo)
+      const agenda = { fecha_inicio: fechaInicio, fecha_fin: fechaFin }
+      if (typeof this.trabajo.agenda === 'undefined') {
+        this.trabajo.agenda = []
+      }
+      this.trabajo.agenda.push(agenda)
+
+      const { error, data } = await Trabajo.save(this.trabajo)
       if (error) {
         this.$notify({ type: 'error', text: error })
+      } else {
+        this.trabajo.estado = data.estado
       }
       this.loading = false
     },
     async reject() {
       this.loading = true
       this.trabajo.estado = EstadoTrabajo.CANCELADO
-      const { error } = await Trabajo.save(this.trabajo)
+      const { error, data } = await Trabajo.save(this.trabajo)
       if (error) {
         this.$notify({ type: 'error', text: error })
+      } else {
+        this.trabajo.estado = data.estado
       }
       this.loading = false
     },
@@ -479,10 +491,11 @@ export default {
         fecha_inicio: this.form.fechaInicio,
         fecha_fin: this.form.fechaFin,
       })
-      const { error } = await Trabajo.save(this.trabajo)
+      const { error, data } = await Trabajo.save(this.trabajo)
       if (error) {
         this.$notify({ type: 'error', text: error })
       } else {
+        this.trabajo.estado = data.estado
         this.$notify({ type: 'success', text: 'Trabajo actualizado.' })
         this.$emit('change')
         this.cancel()

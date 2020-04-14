@@ -4,30 +4,53 @@ const router = express.Router()
 const { Agenda } = require('../utilities/agenda')
 const sendEmailNuevaConsulta = require('../utilities/agenda/send_email_nueva_consulta.job')
 const sendEmailTrabajoCancelado = require('../utilities/agenda/send_email_trabajo_cancelado.job')
+const sendEmailCitaAceptada = require('../utilities/agenda/send_email_cita_aceptada.job')
+const dateFormat = require('../utilities/dateFormat')
 const { deleteProp, auth } = require('../utilities/router')
 // const Batch = require("../utilities/agendaTask");
 const { Trabajo, EstadoTrabajo } = require('../models/trabajo')
-// const { Persona } = require('../models/persona')
+const { Persona } = require('../models/persona')
+const camelCase = require('./../utilities/capitalizeWords')
 
 restify.serve(router, Trabajo, {
-  preDelete: auth.isLogin,
-  // TODO, solo borrar lo de el
+  preDelete: auth.isLogin, // TODO, solo borrar lo de el
   preUpdate: [auth.isLogin, deleteProp], // TODO, solo borrar lo de el
   postUpdate: [
-    (req, _, next) => {
+    // TODO catch ???
+    async (req, _, next) => {
       const trabajo = req.erm.result
-      if (trabajo.estado === EstadoTrabajo.CANCELADO) {
-        // find id si es email segun origien de usario
-        // TODO usar el id y buscar el email
-        const { profesional, cliente } = req.body
+      const { profesional, cliente } = trabajo
+
+      const isNewState = (check) => {
+        return req.body.oldEstado !== check && req.body.estado === check
+      }
+      const getEmailToSend = () => {
+        const _id = trabajo.profesional._id || trabajo.profesional
+        const sendEmailToId = req.user._id.equals(_id) ? cliente : profesional
+        return Persona.findById(sendEmailToId)
+      }
+
+      if (isNewState(EstadoTrabajo.CANCELADO)) {
+        const person = await getEmailToSend()
+        if (!person) return next()
         sendEmailTrabajoCancelado.jobCreate(Agenda, {
-          email: req.user._id.equals(profesional._id)
-            ? cliente.email
-            : profesional.email,
+          email: person.email,
           descripcion: trabajo.descripcion_breve,
           link: process.env.FRONT_URL + '/trabajos/' + trabajo._id,
         })
         return next()
+      } else if (isNewState(EstadoTrabajo.PENDIENTE)) {
+        const agendaIndex = trabajo.agenda.length - 1
+        const hours = trabajo.agenda[agendaIndex].fecha_inicio
+        const person = await getEmailToSend()
+        if (!person) return next()
+
+        sendEmailCitaAceptada.jobCreate(Agenda, {
+          email: person.email,
+          descripcion: trabajo.descripcion_breve,
+          fecha: camelCase(dateFormat(hours, "EEEE dd/MM 'a las' HH:mm 'hs'")),
+          link: process.env.FRONT_URL + '/trabajos/' + trabajo._id,
+        })
       } else {
         return next()
       }

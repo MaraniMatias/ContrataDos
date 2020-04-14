@@ -100,8 +100,8 @@ export const actions = {
       commit('SET_USER', data)
       return { data, error }
       // } else return {}
-    } catch ({ error }) {
-      return { error }
+    } catch (error) {
+      return error
     }
   },
 }
