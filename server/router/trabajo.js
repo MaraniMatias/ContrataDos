@@ -107,6 +107,7 @@ restify.serve(router, Trabajo, {
       return next()
     },
   ],
+  // postRead: [(req, _, next) => {}],
 })
 
 /*
