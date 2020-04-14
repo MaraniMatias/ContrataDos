@@ -3,15 +3,36 @@ const restify = require('express-restify-mongoose')
 const router = express.Router()
 const { Agenda } = require('../utilities/agenda')
 const sendEmailNuevaConsulta = require('../utilities/agenda/send_email_nueva_consulta.job')
+const sendEmailTrabajoCancelado = require('../utilities/agenda/send_email_trabajo_cancelado.job')
 const { deleteProp, auth } = require('../utilities/router')
 // const Batch = require("../utilities/agendaTask");
-const { Trabajo } = require('../models/trabajo')
+const { Trabajo, EstadoTrabajo } = require('../models/trabajo')
+// const { Persona } = require('../models/persona')
 
 restify.serve(router, Trabajo, {
   preDelete: auth.isLogin,
   // TODO, solo borrar lo de el
   preUpdate: [auth.isLogin, deleteProp], // TODO, solo borrar lo de el
-  postUpdate: [],
+  postUpdate: [
+    (req, _, next) => {
+      const trabajo = req.erm.result
+      if (trabajo.estado === EstadoTrabajo.CANCELADO) {
+        // find id si es email segun origien de usario
+        // TODO usar el id y buscar el email
+        const { profesional, cliente } = req.body
+        sendEmailTrabajoCancelado.jobCreate(Agenda, {
+          email: req.user._id.equals(profesional._id)
+            ? cliente.email
+            : profesional.email,
+          descripcion: trabajo.descripcion_breve,
+          link: process.env.FRONT_URL + '/trabajos/' + trabajo._id,
+        })
+        return next()
+      } else {
+        return next()
+      }
+    },
+  ],
   preCreate: [
     auth.isLogin,
     deleteProp,
