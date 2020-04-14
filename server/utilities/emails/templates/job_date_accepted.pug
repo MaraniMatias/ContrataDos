@@ -3,6 +3,8 @@ extends base_email.pug
 block email
   tr
     td(align='center' valign='top' style='padding:0px;padding-left:10px')
-      h1= data.descripcion
-      p Este trabajo fue cancelado
+      p Trabajo:
+        b  #{data.descripcion}
+      p Cita programa para las
+        b  #{data.fecha}
       a(href!=`${data.link}`) Ver los detalle del trabajo
