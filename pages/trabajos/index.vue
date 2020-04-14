@@ -17,8 +17,8 @@
           </v-chip-group>
         </v-layout>
       </v-flex>
-      <v-flex xs12 lg3 xl4 style="margin: auto;">
-        <v-layout align-center justify-center>
+      <v-flex xs12 lg3 xl4 mt-3>
+        <v-layout v-show="!loadingTrabajos" align-center justify-center>
           <span>Trabajos terminados: {{ score.total }} </span>
           <v-icon small class="mx-2">mdi-thumb-up</v-icon>
           {{ score.like }}
