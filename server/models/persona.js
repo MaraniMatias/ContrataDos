@@ -45,8 +45,8 @@ const schema = new Schema(
     ],
     servicios: [{ type: ObjectId, ref: 'habilidad' }],
     localidad: { type: ObjectId, ref: 'localidad' }, // Del trabajador
-    puntuacion: { type: Number, default: 0 }, // TODO 0 al 100, calcular con algun metodo
-    cantidad_trabajos: { type: Number, default: 0 }, // TODO Incrementar al terminar un trabajo o virtual
+    // puntuacion: { type: Number, default: 0 }, // Find on Trabajo collection
+    // cantidad_trabajos: { type: Number, default: 0 }, // Find on Trabajo collection
     google_account: { type: Object, access: 'protected' }, // Datos de google,
     picture: String,
     password: { type: String, access: 'protected' },

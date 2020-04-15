@@ -33,7 +33,7 @@ module.exports.TipoTrabajo = {
   PUBLICO: 'PUBLICO',
   PRIVADO: 'PRIVADO',
 }
-module.exports.Rating = {
+module.exports.RatingTrabajo = {
   LIKE: 'LIKE',
   DONT_LIKE: 'DONT_LIKE',
 }

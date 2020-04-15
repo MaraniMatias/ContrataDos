@@ -116,6 +116,7 @@ import { Persona, Trabajo } from '~/api'
 import {
   EstadoTrabajoLabel,
   EstadoTrabajo,
+  RatingTrabajo,
   EstadoTrabajoColor,
 } from '~~/server/utilities/enums'
 
@@ -177,11 +178,17 @@ export default {
           estado: EstadoTrabajo.TERMINADO,
         },
       })
-      this.score = {
-        total: data.length || 0,
-        like: data.filter((jobs) => jobs.like).length || 0,
-        dontLike: data.filter((jobs) => jobs.dontLike).length || 0,
-      }
+      let like = 0
+      let dontLike = 0
+      data.forEach((job) => {
+        if (job.rating === RatingTrabajo.LIKE) {
+          like++
+        }
+        if (job.rating === RatingTrabajo.DONT_LIKE) {
+          dontLike++
+        }
+      })
+      this.score = { total: data.length || 0, like, dontLike }
     },
     async close() {
       const { data } = await Persona.save({

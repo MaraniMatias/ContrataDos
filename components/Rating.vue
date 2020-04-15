@@ -13,10 +13,16 @@
     />
     <template v-else>
       <v-layout v-if="editable" justify-center align-center>
-        <v-btn class="ma-2" text icon :color="upIcon.color">
+        <v-btn class="ma-2" text icon :color="upIcon.color" @click="emit(true)">
           <v-icon>mdi-thumb-up</v-icon>
         </v-btn>
-        <v-btn class="ma-2" text icon :color="downIcon.color">
+        <v-btn
+          class="ma-2"
+          text
+          icon
+          :color="downIcon.color"
+          @click="emit(false)"
+        >
           <v-icon>mdi-thumb-down</v-icon>
         </v-btn>
       </v-layout>
@@ -72,7 +78,11 @@ export default {
       return this.value * 0.05
     },
   },
-  methods: {},
+  methods: {
+    emit(value) {
+      this.$emit('change', value ? Rating.LIKE : Rating.DONT_LIKE)
+    },
+  },
 }
 </script>
 >

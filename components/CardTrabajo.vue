@@ -145,7 +145,12 @@
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
                           <div v-on="on">
-                            <Rating :value="trabajo.rating" size="22" />
+                            <Rating
+                              :value="trabajo.rating"
+                              size="22"
+                              :editable="canRating"
+                              @change="saveRating"
+                            />
                           </div>
                         </template>
                         Opinion del cliente
@@ -410,6 +415,9 @@ export default {
       if (len === 0) return {}
       return this.trabajo.agenda[len] || {}
     },
+    canRating() {
+      return this.$store.state.user._id !== this.trabajo?.cliente?._id
+    },
   },
   created() {
     const self = this
@@ -591,6 +599,19 @@ export default {
         this.$notify({ type: 'error', text: error })
       } else {
         this.$notify({ type: 'success', text: 'Trabajo actualizado.' })
+        this.$emit('change')
+        this.cancel()
+      }
+      this.loading = false
+    },
+    async saveRating(value) {
+      this.loading = true
+      this.trabajo.rating = value
+      const { error } = await Trabajo.save(this.trabajo)
+      if (error) {
+        this.$notify({ type: 'error', text: error })
+      } else {
+        this.$notify({ type: 'success', text: 'Gracias por puntuar.' })
         this.$emit('change')
         this.cancel()
       }

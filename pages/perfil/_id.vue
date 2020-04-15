@@ -13,7 +13,7 @@
               @change="changeUser"
             />
             <template v-if="isAProfessional">
-              <Rating v-if="showRating" :value="perfil.puntuacion" star />
+              <Rating v-if="showRating" :value="score.rating" star />
               <p v-else class="mb-0">Todavía no tiene suficientes trabajos</p>
             </template>
           </v-layout>
@@ -194,9 +194,10 @@ import PerfilTrabajosList from '~/components/PerfilTrabajosList'
 import CardForm from '~/components/CardForm'
 import ObjectId from '~/utils/formRules/objectId'
 import camelCase from '~~/server/utilities/capitalizeWords'
-import { Roles } from '~~/server/utilities/enums'
+import * as enums from '~~/server/utilities/enums'
+import { Persona, Localidad, Habilidad, Trabajo } from '~/api'
 
-import { Persona, Localidad, Habilidad } from '~/api'
+const { Roles, Rating: RatingTrabajo, EstadoTrabajo } = enums
 
 export default {
   // middleware: 'authenticated', es publico
@@ -224,6 +225,7 @@ export default {
     showModalEdit: false,
     habilidades: [],
     localidades: [],
+    score: {},
     form: {}, // TODO: zona_trabajo: [], localidad: {}   razon_social: {}
   }),
   computed: {
@@ -246,7 +248,7 @@ export default {
       return this.form.roles?.includes(Roles.PROFECIONAL)
     },
     showRating() {
-      return this.perfil.cantidad_trabajos > 10
+      return this.score.total > 10
     },
   },
   async mounted() {
@@ -254,6 +256,7 @@ export default {
       this.form = { ...this.perfil }
       this.form.roles = Array.from(this.perfil.roles)
     }
+    this.getScore()
 
     // TODO search query
     const { data: l } = await Localidad.getAll()
@@ -281,6 +284,27 @@ export default {
       set.delete(Roles.PROFECIONAL)
       this.form.roles = Array.from(set)
     },
+    async getScore() {
+      const { data } = await Trabajo.get({
+        query: {
+          profesional: this.perfil._id,
+          estado: EstadoTrabajo.TERMINADO,
+        },
+      })
+      let like = 0
+      let dontLike = 0
+      data.forEach((job) => {
+        if (job.rating === RatingTrabajo.LIKE) {
+          like++
+        }
+        if (job.rating === RatingTrabajo.DONT_LIKE) {
+          dontLike++
+        }
+      })
+      const rating = (like * (like + dontLike)) / 100
+      this.score = { total: data.length || 0, like, dontLike, rating }
+    },
+
     async enableEmailNotify() {
       this.loading = true
       this.form.notification = !this.form.notification

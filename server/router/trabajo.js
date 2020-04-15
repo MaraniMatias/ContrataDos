@@ -18,7 +18,7 @@ restify.serve(router, Trabajo, {
   preDelete: auth.isLogin, // TODO, solo borrar lo de el
   preUpdate: [auth.isLogin, deleteProp], // TODO, solo borrar lo de el
   postUpdate: [
-    // TODO catch ???
+    // Emails and notification
     async (req, _, next) => {
       const trabajo = req.erm.result
       const { profesional, cliente } = trabajo

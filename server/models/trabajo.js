@@ -3,10 +3,14 @@ const escapeHtml = require('escape-html')
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Schema.Types.ObjectId
 
-const { TipoTrabajo, EstadoTrabajo, Rating } = require('../utilities/enums')
+const {
+  TipoTrabajo,
+  EstadoTrabajo,
+  RatingTrabajo,
+} = require('../utilities/enums')
 module.exports.TipoTrabajo = TipoTrabajo
 module.exports.EstadoTrabajo = EstadoTrabajo
-module.exports.Rating = Rating
+module.exports.RatingTrabajo = RatingTrabajo
 
 const schema = new Schema(
   {
@@ -29,7 +33,10 @@ const schema = new Schema(
       default: TipoTrabajo.PUBLICO, // Son privados los que son programados/pendientres, o finalizados pero no publicados
       enum: [TipoTrabajo.PUBLICO, TipoTrabajo.PRIVADO],
     },
-    rating: { type: String, enum: [Rating.LIKE, Rating.DONT_LIKE] },
+    rating: {
+      type: String,
+      enum: [RatingTrabajo.LIKE, RatingTrabajo.DONT_LIKE],
+    },
     // foto, usar el _id para referenciar la foto o mejor un id unico universal
     notas: { type: String, max: 500, trim: true },
     descripcion: { type: String, max: 500, trim: true, set: escapeHtml },
