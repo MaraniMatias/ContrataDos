@@ -44,7 +44,8 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   function (response) {
     if (!Token.get()) {
-      const token = response.headers.authorization
+      const { authorization, Authorization } = response.headers
+      const token = authorization || Authorization
       if (token) Token.set(token)
     }
 
