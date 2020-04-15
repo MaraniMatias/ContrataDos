@@ -139,7 +139,7 @@
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
                           <div v-on="on">
-                            <Rating :like="trabajo.like" size="22" />
+                            <Rating :value="trabajo.rating" size="22" />
                           </div>
                         </template>
                         Opinion del cliente
@@ -177,6 +177,14 @@
               @click="markAsDone"
             >
               Trabajo terminado
+            </v-btn>
+            <v-btn
+              v-show="isEstado.TERMINADO"
+              class="mx-2"
+              text
+              @click="markAsPublic"
+            >
+              Publicar
             </v-btn>
             <v-layout align-center justify-end>
               <v-btn
@@ -385,7 +393,7 @@ export default {
     },
     estadoLabel() {
       const hours = new Date(this.agenda.fecha_inicio)
-      if (hours && isDateAfter(NOW, hours)) {
+      if (this.isEstado.PENDIENTE && hours && isDateAfter(NOW, hours)) {
         return camelCase(EstadoTrabajo.EN_PROGRESO)
       } else {
         return camelCase(this.trabajo.estado)
@@ -535,6 +543,20 @@ export default {
     async markAsDone() {
       this.loading = true
       this.trabajo.estado = EstadoTrabajo.TERMINADO
+      const { error } = await Trabajo.save(this.trabajo)
+      if (error) {
+        this.$notify({ type: 'error', text: error })
+      } else {
+        this.$notify({ type: 'success', text: 'Trabajo actualizado.' })
+        this.$emit('change')
+        this.cancel()
+      }
+      this.loading = false
+    },
+    // TODO subir foto y editarlo
+    async markAsPublic() {
+      this.loading = true
+      this.trabajo.tipo = TipoTrabajo.PUBLICO
       const { error } = await Trabajo.save(this.trabajo)
       if (error) {
         this.$notify({ type: 'error', text: error })
