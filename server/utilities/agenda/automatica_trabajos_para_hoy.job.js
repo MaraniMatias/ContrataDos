@@ -8,7 +8,14 @@ let Agenda
 module.exports.autoStart = true
 module.exports.jobCreate = (agenda, data) => {
   Agenda = agenda
-  agenda.create(this.name, data).repeatEvery('1 days').save()
+
+  const isProd = process.env.NODE_ENV === 'production'
+  const times = isProd ? '1 days' : '20 minutes'
+
+  agenda
+    .create(this.name, data)
+    .repeatEvery(times, { skipImmediate: isProd })
+    .save()
 }
 
 // Export params to define a job
@@ -22,8 +29,8 @@ module.exports.job = async () => {
     estado: EstadoTrabajo.PENDIENTE,
     deleted: false,
   })
-    .populate('profesional', 'email')
-    .populate('cliente', 'email')
+    .populate('profesional', 'email,notification')
+    .populate('cliente', 'email,notification')
     .where('agenda.fecha_inicio')
     .gte(new Date().setHours(0, 0, 0, 0))
     .where('agenda.fecha_inicio')
@@ -41,7 +48,7 @@ module.exports.job = async () => {
       const smailJob = getUtilDate(job)
       data.push(smailJob)
       // Para el cliente
-      if (job.cliente) {
+      if (job.cliente && job.cliente.notification) {
         const email = job.cliente.email
         if (email) {
           sendEmailTrabajosParaHoy.jobCreate(Agenda, { email, data })
@@ -49,7 +56,7 @@ module.exports.job = async () => {
       }
     })
     // Para el profesional
-    if (profesional) {
+    if (profesional && profesional.notification) {
       const email = profesional.email
       if (email) {
         sendEmailTrabajosParaHoy.jobCreate(Agenda, { email, data })
