@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { Rating } from '~/server/utilities/enums'
+import { RatingTrabajo } from '~/server/utilities/enums'
 
 export default {
   props: {
@@ -54,7 +54,7 @@ export default {
       const color = 'blue lighten-2'
       return {
         color:
-          this.value === Rating.LIKE
+          this.value === RatingTrabajo.LIKE
             ? color
             : this.value >= 50 && this.value > 0
             ? color
@@ -66,7 +66,7 @@ export default {
       const color = 'red lighten-2'
       return {
         color:
-          this.value === Rating.DONT_LIKE
+          this.value === RatingTrabajo.DONT_LIKE
             ? color
             : this.value <= 50 && this.value > 0
             ? color
@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     emit(value) {
-      this.$emit('change', value ? Rating.LIKE : Rating.DONT_LIKE)
+      this.$emit('change', value ? RatingTrabajo.LIKE : RatingTrabajo.DONT_LIKE)
     },
   },
 }
