@@ -352,7 +352,8 @@ export default {
     Estados: () => EstadoTrabajoLabel,
     realEstado() {
       const hours = new Date(this.agenda.fecha_inicio)
-      if (this.isEstado.PENDIENTE && hours && isDateAfter(NOW, hours)) {
+      // this.trabajo.estado == EstadoTrabajo.PENDIENTE &&
+      if (hours && isDateAfter(NOW, hours)) {
         return EstadoTrabajo.EN_PROGRESO
       } else {
         return this.trabajo.estado
@@ -367,7 +368,7 @@ export default {
     isEstado() {
       const rta = {}
       for (const key in EstadoTrabajo) {
-        rta[key] = this.trabajo.estado === EstadoTrabajo[key]
+        rta[key] = this.realEstado === EstadoTrabajo[key]
       }
       return rta
     },
