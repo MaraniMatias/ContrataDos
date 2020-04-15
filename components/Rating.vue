@@ -33,12 +33,13 @@
 </template>
 
 <script>
+import { Rating } from '~/server/utilities/enums'
+
 export default {
   props: {
     value: { type: [String, Number], default: 0 },
     editable: { type: Boolean, default: false },
     star: { type: Boolean, default: false },
-    like: { type: Boolean, default: false },
     size: { type: [String, Number], default: 0 },
   },
   data: () => ({}),
@@ -46,22 +47,24 @@ export default {
     upIcon() {
       const color = 'blue lighten-2'
       return {
-        color: this.like
-          ? color
-          : this.value >= 50 && this.value > 0
-          ? color
-          : '',
+        color:
+          this.value === Rating.LIKE
+            ? color
+            : this.value >= 50 && this.value > 0
+            ? color
+            : 'grey lighten-1',
         size: this.size || (this.value >= 50 ? 42 : 32),
       }
     },
     downIcon() {
       const color = 'red lighten-2'
       return {
-        color: !this.like
-          ? color
-          : this.value <= 50 && this.value > 0
-          ? color
-          : '',
+        color:
+          this.value === Rating.DONT_LIKE
+            ? color
+            : this.value <= 50 && this.value > 0
+            ? color
+            : 'grey lighten-1',
         size: this.size || (this.value >= 50 ? 42 : 32),
       }
     },
