@@ -194,10 +194,8 @@ import PerfilTrabajosList from '~/components/PerfilTrabajosList'
 import CardForm from '~/components/CardForm'
 import ObjectId from '~/utils/formRules/objectId'
 import camelCase from '~~/server/utilities/capitalizeWords'
-import * as enums from '~~/server/utilities/enums'
+import { Roles, RatingTrabajo, EstadoTrabajo } from '~~/server/utilities/enums'
 import { Persona, Localidad, Habilidad, Trabajo } from '~/api'
-
-const { Roles, Rating: RatingTrabajo, EstadoTrabajo } = enums
 
 export default {
   // middleware: 'authenticated', es publico

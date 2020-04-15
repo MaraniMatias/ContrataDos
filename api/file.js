@@ -39,6 +39,7 @@ const trabajo = async function (file, body = {}) {
 
     return await axios({
       url: BASE_URL + '/trabajo',
+      // method: body._id ? 'PATCH' : 'POST',
       method: 'POST',
       data: formData,
       headers: {

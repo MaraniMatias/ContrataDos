@@ -20,10 +20,15 @@ router.post(
       model.profesional = req.user._id
       model.deleted = false
 
-      const trabajo = await Trabajo.create(model)
-      const _id = trabajo._id
+      let trabajo
+      if (typeof model._id === 'undefined') {
+        trabajo = await Trabajo.create(model)
+      } else {
+        trabajo = await Trabajo.update({ _id: model._id }, model)
+      }
+
       const extension = req.file.originalname.match(/[^.]+$/)[0]
-      const fileName = _id + '.' + extension
+      const fileName = trabajo._id + '.' + extension
       await save(req.file.buffer, '/jobs/' + fileName)
 
       return sendRes(res, 200, trabajo, 'Success', null)

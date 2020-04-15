@@ -68,6 +68,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <ModalPublicJob
+      v-model="showModalPublic"
+      :trabajo="trabajo"
+      @change="$emit('change')"
+    />
     <v-hover v-slot:default="{ hover }" open-delay="100">
       <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
         <v-card-title v-if="!isPablic" class="pb-0">
@@ -193,7 +198,7 @@
               v-show="isEstado.TERMINADO"
               class="mx-2"
               text
-              @click="markAsPublic"
+              @click.stop="showModalPublic = true"
             >
               Publicar
             </v-btn>
@@ -310,6 +315,7 @@ import isDateAfter from 'date-fns/isAfter'
 import Avatar from './Avatar'
 import Rating from './Rating'
 import CardChat from './CardChat'
+import ModalPublicJob from './ModalPublicJob'
 import FieldDate from './FieldDate'
 import FieldTime from './FieldTime'
 import FieldTextArea from './FieldTextArea'
@@ -327,7 +333,15 @@ import {
 const NOW = new Date()
 
 export default {
-  components: { Rating, Avatar, CardChat, FieldDate, FieldTime, FieldTextArea },
+  components: {
+    Rating,
+    Avatar,
+    CardChat,
+    FieldDate,
+    FieldTime,
+    FieldTextArea,
+    ModalPublicJob,
+  },
   props: {
     trabajo: { type: Object, required: true },
   },
@@ -336,6 +350,7 @@ export default {
     loading: false,
     avatarError: true,
     base64img: null,
+    showModalPublic: false,
     form: {
       estado: null,
       fechaFin: null,
@@ -584,20 +599,6 @@ export default {
     async markAsDone() {
       this.loading = true
       this.trabajo.estado = EstadoTrabajo.TERMINADO
-      const { error } = await Trabajo.save(this.trabajo)
-      if (error) {
-        this.$notify({ type: 'error', text: error })
-      } else {
-        this.$notify({ type: 'success', text: 'Trabajo actualizado.' })
-        this.$emit('change')
-        this.cancel()
-      }
-      this.loading = false
-    },
-    // TODO subir foto y editarlo
-    async markAsPublic() {
-      this.loading = true
-      this.trabajo.tipo = TipoTrabajo.PUBLICO
       const { error } = await Trabajo.save(this.trabajo)
       if (error) {
         this.$notify({ type: 'error', text: error })
