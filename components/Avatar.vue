@@ -51,16 +51,15 @@ export default {
   mounted() {
     this.loadImg()
   },
-  // created() {
-  //   this.$store.subscribe((mutation, { user }) => {
-  //     if (mutation.type === 'SET_USER') {
-  //       this.loading = true
-  //       this.$nextTick(function () {
-  //         this.loading = false
-  //       })
-  //     }
-  //   })
-  // },
+  created() {
+    this.$store.subscribe((mutation, { user }) => {
+      if (mutation.type === 'SET_USER') {
+        this.$nextTick(function () {
+          this.loadImg()
+        })
+      }
+    })
+  },
   methods: {
     openCorp() {
       if (this.editable) this.modalUpdateImg = true
@@ -73,6 +72,7 @@ export default {
       } else {
         this.$emit('change', data)
         this.modalUpdateImg = false
+        // this.loadImg()
       }
       this.loading = false
     },

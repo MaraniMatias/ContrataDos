@@ -10,7 +10,6 @@
               :editable="showBtnEditable"
               elevation
               class="ma-2"
-              @change="changeUser"
             />
             <template v-if="isAProfessional">
               <Rating v-if="showRating" :value="score.rating" star />
@@ -225,6 +224,7 @@ export default {
     localidades: [],
     score: {},
     form: {}, // TODO: zona_trabajo: [], localidad: {}   razon_social: {}
+    changeAvatar: false,
   }),
   computed: {
     showBtnEditable() {
@@ -267,6 +267,7 @@ export default {
     ...mapMutations({ updateUser: 'SET_USER' }),
     changeUser(user) {
       this.updateUser(user)
+      this.perfil = { ...user }
       this.localidad = user.localidad
     },
 
@@ -310,7 +311,6 @@ export default {
       if (error) {
         this.$notify({ type: 'error', text: error })
       } else {
-        // TODO gettMe
         this.changeUser(data)
       }
       this.loading = false
@@ -323,7 +323,6 @@ export default {
       if (error) {
         this.$notify({ type: 'error', text: error })
       } else {
-        // TODO gettMe
         this.changeUser(data)
         this.showModalEdit = false
       }
