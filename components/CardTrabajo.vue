@@ -345,8 +345,19 @@ export default {
   }),
   computed: {
     Estados: () => EstadoTrabajoLabel,
+    realEstado() {
+      const hours = new Date(this.agenda.fecha_inicio)
+      if (this.isEstado.PENDIENTE && hours && isDateAfter(NOW, hours)) {
+        return EstadoTrabajo.EN_PROGRESO
+      } else {
+        return this.trabajo.estado
+      }
+    },
     estadosColor() {
-      return EstadoTrabajoColor[this.trabajo.estado]
+      return EstadoTrabajoColor[this.realEstado]
+    },
+    estadoLabel() {
+      return camelCase(this.realEstado)
     },
     isEstado() {
       const rta = {}
@@ -398,14 +409,6 @@ export default {
       const len = this.trabajo.agenda.length - 1
       if (len === 0) return {}
       return this.trabajo.agenda[len] || {}
-    },
-    estadoLabel() {
-      const hours = new Date(this.agenda.fecha_inicio)
-      if (this.isEstado.PENDIENTE && hours && isDateAfter(NOW, hours)) {
-        return camelCase(EstadoTrabajo.EN_PROGRESO)
-      } else {
-        return camelCase(this.trabajo.estado)
-      }
     },
   },
   created() {
