@@ -104,6 +104,7 @@
                 width="225"
                 aspect-ratio="1"
               />
+              <!-- <v-icon size="128">wallpaper</v-icon> -->
             </v-flex>
             <v-flex xs12 :md8="isPablic">
               <v-layout column pl-4 fill-height>
