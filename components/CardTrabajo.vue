@@ -97,14 +97,20 @@
         </v-card-title>
         <v-card-text :class="{ 'pb-0': !isPablic }">
           <v-layout :column="$vuetify.breakpoint.smAndDown">
-            <v-flex v-if="isPablic" xs12 md4 d-inline-flex>
+            <v-flex
+              v-if="isPablic"
+              class="grey lighten-3 d-inline-flex xs12 md4"
+            >
+              <v-icon v-if="avatarError" size="128" style="margin: auto;">
+                wallpaper
+              </v-icon>
               <v-img
-                :src="`/images/jobs/${trabajo._id}.jpeg`"
+                v-else
+                :src="base64img"
                 height="225"
                 width="225"
                 aspect-ratio="1"
               />
-              <!-- <v-icon size="128">wallpaper</v-icon> -->
             </v-flex>
             <v-flex xs12 :md8="isPablic">
               <v-layout column pl-4 fill-height>
@@ -323,6 +329,8 @@ export default {
   data: () => ({
     showChat: false,
     loading: false,
+    avatarError: true,
+    base64img: null,
     form: {
       estado: null,
       fechaFin: null,
@@ -412,7 +420,9 @@ export default {
     this.trabajo.oldEstado = this.trabajo.estado
     this.cancel()
   },
-  mounted() {},
+  mounted() {
+    if (this.trabajo.tipo === TipoTrabajo.PUBLICO) this.loadImg()
+  },
   methods: {
     goToPerfi() {
       const key = this.showAsCliente ? 'profesional' : 'cliente'
@@ -427,6 +437,22 @@ export default {
       this.$nextTick(function () {
         this.$refs.chat.scrollTo(0, 300)
       })
+    },
+    async loadImg() {
+      try {
+        const { data: imgFile } = await this.$http.get(
+          `/images/jobs/${this.trabajo._id}.jpeg`,
+          {
+            responseType: 'arraybuffer',
+          }
+        )
+        this.base64img =
+          'data:image/jpeg;base64,' +
+          Buffer.from(imgFile, 'binary').toString('base64')
+        this.avatarError = false
+      } catch (err) {
+        this.avatarError = true
+      }
     },
     async accept(fecha) {
       const fechaInicio = new Date(fecha)
