@@ -39,7 +39,7 @@ app.use(favicon(path.join(__dirname, '..', STATIC_PATH, 'favicon.ico')))
 app.use(express.static(path.join(__dirname, '..', STATIC_PATH)))
 
 // System monitor
-// TODO basic AUTH
+// TODO add basic AUTH
 app.use(statusMonitor({ title: 'ContrataDos Status', path: '/api/status' }))
 
 restify.defaults({
