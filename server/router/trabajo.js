@@ -29,9 +29,11 @@ restify.serve(router, Trabajo, {
 
       const _id = trabajo.profesional._id || trabajo.profesional
       const sendEmailToId = req.user._id.equals(_id) ? cliente : profesional
-      const person = await Persona.findById(sendEmailToId)
+      const person = await Persona.findById(sendEmailToId).select(
+        'email,notification'
+      )
 
-      if (!person) {
+      if (!person || !person.notification) {
         return next()
       } else if (isNewState(EstadoTrabajo.CANCELADO)) {
         sendEmailTrabajoCancelado.jobCreate(Agenda, {
