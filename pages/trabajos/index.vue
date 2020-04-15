@@ -116,7 +116,6 @@ import { Persona, Trabajo } from '~/api'
 import {
   EstadoTrabajoLabel,
   EstadoTrabajo,
-  TipoTrabajo,
   EstadoTrabajoColor,
 } from '~~/server/utilities/enums'
 
@@ -200,7 +199,6 @@ export default {
       const populate = 'servicios,localidad,cliente,profesional'
       const query = {
         estado: this.filters.map((index) => EstadoTrabajoLabel[index].key),
-        tipo: TipoTrabajo.PRIVADO,
       }
 
       if (this.isAProfessional) {
