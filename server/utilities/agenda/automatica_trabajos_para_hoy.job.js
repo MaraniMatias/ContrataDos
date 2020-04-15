@@ -1,5 +1,6 @@
 const { Trabajo, EstadoTrabajo } = require('../../models/trabajo')
 const sendEmailTrabajosParaHoy = require('../agenda/send_email_trabajos_para_hoy.job')
+const cambiarEstadoTrabajo = require('../agenda/cambiar_estado_trabajo.job')
 const dateFormat = require('./../dateFormat')
 const camelCase = require('./../capitalizeWords')
 let Agenda
@@ -29,9 +30,14 @@ module.exports.job = async () => {
     .lt(new Date().setHours(0, 0, 0, 0))
 
   const orderList = groupByAndFilter(trabajosList)
+  console.log('Para hoy %s trabajos', orderList.length)
   Object.values(orderList).forEach(({ profesional, jobs }) => {
     const data = []
     jobs.forEach((job) => {
+      cambiarEstadoTrabajo.jobCreate(Agenda, {
+        _id: job._id,
+        estado: EstadoTrabajo.EN_PROGRESO,
+      })
       const smailJob = getUtilDate(job)
       data.push(smailJob)
       // Para el cliente
@@ -73,11 +79,18 @@ function groupByAndFilter(trabajosList) {
      * }
      */
   }
+  Object.defineProperty(jobByProfession, 'length', {
+    value: 0,
+    enumerable: false,
+    writable: true,
+  })
+
   trabajosList.forEach((trabajo) => {
     const key = trabajo.profesional._id
     const gte = new Date(getAgenda(trabajo).fecha_inicio).getTime()
     const lt = new Date().setHours(0, 0, 0, 0).getTime()
     if (gte >= lt) {
+      jobByProfession.length++
       if (typeof jobByProfession[key] === 'undefined') {
         jobByProfession[key] = {
           profesional: trabajo.profesional,
