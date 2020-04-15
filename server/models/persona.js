@@ -55,6 +55,7 @@ const schema = new Schema(
     zona_trabajo: [{ type: ObjectId, ref: 'localidad' }], // libre todo el mundo
     // tags: [{ type: String, access: 'protected' }],
     forget_password: { type: Boolean, default: false },
+    notification: { type: Boolean, default: true },
     deleted: { type: Boolean, default: false },
   },
   { timestamps: true }

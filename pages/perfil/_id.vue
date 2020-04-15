@@ -28,9 +28,33 @@
                 <p class="headline mb-0" v-text="headline" />
               </v-flex>
               <template v-if="showBtnEditable">
-                <v-btn icon text @click.stop="showModalEdit = true">
-                  <v-icon>edit</v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn icon text @click="enableEmailNotify" v-on="on">
+                      <v-icon v-if="form.notification">
+                        notifications_active
+                      </v-icon>
+                      <v-icon v-else>notifications_off</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>
+                    {{ form.notification ? 'Deshabilitar ' : 'Habilitar ' }}
+                    notificaciones de email
+                  </span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      icon
+                      text
+                      @click.stop="showModalEdit = true"
+                      v-on="on"
+                    >
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                  </template>
+                  Editar perfil
+                </v-tooltip>
               </template>
             </v-layout>
             <v-layout v-if="isAProfessional" align-center>
@@ -256,6 +280,18 @@ export default {
       set.add(Roles.CLIENTE)
       set.delete(Roles.PROFECIONAL)
       this.form.roles = Array.from(set)
+    },
+    async enableEmailNotify() {
+      this.loading = true
+      this.form.notification = !this.form.notification
+      const { data, error } = await Persona.save(this.form)
+      if (error) {
+        this.$notify({ type: 'error', text: error })
+      } else {
+        // TODO gettMe
+        this.changeUser(data)
+      }
+      this.loading = false
     },
 
     async submit(formValid) {
