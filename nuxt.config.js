@@ -34,8 +34,8 @@ module.exports = {
   plugins: [
     { src: '~/plugins/tiptapVuetify', mode: 'client' },
     { src: '~/plugins/notify', mode: 'client' },
-    { src: './plugins/axion', mode: 'client' },
-    { src: './plugins/globalComponents', mode: 'client' },
+    { src: '~/plugins/axion', mode: 'client' },
+    { src: '~/plugins/globalComponents', mode: 'client' },
   ],
   /*
    ** Nuxt.js dev-modules

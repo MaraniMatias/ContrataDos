@@ -54,7 +54,7 @@ export default {
   created() {
     this.$store.subscribe(({ type }) => {
       if (type === 'SET_USER') {
-        this.loadImg()
+        this.$nextTick(this.loadImg)
       }
     })
   },
