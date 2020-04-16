@@ -13,7 +13,8 @@ const Routers = require('./router')
 const passport = require('./utilities/passport')
 const { sendRes } = require('./utilities/router')
 Object.assign = require('object-assign')
-const STATIC_PATH = process.env.NODE_ENV === 'production' ? 'public' : 'static'
+const isProd = process.env.NODE_ENV === 'production'
+const STATIC_PATH = isProd ? 'public' : 'static'
 
 // Sobre escribe la informacion de las tecnologias usadas en backend
 app.use(helmet())
@@ -29,6 +30,7 @@ app.use(bodyParser.json(/* { limit: '12mb' } */))
 app.use(bodyParser.urlencoded({ /*  limit: '12mb', */ extended: true }))
 app.use(
   cors({
+    origin: isProd ? process.env.FRONT_URL : true,
     exposedHeaders: ['X-Total-Count', 'Content-Type', 'Authorization'],
   })
 )
