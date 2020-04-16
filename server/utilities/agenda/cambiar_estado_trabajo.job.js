@@ -2,14 +2,14 @@ const { Trabajo } = require('../../models/trabajo')
 // let Agenda
 
 module.exports.autoStart = false
-module.exports.jobCreate = (agenda, data) => {
+module.exports.jobCreate = (agenda, schedule, data) => {
   // Agenda = agenda
-  agenda.create(this.name, data).save()
+  agenda.schedule(schedule, this.name, data)
 }
 
 // Export params to define a job
 module.exports.name = 'CAMBIAR_ESTADO_TRABAJO'
-module.exports.options = { priority: 'low', concurrency: 2 }
+module.exports.options = { priority: 'lowest', concurrency: 2 }
 
 // Export job or task
 module.exports.job = async (job) => {

@@ -34,14 +34,14 @@ module.exports.job = async () => {
     .where('agenda.fecha_inicio')
     .gte(new Date().setHours(0, 0, 0, 0))
     .where('agenda.fecha_inicio')
-    .lt(new Date().setHours(0, 0, 0, 0))
+    .lt(new Date().setHours(59, 59, 59, 0))
 
   const orderList = groupByAndFilter(trabajosList)
   console.log('Para hoy %s trabajos', orderList.length)
   Object.values(orderList).forEach(({ profesional, jobs }) => {
     const data = []
     jobs.forEach((job) => {
-      cambiarEstadoTrabajo.jobCreate(Agenda, {
+      cambiarEstadoTrabajo.jobCreate(Agenda, getAgenda(job).fecha_inicio, {
         _id: job._id,
         estado: EstadoTrabajo.EN_PROGRESO,
       })
@@ -92,10 +92,10 @@ function groupByAndFilter(trabajosList) {
     writable: true,
   })
 
+  const lt = new Date().setHours(0, 0, 0, 0)
   trabajosList.forEach((trabajo) => {
     const key = trabajo.profesional._id
-    const gte = new Date(getAgenda(trabajo).fecha_inicio).getTime()
-    const lt = new Date().setHours(0, 0, 0, 0).getTime()
+    const gte = getAgenda(trabajo).fecha_inicio.getTime()
     if (gte >= lt) {
       jobByProfession.length++
       if (typeof jobByProfession[key] === 'undefined') {
