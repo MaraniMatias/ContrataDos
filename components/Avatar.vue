@@ -52,11 +52,9 @@ export default {
     this.loadImg()
   },
   created() {
-    this.$store.subscribe((mutation, { user }) => {
-      if (mutation.type === 'SET_USER') {
-        this.$nextTick(function () {
-          this.loadImg()
-        })
+    this.$store.subscribe(({ type }) => {
+      if (type === 'SET_USER') {
+        this.loadImg()
       }
     })
   },
@@ -70,8 +68,8 @@ export default {
       if (error) {
         this.$notify({ type: 'error', text: 'Error al subir la foto.' })
       } else {
-        this.$emit('change', data)
         this.modalUpdateImg = false
+        this.$emit('change', data)
         // this.loadImg()
       }
       this.loading = false
@@ -79,6 +77,7 @@ export default {
     async loadImg() {
       try {
         this.loading = true
+        this.avatarError = true
         const { data: imgFile } = await this.$http.get(this.src, {
           responseType: 'arraybuffer',
         })
