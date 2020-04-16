@@ -1,15 +1,8 @@
 <template>
-  <v-row align="center" justify="center" class="mb-12">
-    <div class="text-center">
-      <!--
-        <h1 style="font-size: 64px;">ContrataDos</h1>
-        -->
-      <img
-        alt="logo"
-        src="/logo.png"
-        style="margin: 2px 0 0 0; height: 160px;"
-      />
-      <v-col cols="12">
+  <v-layout fill-height align-center justify-center>
+    <v-flex xs12 lg5 xl4>
+      <v-layout column>
+        <img src="/logo.png" style="margin: 2px 0 0 0; height: 160px;" />
         <v-autocomplete
           ref="search"
           v-model="select"
@@ -43,14 +36,14 @@
             {{ data.item.text }}
           </template>
         </v-autocomplete>
-      </v-col>
-      <v-col cols="12">
-        <v-btn rounded color="primary" x-large @click="btnSearch">
-          Buscar profesional
-        </v-btn>
-      </v-col>
-    </div>
-  </v-row>
+        <v-layout fill-height justify-center mt-4>
+          <v-btn rounded color="primary" x-large @click="btnSearch">
+            Buscar profesional
+          </v-btn>
+        </v-layout>
+      </v-layout>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
