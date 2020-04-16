@@ -24,7 +24,7 @@ router.post(
       if (typeof model._id === 'undefined') {
         trabajo = await Trabajo.create(model)
       } else {
-        trabajo = await Trabajo.update({ _id: model._id }, model)
+        trabajo = await Trabajo.findByIdAndUpdate(model._id, model)
       }
 
       const extension = req.file.originalname.match(/[^.]+$/)[0]
