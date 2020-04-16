@@ -10,6 +10,7 @@
               :editable="showBtnEditable"
               elevation
               class="ma-2"
+              @change="changeUser"
             />
             <template v-if="isAProfessional">
               <Rating v-if="showRating" :value="score.rating" star />
