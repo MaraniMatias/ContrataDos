@@ -178,7 +178,7 @@
               {{ showAsCliente ? 'Cancelar' : 'Rechazar' }}
             </v-btn>
             <v-btn
-              v-if="isEstado.PENDIENTE && isEstado.EN_PROGRESO"
+              v-if="isEstado.PENDIENTE || isEstado.EN_PROGRESO"
               color="teal"
               outlined
               @click.stop="optionsModal = true"
