@@ -29,9 +29,9 @@ restify.serve(router, Trabajo, {
 
       const _id = trabajo.profesional._id || trabajo.profesional
       const sendEmailToId = req.user._id.equals(_id) ? cliente : profesional
-      const person = await Persona.findById(sendEmailToId).select(
-        'email,notification'
-      )
+      const person = await Persona.findById(
+        sendEmailToId._id || sendEmailToId
+      ).select({ email: 1, notification: 1 })
 
       if (!person || !person.notification) {
         return next()

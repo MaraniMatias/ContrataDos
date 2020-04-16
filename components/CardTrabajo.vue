@@ -178,7 +178,9 @@
               {{ showAsCliente ? 'Cancelar' : 'Rechazar' }}
             </v-btn>
             <v-btn
-              v-if="isEstado.PENDIENTE || isEstado.EN_PROGRESO"
+              v-if="
+                !showAsCliente && (isEstado.PENDIENTE || isEstado.EN_PROGRESO)
+              "
               color="teal"
               outlined
               @click.stop="optionsModal = true"
@@ -447,7 +449,6 @@ export default {
       self.comunicaciones = data || []
       self.page = self.numberOfPages
     })
-    this.trabajo.oldEstado = this.trabajo.estado
     this.cancel()
   },
   mounted() {
@@ -579,6 +580,7 @@ export default {
     cancel() {
       this.optionsModal = false
       this.notesModal = false
+      this.trabajo.oldEstado = this.trabajo.estado
       this.form = {
         // trabajo
         estado: this.trabajo.estado,
