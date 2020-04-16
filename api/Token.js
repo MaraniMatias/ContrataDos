@@ -19,6 +19,7 @@ export default (function () {
     },
     deleteAll() {
       if (isClient) localStorage.clear()
+      _token = null
     },
   }
 })()
