@@ -1,5 +1,6 @@
 module.exports = {
-  mode: 'universal',
+  mode: 'spa',
+  // mode: 'universal',
   env: {
     SERVER_URL: process.env.SERVER_URL || 'http://localhost:8080',
   },

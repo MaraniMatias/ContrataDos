@@ -88,15 +88,14 @@ export default {
       }
     },
   },
-  async created() {
-    // TODO esto se mejora con los layout ??
-    // o mejor con el middleware
-    const { data } = await this.getMe()
-    if (data) {
-      this.$router.replace('/trabajos')
-    } else if (!['login', 'forget-password'].includes(this.$route.name)) {
-      this.$router.replace('/login')
-    }
+  created() {},
+  mounted() {
+    const self = this
+    this.getMe().then(function ({ data }) {
+      if (data && ['login', 'loginout', 'singup'].includes(self.$route.name)) {
+        self.$router.replace('/trabajos')
+      }
+    })
   },
   methods: {
     ...mapActions(['logout', 'getMe']),

@@ -25,7 +25,7 @@ module.exports.EstadoTrabajoColor = {
   [this.EstadoTrabajo.CONSULTA]: 'cyan',
   [this.EstadoTrabajo.PENDIENTE]: 'blue',
   [this.EstadoTrabajo.EN_PROGRESO]: 'indigo',
-  [this.EstadoTrabajo.TERMINADO]: 'deep-purple',
+  [this.EstadoTrabajo.TERMINADO]: 'green darken-4',
   [this.EstadoTrabajo.CANCELADO]: 'grey darken-1',
 }
 

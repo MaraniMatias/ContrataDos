@@ -143,12 +143,19 @@ export default {
     modalForgetPassword: false,
   }),
   computed: {},
-  created() {
+  async created() {
     // obtener el token desde la url que trabajo google
     const token = this.$route.query.token
-    if (token) Token.set(token)
-    else if (!Token.get()) this.loading = false
-    else this.loading = false
+    if (token) {
+      Token.set(token)
+      this.loading = false
+      await this.getMe()
+      this.$router.replace('/trabajos')
+    } else if (!Token.get()) {
+      this.loading = false
+    } else {
+      this.loading = false
+    }
   },
   async mounted() {
     if (this.validThisEmail) {
@@ -161,6 +168,7 @@ export default {
   methods: {
     ...mapActions([
       'login',
+      'getMe',
       'sendEmail',
       'forgetPassword',
       'signupVerification',
