@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { Trabajo } from '~/api'
 import CardForm from '~/components/CardForm'
 import { TipoTrabajo } from '~~/server/utilities/enums'
@@ -95,18 +94,12 @@ export default {
     form: { profesional: {} },
   }),
   computed: {
-    ...mapGetters(['isLoggedIn']),
     user() {
       return this.$store.state.user
     },
   },
   created() {
-    if (this.isLoggedIn) {
-      this.close(true)
-    } else {
-      // TODO si tiene que logearse despues de login ok regresar y abrir el modal para contratar
-      this.$router.replace({ name: 'login', query: { back: 'search' } })
-    }
+    this.close(true)
   },
   mounted() {},
   methods: {

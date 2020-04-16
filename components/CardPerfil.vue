@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
 import camelCase from '~~/server/utilities/capitalizeWords'
@@ -61,6 +62,7 @@ export default {
     perfil: { type: Object, required: true },
   },
   computed: {
+    ...mapGetters(['isLoggedIn']),
     headline() {
       return camelCase(
         this.perfil.razon_social
@@ -78,7 +80,12 @@ export default {
   },
   methods: {
     contactar() {
-      this.$emit('contactar', this.perfil)
+      if (this.isLoggedIn) {
+        this.$emit('contactar', this.perfil)
+      } else {
+        // TODO si tiene que logearse despues de login ok regresar y abrir el modal para contratar
+        this.$router.replace({ name: 'login', query: { back: 'search' } })
+      }
     },
   },
 }

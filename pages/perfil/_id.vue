@@ -68,11 +68,7 @@
             align-center
             justify-end
           >
-            <v-btn
-              color="red darken-4"
-              outlined
-              @click.stop="showModalContrart = true"
-            >
+            <v-btn color="red darken-4" outlined @click="contratar">
               Contactar
             </v-btn>
           </v-layout>
@@ -193,7 +189,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
 import FieldTextArea from '~/components/FieldTextArea'
@@ -244,6 +240,7 @@ export default {
     changeAvatar: false,
   }),
   computed: {
+    ...mapGetters(['isLoggedIn']),
     showBtnEditable() {
       return !this.$route.params.id
     },
@@ -348,6 +345,14 @@ export default {
     close() {
       this.form = { ...this.perfil }
       this.showModalEdit = false
+    },
+    contratar() {
+      if (this.isLoggedIn) {
+        this.showModalContrart = true
+      } else {
+        // TODO si tiene que logearse despues de login ok regresar y abrir el modal para contratar
+        this.$router.replace({ name: 'login', query: { back: 'search' } })
+      }
     },
   },
   head() {
