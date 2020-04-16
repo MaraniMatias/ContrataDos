@@ -28,7 +28,7 @@
         <CardTrabajo :trabajo="trabajo" />
       </v-flex>
     </v-layout>
-    <ModalPublicJob v-model="showModal" />
+    <ModalPublicJob v-model="showModal" @change="getTrabajos" />
   </v-layout>
 </template>
 

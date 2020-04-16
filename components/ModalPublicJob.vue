@@ -94,7 +94,7 @@ import CardCropper from '~/components/CardCropper'
 
 import { EstadoTrabajo, TipoTrabajo } from '~~/server/utilities/enums'
 
-import { Localidad, Habilidad } from '~/api'
+import { Localidad } from '~/api'
 import apiFile from '~/api/file'
 const onFileUpload = 'progressFileUpload'
 const { trabajo: saveImg } = apiFile(onFileUpload)
@@ -125,9 +125,9 @@ export default {
     // TODO search query
     const { data: l } = await Localidad.getAll()
     this.localidades = l || []
-    // TODO search query
-    const { data: h } = await Habilidad.getAll()
-    this.habilidades = h || []
+    // const { data: h } = await Habilidad.getAll()
+    // this.habilidades = h || []
+    this.habilidades = this.$store.state.user.servicios || []
   },
   methods: {
     saveTrabajoImg({ file, fileName }) {
