@@ -18,56 +18,58 @@
           </v-layout>
         </v-flex>
         <v-flex xs12 lg8>
-          <v-layout column>
-            <div class="overline mt-2">
-              Trabajos: {{ perfil.cantidad_trabajos || 0 }}
-            </div>
-            <v-layout align-center mb-1>
-              <v-flex>
-                <p class="headline mb-0" v-text="headline" />
-              </v-flex>
-              <template v-if="showBtnEditable">
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn icon text @click="enableEmailNotify" v-on="on">
-                      <v-icon v-if="form.notification">
-                        notifications_active
-                      </v-icon>
-                      <v-icon v-else>notifications_off</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>
-                    {{ form.notification ? 'Deshabilitar ' : 'Habilitar ' }}
-                    notificaciones de email
-                  </span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      icon
-                      text
-                      @click.stop="showModalEdit = true"
-                      v-on="on"
-                    >
-                      <v-icon>edit</v-icon>
-                    </v-btn>
-                  </template>
-                  Editar perfil
-                </v-tooltip>
-              </template>
-            </v-layout>
-            <v-layout v-if="isAProfessional" align-center>
-              <!-- <p class="mb-0">Profesiones:</p> -->
-              <v-chip
-                v-for="(h, $i) in perfil.servicios"
-                :key="$i"
-                outlined
-                class="mx-2"
-                v-text="h.nombre"
-              />
-            </v-layout>
-            <p class="my-2">Vive en: {{ localidadNombre }}</p>
-            <div v-html="perfil.bibliography" />
+          <div class="overline mt-2">
+            Trabajos: {{ perfil.cantidad_trabajos || 0 }}
+          </div>
+          <v-layout align-center mb-1>
+            <v-flex>
+              <p class="headline mb-0" v-text="headline" />
+            </v-flex>
+            <template v-if="showBtnEditable">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn icon text @click="enableEmailNotify" v-on="on">
+                    <v-icon v-if="form.notification">
+                      notifications_active
+                    </v-icon>
+                    <v-icon v-else>notifications_off</v-icon>
+                  </v-btn>
+                </template>
+                <span>
+                  {{ form.notification ? 'Deshabilitar ' : 'Habilitar ' }}
+                  notificaciones de email
+                </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn icon text @click.stop="showModalEdit = true" v-on="on">
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                </template>
+                Editar perfil
+              </v-tooltip>
+            </template>
+          </v-layout>
+          <v-layout v-if="isAProfessional" align-center>
+            <!-- <p class="mb-0">Profesiones:</p> -->
+            <v-chip
+              v-for="(h, $i) in perfil.servicios"
+              :key="$i"
+              outlined
+              class="mx-2"
+              v-text="h.nombre"
+            />
+          </v-layout>
+          <p class="my-2">Vive en: {{ localidadNombre }}</p>
+          <div v-html="perfil.bibliography" />
+          <v-layout v-show="!showBtnEditable" align-center justify-end>
+            <v-btn
+              color="red darken-4"
+              outlined
+              @click.stop="showModalContrart = true"
+            >
+              Contactar
+            </v-btn>
           </v-layout>
         </v-flex>
       </v-layout>
@@ -181,6 +183,7 @@
         </template>
       </CardForm>
     </v-dialog>
+    <ModalContratar v-model="showModalContrart" :perfil="perfil" />
   </v-layout>
 </template>
 
@@ -190,6 +193,7 @@ import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
 import FieldTextArea from '~/components/FieldTextArea'
 import PerfilTrabajosList from '~/components/PerfilTrabajosList'
+import ModalContratar from '~/components/ModalContratar'
 import CardForm from '~/components/CardForm'
 import ObjectId from '~/utils/formRules/objectId'
 import camelCase from '~~/server/utilities/capitalizeWords'
@@ -198,7 +202,14 @@ import { Persona, Localidad, Habilidad, Trabajo } from '~/api'
 
 export default {
   // middleware: 'authenticated', es publico
-  components: { Avatar, Rating, CardForm, PerfilTrabajosList, FieldTextArea },
+  components: {
+    Avatar,
+    Rating,
+    CardForm,
+    PerfilTrabajosList,
+    FieldTextArea,
+    ModalContratar,
+  },
   validate({ params }) {
     return ObjectId()(params.id) === true
   },
@@ -219,6 +230,7 @@ export default {
   data: () => ({
     // perfil: {},
     loading: false,
+    showModalContrart: false,
     showModalEdit: false,
     habilidades: [],
     localidades: [],
