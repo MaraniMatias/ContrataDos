@@ -1,6 +1,11 @@
 module.exports = {
   mode: 'spa',
   // mode: 'universal',
+  srcDir: 'client/',
+  dir: 'public',
+  /*
+   ** ENV variable
+   */
   env: {
     SERVER_URL: process.env.SERVER_URL || 'http://localhost:8080',
   },
@@ -33,10 +38,10 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    { src: '~/plugins/tiptapVuetify', mode: 'client' },
-    { src: '~/plugins/notify', mode: 'client' },
-    { src: '~/plugins/axion', mode: 'client' },
-    { src: '~/plugins/globalComponents', mode: 'client' },
+    { src: './client/plugins/tiptapVuetify', mode: 'client' },
+    { src: './client/plugins/notify', mode: 'client' },
+    { src: './client/plugins/axion', mode: 'client' },
+    { src: './client/plugins/globalComponents', mode: 'client' },
   ],
   /*
    ** Nuxt.js dev-modules
@@ -59,7 +64,7 @@ module.exports = {
         url: 'contratados.com',
         title: 'ContrataDos',
         description: 'Encuentra un profesional',
-        img: '/assets/logo.png',
+        img: './client/assets/logo.png',
         locale: 'es_ES',
         twitter: '@maranimaitas',
         themeColor: '#086b94',
@@ -73,7 +78,7 @@ module.exports = {
    ** https://github.com/nuxt-community/vuetify-module
    */
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ['./client/assets/variables.scss'],
     theme: {
       dark: false,
       themes: {
