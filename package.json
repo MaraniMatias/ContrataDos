@@ -75,6 +75,7 @@
     "markdownlint": "^0.20.1",
     "nodemon": "^2.0.3",
     "prettier": "^2.0.4",
-    "vuepress": "^1.4.1"
+    "vuepress": "^1.4.1",
+    "vuepress-plugin-autonav": "^0.1.3"
   }
 }
