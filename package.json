@@ -11,7 +11,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "server": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "start": "nuxt start",
-    "docs:dev": "vuepress dev ./docs",
+    "docs": "vuepress dev ./docs --no-cache",
     "docs:build": "vuepress build ./docs"
   },
   "lint-staged": {
