@@ -5,8 +5,8 @@
   "author": "Marani Matias Ezequiel",
   "private": true,
   "scripts": {
-    "build": "nuxt build client",
-    "client": "nuxt client",
+    "build": "nuxt build",
+    "client": "nuxt",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "server": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
