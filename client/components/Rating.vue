@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { RatingTrabajo } from '~/server/utilities/enums'
+import { RatingTrabajo } from '~~/server/utilities/enums'
 
 export default {
   props: {
