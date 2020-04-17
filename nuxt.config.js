@@ -1,6 +1,11 @@
 module.exports = {
   mode: 'spa',
   // mode: 'universal',
+  rootDir: '.',
+  srcDir: './client/',
+  /*
+   ** ENV variable
+   */
   env: {
     SERVER_URL: process.env.SERVER_URL || 'http://localhost:8080',
   },
@@ -59,7 +64,7 @@ module.exports = {
         url: 'contratados.com',
         title: 'ContrataDos',
         description: 'Encuentra un profesional',
-        img: '/assets/logo.png',
+        img: '~/assets/logo.png',
         locale: 'es_ES',
         twitter: '@maranimaitas',
         themeColor: '#086b94',

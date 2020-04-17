@@ -15,6 +15,8 @@ const { sendRes } = require('./utilities/router')
 Object.assign = require('object-assign')
 const isProd = process.env.NODE_ENV === 'production'
 const STATIC_PATH = isProd ? 'public' : 'static'
+const PUBLIC_PATH = path.join(__dirname, '..', 'client', STATIC_PATH)
+const getPathPublicWith = (addPath) => path.join(PUBLIC_PATH, addPath)
 
 // Sobre escribe la informacion de las tecnologias usadas en backend
 app.use(helmet())
@@ -36,9 +38,9 @@ app.use(
 )
 
 // favicon
-app.use(favicon(path.join(__dirname, '..', STATIC_PATH, 'favicon.ico')))
+app.use(favicon(getPathPublicWith('favicon.ico')))
 // Static, FronEnd
-app.use(express.static(path.join(__dirname, '..', STATIC_PATH)))
+app.use(express.static(PUBLIC_PATH))
 
 // System monitor
 // TODO add basic AUTH
