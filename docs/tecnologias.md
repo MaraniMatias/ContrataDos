@@ -1,13 +1,15 @@
-## Tecnologías
+# Tecnologías
 
 ### Frontend
 
+## Frontend
+
 [Nuxt](https://nuxtjs.org/)
-<https://github.com/nuxt-community/awesome-nuxt>
-Vuetify
-Ver package
+[Vuetify]()
 
 ### Backend
+
+## Backend
 
 <https://github.com/sindresorhus/awesome-nodejs>
 <https://github.com/rajikaimal/awesome-express>
@@ -17,23 +19,34 @@ Ver package
 
 #### Validations
 
+### Validations
+
 <https://express-validator.github.io/docs/>
 <https://github.com/validatorjs/validator.js#validators>
 <https://github.com/epoberezkin/ajv>
 
 #### Status
 
+### Status
+
 <https://github.com/lirantal/express-version-route>
 
 #### Mongoose options scheme
+
+### Mongoose options scheme
 
 <https://mongoosejs.com/docs/guide.html#options>
 
 #### MongoDB
 
+### MongoDB
+
 <https://mlab.com/> (500mb free)
 
 #### Framework
+
+### Framework
+
 
 <https://feathersjs.com> (using express :D)
 <https://github.com/feathersjs/awesome-feathersjs#examples>
