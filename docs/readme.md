@@ -1,12 +1,20 @@
 ---
 home: true
-tagline: Ayuda en linea
 navbar: false
 heroImage: logo.png
+tags:
+  - menu
 footer: ContrataDos Copyright © 2020
 ---
 
-# Características
+## Index
+
+- [Volver a la plataforma](/)
+- [Ver ayuda para profesionales](/profesional/)
+- [Ver ayuda para clientes](/cliente/)
+- [Ver tecnologías usadas](/tecnologias.md)
+
+## Características
 
 - Encontrar personal capacitado que ofrezca los servicios a domicilio del tipo técnico/oficio.
 - Poder evaluar la calidad de los trabajadores ofrecidos.
@@ -18,9 +26,3 @@ footer: ContrataDos Copyright © 2020
 - Poder valorar al trabajador y los trabajos realizados.
 - Ver un historial de trabajos realizados y un perfil de usuario.
 - Los profesionales podrán subir fotos de los trabajos realizados.
-
-## Index
-
-- [Ver ayuda para profesionales](/profesional/)
-- [Ver ayuda para clientes](/cliente/)
-- [Ver tecnologías usadas](/tecnologias.md)

@@ -47,7 +47,6 @@
 
 ### Framework
 
-
 <https://feathersjs.com> (using express :D)
 <https://github.com/feathersjs/awesome-feathersjs#examples>
 
