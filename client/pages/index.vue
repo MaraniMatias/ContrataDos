@@ -68,13 +68,13 @@ export default {
   async mounted() {
     this.loading = true
     const { data: localidades } = await Localidad.getAll()
-    const localidadList = localidades.map(({ _id, nombre }) => ({
+    const localidadList = localidades?.map(({ _id, nombre }) => ({
       _id,
       text: nombre,
       type: 'localidad',
     }))
     const { data: habilidades } = await Habilidad.getAll()
-    const habilidadList = habilidades.map(({ _id, nombre }) => ({
+    const habilidadList = habilidades?.map(({ _id, nombre }) => ({
       _id,
       text: nombre,
       type: 'habilidad',
