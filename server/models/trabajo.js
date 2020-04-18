@@ -20,13 +20,7 @@ const schema = new Schema(
     estado: {
       type: String,
       default: EstadoTrabajo.CONSULTA,
-      enum: [
-        EstadoTrabajo.CONSULTA,
-        EstadoTrabajo.PENDIENTE,
-        EstadoTrabajo.EN_PROGRESO,
-        EstadoTrabajo.TERMINADO,
-        EstadoTrabajo.CANCELADO,
-      ],
+      enum: Object.values(EstadoTrabajo),
     },
     tipo: {
       type: String,

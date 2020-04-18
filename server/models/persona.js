@@ -39,7 +39,7 @@ const schema = new Schema(
       {
         type: String,
         default: Roles.CLIENTE,
-        enum: [Roles.CLIENTE, Roles.PROFECIONAL, Roles.ADMIN],
+        enum: Object.values(Roles),
         required: 'Rol es requerido',
       },
     ],
