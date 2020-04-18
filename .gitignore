@@ -9,6 +9,9 @@ yarn-error.log*
 tags
 /static/images/*
 
+# Environment variable
+.env.local
+
 # Runtime data
 pids
 *.pid

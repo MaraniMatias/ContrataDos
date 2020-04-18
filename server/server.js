@@ -1,4 +1,4 @@
-require('dotenv').config()
+// require('dotenv-flow').config()
 const path = require('path')
 const bodyParser = require('body-parser')
 const compress = require('compression')

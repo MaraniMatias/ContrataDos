@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv-flow').config()
 const PORT = process.env.PORT || 3000
 const cluster = require('cluster')
 const numCPUs = require('os').cpus().length
