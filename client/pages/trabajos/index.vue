@@ -96,11 +96,13 @@
               recomendamos completar tu perfil.
             </p>
           </template>
-          <a nuxt href="/perfil" class="black--text"> Ir a tú perfil </a>
         </v-card-text>
         <v-card-actions>
           <v-layout justify-end align-center>
-            <v-btn text color="primary" @click="close">
+            <v-btn nuxt to="/perfil" class="black--text" text>
+              Ir a perfil
+            </v-btn>
+            <v-btn color="primary" @click="close">
               Aceptar
             </v-btn>
           </v-layout>
