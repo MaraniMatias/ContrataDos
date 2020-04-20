@@ -3,6 +3,8 @@ home: true
 navbar: false
 heroImage: logo.png
 tags:
+  - home
+  - inicio
   - menu
 footer: ContrataDos Copyright © 2020
 ---
@@ -10,8 +12,8 @@ footer: ContrataDos Copyright © 2020
 ## Index
 
 - [Volver a la plataforma](/)
-- [Ver ayuda para profesionales](/profesional/)
-- [Ver ayuda para clientes](/cliente/)
+- [Ver ayuda para **clientes**](/cliente/)
+- [Ver ayuda para **profesionales**](/profesional/)
 - [Ver tecnologías usadas](/tecnologias.md)
 
 ## Características
