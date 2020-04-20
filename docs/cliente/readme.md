@@ -1,6 +1,8 @@
 ---
 tags:
-  - tags
+  - registrarse con google
+  - registrarse con facebook
+  - registrarse con linkedin
 ---
 
 # Cliente
@@ -12,13 +14,32 @@ tags:
 
 Para crear una cuenta de forma **manual** ingresando a [/singup](/singup) o de forma
 **automática** en [/login](/login) y elegir crear una cuenta con **Google**,
-**Facebook** o **Linkedin** esta opción crea una cuenta y posteriormente puedes
+**Facebook** o **LinkedIn** esta opción crea una cuenta y posteriormente puedes
 iniciar cesión con estos botones.
 
-### Pasos para crear una cuenta manual o local
+### Cuenta con google o facebook o linkedin
+
+### Cuenta manual o local
 
 1. Buscar en la parte superior derecha el icono de usuario ![icono de usuario](./imagen/crear_una_cuenta_1.png)
-2. dsdas
+2. Click en el botón _'crear cuenta'_, veras un formulario como este:
+   ![formulario crear cuenta local](./imagen/crear_una_cuenta_2.png)
+3. Completo todos los campos y en _'tipo de usuario'_ puedes marcar la opción _profesional_
+   para crear una cuenta de ese tipo.
+4. Una vez completado los campos y pulsar _'crear cuenta'_ recibirás un mensaje
+   como este: ![aleta verificar email](./imagen/crear_una_cuenta_3.png)
+5. Ve a su correo y pulsa en el link que dice _'Confirmar dirección de correo'_.
+
+   El correo debe ser como este:
+
+   ![verificar email](./imagen/crear_una_cuenta_4.png)
+
+6. La hacer click, te llevara a la pagina de contratado y comprobara tu email, mostrando
+   el email con una tilde (un check) verde.
+
+   ![email verificado](./imagen/crear_una_cuenta_5.png)
+
+7. Ahora solo tienes que ingresar tu contraseña y pulsar iniciar session
 
 ## Iniciar secesión
 
