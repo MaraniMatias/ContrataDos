@@ -85,8 +85,6 @@ Veras un mensaje como este
 3. Ir al email y hacer click en el texto que dice
    _'Para cambiar la contraseña click acá.'_
 
-![Email recuperar contraseña](./imagen/crear_una_cuenta_7.png)
-
 ![Email recuperar contraseña](./imagen/crear_una_cuenta_8.png)
 
 4. Ese link te llevara a la pagina de ContrataDos con un formulario que te permite
