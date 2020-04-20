@@ -1,5 +1,6 @@
 ---
 tags:
+  - registrarse con email
   - registrarse con google
   - registrarse con facebook
   - registrarse con linkedin
@@ -18,6 +19,18 @@ Para crear una cuenta de forma **manual** ingresando a [/singup](/singup) o de f
 iniciar cesión con estos botones.
 
 ### Cuenta con google o facebook o linkedin
+
+1. Buscar en la parte superior derecha el icono de usuario ![icono de usuario](./imagen/crear_una_cuenta_1.png)
+2. Click en el botón correspondiste a la cuenta quieres asociar con ContrataDos,
+   puede ser **Google**, **Facebook** o **LinkedIn**
+
+   ![botones_redes_crear cuenta local](./imagen/crear_una_cuenta_6.png)
+
+3. Según sea la cuenta **Google**, **Facebook** o **LinkedIn**, se le pedira
+   que le de permiso a ContrataDos para obtener datos personales, como ser email,
+   nombre, apellido y la imagen de perfil de que uses en esa red social.
+4. Cuando el proceso termine veras un mensaje de bienvenida, te recomendamos
+   que vallas a perfil y para actualizar sus datos.
 
 ### Cuenta manual o local
 
@@ -50,7 +63,7 @@ iniciar cesión con estos botones.
 
 ## Iniciar secesión
 
-Solo tienes que redirigirse a [/login](/login) y si tienes una cuenta con **Google**,
-**Facebook** o **Linkedin** solo tienes que hacer click en el botón correspondiste,
+Solo tienes que dirigirse a [/login](/login) y si asociaste ContrataDos con
+**Google**, **Facebook** o **Linkedin** solo tienes que hacer click en el botón correspondiste,
 en caso de tener una cuenta local o creada de forma manual, solo ingrese el
 correo (email) y la contraseña que ingresaste al crear la cuenta.
