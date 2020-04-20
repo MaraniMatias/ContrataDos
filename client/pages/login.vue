@@ -219,15 +219,18 @@ export default {
       this.loading = false
     },
     async sendEmailForgetPassword() {
-      if (!this.email) return
-      this.loading = true
-      const { error } = await this.forgetPassword({ email: this.email })
-      if (error) {
-        this.error = error
+      if (!this.email) {
+        this.error = 'Indicamos el email de la cuenta.'
       } else {
-        this.modalForgetPassword = true
+        this.loading = true
+        const { error } = await this.forgetPassword({ email: this.email })
+        if (error) {
+          this.error = error
+        } else {
+          this.modalForgetPassword = true
+        }
+        this.loading = false
       }
-      this.loading = false
     },
   },
 }
