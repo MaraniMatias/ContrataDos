@@ -84,9 +84,9 @@
     <v-dialog :value="showTutorial" width="550">
       <v-card>
         <v-card-title>
-          <p class="headline">Bienvenido</p>
+          <p class="headline mb-0">Bienvenido</p>
         </v-card-title>
-        <v-card-text>
+        <v-card-text class="pb-2">
           <p>Eres nuevo, deberías completar tus perfil.</p>
           <template v-if="isAProfessional">
             <v-divider />
@@ -97,12 +97,14 @@
             </p>
           </template>
           <a nuxt href="/perfil" class="black--text"> Ir a tú perfil </a>
+        </v-card-text>
+        <v-card-actions>
           <v-layout justify-end align-center>
             <v-btn text color="primary" @click="close">
               Aceptar
             </v-btn>
           </v-layout>
-        </v-card-text>
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </v-layout>
