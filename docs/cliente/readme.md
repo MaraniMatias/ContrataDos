@@ -44,7 +44,9 @@ iniciar cesión con estos botones.
 
    ![email verificado](./imagen/crear_una_cuenta_5.png)
 
-7. Ahora solo tienes que ingresar tu contraseña y pulsar iniciar session
+7. Ahora solo tienes que ingresar tu contraseña y pulsar iniciar session.
+8. Veras un mensaje de bienvenida, te recomendamos que vallas a perfil y
+   lo personalices agregando una foto.
 
 ## Iniciar secesión
 
