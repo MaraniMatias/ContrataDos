@@ -4,6 +4,8 @@ tags:
   - registrarse con google
   - registrarse con facebook
   - registrarse con linkedin
+  - olvide mi contraseña
+  - recuperar contraseña
 ---
 
 # Cliente
@@ -67,3 +69,34 @@ Solo tienes que dirigirse a [/login](/login) y si asociaste ContrataDos con
 **Google**, **Facebook** o **Linkedin** solo tienes que hacer click en el botón correspondiste,
 en caso de tener una cuenta local o creada de forma manual, solo ingrese el
 correo (email) y la contraseña que ingresaste al crear la cuenta.
+
+## Olvidé mi contraseña
+
+Para recuperar su contraseña solo tiene que indicarle a sistema que se la olvidó.
+
+1. Ir a [/login](/login) (iniciar session), completar con el email que se registro
+   y pulsar el texto que dice _'¿Olvidaste tu contraseña?'_.
+2. Luego le estará llegado un email a esa cuenta de correo electrónico.
+
+Veras un mensaje como este
+
+![Alerta email recuperar contraseña](./imagen/crear_una_cuenta_7.png)
+
+3. Ir al email y hacer click en el texto que dice
+   _'Para cambiar la contraseña click acá.'_
+
+![Email recuperar contraseña](./imagen/crear_una_cuenta_7.png)
+
+![Email recuperar contraseña](./imagen/crear_una_cuenta_8.png)
+
+4. Ese link te llevara a la pagina de ContrataDos con un formulario que te permite
+   ingresar un nueva contraseña. Ingrese la nueva contraseña en cada campo
+   y pulse cambiar
+
+![Formulario contraseña](./imagen/crear_una_cuenta_9.png)
+
+5. Cuando completas el formulario, si sale todo bien veras un mensaje como el siguiente
+
+![Contraseña ok](./imagen/crear_una_cuenta_10.png)
+
+6. Click en el botón _'Iniciar secesión'_ y ya puedes usar la nueva contraseña.
