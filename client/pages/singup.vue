@@ -58,7 +58,7 @@
                   item-text="label"
                   item-value="key"
                   hint="Se puede cambiar desde perfil."
-                  label="Tipo Usuario"
+                  label="Tipo de usuario"
                 />
               </v-flex>
               <v-flex xs12 md6 py-0>
