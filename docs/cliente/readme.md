@@ -22,7 +22,10 @@ iniciar cesión con estos botones.
 
 ### Cuenta con google o facebook o linkedin
 
-1. Buscar en la parte superior derecha el icono de usuario ![icono de usuario](./imagen/crear_una_cuenta_1.png).
+1. Buscar en la parte superior derecha el icono de usuario.
+
+![icono de usuario](./imagen/crear_una_cuenta_1.png)
+
 2. Click en el botón correspondiste a la cuenta quieres asociar con ContrataDos,
    puede ser **Google**, **Facebook** o **LinkedIn**.
 
@@ -36,7 +39,10 @@ iniciar cesión con estos botones.
 
 ### Cuenta manual o local
 
-1. Buscar en la parte superior derecha el icono de usuario ![icono de usuario](./imagen/crear_una_cuenta_1.png).
+1. Buscar en la parte superior derecha el icono de usuario.
+
+![icono de usuario](./imagen/crear_una_cuenta_1.png)
+
 2. Click en el botón _'crear cuenta'_, veras un formulario como este:
 
 ![formulario crear cuenta local](./imagen/crear_una_cuenta_2.png)
