@@ -7,7 +7,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 tags
-/static/images/*
+/client/static/images/*
 
 # Environment variable
 .env.local
