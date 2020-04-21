@@ -120,7 +120,9 @@ de ContrataDos.
 4. Puede pasar que la búsqueda no arroje un resultado, en ese caso cambie los
    criterios de búsqueda.
 
-> Nota: Si usted es un profesional no aparecerá en su propia búsqueda
+::: tip Nota
+Si usted es un profesional no aparecerá en su propia búsqueda
+:::
 
 ![Buscar o contratar profesional](./imagen/buscar_o_contratar_profesional_4.png)
 
@@ -132,11 +134,13 @@ de ContrataDos.
 > foto de perfil y una descripción.
 
 > Las estrellas muestra cuan satisfecho están los clientes con los trabajo que
-> realizo el profesional
+> realizo el profesional.
 
 6. En cada tarjeta de profesional puedes elegir contratarlo o ver su perfil.
 
-> Para contratar un profesional debes estar logeado en ContrataDos
+::: tip Nota
+Para contratar un profesional debes estar logeado en ContrataDos
+:::
 
 ## Editar mi perfil
 
