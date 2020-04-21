@@ -101,7 +101,8 @@ Veras un mensaje como este
 
 ## Buscar o contratar profesional
 
-Ir a la pagina principal de ContrataDos.
+Ir a la pagina principal de ContrataDos. Puedes llegar hacendo click en el logo
+de ContrataDos.
 
 1. Veras un buscador.
 
@@ -138,3 +139,4 @@ Ir a la pagina principal de ContrataDos.
 > Para contratar un profesional debes estar logeado en ContrataDos
 
 ## Editar mi perfil
+
