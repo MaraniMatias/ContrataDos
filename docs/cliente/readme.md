@@ -193,6 +193,16 @@ A pasar el mouse por arriba veras ese icono, hace click.
 
 ![Cambiar foto con mouse](./imagen/editar_mi_perfil_2.png)
 
+4. Se abrirá una ventana para que puedas elegir una tofo desde tu computadora,
+   elija la que mas le convenga y puse _'aceptar'_.
+5. Luego se le mostrar una ventana con la foto que eligió y un rectángulo, para que
+   recorte la foto al tamaño adecuado.
+
+![Modal recortar foto](./imagen/editar_mi_perfil_9.png)
+
+6. Cuando ya acomodo la foto pulse _'guardar'_.
+7. Cuando la goto fue subida se actualizar automáticamente.
+
 ### Cambiar mi cuenta a profesional o trabajador
 
 1. Estar logeado en ContrataDos, ver como en [Iniciar Secesión](#iniciar-secesion)
@@ -236,3 +246,7 @@ A pasar el mouse por arriba veras ese icono, hace click.
 
 - Notificaciones desactivadas
   ![icono campana](./imagen/editar_mi_perfil_8.png)
+
+::: tip Nota
+No afecta a los emial para el cambio de contraseña.
+:::
