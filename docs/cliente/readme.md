@@ -155,3 +155,84 @@ Para contratar un profesional debes estar logeado en ContrataDos
 
 ## Editar mi perfil
 
+En la pagina de tu perfil, podrás cambiar información personal, y agregar o
+editar tu bibliografía, cambiar o agregar una foto de perfil, también desactivar
+el envió de **notificaciones** por email.
+
+### Cambiar información personal
+
+1. Estar logeado en ContrataDos, ver como en [Iniciar Secesión](#iniciar-secesion)
+2. Ir a tu perfil, haciendo click en _'Perfil'_ que aparece en el menu, arriba a
+   la derecha de la pantalla.
+3. Cambiar información personal, buscar el icono de lápiz.
+
+![Icon editar perfil](./imagen/editar_mi_perfil_3.png)
+
+4. Al hacer click aparecerá un 'modal', una ventana, como esta:
+
+![Modal editar perfil](./imagen/editar_mi_perfil_4.png)
+
+::: details ¿Donde cambiar mi bibliografía?
+Escriba lo que quietas en este recuadro y puedes usar las herramientas de texto.
+![Editar bibliografía](./imagen/editar_mi_perfil_5.png)
+:::
+
+### Cambiar foto de perfil
+
+1. Estar logeado en ContrataDos, ver como en [Iniciar Secesión](#iniciar-secesion)
+2. Ir a tu perfil, haciendo click en _'Perfil'_ que aparece en el menu, arriba a
+   la derecha de la pantalla.
+3. Para cambiar la foto de perfil, simplemente solo tienes que hacer click
+   en la foto o el icono de usuario.
+
+![Cambiar foto](./imagen/editar_mi_perfil_1.png)
+
+> 'Foto' predeterminada, para usuario sin foto.
+
+A pasar el mouse por arriba veras ese icono, hace click.
+
+![Cambiar foto con mouse](./imagen/editar_mi_perfil_2.png)
+
+### Cambiar mi cuenta a profesional o trabajador
+
+1. Estar logeado en ContrataDos, ver como en [Iniciar Secesión](#iniciar-secesion)
+2. Ir a tu perfil, haciendo click en _'Perfil'_ que aparece en el menu, arriba a
+   la derecha de la pantalla.
+3. Cambiar a una cuenta profesional, buscar el icono de lápiz.
+
+![Icon editar perfil](./imagen/editar_mi_perfil_3.png)
+
+4. Al hacer click aparecerá un 'modal', una ventana, como esta:
+
+![Modal editar perfil](./imagen/editar_mi_perfil_4.png)
+
+5. Y click en el botón _'Darme de alta como un trabajador'_.
+6. Ahora aparecerá un campo para que marques que habilidades quieres ofrecer.
+
+### Dejar de ser un profesional o trabajador
+
+1. Estar logeado en ContrataDos, ver como en [Iniciar Secesión](#iniciar-secesion)
+2. Ir a tu perfil, haciendo click en _'Perfil'_ que aparece en el menu, arriba a
+   la derecha de la pantalla.
+3. Dejar de ser profesional o trabajador, buscar el icono de lápiz.
+
+![Icon editar perfil](./imagen/editar_mi_perfil_3.png)
+
+4. Al hacer click aparecerá un 'modal', una ventana, como esta:
+
+![Modal editar perfil](./imagen/editar_mi_perfil_6.png)
+
+5. Y click en el icono del tacho de basura rojo.
+
+### Activar o Desactivar notificaciones por email
+
+1. Estar logeado en ContrataDos, ver como en [Iniciar Secesión](#iniciar-secesion)
+2. Ir a tu perfil, haciendo click en _'Perfil'_ que aparece en el menu, arriba a
+   la derecha de la pantalla.
+3. Desactivar o activar las notificaciones, buscar el icono de la campana.
+
+- Notificaciones activadas
+  ![icono campana](./imagen/editar_mi_perfil_7.png)
+
+- Notificaciones desactivadas
+  ![icono campana](./imagen/editar_mi_perfil_8.png)
