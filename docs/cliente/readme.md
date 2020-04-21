@@ -98,3 +98,43 @@ Veras un mensaje como este
 ![Contraseña ok](./imagen/crear_una_cuenta_10.png)
 
 6. Click en el botón _'Iniciar secesión'_ y ya puedes usar la nueva contraseña.
+
+## Buscar o contratar profesional
+
+Ir a la pagina principal de ContrataDos.
+
+1. Veras un buscador.
+
+![Buscar o contratar profesional](./imagen/buscar_o_contratar_profesional_1.png)
+
+2. Ingrese una profesional o localidad y el buscador inteligente le seguridad
+   una opción, agregue las que le parezca.
+
+![Buscar o contratar profesional](./imagen/buscar_o_contratar_profesional_2.png)
+
+3. Un vez elegido lo que quieres buscar, pulse el botón _'Buscar un profesional'_.
+
+![Buscar o contratar profesional](./imagen/buscar_o_contratar_profesional_3.png)
+
+4. Puede pasar que la búsqueda no arroje un resultado, en ese caso cambie los
+   criterios de búsqueda.
+
+> Nota: Si usted es un profesional no aparecerá en su propia búsqueda
+
+![Buscar o contratar profesional](./imagen/buscar_o_contratar_profesional_4.png)
+
+5. Listado de profesionales que concuerdan con su búsqueda.
+
+![lista de profesionales](./imagen/buscar_o_contratar_profesional_5.png)
+
+> De cada profesional se muestra información básica, nombre, apellido, profesión,
+> foto de perfil y una descripción.
+
+> Las estrellas muestra cuan satisfecho están los clientes con los trabajo que
+> realizo el profesional
+
+6. En cada tarjeta de profesional puedes elegir contratarlo o ver su perfil.
+
+> Para contratar un profesional debes estar logeado en ContrataDos
+
+## Editar mi perfil

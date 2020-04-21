@@ -14,6 +14,7 @@ footer: ContrataDos Copyright © 2020
 - [Volver a la plataforma](/)
 - [Ver ayuda para **clientes**](/cliente/)
 - [Ver ayuda para **profesionales**](/profesional/)
+- [Buscar o contratar un profesional](/cliente/#buscar-o-contratar-profesional)
 - [Ver tecnologías usadas](/tecnologias.md)
 
 ## Características
