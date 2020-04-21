@@ -22,11 +22,11 @@ iniciar cesión con estos botones.
 
 ### Cuenta con google o facebook o linkedin
 
-1. Buscar en la parte superior derecha el icono de usuario ![icono de usuario](./imagen/crear_una_cuenta_1.png)
+1. Buscar en la parte superior derecha el icono de usuario ![icono de usuario](./imagen/crear_una_cuenta_1.png).
 2. Click en el botón correspondiste a la cuenta quieres asociar con ContrataDos,
-   puede ser **Google**, **Facebook** o **LinkedIn**
+   puede ser **Google**, **Facebook** o **LinkedIn**.
 
-   ![botones_redes_crear cuenta local](./imagen/crear_una_cuenta_6.png)
+![botones_redes_crear cuenta local](./imagen/crear_una_cuenta_6.png)
 
 3. Según sea la cuenta **Google**, **Facebook** o **LinkedIn**, se le pedira
    que le de permiso a ContrataDos para obtener datos personales, como ser email,
@@ -36,17 +36,17 @@ iniciar cesión con estos botones.
 
 ### Cuenta manual o local
 
-1. Buscar en la parte superior derecha el icono de usuario ![icono de usuario](./imagen/crear_una_cuenta_1.png)
+1. Buscar en la parte superior derecha el icono de usuario ![icono de usuario](./imagen/crear_una_cuenta_1.png).
 2. Click en el botón _'crear cuenta'_, veras un formulario como este:
 
-   ![formulario crear cuenta local](./imagen/crear_una_cuenta_2.png)
+![formulario crear cuenta local](./imagen/crear_una_cuenta_2.png)
 
 3. Completo todos los campos y en _'tipo de usuario'_ puedes marcar la opción _profesional_
    para crear una cuenta de ese tipo.
 4. Una vez completado los campos y pulsar _'crear cuenta'_ recibirás un mensaje
    como este:
 
-   ![aleta verificar email](./imagen/crear_una_cuenta_3.png)
+![aleta verificar email](./imagen/crear_una_cuenta_3.png)
 
 5. Ve a su correo y pulsa en el link que dice _'Confirmar dirección de correo'_.
 
@@ -89,11 +89,11 @@ Veras un mensaje como este
 
 4. Ese link te llevara a la pagina de ContrataDos con un formulario que te permite
    ingresar un nueva contraseña. Ingrese la nueva contraseña en cada campo
-   y pulse cambiar
+   y pulse cambiar.
 
 ![Formulario contraseña](./imagen/crear_una_cuenta_9.png)
 
-5. Cuando completas el formulario, si sale todo bien veras un mensaje como el siguiente
+5. Cuando completas el formulario, si sale todo bien veras un mensaje como el siguiente.
 
 ![Contraseña ok](./imagen/crear_una_cuenta_10.png)
 
