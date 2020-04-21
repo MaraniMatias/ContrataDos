@@ -76,6 +76,11 @@ Solo tienes que dirigirse a [/login](/login) y si asociaste ContrataDos con
 en caso de tener una cuenta local o creada de forma manual, solo ingrese el
 correo (email) y la contraseña que ingresaste al crear la cuenta.
 
+::: tip Nota
+Para iniciar session con _email_ y _contraseña_ primero tienes que tener haber creado
+una cuenta en ContrataDos.
+:::
+
 ## Olvidé mi contraseña
 
 Para recuperar su contraseña solo tiene que indicarle a sistema que se la olvidó.
