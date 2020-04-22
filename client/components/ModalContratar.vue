@@ -1,9 +1,7 @@
 <template>
   <v-dialog v-model="value" width="550" persistent @keyup.esc="close()">
     <CardForm @submit="submit">
-      <template v-slot:header>
-        Contratar con {{ form.cliente.apellido }} {{ form.cliente.nombre }}
-      </template>
+      <template v-slot:header>Contratar con {{ headline }}</template>
       <template v-slot:default="{ rules }">
         <p>
           Cuente, describa la tarea a realizar, el problema, para que necesita
@@ -82,6 +80,7 @@
 import { Trabajo } from '~/api'
 import CardForm from '~/components/CardForm'
 import { TipoTrabajo } from '~~/server/utilities/enums'
+import camelCase from '~~/server/utilities/capitalizeWords'
 
 export default {
   components: { CardForm },
@@ -96,6 +95,14 @@ export default {
   computed: {
     user() {
       return this.$store.state.user
+    },
+    headline() {
+      return camelCase(
+        this.perfil.razon_social
+          ? this.perfil.razon_social +
+              `(${this.perfil.nombre} ${this.perfil.apellido})`
+          : this.perfil.nombre + ' ' + this.perfil.apellido
+      )
     },
   },
   created() {
