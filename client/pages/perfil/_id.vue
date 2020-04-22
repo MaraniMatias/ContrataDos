@@ -64,7 +64,7 @@
           <p class="my-2">Vive en: {{ localidadNombre }}</p>
           <div v-html="perfil.bibliography" />
           <v-layout
-            v-show="!showBtnEditable && isAProfessional"
+            v-show="!showBtnEditable && !isAProfessional"
             align-center
             justify-end
           >
