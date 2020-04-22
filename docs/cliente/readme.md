@@ -153,6 +153,32 @@ Si usted es un profesional no aparecerá en su propia búsqueda
 Para contratar un profesional debes estar logeado en ContrataDos
 :::
 
+7. Al hacer click en el botón contratar, aparecerá un formulario donde puedes
+   indicar y contar el trabajo que se necesita.
+
+![Formulario para contratar un profesionales](./imagen/buscar_o_contratar_profesional_6.png)
+
+8. Un ves completado el formulario y enviado (pulsando _'Contratar'_), se le envía
+   un email al profesional, también ya puede ver la solicitud de trabajo en su
+   listado de trabajo, también ya puede ver la solicitud de trabajo en su listado
+   de trabajos.
+
+9. Ver el estado y los detalles de la solicitud, haciendo click en _'trabajos'_ del
+   menu principal.
+
+Vera algo como lo siguiente:
+
+![Trabajo solicitado](./imagen/buscar_o_contratar_profesional_7.png)
+
+::: tip Notas
+
+- Click en _'ver chat'_ para ver la conversación con el profesional.
+- También se puede acordar una cita.
+- Cada vez que alguno de los dos escriba un mensaje le llegar a demás del mismo
+  un email notification que tiene un mensaje, (si tiene los email habilitados).
+
+:::
+
 ## Editar mi perfil
 
 En la pagina de tu perfil, podrás cambiar información personal, y agregar o
