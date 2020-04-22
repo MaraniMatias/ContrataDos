@@ -176,12 +176,14 @@ export default {
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
     async getScore() {
-      const { data } = await Trabajo.get({
-        query: {
-          profesional: this.user._id,
-          estado: EstadoTrabajo.TERMINADO,
-        },
-      })
+      const query = { estado: EstadoTrabajo.TERMINADO }
+      if (this.isAProfessional) {
+        query.profesional = this.user._id
+      } else {
+        query.cliente = this.user._id
+      }
+
+      const { data } = await Trabajo.get({ query })
       let like = 0
       let dontLike = 0
       data.forEach((job) => {
