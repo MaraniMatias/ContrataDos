@@ -11,6 +11,7 @@ module.exports = {
     searchPlaceholder: 'Buscar...',
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Trabajos', link: '/trabajo/' },
       { text: 'Cliente', link: '/cliente/' },
       { text: 'Profesional', link: '/profesional/' },
     ],
