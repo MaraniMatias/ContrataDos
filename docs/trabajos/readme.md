@@ -146,9 +146,13 @@ con todos los trabajo que tenga fecha programadas y acomodados en el calendario
 
 Vera algo como lo siguiente:
 
-![Trabajo solicitado](./imagen/buscar_o_contratar_profesional_7.png)
+![Trabajo solicitado](./imagen/listado_de_trabajos_15.png)
 
-2. Click en el botón _'Notas'_ junto al botón _'Ver chat'_ en el trabajo
+2. Click en el botón _'Notas'_ junto al botón _'Ver chat'_ en el trabajo.
+
+Vera un modal como este, dondes puedes escribir una nota, comentarios.
+
+![Agregar nota](./imagen/listado_de_trabajos_16.png)
 
 ::: warning
 Solo los usuarios que son profesionales en ese trabajo pueden dejar una notas, y
@@ -261,7 +265,29 @@ Vera algo como lo siguiente:
 
 ### Clasificar un trabajo
 
-#### TODO
+1. El trabajo tiene que esta en estado **EN PROGRESO**, así el profesional
+   tiene la posibilidad marcar el trabajo como terminado, haciendo click en
+   _'Trabajo terminado'_.
+
+![trabajo en progreso](./imagen/clasificar_un_trabajo_1.png)
+
+El profesional marca que el trabajo terminó, se le envía un email al cliente
+para que pueda clasificar el trabajo.
+
+El email sera como este
+
+![email pedir rating](./imagen/clasificar_un_trabajo_2.png)
+
+El cliente vera ese trabajo y podrá optar por darle el visto bueno o no.
+
+![trabajo con opción a clasificar](./imagen/clasificar_un_trabajo_3.png)
+
+Para clasificar usa los iconos
+
+![icons opción a clasificar](./imagen/clasificar_un_trabajo_4.png)
+
+Cuando cliente clasifica, se guarda y se calcula una puntuación para el
+profesional juntos con los trabajos anteriores.
 
 ### Comunicarse con el cliente o el profesional
 
@@ -304,19 +330,17 @@ mensaje y enviarlo con el botón _'Enviar'_.
 
 ## Agenda
 
-### TODO
+1. Ver la agenda haciendo click en _'agenda'_ del menu principal.
+2. Veras los trabajos un calendario y con colores según el estado del mismo.
+3. Podes hacer click con el trabajo para ver una información resumen como esta:
 
-## Publicar un trabajo
+![modal trabajo agenda](./imagen/agenda_1.png)
 
-### TODO
+## TODO - Publicar un trabajo
 
 ### Publicar un trabajo terminado
 
-#### TODO
-
 ### Publicar un trabajo externo a ContrataDos
-
-#### TODO
 
 ## Notificaciones automáticas
 
