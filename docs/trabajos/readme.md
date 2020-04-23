@@ -91,13 +91,53 @@ Ver el estado y los detalles de un trabajo
 
 ### Acordar o proponer una fecha para el trabajo
 
-#### TODO
+1. Ir al listado de trabajo, haciendo click en _'trabajos'_ del menu principal.
 
-::: tip Nota
+Vera algo como lo siguiente:
 
-- Cada vez que alguno de los dos proponga una fecha se le enviara un email
-  notification que tiene un mensaje, (si tiene los email habilitados).
+![Trabajo solicitado](./imagen/buscar_o_contratar_profesional_7.png)
 
+2. Click en el botón _'Ver chat'_ en el trabajo, veras el chat.
+
+![Chat](./imagen/listado_de_trabajos_5.png)
+
+3. Click en el icono de almanaque.
+
+![icono de almanaque en chat](./imagen/listado_de_trabajos_6.png)
+
+4. Vera dos controles para acomodar día y hora, en el lugar del recuadro de text.
+
+![controles para fecha y hora](./imagen/listado_de_trabajos_7.png)
+
+5. Pulsa el botón _'Proponer fecha'_
+
+![botón proponer fecha y hora](./imagen/listado_de_trabajos_8.png)
+
+6. En el chat vera un mensaje como este y la fecha propuesta.
+
+![mensaje proponer fecha y hora](./imagen/listado_de_trabajos_9.png)
+
+7. La otra parte (cliente o profesional, según se el caso), recidivara un email
+   de notification, 'tienes un nuevo mensaje' y podrá aceptar o rechazar esa hora.
+
+::: details ¿Como ve la otra parte el mensaje de la fecha propuesta?
+![aceptar fecha y hora](./imagen/listado_de_trabajos_10.png)
+:::
+
+9. Un vez acepta la fecha el trabajo cambiara de estado, de **CONSULTA** a **PENDIENTE**,
+   se vera como esto:
+
+![trabajo pendiente](./imagen/listado_de_trabajos_11.png)
+
+::: details Email de confirmation
+
+![email fecha acordada](./imagen/listado_de_trabajos_12.png)
+
+:::
+
+::: tip Ver trabajo en agenda (calendario)
+Una ves que el trabajo tenga fecha ya puedes y al menu agenda y veras un almanaque
+con todos los trabajo que tenga fecha programadas y acomodados en el calendario
 :::
 
 ### Agregar una nota privada al trabajo
@@ -111,8 +151,8 @@ Vera algo como lo siguiente:
 2. Click en el botón _'Notas'_ junto al botón _'Ver chat'_ en el trabajo
 
 ::: warning
-Solo los profesionales pueden dejar una nota en los trabajos, solo ellos verán
-esas nota.
+Solo los usuarios que son profesionales en ese trabajo pueden dejar una notas, y
+estas solo las vetan ellos.
 :::
 
 ### Estados de un trabajo
