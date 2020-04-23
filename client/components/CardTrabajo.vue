@@ -422,6 +422,14 @@ export default {
       const key = this.showAsCliente ? 'profesional' : 'cliente'
       return this.trabajo[key].email
     },
+    agenda() {
+      const len = this.trabajo.agenda.length - 1
+      if (len >= 0) {
+        return this.trabajo.agenda[len] || {}
+      } else {
+        return {}
+      }
+    },
     displayFecha() {
       const hours = this.agenda.fecha_inicio || this.trabajo.createdAt
       if (this.isPablic) {
@@ -430,11 +438,6 @@ export default {
       } else {
         return camelCase(dateFormat(hours, "EEEE HH:mm 'hs'"))
       }
-    },
-    agenda() {
-      const len = this.trabajo.agenda.length - 1
-      if (len === 0) return {}
-      return this.trabajo.agenda[len] || {}
     },
     canRating() {
       return this.$store.state.user._id !== this.trabajo?.cliente?._id
