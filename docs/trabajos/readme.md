@@ -189,13 +189,48 @@ filtro solo puede esta activo o desactivado.
 #### Cambiar estado del trabajo
 
 ::: warning
-Solo los profesionales pueden cambiar de esta un trabajo de forma directa.
-Los trabajos con estados **CONSULTA** o **TERMINADO**, no se pueden modificar.
+
+- Solo los profesionales pueden cambiar de esta un trabajo de forma directa.
+- Los trabajos con estados **CONSULTA** o **TERMINADO**, no se pueden modificar.
+
 :::
 
-Para cambiar un estado lo podes hacer haciendo click en el botón _'Opciones'_
+1. Para cambiar un estado lo podes hacer haciendo click en el botón _'Opciones'_
 
-##### TODO - pasos, modal
+![botón opción](./imagen/listado_de_trabajos_13.png)
+
+2. Aparecerá un formulario como este
+
+![formulario opción](./imagen/listado_de_trabajos_14.png)
+
+::: tip Notas
+
+- Acá puedes cambiar el estado del trabajo.
+- Re programarlo
+  - Poner el trabajo en estado **CONSULTA** y después proponer otra fecha
+  - Ver [Acordar o proponer una fecha para el trabajo](#acordar-o-proponer-una-fecha-para-el-trabajo)
+- Cambiar la duration del trabajo, predeterminado es 1hs
+
+:::
+
+### Cambiar la duration del trabajo
+
+::: warning
+
+- Solo los profesionales pueden cambiar de esta un trabajo de forma directa.
+- Los trabajos con estados **CONSULTA** o **TERMINADO**, no se pueden modificar.
+
+:::
+
+1. Para cambiar un estado lo podes hacer haciendo click en el botón _'Opciones'_.
+
+![botón opción](./imagen/listado_de_trabajos_13.png)
+
+2. Aparecerá un formulario como este.
+
+![formulario opción](./imagen/listado_de_trabajos_14.png)
+
+3. Cambie la duración del mismo y pulse aceptar.
 
 ### Cambiar fecha programada
 
@@ -282,3 +317,13 @@ mensaje y enviarlo con el botón _'Enviar'_.
 ### Publicar un trabajo externo a ContrataDos
 
 #### TODO
+
+## Notificaciones automáticas
+
+Las notificaciones son por email.
+
+Email con el listado de trabajos para hoy.
+
+Cada día el sistema cheque los trabajos que tiene fecha para ese día y envía
+un correo a los profesionales con una lista de trabajos con la hora acordada, también
+se el recuerda a los clientes que acordaron una cita.
