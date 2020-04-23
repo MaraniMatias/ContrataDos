@@ -1,6 +1,10 @@
 ---
-#tags:
-#  - registrarse con email
+tags:
+  - estados de un trabajo
+  - cambiar estado del trabajo
+  - donde veo el estado del trabajo
+  - comunicarme con el cliente
+  - comunicarme con el profesional
 ---
 
 # Trabajos
@@ -151,13 +155,17 @@ Los trabajos con estados **CONSULTA** o **TERMINADO**, no se pueden modificar.
 
 Para cambiar un estado lo podes hacer haciendo click en el botón _'Opciones'_
 
-##### TODO
-
-pasos, modal
+##### TODO - pasos, modal
 
 ### Cambiar fecha programada
 
-#### TODO
+- Si el estado del trabajo es **TERMINADO** ya no se puede cambiar.
+- Para un trabajo en estado **CONSULTA** simplemente proponga otra fecha.
+  - Ver [Cambiar estado del trabajo](#estados-de-un-trabajo)
+- Para el resto de estados, cambie el estad del trabajo a **CONSULTA**, ahora ya
+  puedes proponer otra fecha.
+  - Ver [Cambiar estado del trabajo](#estados-de-un-trabajo)
+  - Ver [Acordar o proponer una fecha para el trabajo](#acordar-o-proponer-una-fecha-para-el-trabajo)
 
 ### Cancelar o rechazar un trabajo
 
