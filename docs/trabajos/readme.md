@@ -195,7 +195,24 @@ Vera algo como lo siguiente:
 
 ![Trabajo con chat abierto](./imagen/listado_de_trabajos_3.png)
 
-#### TODO
+Donde el cuadro gris muestra los mensajes intercambiados, es este caso ninguno.
+
+El icono del calendario permite acordar una fecha.
+
+El rucado inferirlo blanco es una cuadro de texto, donde puedes escribir el
+mensaje y enviarlo con el botón _'Enviar'_.
+
+3. Enviar un mensaje, escribirlo en el rectángulo blanco.
+
+![Trabajo con chat abierto y mensajes](./imagen/listado_de_trabajos_4.png)
+
+> Acá se puede ver una communication desde el cliente al profesional, donde
+> los mensajes con fondo verde son los que envía el cliente (en este caso), el
+> profesional los con fondo blanco.
+>
+> También vemos que el cliente escribió 'Perfecto' pero todavía no lo envió.
+
+4. Para ver como acordar una fecha ir a [Acordar o proponer una fecha para el trabajo](#acordar-o-proponer-una-fecha-para-el-trabajo)
 
 ::: tip Nota
 
