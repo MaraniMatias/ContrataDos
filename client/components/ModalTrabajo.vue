@@ -134,8 +134,11 @@ export default {
     },
     agenda() {
       const len = this.trabajo.agenda.length - 1
-      if (len === 0) return {}
-      return this.trabajo.agenda[len]
+      if (len >= 0) {
+        return this.trabajo.agenda[len]
+      } else {
+        return {}
+      }
     },
     displayFecha() {
       const hours = this.agenda.fecha_inicio
