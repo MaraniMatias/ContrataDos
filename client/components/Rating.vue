@@ -13,18 +13,28 @@
     />
     <template v-else>
       <v-layout v-if="editable" justify-center align-center>
-        <v-btn class="ma-2" text icon :color="upIcon.color" @click="emit(true)">
-          <v-icon>mdi-thumb-up</v-icon>
-        </v-btn>
-        <v-btn
-          class="ma-2"
-          text
-          icon
-          :color="downIcon.color"
-          @click="emit(false)"
-        >
-          <v-icon>mdi-thumb-down</v-icon>
-        </v-btn>
+        <v-hover v-slot:default="{ hover }">
+          <v-btn
+            class="ma-2"
+            text
+            icon
+            :color="hover ? 'blue' : upIcon.color"
+            @click="emit(true)"
+          >
+            <v-icon>mdi-thumb-up</v-icon>
+          </v-btn>
+        </v-hover>
+        <v-hover v-slot:default="{ hover }">
+          <v-btn
+            class="ma-2"
+            text
+            icon
+            :color="hover ? 'red' : downIcon.color"
+            @click="emit(false)"
+          >
+            <v-icon>mdi-thumb-down</v-icon>
+          </v-btn>
+        </v-hover>
       </v-layout>
       <v-layout v-else justify-center align-center>
         <v-icon class="ma-2 px-1" :size="upIcon.size" :color="upIcon.color">
