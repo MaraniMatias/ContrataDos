@@ -37,11 +37,13 @@
                 </v-btn>
               </v-layout>
             </v-flex>
-            <v-flex xs12 lg4>
+            <!--
+            <v-flex v-if="isAProfessional" xs12 lg4>
               <v-layout justify-end>
                 <v-btn outlined class="mr-4">Agregar trabajo</v-btn>
               </v-layout>
             </v-flex>
+            -->
           </v-layout>
         </v-toolbar>
         <v-sheet height="100%">
@@ -68,6 +70,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { Trabajo } from '~/api'
 import { EstadoTrabajoColor } from '~~/server/utilities/enums'
 import dateFormat from '~/utils/dateFormat'
@@ -89,6 +92,7 @@ export default {
     events: [],
   }),
   computed: {
+    ...mapGetters(['isAProfessional']),
     title() {
       const { start, end } = this
       if (!start || !end) return ''

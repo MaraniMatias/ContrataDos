@@ -11,7 +11,7 @@
     </v-flex>
 
     <v-layout v-if="!loading && trabajo" justify-center fill-height mt-0>
-      <v-flex xs12 md11 lg10 xl5>
+      <v-flex xs12 lg7 xl5>
         <CardTrabajo :trabajo="trabajo" @change="loadData" />
       </v-flex>
     </v-layout>
