@@ -83,20 +83,97 @@ Vera algo como lo siguiente:
 
 ## Listado de trabajo
 
-### Comunicarse con el cliente o el profesional
+Ver el estado y los detalles de un trabajo
 
-### Acordar/Proponer una fecha para el trabajo
+### Acordar o proponer una fecha para el trabajo
+
+#### TODO
+
+### Estados de un trabajo
+
+Un trabajo puede tener los siguiente estados, con un color asociado:
+
+![Listado de estados](./imagen/listado_de_trabajos_1.png)
+
+- **CONSULTA**: El cliente indica que necesita los servicios de un profesional,
+  y todavía no se acorde una fecha.
+- **PENDIENTE**: El cliente acepta la fecha elegida por el profesional y
+  todavía no llego la fecha.
+- **EN PROGRESO**: A partir de la fecha acordada y hasta que el profesional
+  marque el trabajo como terminado.
+- **TERMINADO**: El profesional marco el trabajo como terminado, ahora se puede publicar.
+- **CANCELADO**: El cliente cancela el trabajo o el profesional rechazar el mismo.
+
+#### Donde veo el estado del trabajo
+
+- Ver estado en la ficha de trabajo, lo podes ver en el borde superior a la derecha.
+- También podes usar el filtro de la vista para ver solo los trabajos con un
+  estado en particular.
+
+En la pantalla trabajos, justo debajo del logo de ContrataDos, veras algo así:
+
+![Filtros de estados](./imagen/listado_de_trabajos_2.png)
+
+Eso son 'filtros' que permite mostrar solo los trabajos con esos estados, en
+este caso veras los trabajos con estados igual a 'CONSULTA', 'PENDIENTE', 'EN PROGRESO'.
+
+Para ver otros trabajos solo tiene que hacer click en el filtro que le corresponda, un
+filtro solo puede esta activo o desactivado.
+
+#### Cambiar estado del trabajo
+
+::: warning
+Solo los profesionales pueden cambiar de esta un trabajo de forma directa.
+Los trabajos con estados **CONSULTA** o **TERMINADO**, no se pueden modificar.
+:::
+
+Para cambiar un estado lo podes hacer haciendo click en el botón _'Opciones'_
+
+##### TODO
+
+pasos, modal
 
 ### Cambiar fecha programada
 
-### Cambiar estado del trabajo
+#### TODO
+
+### Cancelar o rechazar un trabajo
+
+1. If la listado de trabajo, haciendo click en _'trabajos'_ del menu principal.
+
+Vera algo como lo siguiente:
+
+![Trabajo solicitado](./imagen/buscar_o_contratar_profesional_7.png)
+
+2. Click en el botón _'Cancelar'_ o _'Rechazar'_
+
+::: tip Nota
+
+- Si sos el cliente para ese trabajo veras un botón _'Cancelar'_
+- Si sos el profesional para ese trabajo veras un botón _'Rechazar'_
+
+:::
 
 ### Clasificar un trabajo
 
+#### TODO
+
+### Comunicarse con el cliente o el profesional
+
+#### TODO
+
 ## Agenda
+
+### TODO
 
 ## Publicar un trabajo
 
+### TODO
+
 ### Publicar un trabajo terminado
 
+#### TODO
+
 ### Publicar un trabajo externo a ContrataDos
+
+#### TODO
