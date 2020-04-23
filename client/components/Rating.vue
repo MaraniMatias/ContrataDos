@@ -15,7 +15,7 @@
       <v-layout v-if="editable" justify-center align-center>
         <v-hover v-slot:default="{ hover }">
           <v-btn
-            class="ma-2"
+            class="mx-2"
             text
             icon
             :color="hover ? 'blue' : upIcon.color"
@@ -26,7 +26,7 @@
         </v-hover>
         <v-hover v-slot:default="{ hover }">
           <v-btn
-            class="ma-2"
+            class="mx-2"
             text
             icon
             :color="hover ? 'red' : downIcon.color"

@@ -136,16 +136,15 @@
                   <p v-text="trabajo.descripcion" />
                 </v-layout>
                 <v-layout align-center>
-                  <v-chip
-                    v-for="(h, $i) in trabajo.servicios"
-                    :key="$i"
-                    outlined
-                    v-text="h.nombre"
-                  />
-                </v-layout>
-                <v-layout v-if="isPablic" align-center>
-                  <v-flex> {{ displayFecha }} </v-flex>
-                  <v-flex xs12 md4>
+                  <v-flex>
+                    <v-chip
+                      v-for="(h, $i) in trabajo.servicios"
+                      :key="$i"
+                      outlined
+                      v-text="h.nombre"
+                    />
+                  </v-flex>
+                  <v-flex v-if="isEstado.TERMINADO" xs12 md4>
                     <v-layout justify-end align-start>
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
@@ -162,6 +161,9 @@
                       </v-tooltip>
                     </v-layout>
                   </v-flex>
+                </v-layout>
+                <v-layout v-if="isEstado.TERMINADO" align-center>
+                  <v-flex> {{ displayFecha }} </v-flex>
                 </v-layout>
               </v-layout>
             </v-flex>
@@ -188,7 +190,7 @@
               Opciones
             </v-btn>
             <v-btn
-              v-show="isEstado.EN_PROGRESO"
+              v-show="!showAsCliente && isEstado.EN_PROGRESO"
               color="deep-purple"
               class="mx-2"
               text
@@ -197,7 +199,7 @@
               Trabajo terminado
             </v-btn>
             <v-btn
-              v-show="isEstado.TERMINADO"
+              v-show="!showAsCliente && isEstado.TERMINADO"
               class="mx-2"
               text
               @click.stop="showModalPublic = true"
@@ -432,7 +434,7 @@ export default {
     },
     displayFecha() {
       const hours = this.agenda.fecha_inicio || this.trabajo.createdAt
-      if (this.isPablic) {
+      if (this.isPablic || this.isEstado.TERMINADO) {
         const text = this.trabajo.estado ? 'Realiazdo ' : 'Publicado '
         return text + dateFormat(hours, 'dd/MM/yyyy')
       } else {
@@ -440,7 +442,7 @@ export default {
       }
     },
     canRating() {
-      return this.$store.state.user._id !== this.trabajo?.cliente?._id
+      return this.$store.state.user._id === this.trabajo?.cliente?._id
     },
   },
   created() {
@@ -603,8 +605,10 @@ export default {
     },
     async markAsDone() {
       this.loading = true
-      this.trabajo.estado = EstadoTrabajo.TERMINADO
-      const { error } = await Trabajo.save(this.trabajo)
+      const trabajo = { ...this.trabajo }
+      trabajo.oldEstado = this.trabajo.estado
+      trabajo.estado = EstadoTrabajo.TERMINADO
+      const { error } = await Trabajo.save(trabajo)
       if (error) {
         this.$notify({ type: 'error', text: error })
       } else {
