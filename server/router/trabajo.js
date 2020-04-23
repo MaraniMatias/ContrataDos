@@ -34,6 +34,7 @@ restify.serve(router, Trabajo, {
       ).select({ email: 1, notification: 1 })
 
       if (!person || !person.notification) {
+        console.log('No enviar notification por email')
         return next()
       } else if (isNewState(EstadoTrabajo.CANCELADO)) {
         sendEmailTrabajoCancelado.jobCreate(Agenda, {
