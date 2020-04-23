@@ -91,9 +91,8 @@ Ver el estado y los detalles de un trabajo
 
 ::: tip Nota
 
-- También se puede acordar una cita.
-- Cada vez que alguno de los dos escriba un mensaje le llegar a demás del mismo
-  un email notification que tiene un mensaje, (si tiene los email habilitados).
+- Cada vez que alguno de los dos proponga una fecha se le enviara un email
+  notification que tiene un mensaje, (si tiene los email habilitados).
 
 :::
 
@@ -212,13 +211,11 @@ mensaje y enviarlo con el botón _'Enviar'_.
 >
 > También vemos que el cliente escribió 'Perfecto' pero todavía no lo envió.
 
-4. Para ver como acordar una fecha ir a [Acordar o proponer una fecha para el trabajo](#acordar-o-proponer-una-fecha-para-el-trabajo)
-
 ::: tip Nota
 
-- También se puede acordar una cita.
 - Cada vez que alguno de los dos escriba un mensaje le llegar a demás del mismo
   un email notification que tiene un mensaje, (si tiene los email habilitados).
+- También se puede acordar una cita. Ver como en [Acordar o proponer una fecha para el trabajo](#acordar-o-proponer-una-fecha-para-el-trabajo)
 
 :::
 
