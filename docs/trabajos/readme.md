@@ -89,6 +89,29 @@ Ver el estado y los detalles de un trabajo
 
 #### TODO
 
+::: tip Nota
+
+- También se puede acordar una cita.
+- Cada vez que alguno de los dos escriba un mensaje le llegar a demás del mismo
+  un email notification que tiene un mensaje, (si tiene los email habilitados).
+
+:::
+
+### Agregar una nota privada al trabajo
+
+1. Ir al listado de trabajo, haciendo click en _'trabajos'_ del menu principal.
+
+Vera algo como lo siguiente:
+
+![Trabajo solicitado](./imagen/buscar_o_contratar_profesional_7.png)
+
+2. Click en el botón _'Notas'_ junto al botón _'Ver chat'_ en el trabajo
+
+::: warning
+Solo los profesionales pueden dejar una nota en los trabajos, solo ellos verán
+esas nota.
+:::
+
 ### Estados de un trabajo
 
 Un trabajo puede tener los siguiente estados, con un color asociado:
@@ -139,7 +162,7 @@ pasos, modal
 
 ### Cancelar o rechazar un trabajo
 
-1. If la listado de trabajo, haciendo click en _'trabajos'_ del menu principal.
+1. Ir al listado de trabajo, haciendo click en _'trabajos'_ del menu principal.
 
 Vera algo como lo siguiente:
 
@@ -160,7 +183,27 @@ Vera algo como lo siguiente:
 
 ### Comunicarse con el cliente o el profesional
 
+1. Ver el estado y los detalles de la solicitud, haciendo click en _'trabajos'_ del
+   menu principal.
+
+Vera algo como lo siguiente:
+
+![Trabajo solicitado](./imagen/buscar_o_contratar_profesional_7.png)
+
+2. Click en _'ver chat'_ para ver la conversación con el profesional o el cliente,
+   según corresponda..
+
+![Trabajo con chat abierto](./imagen/listado_de_trabajos_3.png)
+
 #### TODO
+
+::: tip Nota
+
+- También se puede acordar una cita.
+- Cada vez que alguno de los dos escriba un mensaje le llegar a demás del mismo
+  un email notification que tiene un mensaje, (si tiene los email habilitados).
+
+:::
 
 ## Agenda
 
