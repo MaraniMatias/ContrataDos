@@ -336,9 +336,55 @@ mensaje y enviarlo con el botón _'Enviar'_.
 
 ![modal trabajo agenda](./imagen/agenda_1.png)
 
-## TODO - Publicar un trabajo
+## Publicar un trabajo
+
+Lo trabajos publicados son los que verán los potenciales clientes en el perfil
+de profesional. Se pueden publicar de dos formas:
+
+- Un trabajo terminado.
+- Publicar directamente un trabajo.
+
+::: warning
+
+- Solo los profesionales pueden publicar trabajos.
+- Cualquiera que entre al perfil del profesional vera los trabajos publicados.
+
+:::
 
 ### Publicar un trabajo terminado
+
+1. Ir al listado de trabajo, haciendo click en _'trabajos'_ del menu principal.
+2. Activar el filtro de _'TERMINADO'_.
+
+![filtro de trabajos terminados](./imagen/publicar_un_trabajo_1.png)
+
+3. Veras una lista de trabajos publicados y no publicados.
+4. Nos interesa uno no publicado, vera algo así
+
+![trabajo publicado](./imagen/publicar_un_trabajo_2.png)
+
+5. Veras un botón _'publicar'_, click en él.
+6. Al hacer click aparecerá un formulario como este
+
+![formulario publicar trabajo](./imagen/publicar_un_trabajo_3.png)
+
+::: tip Nota
+
+- Puedes editar, cambiar, el texto a tu gusto, sacar texto que puede ser personal.
+- La modificación afecta el texto original.
+
+:::
+
+7. Click en el botón _'Elegir foto'_.
+8. Una ves elegida la foto desde tu PC, veras un cuadro para recortarla.
+
+![cortar foto](./imagen/publicar_un_trabajo_4.png)
+
+9. Una ves recortada la foto y pulsado _'Publicar'_, el trabajo se vera así
+
+![trabajo publicado](./imagen/publicar_un_trabajo_5.png)
+
+10. Y ya esta publicado el perfil del profesional parecerá como trabajo publicado.
 
 ### Publicar un trabajo externo a ContrataDos
 
