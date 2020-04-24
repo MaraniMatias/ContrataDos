@@ -274,5 +274,11 @@ A pasar el mouse por arriba veras ese icono, hace click.
   ![icono campana](./imagen/editar_mi_perfil_8.png)
 
 ::: tip Nota
-No afecta a los emial para el cambio de contraseña.
+No afecta a los email para el cambio de contraseña.
 :::
+
+### ¿Porque veo 'Todavía no tiene suficientes trabajos'?
+
+Eso significa que el trabajador no tiene suficientes trabajos clasificados como para
+calcular su puntuación.
+Debe tener más de 10 trabajos publicados.
