@@ -1,5 +1,6 @@
 <template>
   <v-layout column mb-2 px-2>
+    <!--
     <v-flex v-show="loading" x12 mt-4 mb-2 class="text-center">
       <v-progress-circular
         width="2"
@@ -9,8 +10,8 @@
       />
       <p class="mt-6">Buscando...</p>
     </v-flex>
-
-    <v-layout v-if="!loading && trabajo" justify-center fill-height mt-0>
+    -->
+    <v-layout v-if="trabajo" justify-center fill-height mt-0>
       <v-flex xs12 lg7 xl5>
         <CardTrabajo :trabajo="trabajo" @change="loadData" />
       </v-flex>
@@ -60,7 +61,6 @@ export default {
     }
   },
   data: () => ({
-    loading: false,
     // trabajo: {},
     ready: true,
   }),
@@ -70,20 +70,6 @@ export default {
     },
   },
   mounted() {},
-  methods: {
-    async loadData() {
-      this.loading = true
-      const { data, error } = await Trabajo.getById(this.trabajo._id, {
-        populate: 'servicios,localidad,cliente,profesional',
-      })
-      if (error) {
-        this.$notify({ type: 'error', text: error })
-      } else {
-        this.$notify({ type: 'success', text: 'Trabajo actualizado.' })
-        this.trabajo = data
-      }
-      this.loading = false
-    },
-  },
+  methods: {},
 }
 </script>

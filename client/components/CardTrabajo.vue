@@ -244,7 +244,9 @@
               <CardChat
                 v-for="(chat, i) in comunicaciones"
                 :key="i"
-                :editable="isEstado.CONSULTA"
+                :editable="
+                  isEstado.CONSULTA && idLastChatsWithDate === chat._id
+                "
                 :chat="chat"
                 @accept="accept"
               />
@@ -443,6 +445,11 @@ export default {
     },
     canRating() {
       return this.$store.state.user._id === this.trabajo?.cliente?._id
+    },
+    idLastChatsWithDate() {
+      const list = this.comunicaciones?.filter((chat) => !!chat.fecha) || []
+      const len = list.length - 1
+      return len >= 0 ? list[len]?._id : null
     },
   },
   created() {
