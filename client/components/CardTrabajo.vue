@@ -71,7 +71,7 @@
     <ModalPublicJob
       v-model="showModalPublic"
       :trabajo="trabajo"
-      @change="$emit('change')"
+      @change="publish()"
     />
     <v-hover v-slot:default="{ hover }" open-delay="100">
       <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
@@ -644,6 +644,10 @@ export default {
         this.cancel()
       }
       this.loading = false
+    },
+    publish() {
+      this.$emit('change')
+      this.loadImg()
     },
   },
 }

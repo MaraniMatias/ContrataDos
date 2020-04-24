@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="value" width="550" persistent @keyup.esc="close()">
     <CardForm @submit="saveTrabajo">
-      <template v-slot:header>Agregar Trabajo</template>
+      <template v-slot:header>Publicar trabajo</template>
       <template v-slot:default="{ rules }">
         <v-flex xs12 mx-2>
           <v-text-field
