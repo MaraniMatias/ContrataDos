@@ -348,6 +348,8 @@ Las notificaciones son por email.
 
 Email con el listado de trabajos para hoy.
 
+![email trabajos para hoy](./imagen/notification_1.png)
+
 Cada día el sistema cheque los trabajos que tiene fecha para ese día y envía
 un correo a los profesionales con una lista de trabajos con la hora acordada, también
 se el recuerda a los clientes que acordaron una cita.
