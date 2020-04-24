@@ -13,7 +13,7 @@
     </form>
     <v-dialog v-model="modalUpdateImg" width="400">
       <CardForm @submit="savePerfilImg">
-        <template v-slot:header>Perfil</template>
+        <template v-slot:header>Cortar foto</template>
         <template v-slot:default>
           <Cropper
             :src="fileUrl"
