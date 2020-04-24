@@ -388,6 +388,23 @@ de profesional. Se pueden publicar de dos formas:
 
 ### Publicar un trabajo externo a ContrataDos
 
+Puedes directamente publicar un trabajo que ayas realizo, antes de unirte a ContrataDos
+o contarnos de un trabajo realzado de forma particular, para que otros clientes
+vean tus trabajos.
+
+1. Ve a tu perfil haciendo click en _'Perfil'_ del menu principal.
+2.
+
+- Si no tienes trabajos publicados veras un icono ➕ enorme, click en él.
+- Si ya publicaste trabajos busca el ➕ a la derecha del la palabra 'Trabajos', click
+  en él.
+
+![publicar trabajo](./imagen/publicar_un_trabajo_6.png)
+
+3. Aparecerá un formulario, donde puedes contarnos sobre el trabajo y agregar
+   una foto haciendo click en _'Elegir foto'_.
+4. Para publicar simplemente click en _'Publicar'_.
+
 ## Notificaciones automáticas
 
 Las notificaciones son por email.
