@@ -393,7 +393,7 @@ o contarnos de un trabajo realzado de forma particular, para que otros clientes
 vean tus trabajos.
 
 1. Ve a tu perfil haciendo click en _'Perfil'_ del menu principal.
-2.
+2. Puede haber dos casos.
 
 - Si no tienes trabajos publicados veras un icono ➕ enorme, click en él.
 - Si ya publicaste trabajos busca el ➕ a la derecha del la palabra 'Trabajos', click
