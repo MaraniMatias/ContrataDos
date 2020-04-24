@@ -29,8 +29,8 @@ module.exports.job = async () => {
     estado: EstadoTrabajo.PENDIENTE,
     deleted: false,
   })
-    .populate('profesional', 'email,notification')
-    .populate('cliente', 'email,notification')
+    .populate('profesional')
+    .populate('cliente')
     .where('agenda.fecha_inicio')
     .gte(new Date().setHours(0, 0, 0, 0))
     .where('agenda.fecha_inicio')
