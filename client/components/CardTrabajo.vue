@@ -452,16 +452,13 @@ export default {
       return len >= 0 ? list[len]?._id : null
     },
   },
-  created() {
+  async created() {
     const self = this
-    Comunicacion.getAll({
-      query: { trabajo: this.trabajo._id },
-      sort: 'createdAt',
-    }).then(({ data }) => {
-      self.comunicaciones = data || []
-      self.page = self.numberOfPages
-    })
     this.cancel()
+    await self.getChat()
+    setInterval(function () {
+      self.getChat()
+    }, 10000)
   },
   mounted() {
     if (this.trabajo.tipo === TipoTrabajo.PUBLICO) this.loadImg()
@@ -479,6 +476,16 @@ export default {
     scrollChatToBottom() {
       this.$nextTick(function () {
         this.$refs.chat.scrollTo(0, 300)
+      })
+    },
+    getChat() {
+      const self = this
+      Comunicacion.getAll({
+        query: { trabajo: self.trabajo._id },
+        sort: 'createdAt',
+      }).then(({ data }) => {
+        self.comunicaciones = data || []
+        self.page = self.numberOfPages
       })
     },
     async loadImg() {
