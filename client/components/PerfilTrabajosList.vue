@@ -63,6 +63,7 @@ export default {
       const params = {
         query: { profesional: this.profilId, tipo: TipoTrabajo.PUBLICO },
         populate: 'servicios,localidad,cliente,profesional',
+        sort: '-createdAt',
       }
       const { data } = await Trabajo.get(params)
       // populate Localidation Habilidad
