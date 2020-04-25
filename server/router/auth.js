@@ -188,6 +188,19 @@ router.post('/api/auth/forgetpassword/change', async function (req, res) {
     return sendRes(res, cod, null, message, err)
   }
 })
+// POST api/auth/forgetpassword/valid {token,email,password}
+router.get('/api/auth/forgetpassword/valid', function (req, res) {
+  try {
+    const errors = checkErrors([check(req.query, 'token').isString()])
+    if (errors.length > 0) {
+      return sendRes(res, 400, null, 'Body validation errors', errors)
+    }
+    jwt.verify(req.query.token, forgetPasswordSecret)
+    return sendRes(res, 200, null, 'Success', null)
+  } catch (err) {
+    return sendRes(res, 404, null, 'page no found', err)
+  }
+})
 
 // GET api/auth/me
 router.get('/api/auth/me', auth.isLogin, function (req, res) {
