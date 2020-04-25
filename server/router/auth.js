@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
-const bcrypt = require('bcrypt')
-const saltRounds = 10
+const jwt = require('jsonwebtoken')
 const { sendRes, auth, check, checkErrors } = require('../utilities/router')
 const { Persona: User } = require('../models/persona')
 
@@ -13,33 +12,23 @@ const forgetPasswordSecret = 'QdVYGl3pXU562loudRC3_QTP2'
 const sendEmailForgetPassword = require('../utilities/agenda/send_email_forget_password.job')
 
 function sendForgetPassword(_id, email) {
-  return new Promise(function (resolve, reject) {
-    bcrypt
-      .hash(_id + forgetPasswordSecret, saltRounds)
-      .catch(reject)
-      .then((token) => {
-        sendEmailForgetPassword.jobCreate(Agenda, {
-          email,
-          link: `${process.env.FRONT_URL}/forget-password?token=${token}&email=${email}`,
-        })
-        resolve()
-      })
+  const _t = jwt.sign({ _id, email }, forgetPasswordSecret, { expiresIn: '1h' })
+  const queryString = encodeURI(`token=${_t}&email=${email}`)
+  sendEmailForgetPassword.jobCreate(Agenda, {
+    email,
+    link: `${process.env.FRONT_URL}/forget-password?${queryString}`,
   })
+  return _t
 }
 
-function sendVerifyEmail(email) {
-  return new Promise(function (resolve, reject) {
-    bcrypt
-      .hash(email + verificarEamilSecret, saltRounds)
-      .catch(reject)
-      .then((token) => {
-        sendEmailVerificarEamil.jobCreate(Agenda, {
-          email,
-          link: `${process.env.FRONT_URL}/login?token=${token}&email=${email}`,
-        })
-        resolve()
-      })
+function sendVerifyEmail(_id, email) {
+  const _t = jwt.sign({ _id, email }, verificarEamilSecret, { expiresIn: '1h' })
+  const queryString = encodeURI(`token=${_t}&email=${email}`)
+  sendEmailVerificarEamil.jobCreate(Agenda, {
+    email,
+    link: `${process.env.FRONT_URL}/login?${queryString}`,
   })
+  return _t
 }
 
 // GET /api/auth/google
@@ -110,7 +99,7 @@ router.post('/api/auth/signup', async function (req, res) {
       // picture: '/avatars/matthew.png',
     })
     const userDB = await user.save()
-    await sendVerifyEmail(userDB.email)
+    sendVerifyEmail(userDB._id, userDB.email)
     return sendRes(res, 200, null, 'User created, check your email', null)
   } catch (err) {
     if (err.code === 11000) {
@@ -124,23 +113,16 @@ router.post('/api/auth/signup', async function (req, res) {
 // POST api/auth/signup/verification {token,email}
 router.post('/api/auth/signup/verification', async function (req, res) {
   try {
-    const errors = checkErrors([
-      check(req.body, 'email').isEmail(),
-      check(req.body, 'token').isString(),
-    ])
+    const errors = checkErrors([check(req.body, 'token').isString()])
     if (errors.length > 0) {
       return sendRes(res, 400, null, 'Body validation errors', errors)
     }
-    const { token, email } = req.body
-    if (await bcrypt.compare(email + verificarEamilSecret, token)) {
-      const user = await User.findOne({ email, email_verified: false })
-      if (user) {
-        user.email_verified = true
-        await user.save()
-        return sendRes(res, 200, null, 'Success', null)
-      } else {
-        return sendRes(res, 404, null, 'page not found', null)
-      }
+    const { _id, email } = jwt.verify(req.body.token, forgetPasswordSecret)
+    const user = await User.findOne({ _id, email, email_verified: false })
+    if (user) {
+      user.email_verified = true
+      await user.save()
+      return sendRes(res, 200, null, 'Success', null)
     } else {
       return sendRes(res, 404, null, 'page not found', null)
     }
@@ -174,40 +156,38 @@ router.post('/api/auth/forgetpassword', async (req, res) => {
     const user = await User.findOne({ email: req.body.email })
     user.forget_password = true
     await user.save()
-    await sendForgetPassword(user._id, req.body.email)
+    sendForgetPassword(user._id, req.body.email)
     return sendRes(res, 200, null, 'Success', null)
   } catch (err) {
-    return sendRes(res, 500, null, 'Error saving new user', err)
+    const cod = err.name === 'JsonWebTokenError' ? 404 : 500
+    const message = cod === 404 ? 'page not found' : 'Error saving new user'
+    return sendRes(res, cod, null, message, err)
   }
 })
 // POST api/auth/forgetpassword/change {token,email,password}
 router.post('/api/auth/forgetpassword/change', async function (req, res) {
   try {
-    // TODO pensar el link algo mas unico por las dudas
     const errors = checkErrors([
-      check(req.body, 'email').isEmail(),
       check(req.body, 'token').isString(),
       check(req.body, 'password').isPassword(),
     ])
     if (errors.length > 0) {
       return sendRes(res, 400, null, 'Body validation errors', errors)
     }
-    const { token, email } = req.body
-    const user = await User.findOne({ email, forget_password: true })
-    if (await bcrypt.compare(user._id + forgetPasswordSecret, token)) {
-      if (user) {
-        user.password = req.body.password
-        user.forget_password = false
-        await user.save()
-        return sendRes(res, 200, null, 'Success', null)
-      } else {
-        return sendRes(res, 404, null, 'page not found', null)
-      }
+    const { _id, email } = jwt.verify(req.body.token, forgetPasswordSecret)
+    const user = await User.findOne({ _id, email, forget_password: true })
+    if (user) {
+      user.password = req.body.password
+      user.forget_password = false
+      await user.save()
+      return sendRes(res, 200, null, 'Success', null)
     } else {
       return sendRes(res, 404, null, 'page not found', null)
     }
   } catch (err) {
-    return sendRes(res, 500, null, 'Error saving new user', err)
+    const cod = err.name === 'JsonWebTokenError' ? 404 : 500
+    const message = cod === 404 ? 'page not found' : 'Error saving new user'
+    return sendRes(res, cod, null, message, err)
   }
 })
 
