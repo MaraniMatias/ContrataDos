@@ -14,7 +14,10 @@ const checkProps = require('./checkProps')
  * @returns {Object} {data, message, error}
  */
 const sendRes = (res, cod = 200, data, message = '', error = null) => {
+  // const sendRes = (cod = 200, dataOrError, message = '' ) => {
+  // const res =  express.response
   res.status(cod)
+  // return res.json({ data: dataOrError, message })
   return res.json({ data, message, error })
 }
 
