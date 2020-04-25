@@ -1,5 +1,5 @@
 'use strict'
-const get = require('../get')
+const { sendRes, get } = require('../router/index')
 
 function isDefined(prop) {
   return typeof prop !== 'undefined' && prop !== null
@@ -37,14 +37,18 @@ function check(object, keys = '') {
   }
 }
 
-function checkErrors(errorsList = []) {
+function checkErrors(res, errorsList = []) {
   const errors = []
   errorsList.forEach((err) => {
     if (typeof err === 'string') {
       errors.push(err)
     }
   })
-  return errors
+  if (errors.length > 0) {
+    return sendRes(res, 400, null, 'Body validation errors', errors)
+  } else {
+    return true
+  }
 }
 
 module.exports = {

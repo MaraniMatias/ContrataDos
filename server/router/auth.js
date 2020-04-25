@@ -80,16 +80,15 @@ router.post('/api/auth/logout', function (req, res) {
 
 // POST /api/auth/signup {Alta de un usuario}
 router.post('/api/auth/signup', async function (req, res) {
-  const errors = checkErrors([
-    check(req.body, 'apellido').isString(),
-    check(req.body, 'email').isEmail(),
-    check(req.body, 'nombre').isString(),
-    check(req.body, 'password').isPassword(),
-  ])
-  if (errors.length > 0) {
-    return sendRes(res, 400, null, 'Body validation errors', errors)
-  }
   try {
+    const isValid = checkErrors(res, [
+      check(req.body, 'apellido').isString(),
+      check(req.body, 'email').isEmail(),
+      check(req.body, 'nombre').isString(),
+      check(req.body, 'password').isPassword(),
+    ])
+    if (!isValid) return
+
     const user = new User({
       apellido: req.body.apellido,
       email: req.body.email,
@@ -113,10 +112,9 @@ router.post('/api/auth/signup', async function (req, res) {
 // POST api/auth/signup/verification {token,email}
 router.post('/api/auth/signup/verification', async function (req, res) {
   try {
-    const errors = checkErrors([check(req.body, 'token').isString()])
-    if (errors.length > 0) {
-      return sendRes(res, 400, null, 'Body validation errors', errors)
-    }
+    const isValid = checkErrors([check(req.body, 'token').isString()])
+    if (!isValid) return
+
     const { _id, email } = jwt.verify(req.body.token, forgetPasswordSecret)
     const user = await User.findOne({ _id, email, email_verified: false })
     if (user) {
@@ -133,10 +131,8 @@ router.post('/api/auth/signup/verification', async function (req, res) {
 
 // POST /api/auth/sendemail {email}
 router.post('/api/auth/sendemail', function (req, res) {
-  const errors = checkErrors([check(req.body, 'email').isEmail()])
-  if (errors.length > 0) {
-    return sendRes(res, 400, null, 'Body validation errors', errors)
-  }
+  const isValid = checkErrors([check(req.body, 'email').isEmail()])
+  if (!isValid) return
   return sendVerifyEmail(req.body.email)
     .then(() => {
       return sendRes(res, 200, null, 'Success', null)
@@ -149,10 +145,9 @@ router.post('/api/auth/sendemail', function (req, res) {
 // POST /api/auth/login {mail password}
 router.post('/api/auth/forgetpassword', async (req, res) => {
   try {
-    const errors = checkErrors([check(req.body, 'email').isEmail()])
-    if (errors.length > 0) {
-      return sendRes(res, 400, null, 'Body validation errors', errors)
-    }
+    const isValid = checkErrors([check(req.body, 'email').isEmail()])
+    if (!isValid) return
+
     const user = await User.findOne({ email: req.body.email })
     await user.save()
     sendForgetPassword(user._id, req.body.email)
@@ -166,13 +161,12 @@ router.post('/api/auth/forgetpassword', async (req, res) => {
 // POST api/auth/forgetpassword/change {token,email,password}
 router.post('/api/auth/forgetpassword/change', async function (req, res) {
   try {
-    const errors = checkErrors([
+    const isValid = checkErrors([
       check(req.body, 'token').isString(),
       check(req.body, 'password').isPassword(),
     ])
-    if (errors.length > 0) {
-      return sendRes(res, 400, null, 'Body validation errors', errors)
-    }
+    if (!isValid) return
+
     const { _id, email } = jwt.verify(req.body.token, forgetPasswordSecret)
     const user = await User.findOne({ _id, email })
     if (user) {
@@ -191,10 +185,9 @@ router.post('/api/auth/forgetpassword/change', async function (req, res) {
 // POST api/auth/forgetpassword/valid {token,email,password}
 router.get('/api/auth/forgetpassword/valid', function (req, res) {
   try {
-    const errors = checkErrors([check(req.query, 'token').isString()])
-    if (errors.length > 0) {
-      return sendRes(res, 400, null, 'Body validation errors', errors)
-    }
+    const isValid = checkErrors([check(req.query, 'token').isString()])
+    if (!isValid) return
+
     jwt.verify(req.query.token, forgetPasswordSecret)
     return sendRes(res, 200, null, 'Success', null)
   } catch (err) {
