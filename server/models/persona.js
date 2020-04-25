@@ -45,8 +45,6 @@ const schema = new Schema(
     ],
     servicios: [{ type: ObjectId, ref: 'habilidad' }],
     localidad: { type: ObjectId, ref: 'localidad' }, // Del trabajador
-    // puntuacion: { type: Number, default: 0 }, // Find on Trabajo collection
-    // cantidad_trabajos: { type: Number, default: 0 }, // Find on Trabajo collection
     google_account: { type: Object, access: 'protected' }, // Datos de google,
     picture: String,
     password: { type: String, access: 'protected' },
@@ -54,7 +52,6 @@ const schema = new Schema(
     razon_social: { type: String, trim: true }, // O Nombre fisticio
     zona_trabajo: [{ type: ObjectId, ref: 'localidad' }], // libre todo el mundo
     // tags: [{ type: String, access: 'protected' }],
-    forget_password: { type: Boolean, default: false },
     notification: { type: Boolean, default: true },
     deleted: { type: Boolean, default: false },
   },

@@ -154,7 +154,6 @@ router.post('/api/auth/forgetpassword', async (req, res) => {
       return sendRes(res, 400, null, 'Body validation errors', errors)
     }
     const user = await User.findOne({ email: req.body.email })
-    user.forget_password = true
     await user.save()
     sendForgetPassword(user._id, req.body.email)
     return sendRes(res, 200, null, 'Success', null)
@@ -175,10 +174,9 @@ router.post('/api/auth/forgetpassword/change', async function (req, res) {
       return sendRes(res, 400, null, 'Body validation errors', errors)
     }
     const { _id, email } = jwt.verify(req.body.token, forgetPasswordSecret)
-    const user = await User.findOne({ _id, email, forget_password: true })
+    const user = await User.findOne({ _id, email })
     if (user) {
       user.password = req.body.password
-      user.forget_password = false
       await user.save()
       return sendRes(res, 200, null, 'Success', null)
     } else {
