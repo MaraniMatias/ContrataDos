@@ -5,7 +5,7 @@ const consola = require('consola')
 
 // Make dir to save file
 const isProd = process.env.NODE_ENV === 'production'
-const STATIC_PATH = isProd ? ['public'] : ['..', '..', 'client', 'static']
+const STATIC_PATH = isProd ? ['..', 'public'] : ['..', '..', 'client', 'static']
 const getPathPublicWith = (addPath) => {
   return path.join.apply(null, [__dirname, ...STATIC_PATH, addPath])
 }
