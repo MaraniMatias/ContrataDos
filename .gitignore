@@ -9,6 +9,7 @@ yarn-error.log*
 tags
 /client/static/images/*
 /release
+ContrataDos*.zip
 
 # Runtime data
 pids

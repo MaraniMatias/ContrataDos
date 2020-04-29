@@ -61,6 +61,8 @@ main() {
   # Make ZIP
   cd ./release && zip -r -du "ContrataDos_${version}.zip" .
   cd -
+  cp "./release/ContrataDos_${version}.zip" .
+  rm -drf ./release
 }
 
 if [ $# -gt 0 ]; then
