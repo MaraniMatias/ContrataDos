@@ -11,13 +11,11 @@ footer: ContrataDos Copyright © 2020
 
 ## Index
 
-- [Volver a la plataforma](/)
 - [Ver ayuda relacionados **Trabajos**](/trabajos/)
 - [Ver ayuda para **clientes**](/cliente/)
   - [Buscar o contratar un profesional](/cliente/#buscar-o-contratar-profesional)
 - [Ver ayuda para **profesionales**](/profesional/)
   - [Buscar o contratar un profesional](/profesional/#buscar-o-contratar-profesional)
-- [Ver tecnologías usadas](/tecnologias.md)
 
 ## Características
 
