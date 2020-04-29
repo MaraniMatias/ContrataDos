@@ -40,6 +40,10 @@ $ npm run docs
 
 **Backend**
 
+**Docs**
+
+Esta escrita en sentencias [Markdown](https://guides.github.com/features/mastering-markdown/)
+
 ## Release
 
 **Comandos**
