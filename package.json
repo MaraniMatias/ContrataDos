@@ -11,7 +11,7 @@
     "docs": "vuepress dev ./docs --no-cache",
     "build:client": "nuxt build",
     "build:docs": "vuepress build ./docs",
-    "start": "cross-env NODE_ENV=production node server/index.js"
+    "start": "cross-env NODE_ENV=production node index.js"
   },
   "lint-staged": {
     "*.{js,vue}": "npm run lint"
