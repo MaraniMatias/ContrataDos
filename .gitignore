@@ -8,9 +8,8 @@ yarn-debug.log*
 yarn-error.log*
 tags
 /client/static/images/*
-
-# Environment variable
-.env.local
+/release
+ContrataDos*.zip
 
 # Runtime data
 pids
@@ -62,7 +61,8 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+.env.local
+/client/.env
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache

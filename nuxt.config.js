@@ -1,3 +1,5 @@
+const SERVER_URL_PROD = 'http://localhost:8080'
+
 module.exports = {
   mode: 'spa',
   // mode: 'universal',
@@ -7,7 +9,7 @@ module.exports = {
    ** ENV variable
    */
   env: {
-    SERVER_URL: process.env.SERVER_URL || 'http://localhost:8080',
+    SERVER_URL: process.env.SERVER_URL || SERVER_URL_PROD,
   },
   /*
    ** Headers of the page
