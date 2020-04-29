@@ -23,6 +23,7 @@
           <v-btn nuxt text to="/agenda">Agenda</v-btn>
           <v-btn nuxt text to="/trabajos">Trabajos</v-btn>
           <v-btn nuxt text to="/perfil">Perfil</v-btn>
+          <v-btn text href="/docs">Ayuda</v-btn>
           <!--
           <v-btn icon @click.stop="clipped = !clipped">
             <v-icon>mdi-application</v-icon>
@@ -37,9 +38,12 @@
             </v-list>
           </v-menu>
         </template>
-        <v-btn v-else icon class="ml-4" @click="goToPerfil">
-          <v-icon size="32" style="cursor: pointer;">account_circle</v-icon>
-        </v-btn>
+        <template v-else>
+          <v-btn text href="/docs">Ayuda</v-btn>
+          <v-btn icon class="ml-4" @click="goToPerfil">
+            <v-icon size="32" style="cursor: pointer;">account_circle</v-icon>
+          </v-btn>
+        </template>
       </v-layout>
     </v-app-bar>
     <v-content>
