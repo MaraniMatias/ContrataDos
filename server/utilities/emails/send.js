@@ -3,19 +3,28 @@ const pug = require('pug')
 const nodemailer = require('nodemailer')
 const smtpTransport = require('nodemailer-smtp-transport')
 
-const options = {
-  service: 'gmail', // only smtp and google account
-  host: process.env.EMAIL_HOST,
-  port: Number(process.env.EMAIL_PORT),
-  secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for other ports
-  auth: {
-    user: process.env.EMAIL_AUTH_USER,
-    pass: process.env.EMAIL_AUTH_PASS,
-  },
-  email_no_replay:
-    process.env.EMAIL_NOMBRE + ' <' + process.env.EMAIL_AUTH_USER + '>',
-  logo: process.env.EMAIL_LOGO,
-}
+const options = (function () {
+  const _o = {
+    host: process.env.EMAIL_HOST,
+    port: Number(process.env.EMAIL_PORT),
+    secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for other ports
+    auth: {
+      user: process.env.EMAIL_AUTH_USER,
+      pass: process.env.EMAIL_AUTH_PASS,
+    },
+    email_no_replay:
+      process.env.EMAIL_NOMBRE + ' <' + process.env.EMAIL_AUTH_USER + '>',
+    logo: process.env.EMAIL_LOGO,
+  }
+
+  if (/gmail/.test(process.env.EMAIL_HOST)) {
+    _o.service = 'gmail' // only smtp and google account
+    return smtpTransport(_o)
+  } else {
+    return _o
+  }
+})()
+
 if (process.env.NODE_ENV !== 'production') console.log(options)
 
 const getHtmlEmail = (file, obj = {}) => {
@@ -34,8 +43,7 @@ module.exports = async function ({ subject, template }, data) {
   // await nodemailer.createTestAccount();
 
   // create reusable transporter object using the default SMTP transport
-  // let transporter = nodemailer.createTransport(options);
-  const transporter = nodemailer.createTransport(smtpTransport(options))
+  const transporter = nodemailer.createTransport(options)
 
   if (process.env.NODE_ENV !== 'production') {
     // create reusable transporter object using the default SMTP transport
