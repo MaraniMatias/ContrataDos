@@ -57,10 +57,6 @@ main() {
   npm run build:docs
   mkdir -p ./release/public/docs
   cp -R ./docs/dist/* ./release/public/docs
-  # Set assert paths on server
-  # cd ./release/public/docs
-  # find . -type f -name "*.html" -print0 | xargs -0 sed -ie 's/="\/assets/="\/docs\/assets/g' index.html
-  cd -
   rm -drf ./docs/dist
 
   # Make ZIP
