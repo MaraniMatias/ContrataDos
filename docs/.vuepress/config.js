@@ -1,5 +1,6 @@
 module.exports = {
   port: 8081,
+  base: '/docs/',
   dest: './docs/dist',
   title: 'ContrataDos',
   description: 'Ayuda para ContrataDos',
