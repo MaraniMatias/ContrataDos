@@ -25,6 +25,7 @@ version=$(cat package.json | grep -oP "\"version\"\s*:\s*\"+(.+)\"+" | grep -oP 
 
 gitTag() {
   git checkout .
+  git checkout master
   git pull origin master
   yarn version --patch
   git push origin master
