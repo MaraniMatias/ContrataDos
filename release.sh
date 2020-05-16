@@ -25,6 +25,7 @@ version=$(cat package.json | grep -oP "\"version\"\s*:\s*\"+(.+)\"+" | grep -oP 
 
 gitTag() {
   git checkout .
+  git checkout master
   git pull origin master
   yarn version --patch
   git push origin master
@@ -37,6 +38,7 @@ gitTag() {
 }
 
 main() {
+  rm ContrataDos_*.zip
   # Build paths
   rm -drf release
   mkdir -p release
@@ -55,6 +57,10 @@ main() {
   npm run build:docs
   mkdir -p ./release/public/docs
   cp -R ./docs/dist/* ./release/public/docs
+  # Set assert paths on server
+  # cd ./release/public/docs
+  # find . -type f -name "*.html" -print0 | xargs -0 sed -ie 's/="\/assets/="\/docs\/assets/g' index.html
+  cd -
   rm -drf ./docs/dist
 
   # Make ZIP
