@@ -24,16 +24,15 @@ set -o nounset                              # Treat unset variables as an error
 version=$(cat package.json | grep -oP "\"version\"\s*:\s*\"+(.+)\"+" | grep -oP "\d+\.\d+\.\d+")
 
 gitTag() {
-  git pull origin master
-  git checkout release
   git checkout .
+  git pull origin master
+  yarn version --patch
+  git push origin master
+  git checkout release
   git pull origin release
   git merge --no-ff --no-edit master
-  yarn version --patch
   git push origin release
   git checkout master
-  git merge --no-ff --no-edit release
-  git push origin master
   git push --follow-tags
 }
 
@@ -62,7 +61,7 @@ main() {
   cd ./release && zip -r -du "ContrataDos_${version}.zip" .
   cd -
   cp "./release/ContrataDos_${version}.zip" .
-  rm -drf ./release
+  # rm -drf ./release ## Ahora mantengo en release
 }
 
 if [ $# -gt 0 ]; then
