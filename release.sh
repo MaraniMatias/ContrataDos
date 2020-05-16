@@ -67,11 +67,12 @@ main() {
 if [ $# -gt 0 ]; then
   if [ "$1" == "--release" ]; then
     gitTag
+    git checkout release
+    main
   fi
 else
   printf "%srelease\t Increase package version and make a tag on release git branch\n" '--'
+  main
 fi
-
-main
 
 exit 1
