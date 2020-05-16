@@ -11,7 +11,7 @@ footer: ContrataDos Copyright © 2020
 
 ## Index
 
-- [Ver ayuda relacionados **trabajos**](/trabajos/)
+- [Ver ayuda relacionada con **trabajos**](/trabajos/)
   - [Contratar](/trabajos/#contratar)
   - [Listado de trabajo](/trabajos/#listado-de-trabajo)
     - [Acordar o proponer una fecha para el trabajo](/trabajos/#acordar-o-proponer-una-fecha-para-el-trabajo)
