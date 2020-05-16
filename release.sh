@@ -37,6 +37,7 @@ gitTag() {
 }
 
 main() {
+  rm ContrataDos_*.zip
   # Build paths
   rm -drf release
   mkdir -p release
