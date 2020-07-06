@@ -38,12 +38,7 @@ function check(object, keys = '') {
 }
 
 function checkErrors(res, errorsList = []) {
-  const errors = []
-  errorsList.forEach((err) => {
-    if (typeof err === 'string') {
-      errors.push(err)
-    }
-  })
+  const errors = errorsList.filter((err) => typeof err === 'string')
   if (errors.length > 0) {
     return sendRes(res, 400, null, 'Body validation errors', errors)
   } else {
