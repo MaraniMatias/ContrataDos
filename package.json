@@ -11,6 +11,7 @@
     "docs": "vuepress dev ./docs --no-cache",
     "build:client": "nuxt build",
     "build:docs": "vuepress build ./docs",
+    "docs:export": "vuepress export ./docs",
     "start": "cross-env NODE_ENV=production node index.js"
   },
   "lint-staged": {
@@ -64,6 +65,7 @@
     "@nuxtjs/eslint-config": "^3.0.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/vuetify": "^1.11.2",
+    "@snowdog/vuepress-plugin-pdf-export": "^1.1.0",
     "babel-eslint": "^10.0.1",
     "baretest": "^2.0.0",
     "eslint": "^7.4.0",
