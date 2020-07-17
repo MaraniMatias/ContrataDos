@@ -1,5 +1,5 @@
 <template>
-  <v-row align="center" justify="center" class="mb-12">
+  <v-row align="center" justify="center" class="my-12">
     <div class="text-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +19,7 @@
         <pre v-if="showErrorObject">{{ error }}</pre>
       </template>
       <p class="description mt-4">
-        <a v-if="error.statusCode === 404" @click="$router.back()">Volver</a>
+        <a v-if="error.statusCode === 404" @click="$router.back()">Volver </a>
         <n-link v-else to="/">Ir al inicio</n-link>
       </p>
     </div>
@@ -28,24 +28,18 @@
 
 <script>
 export default {
-  layout: 'empty',
   props: {
     error: { type: Object, default: null },
   },
-  data: () => ({
-    pageNotFound: '404 Not Found',
-    otherError: 'An error occurred',
-  }),
   computed: {
     showErrorObject() {
       return process.env.NODE_ENV === 'development'
     },
   },
   head() {
-    const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError
     return {
-      title,
+      title:
+        this.error.statusCode === 404 ? '404 Not Found' : 'An error occurred',
     }
   },
 }
