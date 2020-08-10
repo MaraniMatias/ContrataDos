@@ -137,7 +137,7 @@ router.post('/api/auth/signup/verification', async function (req, res) {
     const isValid = checkErrors([check(req.body, 'token').isString()])
     if (!isValid) return
 
-    const { _id, email } = jwt.verify(req.body.token, forgetPasswordSecret)
+    const { _id, email } = jwt.verify(req.body.token, verificarEamilSecret)
     const user = await User.findOne({ _id, email, email_verified: false })
     if (user) {
       user.email_verified = true
