@@ -456,8 +456,12 @@ export default {
     const self = this
     this.cancel()
     await self.getChat()
-    setInterval(function () {
-      self.getChat()
+    const interval = setInterval(function () {
+      try {
+        self.getChat()
+      } catch (err) {
+        clearInterval(interval)
+      }
     }, 10000)
   },
   mounted() {
@@ -478,15 +482,13 @@ export default {
         this.$refs.chat.scrollTo(0, 300)
       })
     },
-    getChat() {
-      const self = this
-      Comunicacion.getAll({
+    async getChat() {
+      const { data } = await Comunicacion.getAll({
         query: { trabajo: self.trabajo._id },
         sort: 'createdAt',
-      }).then(({ data }) => {
-        self.comunicaciones = data || []
-        self.page = self.numberOfPages
       })
+      this.comunicaciones = data || []
+      this.page = self.numberOfPages
     },
     async loadImg() {
       try {
