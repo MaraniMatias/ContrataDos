@@ -8,7 +8,7 @@ yarn-debug.log*
 yarn-error.log*
 tags
 /client/static/images/*
-# /release
+/release
 ContrataDos*.zip
 
 # Runtime data
