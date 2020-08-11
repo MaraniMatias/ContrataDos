@@ -40,8 +40,8 @@
         </template>
         <template v-else>
           <v-btn text href="/docs">Ayuda</v-btn>
-          <v-btn icon class="ml-4" @click="goToPerfil">
-            <v-icon size="32" style="cursor: pointer;">account_circle</v-icon>
+          <v-btn depressed class="ml-4" color="primary" @click="goToPerfil">
+            Iniciar secesión
           </v-btn>
         </template>
       </v-layout>
