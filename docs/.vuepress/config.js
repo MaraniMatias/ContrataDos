@@ -6,6 +6,16 @@ module.exports = {
   description: 'Ayuda para ContrataDos',
   extraWatchFiles: ['/docs/**/*'],
   // plugins: [['autonav', { enable: true }]],
+  plugins: [
+    [
+      '@snowdog/vuepress-plugin-pdf-export',
+      {
+        puppeteerLaunchOptions: {
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        },
+      },
+    ],
+  ],
   themeConfig: {
     sidebar: 'auto',
     logo: '/logo.png',

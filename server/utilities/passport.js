@@ -5,6 +5,7 @@ const ExtractJwt = passportJWT.ExtractJwt
 const JwtStrategy = passportJWT.Strategy
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const FacebookStrategy = require('passport-facebook').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const { Persona } = require('./../models/persona')
 
@@ -88,6 +89,40 @@ passport.use(
           }
           return next(null, user)
         })
+    }
+  )
+)
+
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: process.env.SERVER_URL + '/api/auth/facebook/callback',
+      profileFields: ['id', 'emails', 'photos', 'first_name', 'last_name'],
+    },
+    function (accessToken, refreshToken, profile, done) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log({ accessToken, profile: profile._json })
+      }
+      const email = profile._json.email
+      const user = {
+        nombre: profile.name.givenName,
+        apellido: profile.name.familyName,
+        email,
+        picture: profile.photos[0].value,
+        provider: profile.provider,
+        external_account: {
+          id: profile.id,
+          _json: profile._json,
+          accessToken,
+          refreshToken,
+        },
+      }
+      Persona.findOrCreate({ email }, user, (err, userDb) => {
+        if (err || !userDb) return done(err, null)
+        else return done(err, userDb)
+      })
     }
   )
 )

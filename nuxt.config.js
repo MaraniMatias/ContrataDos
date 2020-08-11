@@ -1,3 +1,4 @@
+require('dotenv-flow').config({ purge_dotenv: true, silent: true })
 const SERVER_URL_PROD = 'http://localhost:8080'
 
 module.exports = {
@@ -94,9 +95,18 @@ module.exports = {
    ** Build configuration
    */
   build: {
+    // analyze: process.env.NODE_ENV === 'production',
+    filenames: {
+      app: ({ isDev }) => (isDev ? '[name].js' : '[contenthash].js'),
+      chunk: ({ isDev }) => (isDev ? '[name].js' : '[id].[contenthash].js'),
+    },
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {},
+    extend(config, ctx) {
+      if (ctx && ctx.isClient) {
+        config.optimization.splitChunks.maxSize = 1324000
+      }
+    },
   },
 }

@@ -173,23 +173,14 @@ export default {
       'forgetPassword',
       'signupVerification',
     ]),
-    authFacebook() {},
+    // TODO
     authLinkedin() {},
+    authFacebook() {
+      this.loading = true
+      window.location.replace(process.env.SERVER_URL + '/api/auth/facebook')
+    },
     authGoogle() {
       this.loading = true
-      /*
-      const win = window.open(
-        process.env.SERVER_URL + '/api/auth/google',
-        'Google',
-        'width=500,height=600,scrollbars=no'
-      )
-      const interVal = setInterval(function () {
-        if (win.closed) {
-          console.log('close')
-          clearInterval(interVal)
-        }
-      }, 500)
-      */
       window.location.replace(process.env.SERVER_URL + '/api/auth/google')
     },
     async authLocal(formValid) {

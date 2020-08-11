@@ -8,7 +8,11 @@ const app = express()
 const favicon = require('serve-favicon')
 const helmet = require('helmet')
 const restify = require('express-restify-mongoose')
-const statusMonitor = require('express-status-monitor')
+const auth = require('http-auth')
+const statusMonitor = require('express-status-monitor')({
+  path: '',
+  title: 'Api Status',
+})
 const Routers = require('./router')
 const passport = require('./utilities/passport')
 const { sendRes } = require('./utilities/router')
@@ -45,8 +49,13 @@ app.use(favicon(getPathPublicWith('favicon.ico')))
 app.use(express.static(path.join.apply(null, [__dirname, ...STATIC_PATH])))
 
 // System monitor
-// TODO add basic AUTH
-app.use(statusMonitor({ title: 'ContrataDos Status', path: '/api/status' }))
+const basic = auth.basic({ realm: 'API Monitor' }, function (user, pass, next) {
+  next(
+    user === process.env.API_STATUS_USER && pass === process.env.API_STATUS_PASS
+  )
+})
+app.use(statusMonitor.middleware)
+app.get('/api/status', basic.check(statusMonitor.pageRoute))
 
 restify.defaults({
   prefix: '/api',

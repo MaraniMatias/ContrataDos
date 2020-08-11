@@ -44,15 +44,32 @@ router.get(
 router.get(
   '/api/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: process.env.FRONT_URL + '/login?error=google_token',
-    // sauccessRedirect: '/me',
+    failureRedirect: `${process.env.FRONT_URL}/callback.html?error=google_token`,
   }),
   function (req, res) {
     const token = passport.setTokeTo(res, { value: req.user._id })
     res.redirect(process.env.FRONT_URL + '/login?token=' + token)
-    // res.redirect('back')
-    // res, status, data, message, error
-    // return sendRes(res, 200, req.user.toJSON(), 'Success', null)
+  }
+)
+
+// GET /api/auth/facebook
+router.get(
+  '/api/auth/facebook',
+  passport.authenticate('facebook', {
+    scope: ['email'],
+    session: false,
+  })
+)
+
+// GET /api/auth/facebook/callback
+router.get(
+  '/api/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    failureRedirect: `${process.env.FRONT_URL}/callback.html?error=google_token`,
+  }),
+  function (req, res) {
+    const token = passport.setTokeTo(res, { value: req.user._id })
+    res.redirect(process.env.FRONT_URL + '/login?token=' + token)
   }
 )
 
@@ -115,7 +132,7 @@ router.post('/api/auth/signup/verification', async function (req, res) {
     const isValid = checkErrors([check(req.body, 'token').isString()])
     if (!isValid) return
 
-    const { _id, email } = jwt.verify(req.body.token, forgetPasswordSecret)
+    const { _id, email } = jwt.verify(req.body.token, verificarEamilSecret)
     const user = await User.findOne({ _id, email, email_verified: false })
     if (user) {
       user.email_verified = true
