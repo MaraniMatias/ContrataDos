@@ -30,9 +30,11 @@ export const actions = {
         commit('SET_USER', data)
       }
       return { data }
-    } catch ({ status }) {
+    } catch (resp) {
       return {
-        error: status === 401 && 'Contraseña o email erroneas',
+        error:
+          resp.status === 401 &&
+          (resp.error || 'Contraseña o email no valido.'),
       }
     }
   },

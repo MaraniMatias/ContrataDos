@@ -57,8 +57,8 @@ passport.use(
           .populate('servicios')
           .populate('localidad')
         if (user && user.provider !== 'local') {
-          return next(null, user)
-        } else
+          return next(null,user)
+        }
         if (user && (await user.authenticate(password))) {
           user.password = null
           return next(null, user)

@@ -81,7 +81,7 @@ router.post(
     if (req.user.provider !== 'local') {
       return sendRes(
         res,
-        404,
+        401,
         null,
         'error',
         `Inicie sescion con ${req.user.provider}`
@@ -121,13 +121,11 @@ router.post('/api/auth/signup', async function (req, res) {
       nombre: req.body.nombre,
       password: req.body.password,
       role: req.body.role,
-      // picture: '/avatars/matthew.png',
     })
     const userDB = await user.save()
     sendVerifyEmail(userDB._id, userDB.email)
     return sendRes(res, 200, null, 'User created, check your email', null)
   } catch (err) {
-    console.log(err)
     if (err.code === 11000) {
       return sendRes(res, 400, null, 'Error', 'Email ya registrado.')
     } else {
