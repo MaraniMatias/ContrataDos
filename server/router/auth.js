@@ -44,15 +44,11 @@ router.get(
 router.get(
   '/api/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: process.env.FRONT_URL + '/login?error=google_token',
-    // sauccessRedirect: '/me',
+    failureRedirect: `${process.env.FRONT_URL}/callback.html?error=google_token`,
   }),
   function (req, res) {
     const token = passport.setTokeTo(res, { value: req.user._id })
     res.redirect(process.env.FRONT_URL + '/login?token=' + token)
-    // res.redirect('back')
-    // res, status, data, message, error
-    // return sendRes(res, 200, req.user.toJSON(), 'Success', null)
   }
 )
 
@@ -69,12 +65,11 @@ router.get(
 router.get(
   '/api/auth/facebook/callback',
   passport.authenticate('facebook', {
-    failureRedirect:
-      process.env.FRONT_URL + '/callback.html?error=google_token',
+    failureRedirect: `${process.env.FRONT_URL}/callback.html?error=google_token`,
   }),
   function (req, res) {
     const token = passport.setTokeTo(res, { value: req.user._id })
-    res.redirect(process.env.FRONT_URL + '/callback.html?token=' + token)
+    res.redirect(process.env.FRONT_URL + '/login?token=' + token)
   }
 )
 
