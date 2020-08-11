@@ -8,7 +8,7 @@
 - Descomprimir
 - Editar .env
 
-**Comandos**
+**Comandos**.
 
 ```bash
 # install dependencies
@@ -16,11 +16,13 @@ $ npm install --production
 $ npm start
 ```
 
+Ir a [http://localhost:8080/](http://localhost:8080)
+
 ## Desarrollo
 
-**Estructura de carpetas**
+**Estructura de carpetas**.
 
-**Comandos**
+**Comandos**.
 
 ```bash
 # install dependencies
@@ -36,17 +38,17 @@ $ npm run server
 $ npm run docs
 ```
 
-**Frontend**
+**Frontend**.
 
-**Backend**
+**Backend**.
 
-**Docs**
+**Docs**.
 
 Esta escrita en sentencias [Markdown](https://guides.github.com/features/mastering-markdown/)
 
 ## Release
 
-**Comandos**
+**Comandos**.
 
 ```bash
 # Run build script

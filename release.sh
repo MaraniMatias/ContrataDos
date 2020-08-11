@@ -43,7 +43,7 @@ main() {
   rm -drf release
   mkdir -p release
   # Copy base docs
-  cp .env ./release/.env.production
+  cp .env ./release/.env
   cp package.json ./release
   cp README.md ./release
   # Copy server
