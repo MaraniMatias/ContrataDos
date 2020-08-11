@@ -1,7 +1,7 @@
 <template>
-  <v-layout column mb-2 px-2>
+  <v-layout column mb-2>
     <v-layout>
-      <v-flex xs12 lg6 xl4>
+      <v-flex xs12 lg5 xl4>
         <v-layout justify-start align-center>
           <v-chip-group v-model="filters" multiple @change="loadData">
             <v-chip
@@ -26,7 +26,7 @@
           {{ score.dontLike }}
         </v-layout>
       </v-flex>
-      <v-flex xs12 lg3 xl4>
+      <v-flex xs12 lg4 xl4>
         <v-layout justify-end align-center>
           <v-chip-group
             v-if="isAProfessional"
