@@ -10,7 +10,8 @@ module.exports.jobCreate = (agenda, data) => {
   Agenda = agenda
 
   const isProd = process.env.NODE_ENV === 'production'
-  const times = isProd ? '1 days' : '20 minutes'
+  // TODO const times = isProd ? '1 days' : '20 minutes'
+  const times = isProd ? '10 minutes' : '20 minutes'
 
   agenda
     .create(this.name, data)
@@ -78,6 +79,16 @@ function getUtilDate(job) {
   }
 }
 
+function getDayOfYear(now) {
+  const start = new Date(now.getFullYear(), 0, 0)
+  const diff =
+    now -
+    start +
+    (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000
+  const oneDay = 1000 * 60 * 60 * 24
+  return Math.floor(diff / oneDay)
+}
+
 function groupByAndFilter(trabajosList) {
   const jobByProfession = {
     /* [_id]: {
@@ -92,12 +103,12 @@ function groupByAndFilter(trabajosList) {
     writable: true,
   })
 
-  const lt = new Date().setHours(0, 0, 0, 0)
+  const lt = getDayOfYear(new Date().setHours(0, 0, 0, 0))
   trabajosList.forEach((trabajo) => {
     const key = trabajo.profesional._id
     const gte = getAgenda(trabajo).fecha_inicio.getTime()
-    if (gte >= lt) {
-      jobByProfession.length++
+    if (getDayOfYear(gte) == lt) {
+      jobByProfession.length = jobByProfession.length + 1
       if (typeof jobByProfession[key] === 'undefined') {
         jobByProfession[key] = {
           profesional: trabajo.profesional,
