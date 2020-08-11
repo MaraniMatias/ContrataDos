@@ -45,6 +45,7 @@ const schema = new Schema(
     ],
     servicios: [{ type: ObjectId, ref: 'habilidad' }],
     localidad: { type: ObjectId, ref: 'localidad' }, // Del trabajador
+    provider: { type: String, trim: true, default: 'local' },
     google_account: { type: Object, access: 'protected' }, // Datos de google,
     picture: String,
     password: { type: String, access: 'protected' },

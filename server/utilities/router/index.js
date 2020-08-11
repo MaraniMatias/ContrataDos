@@ -62,9 +62,10 @@ const block = function (_, res) {
 
 module.exports = {
   ...checkProps,
+  deleteProp,
   queryPage,
   sendRes,
-  deleteProp,
   block,
   auth,
+  get,
 }

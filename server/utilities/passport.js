@@ -28,6 +28,7 @@ passport.use(
         googleId: profile.id,
         email,
         picture: profile._json.picture,
+        provider: profile.provider,
         google_account: {
           id: profile.id,
           _json: profile._json,
@@ -55,12 +56,14 @@ passport.use(
         const user = await Persona.findOne({ email, deleted: false })
           .populate('servicios')
           .populate('localidad')
+        if (user && user.provider !== 'local') {
+          return next(null, user)
+        } else
         if (user && (await user.authenticate(password))) {
           user.password = null
           return next(null, user)
-        } else {
-          return next(null, false)
         }
+        return next('Usuario o contraseña icorecta', false)
       } catch (err) {
         return next(err, false)
       }
