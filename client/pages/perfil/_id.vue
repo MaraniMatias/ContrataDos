@@ -257,7 +257,11 @@ export default {
       return camelCase(this.perfil.localidad?.nombre)
     },
     isAProfessional() {
-      return this.form.roles?.includes(Roles.PROFECIONAL)
+      if (this.showBtnEditable) {
+        return this.form.roles?.includes(Roles.PROFECIONAL)
+      } else {
+        return this.perfil.roles?.includes(Roles.PROFECIONAL)
+      }
     },
     showRating() {
       return this.score.total > 10

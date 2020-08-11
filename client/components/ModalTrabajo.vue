@@ -44,7 +44,7 @@
               :color="color"
               @click.stop="$emit('close')"
             >
-              Cerrar
+              Aceptar
             </v-btn>
             <!--
             <v-tooltip bottom>
