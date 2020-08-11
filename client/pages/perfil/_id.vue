@@ -14,7 +14,10 @@
             />
             <template v-if="isAProfessional">
               <Rating v-if="showRating" :value="score.rating" star />
-              <p v-else class="mb-0">Todavía no tiene suficientes trabajos</p>
+              <p v-else class="mb-0 text-center">
+                Todavía no tiene suficientes trabajos realizados para
+                clasificación.
+              </p>
             </template>
           </v-layout>
         </v-flex>
@@ -258,9 +261,9 @@ export default {
     },
     isAProfessional() {
       if (this.showBtnEditable) {
-        return this.form.roles?.includes(Roles.PROFECIONAL)
+        return this.form.roles?.includes(Roles.PROFESIONAL)
       } else {
-        return this.perfil.roles?.includes(Roles.PROFECIONAL)
+        return this.perfil.roles?.includes(Roles.PROFESIONAL)
       }
     },
     showRating() {
@@ -291,14 +294,14 @@ export default {
 
     setLikeProfesional() {
       const set = new Set(this.perfil.roles)
-      set.add(Roles.PROFECIONAL)
+      set.add(Roles.PROFESIONAL)
       set.delete(Roles.CLIENTE)
       this.form.roles = Array.from(set)
     },
     setLikeCliente() {
       const set = new Set(this.perfil.roles)
       set.add(Roles.CLIENTE)
-      set.delete(Roles.PROFECIONAL)
+      set.delete(Roles.PROFESIONAL)
       this.form.roles = Array.from(set)
     },
     async getScore() {

@@ -4,9 +4,9 @@
       <v-flex>
         <p class="headline mb-0">Trabajos</p>
       </v-flex>
-      <v-btn v-if="showAddBtn" icon text @click.stop="showModal = true">
+      <!--<v-btn v-if="showAddBtn" icon text @click.stop="showModal = true">
         <v-icon>add</v-icon>
-      </v-btn>
+      </v-btn>-->
     </v-layout>
 
     <v-layout v-show="loadingTrabajos" my-4>
@@ -21,7 +21,7 @@
     </v-layout>
 
     <v-layout v-if="!loadingTrabajos" column>
-      <v-flex v-if="listTrabajos.length === 0" xs12>
+      <v-flex xs12>
         <CardTrabajoAdd @click.stop="showModal = true" />
       </v-flex>
       <v-flex v-for="(trabajo, $i) in listTrabajos" :key="$i" xs12>

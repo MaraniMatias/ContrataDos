@@ -23,7 +23,7 @@
             :items="habilidades"
             item-text="nombre"
             item-value="_id"
-            label="Profesiones"
+            label="Habilidad"
             :loading="habilidades.length === 0"
             multiple
             outlined

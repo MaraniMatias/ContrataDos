@@ -437,7 +437,7 @@ export default {
     displayFecha() {
       const hours = this.agenda.fecha_inicio || this.trabajo.createdAt
       if (this.isPablic || this.isEstado.TERMINADO) {
-        const text = this.trabajo.estado ? 'Realiazdo ' : 'Publicado '
+        const text = this.trabajo.estado ? 'Realizado ' : 'Publicado '
         return text + dateFormat(hours, 'dd/MM/yyyy')
       } else {
         return camelCase(dateFormat(hours, "EEEE HH:mm 'hs'"))

@@ -70,11 +70,11 @@
               Google
             </v-btn>
           </v-col>
-          <v-col>
+          <!--<v-col>
             <v-btn dark color="#0077b5" depressed x-large @click="authLinkedin">
               Linkedin
             </v-btn>
-          </v-col>
+          </v-col>-->
         </v-row>
       </v-flex>
     </v-layout>

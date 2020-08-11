@@ -91,7 +91,7 @@ export default {
     async loadItems() {
       const userLoginId = this.user._id
       const query = {
-        roles: { $in: Roles.PROFECIONAL },
+        roles: { $in: Roles.PROFESIONAL },
         _id: userLoginId ? { $nin: userLoginId } : undefined,
       }
       const servicios = this.$route?.query?.profesion

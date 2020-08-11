@@ -41,7 +41,7 @@
             </v-chip>
             <v-chip outlined>
               <v-icon left>build</v-icon>
-              Profecional
+              Profesional
             </v-chip>
           </v-chip-group>
           <!--
