@@ -195,7 +195,7 @@ import { Roles, RatingTrabajo, EstadoTrabajo } from '~~/server/utilities/enums'
 import { Persona, Localidad, Habilidad, Trabajo } from '~/api'
 
 export default {
-  // middleware: 'authenticated', es publico
+  middleware: 'if_token_get_user',
   components: {
     Avatar,
     Rating,
@@ -286,7 +286,6 @@ export default {
     },
 
     changeUser(user) {
-      console.log(user)
       this.updateUser(user)
       this.loadForm(user)
       this.perfil = { ...user }
