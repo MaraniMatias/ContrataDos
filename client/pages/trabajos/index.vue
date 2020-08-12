@@ -19,7 +19,8 @@
       </v-flex>
       <v-flex xs12 lg3 xl4 mt-3>
         <v-layout v-show="!loadingTrabajos" align-center justify-center>
-          <span>Trabajos terminados: {{ score.total }} </span>
+          <span>Trabajos: {{ score.total }}</span>
+          <span class="ml-6">Valorados: </span>
           <v-icon small class="mx-2">mdi-thumb-up</v-icon>
           {{ score.like }}
           <v-icon small class="mx-2">mdi-thumb-down</v-icon>
@@ -161,9 +162,20 @@ export default {
       return this.user?.['show_tutorial'] ?? false
     },
   },
-  mounted() {
-    this.getScore()
-    this.loadData()
+  async mounted() {
+    const self = this
+    this.loadingTrabajos = true
+    self.getScore()
+    await self.loadData()
+    this.loadingTrabajos = false
+    const interval = setInterval(function () {
+      try {
+        self.getScore()
+        self.loadData()
+      } catch (err) {
+        clearInterval(interval)
+      }
+    }, 50000)
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
@@ -196,7 +208,6 @@ export default {
       if (data) this.updateUser(data)
     },
     async loadData() {
-      this.loadingTrabajos = true
       const filtersLike = {
         profesional: this.viewLike.includes(1),
         cliente: this.viewLike.includes(0),
@@ -223,7 +234,6 @@ export default {
       const params = { query, populate, sort: '-createdAt' }
       const { data } = await Trabajo.get(params)
       this.listTrabajos = data || []
-      this.loadingTrabajos = false
     },
   },
 }
