@@ -457,6 +457,7 @@ export default {
     const self = this
     this.cancel()
     await self.getChat()
+    this.newComments = false
     const interval = setInterval(function () {
       try {
         self.getChat()
