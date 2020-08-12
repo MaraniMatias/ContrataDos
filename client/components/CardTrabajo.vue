@@ -652,6 +652,6 @@ export default {
 div.chat-box {
   box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.3);
   overflow-y: scroll;
-  height: 250px;
+  height: 260px;
 }
 </style>
