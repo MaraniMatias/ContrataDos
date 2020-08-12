@@ -484,7 +484,7 @@ export default {
     },
     async getChat() {
       const { data } = await Comunicacion.getAll({
-        query: { trabajo: self.trabajo._id },
+        query: { trabajo: this.trabajo._id },
         sort: 'createdAt',
       })
       this.comunicaciones = data || []
