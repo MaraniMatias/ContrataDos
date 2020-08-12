@@ -125,6 +125,7 @@
               item-value="_id"
               label="Localidad"
               :loading="localidades.length === 0"
+              return-object
               outlined
               :readonly="loading"
               :rules="[rules.required()]"
@@ -165,18 +166,6 @@
           </v-layout>
           <v-flex xs12 ma-2 mt-2>
             <FieldTextArea v-model.lazy="form.bibliography" />
-            <!--
-            <v-textarea
-              v-model.lazy="form.bibliography"
-              auto-grow
-              counter="500"
-              dense
-              label="Bibliografía"
-              outlined
-              :readonly="loading"
-              :rules="[rules.max(500)]"
-            />
-            -->
           </v-flex>
         </template>
         <template v-slot:actions>
@@ -216,6 +205,11 @@ export default {
   },
   validate({ params }) {
     return ObjectId()(params.id) === true
+  },
+  filters: {
+    camelCase(value) {
+      return camelCase(value)
+    },
   },
   async asyncData({ params, store, redirect }) {
     if (typeof params.id === 'undefined') {
@@ -272,8 +266,7 @@ export default {
   },
   async mounted() {
     if (this.showBtnEditable) {
-      this.form = { ...this.perfil }
-      this.form.roles = Array.from(this.perfil.roles)
+      this.loadForm(this.perfil)
     }
     this.getScore()
 
@@ -286,8 +279,15 @@ export default {
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
+    loadForm(user) {
+      this.form = { ...user }
+      this.form.roles = Array.from(user.roles)
+    },
+
     changeUser(user) {
+      console.log(user)
       this.updateUser(user)
+      this.loadForm(user)
       this.perfil = { ...user }
       this.localidad = user.localidad
     },
@@ -340,11 +340,11 @@ export default {
     async submit(formValid) {
       if (!formValid) return
       this.loading = true
-      const { data, error } = await Persona.save(this.form)
+      const { error } = await Persona.save(this.form)
       if (error) {
         this.$notify({ type: 'error', text: error })
       } else {
-        this.changeUser(data)
+        this.changeUser(this.form)
         this.showModalEdit = false
       }
       this.loading = false
