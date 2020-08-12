@@ -51,7 +51,7 @@ const schema = new Schema(
     password: { type: String, access: 'protected' },
     show_tutorial: { type: Boolean, default: true },
     razon_social: { type: String, trim: true }, // O Nombre fisticio
-    zona_trabajo: [{ type: ObjectId, ref: 'localidad' }], // libre todo el mundo
+    // zona_trabajo: [{ type: ObjectId, ref: 'localidad' }], // libre todo el mundo
     // tags: [{ type: String, access: 'protected' }],
     notification: { type: Boolean, default: true },
     deleted: { type: Boolean, default: false },
