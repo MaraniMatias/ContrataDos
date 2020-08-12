@@ -29,6 +29,19 @@ const getById = (BASE_URL) => async (_id, params = {}) => {
   }
 }
 
+const count = (BASE_URL) => async (params = {}) => {
+  try {
+    if (params.query) {
+      params.query.deleted = false
+    } else {
+      params.query = { deleted: false }
+    }
+    return await http.get(BASE_URL + '/count', { params })
+  } catch (err) {
+    return { error: err?.message || 'ApiError' }
+  }
+}
+
 const save = (BASE_URL) => async (object = {}) => {
   try {
     if (object._id) return await http.patch(BASE_URL + `/${object._id}`, object)
@@ -54,5 +67,6 @@ export default (url) => {
     getAll: getAll(BASE_URL),
     get: get(BASE_URL),
     getById: getById(BASE_URL),
+    count: count(BASE_URL),
   }
 }

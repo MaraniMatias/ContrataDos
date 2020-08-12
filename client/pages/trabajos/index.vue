@@ -161,14 +161,6 @@ export default {
       return this.user?.['show_tutorial'] ?? false
     },
   },
-  // created() {
-  //   this.$store.subscribe((mutation) => {
-  //     if (this.ready && mutation.type === 'SET_USER') {
-  //       this.loadData()
-  //       this.ready = false
-  //     }
-  //   })
-  // },
   mounted() {
     this.getScore()
     this.loadData()

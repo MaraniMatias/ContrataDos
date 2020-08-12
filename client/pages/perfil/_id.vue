@@ -23,9 +23,7 @@
           </v-layout>
         </v-flex>
         <v-flex xs12 lg8>
-          <div class="overline mt-2">
-            Trabajos: {{ perfil.cantidad_trabajos || 0 }}
-          </div>
+          <div class="overline mt-2">{{ cantidadTrabajosLabel }}</div>
           <v-layout align-center mb-1>
             <v-flex>
               <p class="headline mb-0" v-text="headline" />
@@ -68,7 +66,7 @@
           <p class="my-2">Vive en: {{ localidadNombre }}</p>
           <div v-html="perfil.bibliography" />
           <v-layout
-            v-show="!showBtnEditable && !isAProfessional"
+            v-show="!showBtnEditable && isAProfessional"
             align-center
             justify-end
           >
@@ -234,8 +232,9 @@ export default {
     habilidades: [],
     localidades: [],
     score: {},
-    form: {}, // TODO: zona_trabajo: [], localidad: {}   razon_social: {}
+    form: {}, // localidad: {}   razon_social: {}
     changeAvatar: false,
+    cantidadTrabajos: 0, // TODO
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -264,6 +263,10 @@ export default {
     showRating() {
       return this.score.total > 10
     },
+    cantidadTrabajosLabel() {
+      const text = this.isAProfessional ? 'realizados' : 'contratados'
+      return `Trabajos ${text}: ` + this.cantidadTrabajos
+    },
   },
   async mounted() {
     if (this.showBtnEditable) {
@@ -277,6 +280,15 @@ export default {
     // TODO search query
     const { data: h } = await Habilidad.getAll()
     this.habilidades = h || []
+
+    const query = { estado: EstadoTrabajo.TERMINADO }
+    if (this.isAProfessional) {
+      query.profesional = this.perfil._id
+    } else {
+      query.cliente = this.perfil._id
+    }
+    const { data } = await Trabajo.count({ query })
+    this.cantidadTrabajos = data.count || 0
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),

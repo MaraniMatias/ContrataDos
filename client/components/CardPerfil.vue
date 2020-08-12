@@ -8,17 +8,14 @@
           </v-flex>
           <v-flex xs12>
             <v-layout column pl-4 fill-height>
+              <div class="overline mt-2">
+                Trabajos realizados: {{ cantidadTrabajos }}
+              </div>
               <v-layout align-center mb-1>
                 <v-flex xs12 d-inline-flex>
                   <p class="headline mb-0" v-text="headline" />
                 </v-flex>
                 <Rating :value="perfil.puntuacion" star />
-                <!--
-                <v-layout column align-end>
-                  <Rating :value="perfil.puntuacion" star />
-                  {{ perfil.cantidad_trabajos }} veces contratoados
-                </v-layout>
-                -->
               </v-layout>
               <v-layout align-center mb-2>
                 <v-chip
@@ -28,9 +25,6 @@
                   class="mx-2"
                   v-text="h.nombre"
                 />
-              </v-layout>
-              <v-layout column fill-height align-start mb-1>
-                {{ perfil.cantidad_trabajos }} veces contratoados
               </v-layout>
               <v-layout column fill-height align-start>
                 <p class="mb-2" v-html="perfil.bibliography" />
@@ -52,15 +46,20 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { Trabajo } from '~/api'
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
 import camelCase from '~~/server/utilities/capitalizeWords'
+import { EstadoTrabajo } from '~~/server/utilities/enums'
 
 export default {
   components: { Avatar, Rating },
   props: {
     perfil: { type: Object, required: true },
   },
+  data: () => ({
+    cantidadTrabajos: 0,
+  }),
   computed: {
     ...mapGetters(['isLoggedIn']),
     headline() {
@@ -77,6 +76,14 @@ export default {
     perfilLink() {
       return '/perfil/' + this.perfil._id
     },
+  },
+  async mounted() {
+    const query = {
+      estado: EstadoTrabajo.TERMINADO,
+      profesional: this.perfil._id,
+    }
+    const { data } = await Trabajo.count({ query })
+    this.cantidadTrabajos = data.count || 0
   },
   methods: {
     contactar() {
