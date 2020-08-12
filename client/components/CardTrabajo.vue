@@ -106,10 +106,11 @@
               v-if="isPablic"
               class="grey lighten-3 d-inline-flex xs12 md4"
             >
-              <div v-if="avatarError" style="height: 225px;">
-                <v-icon size="128" style="margin: auto;">
-                  wallpaper
-                </v-icon>
+              <div
+                v-if="avatarError"
+                style="height: 225px; display: flex; flex: auto;"
+              >
+                <v-icon size="128" style="margin: auto;">wallpaper</v-icon>
               </div>
               <v-img
                 v-else
