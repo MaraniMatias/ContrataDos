@@ -14,7 +14,6 @@ const options = (function () {
     },
     email_no_replay:
       process.env.EMAIL_NOMBRE + ' <' + process.env.EMAIL_AUTH_USER + '>',
-    logo: process.env.EMAIL_LOGO,
   }
 
   if (/gmail/.test(process.env.EMAIL_HOST)) {
