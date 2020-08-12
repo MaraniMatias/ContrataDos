@@ -19,6 +19,7 @@
                 clasificación.
               </p>
             </template>
+            <span v-else>{{ perfil.email }}</span>
           </v-layout>
         </v-flex>
         <v-flex xs12 lg8>
