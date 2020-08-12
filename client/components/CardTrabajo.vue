@@ -106,9 +106,11 @@
               v-if="isPablic"
               class="grey lighten-3 d-inline-flex xs12 md4"
             >
-              <v-icon v-if="avatarError" size="128" style="margin: auto;">
-                wallpaper
-              </v-icon>
+              <div v-if="avatarError" style="height: 225px;">
+                <v-icon size="128" style="margin: auto;">
+                  wallpaper
+                </v-icon>
+              </div>
               <v-img
                 v-else
                 :src="base64img"
@@ -278,6 +280,7 @@
                   outlined
                   :readonly="loading"
                   append-icon="send"
+                  autocomplete="off"
                   @click:append="sendComent"
                   @keypress.enter="sendComent"
                 />
@@ -530,6 +533,9 @@ export default {
       this.loading = false
     },
     async sendComent() {
+      if (this.form.detalle === '') {
+        return
+      }
       const chat = { trabajo: this.trabajo._id }
       chat.detalle = this.form.detalle
       if (this.showAsCliente) {
