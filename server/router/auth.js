@@ -155,16 +155,19 @@ router.post('/api/auth/signup/verification', async function (req, res) {
 })
 
 // POST /api/auth/sendemail {email}
-router.post('/api/auth/sendemail', function (req, res) {
+router.post('/api/auth/sendemail', async function (req, res) {
   const isValid = checkErrors([check(req.body, 'email').isEmail()])
   if (!isValid) return
-  return sendVerifyEmail(req.body.email)
-    .then(() => {
-      return sendRes(res, 200, null, 'Success', null)
-    })
-    .catch((err) => {
-      return sendRes(res, 500, null, 'Error saving new user', err)
-    })
+  const userDB = await User.findOne({
+    email: req.body.email,
+    deleted: false,
+    email_verified: false,
+  })
+  if (userDB) {
+    sendVerifyEmail(userDB._id, userDB.email)
+    return sendRes(res, 200, null, 'User created, check your email', null)
+  }
+  return sendRes(res, 404, null, 'page not found')
 })
 
 // POST /api/auth/login {mail password}
