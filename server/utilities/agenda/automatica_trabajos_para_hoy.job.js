@@ -10,8 +10,7 @@ module.exports.jobCreate = (agenda, data) => {
   Agenda = agenda
 
   const isProd = process.env.NODE_ENV === 'production'
-  // TODO const times = isProd ? '1 days' : '20 minutes'
-  const times = isProd ? '10 minutes' : '20 minutes'
+  const times = isProd ? '1 days' : '20 minutes'
 
   agenda
     .create(this.name, data)
