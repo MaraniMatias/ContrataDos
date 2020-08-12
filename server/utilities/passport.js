@@ -63,9 +63,9 @@ passport.use(
           user.password = null
           return next(null, user)
         }
-        return next('Usuario o contraseña icorecta', false)
+        return next(null, null)
       } catch (err) {
-        return next(err, false)
+        return next(err, null)
       }
     }
   )

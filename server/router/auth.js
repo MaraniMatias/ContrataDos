@@ -78,6 +78,17 @@ router.post(
   '/api/auth/login',
   passport.authenticate('local', { session: false }),
   (req, res) => {
+    if( req.user === null) {
+      return sendRes(
+        res,
+        401,
+        null,
+        'error',
+'Usuario o contraseña icorecta'
+      )
+
+    }  else {
+
     if (req.user.provider !== 'local') {
       return sendRes(
         res,
@@ -86,12 +97,14 @@ router.post(
         'error',
         `Inicie sescion con ${req.user.provider}`
       )
-    } else if (req.user.email_verified) {
+    } else
+    if (req.user.email_verified) {
       passport.setTokeTo(res, { value: req.user._id })
       // res, status, data, message, error
       return sendRes(res, 200, req.user, 'Success', null)
     } else {
       return sendRes(res, 200, req.user, 'Success', 'Email is not verified')
+    }
     }
   }
 )
