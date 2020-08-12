@@ -219,9 +219,12 @@
               >
                 Notas
               </v-btn>
-              <v-btn color="black" outlined @click="openChat">
-                {{ showChat ? 'Ocultar chat' : 'Ver chat' }}
-              </v-btn>
+
+              <v-badge color="error" overlap :value="newComments">
+                <v-btn color="black" outlined @click="openChat">
+                  {{ showChat ? 'Ocultar chat' : 'Ver chat' }}
+                </v-btn>
+              </v-badge>
             </v-layout>
           </v-layout>
         </v-card-actions>
@@ -354,6 +357,7 @@ export default {
     avatarError: true,
     base64img: null,
     showModalPublic: false,
+    newComments: false,
     form: {
       estado: null,
       fechaFin: null,
@@ -473,6 +477,7 @@ export default {
     openChat() {
       this.showChat = !this.showChat
       this.scrollChatToBottom()
+      this.newComments = false
     },
     scrollChatToBottom() {
       this.$nextTick(function () {
@@ -480,12 +485,15 @@ export default {
       })
     },
     async getChat() {
+      const oldLength = this.comunicaciones.length
       const { data } = await Comunicacion.getAll({
         query: { trabajo: this.trabajo._id },
         sort: 'createdAt',
       })
+      this.newComments = oldLength < data.length
       this.comunicaciones = data || []
       this.page = self.numberOfPages
+      // this.scrollChatToBottom() si esta mirando más arriva se va a mover
     },
     async loadImg() {
       try {
