@@ -257,21 +257,32 @@
                 <v-layout v-show="showSetHours" mx-12>
                   <FieldDate
                     v-model="form.fechaInicio"
+                    hide-details
                     :min="new Date().toISOString().substr(0, 10)"
                   />
-                  <FieldTime v-model="form.fechaInicio" />
+                  <FieldTime v-model="form.fechaInicio" hide-details />
+                  <v-btn
+                    class="ml-2"
+                    color="primary"
+                    outlined
+                    @click="sendHours"
+                  >
+                    Proponer fecha
+                  </v-btn>
                 </v-layout>
-                <v-textarea
+                <v-text-field
                   v-show="!showSetHours"
                   v-model.lazy="form.detalle"
-                  auto-grow
-                  counter="60"
                   dense
+                  hide-details
                   outlined
                   :readonly="loading"
+                  append-icon="send"
+                  @click:append="sendComent"
+                  @keypress.enter="sendComent"
                 />
               </v-flex>
-              <v-layout column align-center mx-2 mt-4 ml-4>
+              <v-layout column align-center mx-2 mt-2 ml-2>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
                     <v-btn
@@ -288,24 +299,6 @@
                   <span v-if="showSetHours">Volver al treclado</span>
                   <span v-else>Proponer una fecha para la cita</span>
                 </v-tooltip>
-                <v-btn
-                  v-if="showSetHours && isEstado.CONSULTA"
-                  color="primary"
-                  outlined
-                  class="mt-11"
-                  @click="sendHours"
-                >
-                  Proponer fecha
-                </v-btn>
-                <v-btn
-                  v-else
-                  class="mt-11"
-                  color="primary"
-                  outlined
-                  @click="sendComent"
-                >
-                  Enviar
-                </v-btn>
               </v-layout>
             </v-layout>
           </v-card-text>
