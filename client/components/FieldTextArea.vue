@@ -75,3 +75,13 @@ export default {
   methods: {},
 }
 </script>
+
+<style>
+.tiptap-vuetify-editor
+  div.v-card.v-card--outlined.v-sheet.theme--light
+  div.tiptap-vuetify-editor__content
+  div.ProseMirror {
+  max-height: 200px;
+  height: 100px;
+}
+</style>

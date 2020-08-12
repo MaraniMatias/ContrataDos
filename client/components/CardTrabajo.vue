@@ -7,7 +7,7 @@
       @keyup.esc="cancel"
     >
       <v-card>
-        <v-card-title class="headline">Notas</v-card-title>
+        <v-card-title class="headline">Notas privadas</v-card-title>
         <v-card-text class="pb-0 px-2">
           <FieldTextArea v-model.lazy="form.notas" heading />
         </v-card-text>
