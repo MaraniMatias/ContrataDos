@@ -57,7 +57,7 @@ passport.use(
           .populate('servicios')
           .populate('localidad')
         if (user && user.provider !== 'local') {
-          return next(null,user)
+          return next(null, user)
         }
         if (user && (await user.authenticate(password))) {
           user.password = null
@@ -80,7 +80,7 @@ passport.use(
       ignoreExpiration: process.env.NODE_ENV === 'development',
     },
     function (jwtPayload, next) {
-      console.log('payload received', jwtPayload.value)
+      // console.log('payload received', jwtPayload.value)
       // usually this would be a database call:
       Persona.findById(jwtPayload.value)
         .select('-password') // Selecciona todos los campos menos password
