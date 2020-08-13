@@ -53,14 +53,14 @@ export default {
       this.loading = true
       const { data } = await Persona.getById(this.user._id, {
         populate: JSON.stringify([
-          { path: 'jobs_marks' },
-          // { path: 'jobs_marks', populate: 'localidad' },
-          { path: 'jobs_marks', populate: 'servicios' },
+          { path: 'marks_professional' },
+          // { path: 'marks_professional', populate: 'localidad' },
+          { path: 'marks_professional', populate: 'servicios' },
         ]),
       })
       if (data) {
-        this.items = data.jobs_marks
-        this.totalItems = data.jobs_marks.length
+        this.items = data.marks_professional
+        this.totalItems = data.marks_professional.length
       } else {
         this.items = []
         this.totalItems = 0

@@ -100,7 +100,7 @@ export default {
       return '/perfil/' + this.perfil._id
     },
     isInMarks() {
-      return this.user.jobs_marks.includes(this.perfil._id)
+      return this.user.marks_professional.includes(this.perfil._id)
     },
   },
   async mounted() {
@@ -124,12 +124,14 @@ export default {
     async marker() {
       this.saveMark = true
       const user = { ...this.user }
-      user.jobs_marks = Array.from(this.user.jobs_marks)
-      const index = user.jobs_marks.findIndex((_id) => _id === this.perfil._id)
+      user.marks_professional = Array.from(this.user.marks_professional)
+      const index = user.marks_professional.findIndex(
+        (_id) => _id === this.perfil._id
+      )
       if (index === -1) {
-        user.jobs_marks.push(this.perfil._id)
+        user.marks_professional.push(this.perfil._id)
       } else {
-        user.jobs_marks.splice(index, 1)
+        user.marks_professional.splice(index, 1)
       }
       const { error } = await Persona.save(user)
       if (error) {

@@ -55,7 +55,7 @@ const schema = new Schema(
     // tags: [{ type: String, access: 'protected' }],
     notification: { type: Boolean, default: true },
     deleted: { type: Boolean, default: false },
-    jobs_marks: [{ type: ObjectId, ref: 'persona', default: [] }],
+    marks_professional: [{ type: ObjectId, ref: 'persona', default: [] }],
   },
   { timestamps: true }
 )
