@@ -7,7 +7,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-const { Persona, Roles } = require('./../models/persona')
+const { Persona, PersonaRol } = require('./../models/persona')
 
 // Config passport
 passport.use(
@@ -28,7 +28,7 @@ passport.use(
         googleId: profile.id,
         email,
         picture: profile._json.picture,
-        roles: [Roles.CLIENTE],
+        roles: [PersonaRol.CLIENTE],
         provider: profile.provider,
         google_account: {
           id: profile.id,
@@ -115,7 +115,7 @@ passport.use(
         apellido: profile.name.familyName,
         email,
         picture: profile.photos[0].value,
-        roles: [Roles.CLIENTE],
+        roles: [PersonaRol.CLIENTE],
         provider: profile.provider,
         external_account: {
           id: profile.id,
