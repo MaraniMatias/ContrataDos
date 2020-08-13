@@ -490,7 +490,7 @@ export default {
     },
     scrollChatToBottom() {
       this.$nextTick(function () {
-        this.$refs.chat.scrollTo(0, 300)
+        this.$refs.chat.scrollTo(0, this.$refs.chat.clientWidth)
       })
     },
     async getChat() {
@@ -499,7 +499,9 @@ export default {
         query: { trabajo: this.trabajo._id },
         sort: 'createdAt',
       })
-      this.newComments = oldLength < data.length
+      if (this.newComments === false) {
+        this.newComments = oldLength < data.length
+      }
       this.comunicaciones = data || []
       this.page = self.numberOfPages
       // this.scrollChatToBottom() si esta mirando más arriva se va a mover
