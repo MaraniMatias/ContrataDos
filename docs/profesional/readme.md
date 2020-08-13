@@ -22,9 +22,9 @@ iniciar cesión con estos botones.
 
 ### Cuenta con google o facebook o linkedin
 
-1. Buscar en la parte superior derecha el icono de usuario.
+1. Buscar en la parte superior derecha de la pantalla el botón _"iniciar session"_.
 
-![icono de usuario](./imagen/crear_una_cuenta_1.png)
+![icono de usuario](./imagen/crear_una_cuenta_0.png)
 
 2. Click en el botón correspondiste a la cuenta quieres asociar con ContrataDos,
    puede ser **Google**, **Facebook** o **LinkedIn**.
@@ -39,9 +39,9 @@ iniciar cesión con estos botones.
 
 ### Cuenta manual o local
 
-1. Buscar en la parte superior derecha el icono de usuario.
+1. Buscar en la parte superior derecha de la pantalla el botón _"iniciar session"_.
 
-![icono de usuario](./imagen/crear_una_cuenta_1.png)
+![icono de usuario](./imagen/crear_una_cuenta_0.png)
 
 2. Click en el botón _'crear cuenta'_, veras un formulario como este:
 
@@ -131,11 +131,11 @@ de ContrataDos.
 4. Puede pasar que la búsqueda no arroje un resultado, en ese caso cambie los
    criterios de búsqueda.
 
+![Buscar o contratar profesional](./imagen/buscar_o_contratar_profesional_4.png)
+
 ::: tip Nota
 Si usted es un profesional no aparecerá en su propia búsqueda
 :::
-
-![Buscar o contratar profesional](./imagen/buscar_o_contratar_profesional_4.png)
 
 5. Listado de profesionales que concuerdan con su búsqueda.
 
@@ -146,6 +146,9 @@ Si usted es un profesional no aparecerá en su propia búsqueda
 
 > Las estrellas muestra cuan satisfecho están los clientes con los trabajo que
 > realizo el profesional.
+>
+> La evaluación del profesional se vera cuando tenga más de 10 trabajo
+> evaluados.
 
 6. En cada tarjeta de profesional puedes elegir contratarlo o ver su perfil.
 

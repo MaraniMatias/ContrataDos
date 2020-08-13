@@ -34,6 +34,7 @@ footer: ContrataDos Copyright © 2020
   - [Iniciar secesión](/cliente/#iniciar-secesion)
   - [Olvidé mi contraseña](/cliente/#olvide-mi-contrasena)
   - [Buscar o contratar profesional](/cliente/#buscar-o-contratar-profesional)
+  - [Guardar un perfil en marcadores](/cliente/#guardar-un-perfil-en-marcadores)
   - [Editar mi perfil](/cliente/#editar-mi-perfil)
     - [Cambiar información personal](/cliente/#cambiar-informacion-personal)
     - [Cambiar foto de perfil](/cliente/#cambiar-foto-de-perfil)
