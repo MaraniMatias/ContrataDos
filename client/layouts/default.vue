@@ -44,7 +44,7 @@
         <template v-else>
           <v-btn text href="/docs">Ayuda</v-btn>
           <v-btn depressed class="ml-4" color="primary" @click="goToPerfil">
-            Iniciar secesión
+            Iniciar session
           </v-btn>
         </template>
       </v-layout>
