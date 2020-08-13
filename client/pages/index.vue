@@ -7,12 +7,12 @@
           ref="search"
           v-model="select"
           append-icon=""
-          autofocus
           border-radius
           cache-items
           flat
           hide-details
           hide-no-data
+          placeholder="Buscar"
           :items="items"
           item-text="text"
           :loading="loading"
