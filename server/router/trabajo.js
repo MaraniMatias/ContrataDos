@@ -86,8 +86,8 @@ restify.serve(router, Trabajo, {
   ],
   preRead: [
     (req, _, next) => {
-      console.log(req.erm.query, req.user)
       /*
+      console.log(req.erm.query, req.user)
       const { query } = req.erm.query
       const $or = query.$or || []
       const profesional = query.profesional || ($or[0] && $or[0].profesional)
