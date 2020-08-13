@@ -15,8 +15,8 @@ restify.serve(router, Comunicacion, {
     async (req, _, next) => {
       try {
         const message = req.erm.result
-        const { from, trabajo: trabajoId } = message
-        const person = await Persona.findById(from)
+        const { to, trabajo: trabajoId } = message
+        const person = await Persona.findById(to)
         if (!person) return next()
         sendEmailNuevoMensaje.jobCreate(Agenda, {
           email: person.email,
