@@ -147,7 +147,7 @@
                       v-text="h.nombre"
                     />
                   </v-flex>
-                  <v-flex v-if="isEstado.TERMINADO" xs12 md4>
+                  <v-flex v-if="isEstado.TERMINADO && trabajo.cliente" xs12 md4>
                     <v-layout justify-end align-start>
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
