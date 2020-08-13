@@ -49,6 +49,7 @@
                 />
               </v-flex>
               <v-flex xs12 md6 py-0>
+                <!--
                 <v-select
                   v-model.lazy="form.roles"
                   index="3"
@@ -60,6 +61,7 @@
                   hint="Se puede cambiar desde perfil."
                   label="Tipo de usuario"
                 />
+                -->
               </v-flex>
               <v-flex xs12 md6 py-0>
                 <v-text-field
