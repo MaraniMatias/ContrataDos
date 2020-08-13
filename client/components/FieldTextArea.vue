@@ -2,7 +2,7 @@
   <tiptap-vuetify
     v-model="content"
     :extensions="extensions"
-    placeholder="Escribe un mensaje"
+    :placeholder="placeholder"
     :card-props="{ outlined: true }"
   />
 </template>
@@ -33,6 +33,7 @@ export default {
     disabled: { type: Boolean, default: false },
     value: { type: [Date, String], default: '' },
     heading: { type: Boolean, default: false },
+    placeholder: { type: String, default: 'Escribe un mensaje.' },
     required: { type: Boolean, default: false },
   },
   data: () => ({

@@ -104,7 +104,7 @@
       />
     </v-flex>
     <v-dialog v-model="showModalEdit" width="550">
-      <ModalProfesional @submit="submit" @close="close" />
+      <ModalProfesional v-if="showModalEdit" @submit="submit" @close="close" />
     </v-dialog>
     <ModalContratar v-model="showModalContrart" :perfil="perfil" />
   </v-layout>

@@ -42,41 +42,61 @@
           :rules="[rules.required()]"
         />
       </v-flex>
-      <v-layout align-center ma-2 mt-2>
-        <template v-if="isAProfessional">
-          <v-flex>
-            <v-select
-              v-model.lazy="form.servicios"
-              dense
-              hide-details
-              :items="habilidades"
-              item-text="nombre"
-              item-value="_id"
-              label="Profesiones"
-              :loading="habilidades.length === 0"
-              multiple
-              outlined
-              :readonly="loading"
-              :rules="[rules.required()]"
-            />
-          </v-flex>
-          <v-tooltip v-if="!loadLikeProfessional" bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn color="red" icon @click="setLikeCliente" v-on="on">
-                <v-icon>delete</v-icon>
-              </v-btn>
-            </template>
-            <span>Darme de baja como trabajador</span>
-          </v-tooltip>
-        </template>
-        <v-flex v-else style="height: 48px;">
-          <v-btn color="teal" text block @click="setLikeProfesional">
-            Darme de alta como trabajador
-          </v-btn>
+      <template v-if="isAProfessional">
+        <v-flex xs12 ma-2 mt-2>
+          <v-layout wrap align-center mt-2 fill-height>
+            <v-flex xs12>
+              <v-layout align-center>
+                <v-flex>
+                  <v-select
+                    v-model.lazy="form.servicios"
+                    dense
+                    hide-details
+                    :items="habilidades"
+                    item-text="nombre"
+                    item-value="_id"
+                    label="Profesiones"
+                    :loading="habilidades.length === 0"
+                    multiple
+                    outlined
+                    :readonly="loading"
+                    :rules="[rules.required()]"
+                  />
+                </v-flex>
+                <v-tooltip v-if="!loadLikeProfessional" bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn color="red" icon @click="setLikeCliente" v-on="on">
+                      <v-icon>delete</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Darme de baja como trabajador</span>
+                </v-tooltip>
+              </v-layout>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field
+                v-model.lazy="form.matricula"
+                dense
+                hide-details
+                label="Numero de matricula"
+                outlined
+                :readonly="loading"
+                :rules="[rules.alphaSpacesNumLodash()]"
+              />
+            </v-flex>
+          </v-layout>
         </v-flex>
-      </v-layout>
-      <v-flex xs12 ma-2 mt-2>
-        <FieldTextArea v-model.lazy="form.bibliography" />
+        <v-flex xs12 ma-2 mt-2>
+          <FieldTextArea
+            v-model.lazy="form.bibliography"
+            placeholder="Bibliografía, cuenta algo que resulta útil para el cliente, como trabajas, lo que se te da bien, servicio distintivo a otros profesional."
+          />
+        </v-flex>
+      </template>
+      <v-flex v-else xs12>
+        <v-btn color="primary" text block @click="setLikeProfesional">
+          Darme de alta como trabajador
+        </v-btn>
       </v-flex>
     </template>
     <template v-slot:actions>
