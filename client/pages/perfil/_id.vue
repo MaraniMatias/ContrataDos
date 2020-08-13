@@ -104,106 +104,19 @@
       />
     </v-flex>
     <v-dialog v-model="showModalEdit" width="550">
-      <CardForm @submit="submit">
-        <template v-slot:header>Perfil</template>
-        <template v-slot:default="{ rules }">
-          <v-layout mt-2>
-            <v-flex xs12 lg6 mx-2>
-              <v-text-field
-                v-model.lazy="form.nombre"
-                dense
-                hide-details
-                label="Nombre"
-                outlined
-                :readonly="loading"
-                :rules="[rules.required(), rules.alphaSpaces()]"
-              />
-            </v-flex>
-            <v-flex xs12 lg6 mx-2>
-              <v-text-field
-                v-model.lazy="form.apellido"
-                dense
-                hide-details
-                label="Apellido"
-                outlined
-                :readonly="loading"
-                :rules="[rules.required(), rules.alphaSpaces()]"
-              />
-            </v-flex>
-          </v-layout>
-          <v-flex xs12 ma-2 mt-2>
-            <v-select
-              v-model.lazy="form.localidad"
-              dense
-              hide-details
-              :items="localidades"
-              item-text="nombre"
-              item-value="_id"
-              label="Localidad"
-              :loading="localidades.length === 0"
-              return-object
-              outlined
-              :readonly="loading"
-              :rules="[rules.required()]"
-            />
-          </v-flex>
-          <v-layout align-center ma-2 mt-2>
-            <template v-if="isAProfessional">
-              <v-flex>
-                <v-select
-                  v-model.lazy="form.servicios"
-                  dense
-                  hide-details
-                  :items="habilidades"
-                  item-text="nombre"
-                  item-value="_id"
-                  label="Profesiones"
-                  :loading="habilidades.length === 0"
-                  multiple
-                  outlined
-                  :readonly="loading"
-                  :rules="[rules.required()]"
-                />
-              </v-flex>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn color="red" icon @click="setLikeCliente" v-on="on">
-                    <v-icon>delete</v-icon>
-                  </v-btn>
-                </template>
-                <span>Darme de baja como trabajador</span>
-              </v-tooltip>
-            </template>
-            <v-flex v-else style="height: 48px;">
-              <v-btn color="teal" text block @click="setLikeProfesional">
-                Darme de alta como trabajador
-              </v-btn>
-            </v-flex>
-          </v-layout>
-          <v-flex xs12 ma-2 mt-2>
-            <FieldTextArea v-model.lazy="form.bibliography" />
-          </v-flex>
-        </template>
-        <template v-slot:actions>
-          <v-btn text :disabled="loading" @click="close">Cancelar </v-btn>
-          <v-btn :disabled="loading" color="primary" type="submit">
-            Guardar
-          </v-btn>
-        </template>
-      </CardForm>
+      <ModalProfesional @submit="submit" @close="close" />
     </v-dialog>
     <ModalContratar v-model="showModalContrart" :perfil="perfil" />
   </v-layout>
 </template>
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
-import FieldTextArea from '~/components/FieldTextArea'
 import PerfilTrabajosList from '~/components/PerfilTrabajosList'
 import ModalContratar from '~/components/ModalContratar'
-import CardForm from '~/components/CardForm'
+import ModalProfesional from '~/components/ModalProfesional'
 import ObjectId from '~/utils/formRules/objectId'
 import camelCase from '~~/server/utilities/capitalizeWords'
 import { Roles, RatingTrabajo, EstadoTrabajo } from '~~/server/utilities/enums'
@@ -212,12 +125,11 @@ import { Persona, Localidad, Habilidad, Trabajo } from '~/api'
 export default {
   middleware: 'if_token_get_user',
   components: {
+    PerfilTrabajosList,
+    ModalProfesional,
+    ModalContratar,
     Avatar,
     Rating,
-    CardForm,
-    PerfilTrabajosList,
-    FieldTextArea,
-    ModalContratar,
   },
   validate({ params }) {
     return ObjectId()(params.id) === true
@@ -316,6 +228,7 @@ export default {
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
+    ...mapActions(['getMe']),
     loadForm(user) {
       this.form = { ...user }
       this.form.roles = Array.from(user.roles)
@@ -326,19 +239,6 @@ export default {
       this.loadForm(user)
       this.perfil = { ...user }
       this.localidad = user.localidad
-    },
-
-    setLikeProfesional() {
-      const set = new Set(this.perfil.roles)
-      set.add(Roles.PROFESIONAL)
-      set.delete(Roles.CLIENTE)
-      this.form.roles = Array.from(set)
-    },
-    setLikeCliente() {
-      const set = new Set(this.perfil.roles)
-      set.add(Roles.CLIENTE)
-      set.delete(Roles.PROFESIONAL)
-      this.form.roles = Array.from(set)
     },
     async getScore() {
       const { data } = await Trabajo.get({
@@ -373,17 +273,10 @@ export default {
       this.loading = false
     },
 
-    async submit(formValid) {
-      if (!formValid) return
-      this.loading = true
-      const { error } = await Persona.save(this.form)
-      if (error) {
-        this.$notify({ type: 'error', text: error })
-      } else {
-        this.changeUser(this.form)
-        this.showModalEdit = false
-      }
-      this.loading = false
+    async submit() {
+      const { data } = await this.getMe()
+      this.changeUser(data)
+      this.showModalEdit = false
     },
     close() {
       this.form = { ...this.perfil }

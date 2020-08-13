@@ -82,40 +82,44 @@
       </v-flex>
     </v-layout>
 
-    <v-dialog :value="showTutorial" width="550">
+    <v-dialog :value="showTutorial" width="400" persistent>
       <v-card>
         <v-card-title>
-          <p class="headline mb-0">Bienvenido</p>
+          <p class="headline">Eres nuevo en ContrataDos</p>
         </v-card-title>
-        <v-card-text class="pb-2">
-          <p>Eres nuevo, deberías completar tus perfil.</p>
-          <template v-if="isAProfessional">
-            <v-divider />
-            <p class="title my-2">Soy un trabajador</p>
-            <p>
-              Para ayudar a que otros encuentre tus trabajo y tus servicios, te
-              recomendamos completar tu perfil.
-            </p>
-          </template>
-        </v-card-text>
-        <v-card-actions>
-          <v-layout justify-end align-center>
-            <v-btn nuxt to="/perfil" class="black--text" text>
-              Ir a perfil
+        <v-card-text>
+          <v-layout column>
+            <v-btn rounded color="teal" outlined large @click="setAsCliente">
+              Segir como cliente
             </v-btn>
-            <v-btn color="primary" @click="close">
-              Aceptar
+            <v-divider class="my-4" />
+            <v-btn
+              rounded
+              color="primary"
+              outlined
+              large
+              @click="showModalEdit = true"
+            >
+              Soy un profesional
             </v-btn>
           </v-layout>
-        </v-card-actions>
+        </v-card-text>
       </v-card>
+    </v-dialog>
+    <v-dialog v-model="showModalEdit" width="550">
+      <ModalProfesional
+        load-like-professional
+        @submit="submit"
+        @close="close"
+      />
     </v-dialog>
   </v-layout>
 </template>
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 
+import ModalProfesional from '~/components/ModalProfesional'
 import CardTrabajo from '~/components/CardTrabajo'
 import { Persona, Trabajo } from '~/api'
 import {
@@ -127,7 +131,7 @@ import {
 
 export default {
   middleware: 'authenticated',
-  components: { CardTrabajo },
+  components: { CardTrabajo, ModalProfesional },
   asyncData() {
     const filters = []
     EstadoTrabajoLabel.forEach(({ key }, index) => {
@@ -138,6 +142,7 @@ export default {
     return { filters }
   },
   data: () => ({
+    showModalEdit: false,
     loadingTrabajos: false,
     totalElement: 0,
     listTrabajos: [],
@@ -183,6 +188,7 @@ export default {
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
+    ...mapActions(['getMe']),
     async getScore() {
       const query = { estado: EstadoTrabajo.TERMINADO }
       if (this.isAProfessional) {
@@ -204,7 +210,7 @@ export default {
       })
       this.score = { total: data.length || 0, like, dontLike }
     },
-    async close() {
+    async setAsCliente() {
       const { data } = await Persona.save({
         _id: this.user._id,
         show_tutorial: false,
@@ -238,6 +244,13 @@ export default {
       const params = { query, populate, sort: '-createdAt' }
       const { data } = await Trabajo.get(params)
       this.listTrabajos = data || []
+    },
+    async submit() {
+      await this.getMe()
+      this.showModalEdit = false
+    },
+    close() {
+      this.showModalEdit = false
     },
   },
 }

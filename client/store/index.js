@@ -12,6 +12,7 @@ export const state = () => ({
 export const getters = {
   isLoggedIn: (state) => !!state.user._id,
   isAProfessional: (state) => state.user.roles?.includes(Roles.PROFESIONAL),
+  isACliente: (state) => state.user.roles?.includes(Roles.CLIENTE),
 }
 
 export const mutations = {
