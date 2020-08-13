@@ -70,6 +70,23 @@
             align-center
             justify-end
           >
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  color="sencudary"
+                  outlined
+                  :loading="saveMark"
+                  @click="marker()"
+                  v-on="on"
+                >
+                  <v-icon v-if="isInMarks" left>bookmark</v-icon>
+                  <v-icon v-else left>bookmark_border</v-icon>
+                  Marcadores
+                </v-btn>
+              </template>
+              {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
+            </v-tooltip>
+            <v-spacer />
             <v-btn color="red darken-4" outlined @click="contratar">
               Contactar
             </v-btn>
@@ -234,10 +251,14 @@ export default {
     score: {},
     form: {}, // localidad: {}   razon_social: {}
     changeAvatar: false,
-    cantidadTrabajos: 0, // TODO
+    cantidadTrabajos: 0,
+    saveMark: false,
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
+    user() {
+      return this.$store.state.user
+    },
     showBtnEditable() {
       return !this.$route.params.id
     },
@@ -266,6 +287,9 @@ export default {
     cantidadTrabajosLabel() {
       const text = this.isAProfessional ? 'realizados' : 'contratados'
       return `Trabajos ${text}: ` + this.cantidadTrabajos
+    },
+    isInMarks() {
+      return this.user.jobs_marks.includes(this.perfil._id)
     },
   },
   async mounted() {
@@ -372,6 +396,24 @@ export default {
         // TODO si tiene que logearse despues de login ok regresar y abrir el modal para contratar
         this.$router.replace({ name: 'login', query: { back: 'search' } })
       }
+    },
+    async marker() {
+      this.saveMark = true
+      const user = { ...this.user }
+      user.jobs_marks = Array.from(this.user.jobs_marks)
+      const index = user.jobs_marks.findIndex((_id) => _id === this.perfil._id)
+      if (index === -1) {
+        user.jobs_marks.push(this.perfil._id)
+      } else {
+        user.jobs_marks.splice(index, 1)
+      }
+      const { error } = await Persona.save(user)
+      if (error) {
+        this.$notify({ type: 'error', text: error })
+      } else {
+        this.updateUser(user)
+      }
+      this.saveMark = false
     },
   },
   head() {

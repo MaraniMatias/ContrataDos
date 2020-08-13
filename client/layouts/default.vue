@@ -22,6 +22,9 @@
           </v-btn>
           <v-btn nuxt text to="/agenda">Agenda</v-btn>
           <v-btn nuxt text to="/trabajos">Trabajos</v-btn>
+          <v-btn v-if="!isAProfessional" nuxt text to="/markers">
+            Marcadores
+          </v-btn>
           <v-btn nuxt text to="/perfil">Perfil</v-btn>
           <v-btn text href="/docs">Ayuda</v-btn>
           <!--
@@ -71,7 +74,7 @@ export default {
     fixed: false,
   }),
   computed: {
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters(['isLoggedIn', 'isAProfessional']),
     user() {
       return this.$store.state.user || {}
     },

@@ -21,7 +21,7 @@
     </v-layout>
 
     <v-layout v-if="!loadingTrabajos" column>
-      <v-flex xs12>
+      <v-flex v-if="showAddBtn" xs12>
         <CardTrabajoAdd @click.stop="showModal = true" />
       </v-flex>
       <v-flex v-for="(trabajo, $i) in listTrabajos" :key="$i" xs12>

@@ -29,8 +29,27 @@
               <v-layout column fill-height align-start>
                 <p class="mb-2" v-html="perfil.bibliography" />
               </v-layout>
-              <v-layout align-center>
-                <v-flex xs12> Recide en {{ localidadNombre }} </v-flex>
+              <v-layout align-center justify-end>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      color="sencudary"
+                      outlined
+                      :loading="saveMark"
+                      @click="marker()"
+                      v-on="on"
+                    >
+                      <v-icon v-if="isInMarks" left>bookmark</v-icon>
+                      <v-icon v-else left>bookmark_border</v-icon>
+                      Marcadores
+                    </v-btn>
+                  </template>
+                  {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
+                </v-tooltip>
+                <v-spacer />
+                <v-flex v-show="localidadNombre" xs12>
+                  Recide en {{ localidadNombre }}
+                </v-flex>
                 <v-btn color="primary" text :to="perfilLink">Ver Perfil</v-btn>
                 <v-btn color="red darken-4" outlined @click="contactar">
                   Contactar
@@ -45,8 +64,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { Trabajo } from '~/api'
+import { mapMutations, mapGetters } from 'vuex'
+import { Persona, Trabajo } from '~/api'
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
 import camelCase from '~~/server/utilities/capitalizeWords'
@@ -59,9 +78,13 @@ export default {
   },
   data: () => ({
     cantidadTrabajos: 0,
+    saveMark: false,
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
+    user() {
+      return this.$store.state.user
+    },
     headline() {
       return camelCase(
         this.perfil.razon_social
@@ -76,6 +99,9 @@ export default {
     perfilLink() {
       return '/perfil/' + this.perfil._id
     },
+    isInMarks() {
+      return this.user.jobs_marks.includes(this.perfil._id)
+    },
   },
   async mounted() {
     const query = {
@@ -86,6 +112,7 @@ export default {
     this.cantidadTrabajos = data.count || 0
   },
   methods: {
+    ...mapMutations({ updateUser: 'SET_USER' }),
     contactar() {
       if (this.isLoggedIn) {
         this.$emit('contactar', this.perfil)
@@ -93,6 +120,24 @@ export default {
         // TODO si tiene que logearse despues de login ok regresar y abrir el modal para contratar
         this.$router.replace({ name: 'login', query: { back: 'search' } })
       }
+    },
+    async marker() {
+      this.saveMark = true
+      const user = { ...this.user }
+      user.jobs_marks = Array.from(this.user.jobs_marks)
+      const index = user.jobs_marks.findIndex((_id) => _id === this.perfil._id)
+      if (index === -1) {
+        user.jobs_marks.push(this.perfil._id)
+      } else {
+        user.jobs_marks.splice(index, 1)
+      }
+      const { error } = await Persona.save(user)
+      if (error) {
+        this.$notify({ type: 'error', text: error })
+      } else {
+        this.updateUser(user)
+      }
+      this.saveMark = false
     },
   },
 }

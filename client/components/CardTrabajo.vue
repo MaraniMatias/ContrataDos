@@ -369,6 +369,7 @@ export default {
     comunicaciones: [],
     optionsModal: false,
     notesModal: false,
+    interval: null,
   }),
   computed: {
     Estados: () => EstadoTrabajoLabel,
@@ -456,18 +457,25 @@ export default {
   async created() {
     const self = this
     this.cancel()
-    await self.getChat()
-    this.newComments = false
-    const interval = setInterval(function () {
-      try {
-        self.getChat()
-      } catch (err) {
-        clearInterval(interval)
-      }
-    }, 10000)
+    if (this.trabajo.tipo !== TipoTrabajo.PUBLICO) {
+      await self.getChat()
+      this.newComments = false
+      this.interval = setInterval(function () {
+        try {
+          self.getChat()
+        } catch (err) {
+          clearInterval(this.interval)
+        }
+      }, 10000)
+    }
   },
   mounted() {
-    if (this.trabajo.tipo === TipoTrabajo.PUBLICO) this.loadImg()
+    if (this.trabajo.tipo === TipoTrabajo.PUBLICO) {
+      this.loadImg()
+    }
+  },
+  beforeDestroy() {
+    clearInterval(this.interval)
   },
   methods: {
     goToPerfi() {

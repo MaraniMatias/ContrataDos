@@ -147,6 +147,7 @@ export default {
     viewLikeProfesional: true,
     ready: true,
     score: {},
+    interval: null,
   }),
   computed: {
     ...mapGetters(['isAProfessional']),
@@ -168,14 +169,17 @@ export default {
     self.getScore()
     await self.loadData()
     this.loadingTrabajos = false
-    const interval = setInterval(function () {
+    this.interval = setInterval(function () {
       try {
         self.getScore()
         self.loadData()
       } catch (err) {
-        clearInterval(interval)
+        clearInterval(this.interval)
       }
     }, 50000)
+  },
+  beforeDestroy() {
+    clearInterval(this.interval)
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
