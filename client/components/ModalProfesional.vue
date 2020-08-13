@@ -78,7 +78,7 @@
                 v-model.lazy="form.matricula"
                 dense
                 hide-details
-                label="Numero de matricula"
+                label="Número de matrícula"
                 outlined
                 :readonly="loading"
                 :rules="[rules.alphaSpacesNumLodash()]"

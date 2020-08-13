@@ -27,10 +27,13 @@
                 />
               </v-layout>
               <v-layout column fill-height align-start>
-                <p class="mb-2" v-html="perfil.bibliography" />
+                <p class="mb-0" v-html="perfil.bibliography" />
               </v-layout>
-              <v-layout v-if="isLoggedIn" align-center justify-end>
-                <v-tooltip bottom>
+              <v-layout align-center justify-end>
+                <v-flex v-show="localidadNombre" xs12>
+                  Recide en {{ localidadNombre }}
+                </v-flex>
+                <v-tooltip v-if="isLoggedIn" bottom>
                   <template v-slot:activator="{ on }">
                     <v-btn
                       color="sencudary"
@@ -46,11 +49,9 @@
                   </template>
                   {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
                 </v-tooltip>
-                <v-spacer />
-                <v-flex v-show="localidadNombre" xs12>
-                  Recide en {{ localidadNombre }}
-                </v-flex>
-                <v-btn color="primary" text :to="perfilLink">Ver Perfil</v-btn>
+                <v-btn color="primary" text :to="perfilLink" class="mx-2">
+                  Ver Perfil
+                </v-btn>
                 <v-btn color="red darken-4" outlined @click="contactar">
                   Contactar
                 </v-btn>
