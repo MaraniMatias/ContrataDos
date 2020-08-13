@@ -15,7 +15,7 @@
             <template v-if="isAProfessional">
               <Rating v-if="showRating" :value="score.rating" star />
               <p v-else class="mb-0 text-center">
-                Todavía no tiene suficientes trabajos realizados para
+                Trabajos realizados insuficientes para obtener una
                 clasificación.
               </p>
             </template>
@@ -63,14 +63,13 @@
               v-text="h.nombre"
             />
           </v-layout>
-          <p class="my-2">Vive en: {{ localidadNombre }}</p>
-          <div v-html="perfil.bibliography" />
-          <v-layout
-            v-show="!showBtnEditable && isAProfessional"
-            align-center
-            justify-end
-          >
-            <v-tooltip bottom>
+          <span v-if="showBtnEditable">{{ perfil.email }}</span>
+          <div style="height: 85px;" v-html="perfil.bibliography" />
+          <v-layout align-center justify-end mt-2>
+            <v-flex v-show="localidadNombre" xs12>
+              Recide en {{ localidadNombre }}
+            </v-flex>
+            <v-tooltip v-if="!showBtnEditable && isAProfessional" bottom>
               <template v-slot:activator="{ on }">
                 <v-btn
                   color="sencudary"
@@ -86,8 +85,12 @@
               </template>
               {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
             </v-tooltip>
-            <v-spacer />
-            <v-btn color="red darken-4" outlined @click="contratar">
+            <v-btn
+              color="red darken-4"
+              class="ml-2"
+              outlined
+              @click="contratar"
+            >
               Contactar
             </v-btn>
           </v-layout>

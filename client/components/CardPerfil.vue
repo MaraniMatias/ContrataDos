@@ -9,13 +9,16 @@
           <v-flex xs12>
             <v-layout column pl-4 fill-height>
               <div class="overline mt-2">
-                Trabajos realizados: {{ cantidadTrabajos }}
+                Trabajos realizados: {{ score.total }}
               </div>
               <v-layout align-center mb-1>
-                <v-flex xs12 d-inline-flex>
+                <v-flex d-inline-flex>
                   <p class="headline mb-0" v-text="headline" />
                 </v-flex>
-                <Rating :value="perfil.puntuacion" star />
+                <Rating v-if="showRating" :value="score.rating" star />
+                <p v-else class="mb-0 text-center">
+                  Sin clasificar.
+                </p>
               </v-layout>
               <v-layout align-center mb-2>
                 <v-chip
@@ -70,7 +73,7 @@ import { Persona, Trabajo } from '~/api'
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
 import camelCase from '~~/server/utilities/capitalizeWords'
-import { EstadoTrabajo } from '~~/server/utilities/enums'
+import { EstadoTrabajo, RatingTrabajo } from '~~/server/utilities/enums'
 
 export default {
   components: { Avatar, Rating },
@@ -78,8 +81,8 @@ export default {
     perfil: { type: Object, required: true },
   },
   data: () => ({
-    cantidadTrabajos: 0,
     saveMark: false,
+    score: { total: 0 },
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
@@ -103,14 +106,12 @@ export default {
     isInMarks() {
       return this.user.marks_professional.includes(this.perfil._id)
     },
+    showRating() {
+      return this.score.total > 10
+    },
   },
-  async mounted() {
-    const query = {
-      estado: EstadoTrabajo.TERMINADO,
-      profesional: this.perfil._id,
-    }
-    const { data } = await Trabajo.count({ query })
-    this.cantidadTrabajos = data.count || 0
+  mounted() {
+    this.getScore()
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
@@ -141,6 +142,26 @@ export default {
         this.updateUser(user)
       }
       this.saveMark = false
+    },
+    async getScore() {
+      const { data } = await Trabajo.get({
+        query: {
+          profesional: this.perfil._id,
+          estado: EstadoTrabajo.TERMINADO,
+        },
+      })
+      let like = 0
+      let dontLike = 0
+      data.forEach((job) => {
+        if (job.rating === RatingTrabajo.LIKE) {
+          like++
+        }
+        if (job.rating === RatingTrabajo.DONT_LIKE) {
+          dontLike++
+        }
+      })
+      const rating = (like * (like + dontLike)) / 100
+      this.score = { total: data.length || 0, like, dontLike, rating }
     },
   },
 }
