@@ -29,7 +29,7 @@
               <v-layout column fill-height align-start>
                 <p class="mb-2" v-html="perfil.bibliography" />
               </v-layout>
-              <v-layout align-center justify-end>
+              <v-layout v-if="isLoggedIn" align-center justify-end>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
                     <v-btn
