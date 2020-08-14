@@ -19,7 +19,6 @@
                 clasificación.
               </p>
             </template>
-            <span v-else>{{ perfil.email }}</span>
           </v-layout>
         </v-flex>
         <v-flex xs12 lg8>
@@ -69,30 +68,32 @@
             <v-flex v-show="localidadNombre" xs12>
               Recide en {{ localidadNombre }}
             </v-flex>
-            <v-tooltip v-if="!showBtnEditable && isAProfessional" bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  color="sencudary"
-                  outlined
-                  :loading="saveMark"
-                  @click="marker()"
-                  v-on="on"
-                >
-                  <v-icon v-if="isInMarks" left>bookmark</v-icon>
-                  <v-icon v-else left>bookmark_border</v-icon>
-                  Marcadores
-                </v-btn>
-              </template>
-              {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
-            </v-tooltip>
-            <v-btn
-              color="red darken-4"
-              class="ml-2"
-              outlined
-              @click="contratar"
-            >
-              Contactar
-            </v-btn>
+            <template v-if="!showBtnEditable && isAProfessional">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    color="sencudary"
+                    outlined
+                    :loading="saveMark"
+                    @click="marker()"
+                    v-on="on"
+                  >
+                    <v-icon v-if="isInMarks" left>bookmark</v-icon>
+                    <v-icon v-else left>bookmark_border</v-icon>
+                    Marcadores
+                  </v-btn>
+                </template>
+                {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
+              </v-tooltip>
+              <v-btn
+                color="red darken-4"
+                class="ml-2"
+                outlined
+                @click="contratar"
+              >
+                Contactar
+              </v-btn>
+            </template>
           </v-layout>
         </v-flex>
       </v-layout>
