@@ -30,7 +30,7 @@ iniciar cesión con estos botones.
 
 ![botones_redes_crear cuenta local](./imagen/crear_una_cuenta_6.png)
 
-3. Según sea la cuenta **Google**, **Facebook** o **LinkedIn**, se le pedira
+3. Según sea la cuenta **Google**, **Facebook**, se le pedira
    que le de permiso a ContrataDos para obtener datos personales, como ser email,
    nombre, apellido y la imagen de perfil de que uses en esa red social.
 4. Cuando el proceso termine veras un mensaje de bienvenida, te recomendamos
@@ -71,7 +71,7 @@ iniciar cesión con estos botones.
 ## Iniciar secesión
 
 Solo tienes que dirigirse a [/login](/login) y si asociaste ContrataDos con
-**Google**, **Facebook** o **Linkedin** solo tienes que hacer click en el botón correspondiste,
+**Google**, **Facebook** solo tienes que hacer click en el botón correspondiste,
 en caso de tener una cuenta local o creada de forma manual, solo ingrese el
 correo (email) y la contraseña que ingresaste al crear la cuenta.
 
