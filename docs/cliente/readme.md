@@ -3,7 +3,6 @@ tags:
   - registrarse con email
   - registrarse con google
   - registrarse con facebook
-  - registrarse con linkedin
   - olvide mi contraseña
   - recuperar contraseña
 ---
@@ -20,14 +19,14 @@ Para crear una cuenta de forma **manual** ingresando a [/singup](/singup) o de f
 **Facebook** o **LinkedIn** esta opción crea una cuenta y posteriormente puedes
 iniciar cesión con estos botones.
 
-### Cuenta con google o facebook o linkedin
+### Cuenta con google o facebook
 
 1. Buscar en la parte superior derecha de la pantalla el botón _"iniciar session"_.
 
 ![icono de usuario](./imagen/crear_una_cuenta_0.png)
 
 2. Click en el botón correspondiste a la cuenta quieres asociar con ContrataDos,
-   puede ser **Google**, **Facebook** o **LinkedIn**.
+   puede ser **Google**, **Facebook**.
 
 ![botones_redes_crear cuenta local](./imagen/crear_una_cuenta_6.png)
 
