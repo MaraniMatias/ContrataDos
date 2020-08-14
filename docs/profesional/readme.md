@@ -33,8 +33,15 @@ iniciar cesión con estos botones.
 3. Según sea la cuenta **Google**, **Facebook**, se le pedira
    que le de permiso a ContrataDos para obtener datos personales, como ser email,
    nombre, apellido y la imagen de perfil de que uses en esa red social.
-4. Cuando el proceso termine veras un mensaje de bienvenida, te recomendamos
-   que vallas a perfil y para actualizar sus datos.
+4. Cuando el proceso termine veras un mensaje de bienvenida
+
+   ![mensaje de bienvenida](./imagen/crear_una_cuenta_11.png)
+
+5. Click en _"soy un profesional"_.
+6. Complete el formulario, los clientes que vean tú perfil entiendan cuales son
+   tus habilidades y servicios que ofreces.
+
+   ![mensaje de bienvenida como profesional](./imagen/crear_una_cuenta_12.png)
 
 ### Cuenta manual o local
 
@@ -46,8 +53,7 @@ iniciar cesión con estos botones.
 
 ![formulario crear cuenta local](./imagen/crear_una_cuenta_2.png)
 
-3. Completo todos los campos y en _'tipo de usuario'_ puedes marcar la opción _profesional_
-   para crear una cuenta de ese tipo.
+3. Completo todos los campos.
 4. Una vez completado los campos y pulsar _'crear cuenta'_ recibirás un mensaje
    como este:
 
@@ -67,6 +73,14 @@ iniciar cesión con estos botones.
 7. Ahora solo tienes que ingresar tu contraseña y pulsar iniciar session.
 8. Veras un mensaje de bienvenida, te recomendamos que vallas a perfil y
    lo personalices agregando una foto.
+
+   ![mensaje de bienvenida](./imagen/crear_una_cuenta_11.png)
+
+9. Click en _"soy un profesional"_.
+10. Complete el formulario, los clientes que vean tú perfil entiendan cuales son
+    tus habilidades y servicios que ofreces.
+
+    ![mensaje de bienvenida como profesional](./imagen/crear_una_cuenta_12.png)
 
 ## Iniciar secesión
 

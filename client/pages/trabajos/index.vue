@@ -90,7 +90,7 @@
         <v-card-text>
           <v-layout column>
             <v-btn rounded color="teal" outlined large @click="setAsCliente">
-              Segir como cliente
+              Seguir como cliente
             </v-btn>
             <v-divider class="my-4" />
             <v-btn
