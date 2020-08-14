@@ -78,6 +78,13 @@
           <error :text="error" />
         </template>
         -->
+      <template v-slot:actions-left>
+        <v-flex v-if="trabajo._id">
+          <v-btn color="red darken-4" text @click="deleted()">
+            Eliminar
+          </v-btn>
+        </v-flex>
+      </template>
       <template v-slot:actions>
         <v-btn text :disabled="loading" @click="close()">Cancelar </v-btn>
         <v-btn :disabled="loading" color="primary" type="submit">
@@ -94,7 +101,7 @@ import CardCropper from '~/components/CardCropper'
 
 import { EstadoTrabajo, TipoTrabajo } from '~~/server/utilities/enums'
 
-import { Localidad } from '~/api'
+import { Localidad, Trabajo } from '~/api'
 import apiFile from '~/api/file'
 const onFileUpload = 'progressFileUpload'
 const { trabajo: saveImg } = apiFile(onFileUpload)
@@ -172,6 +179,17 @@ export default {
         descripcion: '',
       }
     },
+  },
+  async deleted() {
+    this.loading = true
+    const { error } = await Trabajo.delete(this.trabajo)
+    if (error) {
+      this.$notify({ type: 'error', text: error.message || error })
+    } else {
+      this.$notify({ type: 'success', text: 'Trabajo eliminado.' })
+      this.close()
+    }
+    this.loading = false
   },
 }
 </script>

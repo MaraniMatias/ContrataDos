@@ -134,6 +134,19 @@
                       </p>
                     </v-layout>
                   </v-flex>
+                  <v-tooltip v-if="isMyPublicJob" bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        icon
+                        text
+                        @click="$emit('edit', trabajo)"
+                        v-on="on"
+                      >
+                        <v-icon>edit</v-icon>
+                      </v-btn>
+                    </template>
+                    Editar trabajo
+                  </v-tooltip>
                 </v-layout>
                 <v-layout column fill-height align-start>
                   <p v-text="trabajo.descripcion" />
@@ -385,6 +398,9 @@ export default {
         return this.trabajo.estado
       }
     },
+    user() {
+      return this.$store.state.user
+    },
     estadosColor() {
       return EstadoTrabajoColor[this.realEstado]
     },
@@ -403,6 +419,9 @@ export default {
     },
     cliente() {
       return this.trabajo.cliente
+    },
+    isMyPublicJob() {
+      return this.isPablic && this.profesional._id === this.user._id
     },
     profesional() {
       return this.trabajo.profesional
