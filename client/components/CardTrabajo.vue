@@ -130,7 +130,7 @@
                       fill-height
                     >
                       <p class="headline black--text text-truncate mb-0">
-                        {{ trabajo.descripcion_breve }}
+                        {{ trabajo.descripcion_breve | camelCase }}
                       </p>
                     </v-layout>
                   </v-flex>

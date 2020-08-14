@@ -79,11 +79,9 @@
         </template>
         -->
       <template v-slot:actions-left>
-        <v-flex v-if="trabajo._id">
-          <v-btn color="red darken-4" text @click="deleted()">
-            Eliminar
-          </v-btn>
-        </v-flex>
+        <v-btn v-if="trabajo._id" color="red darken-4" text @click="deleted()">
+          Eliminar
+        </v-btn>
       </template>
       <template v-slot:actions>
         <v-btn text :disabled="loading" @click="close()">Cancelar </v-btn>
@@ -109,7 +107,7 @@ const { trabajo: saveImg } = apiFile(onFileUpload)
 export default {
   components: { CardForm, CardCropper },
   props: {
-    trabajo: { type: Object },
+    trabajo: { type: Object, default: () => ({}) },
     value: { type: Boolean, default: false },
   },
   data: () => ({
@@ -125,15 +123,17 @@ export default {
       return this.$store.state.user
     },
   },
-  watch: {},
-  created() {
-    this.close(true)
-    if (this.trabajo) {
-      this.form = { ...this.trabajo }
-    } else {
-      this.form.localidad = this.user.localidad?._id
-    }
+  watch: {
+    trabajo(trabajo) {
+      this.close(true)
+      if (this.trabajo?._id) {
+        this.form = { ...this.trabajo }
+      } else {
+        this.form.localidad = this.user.localidad?._id
+      }
+    },
   },
+  created() {},
   async mounted() {
     // TODO search query
     const { data: l } = await Localidad.getAll()
