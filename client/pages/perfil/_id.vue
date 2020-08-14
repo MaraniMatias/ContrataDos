@@ -63,7 +63,7 @@
             />
           </v-layout>
           <span v-if="showBtnEditable">{{ perfil.email }}</span>
-          <div style="height: 85px;" v-html="perfil.bibliography" />
+          <div style="min-height: 85px;" v-html="perfil.bibliography" />
           <v-layout align-center justify-end mt-2>
             <v-flex v-show="localidadNombre" xs12>
               Recide en {{ localidadNombre }}

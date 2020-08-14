@@ -113,12 +113,18 @@ export default {
     form: {},
     pickedFile: null,
   }),
-  computed: {},
+  computed: {
+    user() {
+      return this.$store.state.user
+    },
+  },
   watch: {},
   created() {
     this.close(true)
     if (this.trabajo) {
       this.form = { ...this.trabajo }
+    } else {
+      this.form.localidad = this.user.localidad?._id
     }
   },
   async mounted() {
@@ -139,6 +145,7 @@ export default {
       if (!formValid) return
       this.loading = true
       this.form.tipo = TipoTrabajo.PUBLICO
+      this.form.descripcion_breve = this.form.descripcion_breve.toLowerCase()
       const { error } = await saveImg(this.pickedFile, this.form)
       if (error) {
         this.$notify({ type: 'error', text: error.message || error })

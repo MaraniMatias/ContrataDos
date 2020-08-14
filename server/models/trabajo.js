@@ -33,7 +33,13 @@ const schema = new Schema(
     },
     // foto, usar el _id para referenciar la foto o mejor un id unico universal
     notas: { type: String, max: 500, trim: true },
-    descripcion: { type: String, max: 500, trim: true, set: escapeHtml },
+    descripcion: {
+      type: String,
+      max: 500,
+      trim: true,
+      set: escapeHtml,
+      lowercase: true,
+    },
     descripcion_breve: {
       type: String,
       trim: true,
