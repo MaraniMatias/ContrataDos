@@ -361,6 +361,9 @@ export default {
     FieldTextArea,
     ModalPublicJob,
   },
+  filters: {
+    camelCase,
+  },
   props: {
     trabajo: { type: Object, required: true },
   },

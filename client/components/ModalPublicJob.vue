@@ -153,9 +153,16 @@ export default {
       this.loading = true
       this.form.tipo = TipoTrabajo.PUBLICO
       this.form.descripcion_breve = this.form.descripcion_breve.toLowerCase()
-      const { error } = await saveImg(this.pickedFile, this.form)
-      if (error) {
-        this.$notify({ type: 'error', text: error.message || error })
+      let err
+      if (this.pickedFile) {
+        const { error } = await saveImg(this.pickedFile, this.form)
+        err = error
+      } else {
+        const { error } = await Trabajo.save(this.form)
+        err = error
+      }
+      if (err) {
+        this.$notify({ type: 'error', text: err.message || err })
       } else {
         this.$notify({ type: 'success', text: 'Trabajo actualizado.' })
         this.close()
