@@ -25,7 +25,19 @@ const getPathPublicWith = (addPath) => {
 }
 
 // Sobre escribe la informacion de las tecnologias usadas en backend
-app.use(helmet())
+// FIXME: traee problemas al cargar nuxt
+// app.use(helmet())
+// app.use(helmet.contentSecurityPolicy())
+app.use(helmet.dnsPrefetchControl())
+app.use(helmet.expectCt())
+app.use(helmet.frameguard())
+app.use(helmet.hidePoweredBy())
+app.use(helmet.hsts())
+app.use(helmet.ieNoOpen())
+app.use(helmet.noSniff())
+app.use(helmet.permittedCrossDomainPolicies())
+app.use(helmet.referrerPolicy())
+app.use(helmet.xssFilter({ reportUri: '/report-xss-violation' }))
 app.use(helmet.xssFilter({ reportUri: '/report-xss-violation' }))
 app.use(compress())
 
