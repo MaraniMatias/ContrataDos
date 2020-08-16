@@ -177,11 +177,13 @@ export default {
     authLinkedin() {},
     authFacebook() {
       this.loading = true
-      window.location.replace(process.env.SERVER_URL + '/api/auth/facebook')
+      window.location.replace(
+        process.env.NUXT_SERVER_URL + '/api/auth/facebook'
+      )
     },
     authGoogle() {
       this.loading = true
-      window.location.replace(process.env.SERVER_URL + '/api/auth/google')
+      window.location.replace(process.env.NUXT_SERVER_URL + '/api/auth/google')
     },
     async authLocal(formValid) {
       if (!formValid) return

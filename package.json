@@ -9,7 +9,7 @@
     "server": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "client": "nuxt",
     "docs": "vuepress dev ./docs --no-cache",
-    "build:client": "nuxt build",
+    "build:client": "nuxt build && nuxt export",
     "build:docs": "vuepress build ./docs",
     "docs:export": "vuepress export ./docs",
     "start": "cross-env NODE_ENV=production node index.js"
@@ -48,7 +48,7 @@
     "multer": "^1.4.2",
     "nodemailer": "^6.4.11",
     "nodemailer-smtp-transport": "^2.7.4",
-    "nuxt": "^2.14.1",
+    "nuxt": "^2.14.2",
     "nuxt-compress": "^2.0.0",
     "nuxt-material-design-icons": "^1.0.4",
     "nuxt-social-meta": "0.0.5",

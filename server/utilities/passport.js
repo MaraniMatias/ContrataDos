@@ -15,7 +15,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.SERVER_URL + '/api/auth/google/callback',
+      callbackURL: process.env.NUXT_SERVER_URL + '/api/auth/google/callback',
     },
     function (accessToken, refreshToken, profile, done) {
       if (process.env.NODE_ENV === 'development') {
@@ -102,7 +102,7 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: process.env.SERVER_URL + '/api/auth/facebook/callback',
+      callbackURL: process.env.NUXT_SERVER_URL + '/api/auth/facebook/callback',
       profileFields: ['id', 'emails', 'photos', 'first_name', 'last_name'],
     },
     function (accessToken, refreshToken, profile, done) {

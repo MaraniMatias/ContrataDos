@@ -60,7 +60,7 @@ const del = (BASE_URL) => async (object = {}) => {
 }
 
 export default (url) => {
-  const BASE_URL = process.env.SERVER_URL + '/api' + url
+  const BASE_URL = process.env.NUXT_SERVER_URL + '/api' + url
   return {
     save: save(BASE_URL),
     delete: del(BASE_URL),
