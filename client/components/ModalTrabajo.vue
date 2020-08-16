@@ -1,7 +1,9 @@
 <template>
   <v-card color="grey lighten-4" min-width="350px" flat>
     <v-toolbar :color="color" dark dense flat>
-      <v-toolbar-title v-text="displayTitle" />
+      <v-flex>
+        <v-toolbar-title v-text="displayTitle" />
+      </v-flex>
       <v-btn icon small class="mr-0 ml-2" @click.stop="$emit('close')">
         <v-icon>close</v-icon>
       </v-btn>
@@ -24,8 +26,6 @@
         <p class="mb-1 body-1">Dirrecion: {{ localidadNombre }}</p>
         <p class="mb-1">{{ trabajo.descripcion }}</p>
         <v-layout align-center>
-          {{ displayEstado }}
-          <v-spacer />
           <v-tooltip v-if="trabajo.like || trabajo.dontLike" bottom>
             <template v-slot:activator="{ on }">
               <div v-on="on">
@@ -35,6 +35,8 @@
             Opinion del cliente
           </v-tooltip>
           <v-layout align-center justify-end>
+            <v-chip outlined :color="estadosColor" small v-text="estadoLabel" />
+            <v-spacer />
             <v-btn color="black" text :to="'/trabajos/' + trabajo._id">
               Ver
             </v-btn>
@@ -46,16 +48,6 @@
             >
               Aceptar
             </v-btn>
-            <!--
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn text icon @click="addNote" v-on="on">
-                  <v-icon>note_add</v-icon>
-                </v-btn>
-              </template>
-              Agregar Notas
-            </v-tooltip>
-          -->
           </v-layout>
         </v-layout>
       </v-layout>
@@ -64,13 +56,14 @@
 </template>
 
 <script>
+import isDateAfter from 'date-fns/isAfter'
 import Avatar from './Avatar'
 import Rating from './Rating'
 
 import dateFormat from '~/utils/dateFormat'
 import camelCase from '~~/server/utilities/capitalizeWords'
 import {
-  EstadoTrabajoLabel,
+  EstadoTrabajoColor,
   EstadoTrabajo,
   TipoTrabajo,
 } from '~~/server/utilities/enums'
@@ -85,19 +78,26 @@ export default {
     form: {},
   }),
   computed: {
-    Estados: () => EstadoTrabajoLabel,
-    isEstado() {
-      const rta = {}
-      for (const key in EstadoTrabajo) {
-        rta[key] = this.trabajo.estado === EstadoTrabajo[key]
-      }
-      return rta
-    },
     isPablic() {
       return this.trabajo.tipo === TipoTrabajo.PUBLICO
     },
-    displayEstado() {
-      return camelCase(this.trabajo.estado)
+    realEstado() {
+      const hours = new Date(this.agenda.fecha_inicio)
+      if (
+        this.trabajo.estado === EstadoTrabajo.PENDIENTE &&
+        hours &&
+        isDateAfter(Date.now(), hours)
+      ) {
+        return EstadoTrabajo.EN_PROGRESO
+      } else {
+        return this.trabajo.estado
+      }
+    },
+    estadosColor() {
+      return EstadoTrabajoColor[this.realEstado]
+    },
+    estadoLabel() {
+      return camelCase(this.realEstado)
     },
     cliente() {
       return this.trabajo.cliente
@@ -146,7 +146,7 @@ export default {
       return camelCase(dateFormat(hours, "EEEE dd/MM 'a las' HH:mm 'hs'"))
     },
     displayDuracion() {
-      if (this.isEstado.CONSULTA) return ''
+      if (this.trabajo.estado === EstadoTrabajo.CONSULTA) return ''
       const fechaInicio = new Date(this.agenda.fecha_inicio).getTime()
       const fechaFin = new Date(this.agenda.fecha_fin).getTime()
       const deltaTime = fechaFin - fechaInicio
@@ -156,8 +156,6 @@ export default {
     },
   },
   created() {},
-  methods: {
-    addNote() {},
-  },
+  methods: {},
 }
 </script>

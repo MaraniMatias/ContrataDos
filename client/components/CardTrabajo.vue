@@ -316,7 +316,7 @@
                       <v-icon v-else>insert_invitation</v-icon>
                     </v-btn>
                   </template>
-                  <span v-if="showSetHours">Volver al treclado</span>
+                  <span v-if="showSetHours">Volver al teclado</span>
                   <span v-else>Proponer una fecha para la cita</span>
                 </v-tooltip>
               </v-layout>
@@ -348,8 +348,6 @@ import {
   EstadoTrabajo,
   TipoTrabajo,
 } from '~~/server/utilities/enums'
-
-const NOW = new Date()
 
 export default {
   components: {
@@ -394,7 +392,7 @@ export default {
       if (
         this.trabajo.estado === EstadoTrabajo.PENDIENTE &&
         hours &&
-        isDateAfter(NOW, hours)
+        isDateAfter(Date.now(), hours)
       ) {
         return EstadoTrabajo.EN_PROGRESO
       } else {
