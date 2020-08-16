@@ -2,8 +2,6 @@
   <v-card color="grey lighten-4" min-width="350px" flat>
     <v-toolbar :color="color" dark dense flat>
       <v-toolbar-title v-text="displayTitle" />
-      <v-spacer />
-      {{ displayEstado }}
       <v-btn icon small class="mr-0 ml-2" @click.stop="$emit('close')">
         <v-icon>close</v-icon>
       </v-btn>
@@ -26,6 +24,8 @@
         <p class="mb-1 body-1">Dirrecion: {{ localidadNombre }}</p>
         <p class="mb-1">{{ trabajo.descripcion }}</p>
         <v-layout align-center>
+          {{ displayEstado }}
+          <v-spacer />
           <v-tooltip v-if="trabajo.like || trabajo.dontLike" bottom>
             <template v-slot:activator="{ on }">
               <div v-on="on">
