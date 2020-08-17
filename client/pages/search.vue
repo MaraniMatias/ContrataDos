@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { Persona, Habilidad, Localidad } from '~/api'
 import CardPerfil from '~/components/CardPerfil'
 import ModalContratar from '~/components/ModalContratar'
@@ -63,6 +64,9 @@ export default {
     showModal: false,
     totalItems: 0,
   }),
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   computed: {
     user() {
       return this.$store.state.user

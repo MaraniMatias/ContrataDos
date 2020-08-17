@@ -10,9 +10,14 @@
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect'
+
 export default {
   components: {},
   data: () => ({}),
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   computed: {},
   methods: {},
 }

@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { mapActions } from 'vuex'
 import CardForm from '../components/CardForm'
 
@@ -80,6 +81,9 @@ export default {
     loading: false,
     changeOk: false,
   }),
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   computed: {},
   created() {},
   mounted() {},

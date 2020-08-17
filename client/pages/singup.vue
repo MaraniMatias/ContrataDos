@@ -131,6 +131,7 @@
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { mapActions } from 'vuex'
 import CardForm from '../components/CardForm'
 import Token from '~/api/Token'
@@ -153,6 +154,9 @@ export default {
       password2: null,
     },
   }),
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   computed: {
     listTipoUsuario: () => RolesLabel.filter(({ show }) => show),
   },

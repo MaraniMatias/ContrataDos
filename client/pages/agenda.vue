@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { mapGetters } from 'vuex'
 import { Trabajo } from '~/api'
 import { EstadoTrabajoColor } from '~~/server/utilities/enums'
@@ -91,6 +92,9 @@ export default {
     selectedOpen: false,
     events: [],
   }),
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   computed: {
     ...mapGetters(['isAProfessional']),
     title() {

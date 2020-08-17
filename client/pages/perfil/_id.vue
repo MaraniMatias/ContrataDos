@@ -115,6 +115,7 @@
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
@@ -174,6 +175,9 @@ export default {
     cantidadTrabajos: 0,
     saveMark: false,
   }),
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   computed: {
     ...mapGetters(['isLoggedIn']),
     user() {

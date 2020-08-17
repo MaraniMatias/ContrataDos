@@ -22,9 +22,7 @@
           </v-btn>
           <v-btn nuxt text to="/agenda">Agenda</v-btn>
           <v-btn nuxt text to="/trabajos">Trabajos</v-btn>
-          <v-btn v-if="isACliente" nuxt text to="/markers">
-            Marcadores
-          </v-btn>
+          <v-btn nuxt text to="/markers">Marcadores</v-btn>
           <v-btn nuxt text to="/perfil">Perfil</v-btn>
           <v-btn text href="/docs">Ayuda</v-btn>
           <!--
@@ -49,11 +47,9 @@
         </template>
       </v-layout>
     </v-app-bar>
-    <v-content>
-      <v-container class="fill-height" fluid>
-        <nuxt />
-      </v-container>
-    </v-content>
+    <v-container class="fill-height" fluid>
+      <nuxt />
+    </v-container>
     <v-footer :fixed="fixed" app>
       <copyright />
     </v-footer>
