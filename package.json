@@ -9,7 +9,7 @@
     "server": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "client": "nuxt",
     "docs": "vuepress dev ./docs --no-cache",
-    "build:client": "nuxt build && nuxt export",
+    "build:client": "nuxt build && nuxt generate",
     "build:docs": "vuepress build ./docs",
     "docs:export": "vuepress export ./docs",
     "start": "cross-env NODE_ENV=production node index.js"

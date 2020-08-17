@@ -22,7 +22,7 @@
 
     <v-layout v-if="!loadingTrabajos" column>
       <v-flex v-if="showAddBtn" xs12>
-        <CardTrabajoAdd @click.stop="editJob()" />
+        <CardTrabajoAdd @click="editJob()" />
       </v-flex>
       <v-flex v-for="(trabajo, $i) in listTrabajos" :key="$i" xs12>
         <CardTrabajo :trabajo="trabajo" @edit="editJob(trabajo)" />
@@ -75,6 +75,7 @@ export default {
       this.listTrabajos = data || []
       this.loadingTrabajos = false
     },
+
     editJob(trabajo) {
       this.showModal = true
       this.selectedJob = trabajo

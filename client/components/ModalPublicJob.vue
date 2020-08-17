@@ -79,7 +79,7 @@
         </template>
         -->
       <template v-slot:actions-left>
-        <v-btn v-if="trabajo._id" color="red darken-4" text @click="deleted()">
+        <v-btn v-if="trabajo._id" color="red darken-4" text @click="delJob()">
           Eliminar
         </v-btn>
       </template>
@@ -149,6 +149,7 @@ export default {
       this.pickupImg = false
     },
     async saveTrabajo(formValid) {
+      console.log(this.trabajo)
       if (!formValid) return
       this.loading = true
       this.form.tipo = TipoTrabajo.PUBLICO
@@ -187,7 +188,7 @@ export default {
       }
     },
   },
-  async deleted() {
+  async delJob() {
     this.loading = true
     const { error } = await Trabajo.delete(this.trabajo)
     if (error) {

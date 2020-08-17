@@ -1,10 +1,10 @@
-<template functional>
+<template>
   <v-hover v-slot:default="{ hover }" open-delay="200">
     <v-card
       outlined
       :elevation="hover ? 1 : 0"
       class="my-4"
-      @click="listeners.click"
+      @click="$emit('click')"
     >
       <v-card-text class="text-center py-4">
         <v-icon size="120" color="grey lighten-1">

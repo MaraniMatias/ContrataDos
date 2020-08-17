@@ -146,7 +146,7 @@ export default {
   async asyncData({ params, store, redirect }) {
     if (typeof params.id === 'undefined') {
       if (store.getters.isLoggedIn) {
-        return { perfil: store.state.user }
+        return { perfil: store.state.user, showBtnEditable: true }
       } else {
         redirect('/login')
       }
@@ -154,7 +154,11 @@ export default {
       const { data } = await Persona.getById(params.id, {
         populate: 'servicios,localidad',
       })
-      return { perfil: data }
+      if (data) {
+        return { perfil: data, showBtnEditable: false }
+      } else {
+        redirect('/trabajos')
+      }
     }
   },
   data: () => ({
@@ -174,9 +178,6 @@ export default {
     ...mapGetters(['isLoggedIn']),
     user() {
       return this.$store.state.user
-    },
-    showBtnEditable() {
-      return !this.$route.params.id
     },
     headline() {
       const nombre = this.perfil.nombre || ''
