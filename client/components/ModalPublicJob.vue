@@ -187,17 +187,17 @@ export default {
         descripcion: '',
       }
     },
-  },
-  async delJob() {
-    this.loading = true
-    const { error } = await Trabajo.delete(this.trabajo)
-    if (error) {
-      this.$notify({ type: 'error', text: error.message || error })
-    } else {
-      this.$notify({ type: 'success', text: 'Trabajo eliminado.' })
-      this.close()
-    }
-    this.loading = false
+    async delJob() {
+      this.loading = true
+      const { error } = await Trabajo.delete(this.trabajo)
+      if (error) {
+        this.$notify({ type: 'error', text: error.message || error })
+      } else {
+        this.$notify({ type: 'success', text: 'Trabajo eliminado.' })
+        this.close()
+      }
+      this.loading = false
+    },
   },
 }
 </script>
