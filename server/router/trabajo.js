@@ -24,7 +24,7 @@ restify.serve(router, Trabajo, {
       const { profesional, cliente } = trabajo
       // typeof cliente === 'undefined' &&
       if (trabajo.tipo === TipoTrabajo.PUBLICO) {
-        next()
+        return next()
       }
 
       const isNewState = (check) => {
