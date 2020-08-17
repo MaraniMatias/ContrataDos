@@ -70,7 +70,7 @@ export default {
     fixed: false,
   }),
   computed: {
-    ...mapGetters(['isLoggedIn', 'isACliente']),
+    ...mapGetters(['isLoggedIn']),
     user() {
       return this.$store.state.user || {}
     },

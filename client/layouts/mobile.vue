@@ -11,10 +11,20 @@
         :dark="!hideAppBar"
         scroll-target="#scrolling-techniques-6"
       >
-        <v-app-bar-nav-icon @click.native="drawer = !drawer" />
+        <v-app-bar-nav-icon
+          v-if="isLoggedIn"
+          @click.native="drawer = !drawer"
+        />
         <v-toolbar-title class="title" v-text="pageTitle" />
+        <template v-if="!isLoggedIn">
+          <v-spacer />
+          <v-btn outlined class="mt-2" color="primary" @click="goToPerfil">
+            Iniciar session
+          </v-btn>
+        </template>
       </v-app-bar>
       <v-navigation-drawer
+        v-if="isLoggedIn"
         v-model="drawer"
         :hide-overlay="hideOverlay"
         class="grey lighten-4"
@@ -113,7 +123,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 import Avatar from '../components/Avatar'
 import camelCase from '~~/server/utilities/capitalizeWords'
@@ -126,25 +136,44 @@ export default {
   }),
   computed: {
     ...mapState(['user']),
+    ...mapGetters(['isLoggedIn']),
     hideOverlay() {
       return this.$vuetify.breakpoint.smAndUp
     },
     user() {
       return this.$store.state.user
     },
+    hideAppBar() {
+      return ['index', 'login', 'loginout', 'singup'].includes(this.$route.name)
+    },
     menuPerfil() {
       const nombre = this.user.nombre || ''
       return camelCase(this.user.razon_social ? this.razon_social : nombre)
     },
     pageTitle() {
+      if (this.hideAppBar) return ''
       return this.$route.meta?.name || 'ContrataDos'
     },
   },
   created() {},
+  mounted() {
+    const self = this
+    this.getMe().then(function ({ data }) {
+      if (data && ['login', 'loginout', 'singup'].includes(self.$route.name)) {
+        self.$router.replace('/trabajos')
+      }
+    })
+  },
   methods: {
+    ...mapActions(['logout', 'getMe']),
     async loginOut() {
       await this.logout()
       this.$router.replace('/loginout')
+    },
+    goToPerfil() {
+      if (this.$route.name !== 'login') {
+        this.$router.replace('/login')
+      }
     },
   },
 }
