@@ -1,14 +1,11 @@
 <template>
   <v-layout align-center justify-center fill-height>
     <v-flex xs12 lg5 xl3>
-      <v-layout column>
+      <v-layout column style="margin-bottom: 100px;">
         <v-flex class="text-center">
           <img
             src="/logo.png"
             alt="logo de ContrataDos"
-            :style="{
-              'max-width': logoHeight,
-            }"
             width="100%"
             height="100%"
           />

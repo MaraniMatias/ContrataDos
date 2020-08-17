@@ -1,116 +1,129 @@
 <template>
-  <v-layout mb-2 px-2 justify-center>
-    <v-flex xs12 sm12 md10 lg8 xl6 mt-4 mb-2>
-      <v-layout justify-center align-start>
-        <v-flex xs12 lg4>
-          <v-layout column align-center>
-            <Avatar
-              size="225"
-              :src="perfil.picture"
-              :editable="showBtnEditable"
-              elevation
-              class="ma-2"
-              @change="changeUser"
-            />
-            <template v-if="isAProfessional">
-              <Rating v-if="showRating" :value="score.rating" star />
-              <p v-else class="mb-0 text-center">
-                Trabajos realizados insuficientes para obtener una
-                clasificación.
-              </p>
-            </template>
-          </v-layout>
-        </v-flex>
-        <v-flex xs12 lg8>
-          <div class="overline mt-2">{{ cantidadTrabajosLabel }}</div>
-          <v-layout align-center mb-1>
-            <v-flex>
-              <p class="headline mb-0" v-text="headline" />
-            </v-flex>
-            <template v-if="showBtnEditable">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn icon text @click="enableEmailNotify" v-on="on">
-                    <v-icon v-if="form.notification">
-                      notifications_active
-                    </v-icon>
-                    <v-icon v-else>notifications_off</v-icon>
-                  </v-btn>
-                </template>
-                <span>
-                  {{ form.notification ? 'Deshabilitar ' : 'Habilitar ' }}
-                  notificaciones de email
-                </span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn icon text @click.stop="showModalEdit = true" v-on="on">
-                    <v-icon>edit</v-icon>
-                  </v-btn>
-                </template>
-                Editar perfil
-              </v-tooltip>
-            </template>
-          </v-layout>
-          <v-layout v-if="isAProfessional" align-center>
-            <!-- <p class="mb-0">Profesiones:</p> -->
-            <v-chip
-              v-for="(h, $i) in perfil.servicios"
-              :key="$i"
-              outlined
-              class="mx-2"
-              v-text="h.nombre"
-            />
-          </v-layout>
-          <span v-if="showBtnEditable">{{ perfil.email }}</span>
-          <div style="min-height: 85px;" v-html="perfil.bibliography" />
-          <v-layout align-center justify-end mt-2>
-            <v-flex v-show="localidadNombre" xs12>
-              Recide en {{ localidadNombre }}
-            </v-flex>
-            <template v-if="!showBtnEditable && isAProfessional">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    color="sencudary"
-                    outlined
-                    :loading="saveMark"
-                    @click="marker()"
-                    v-on="on"
-                  >
-                    <v-icon v-if="isInMarks" left>bookmark</v-icon>
-                    <v-icon v-else left>bookmark_border</v-icon>
-                    Marcadores
-                  </v-btn>
-                </template>
-                {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
-              </v-tooltip>
-              <v-btn
-                color="red darken-4"
-                class="ml-2"
+  <v-layout column mb-2>
+    <div class="hidden-md-and-down" style="margin-top: 60px;"></div>
+    <div class="hidden-md-and-up" style="margin-top: 40px;"></div>
+    <v-layout mb-2 px-2 justify-center>
+      <v-flex xs12 sm12 md10 lg8 xl6 mt-4 mb-2>
+        <v-layout justify-center align-start>
+          <v-flex xs12 lg4>
+            <v-layout column align-center>
+              <Avatar
+                size="225"
+                :src="perfil.picture"
+                :editable="showBtnEditable"
+                elevation
+                class="ma-2"
+                @change="changeUser"
+              />
+              <template v-if="isAProfessional">
+                <Rating v-if="showRating" :value="score.rating" star />
+                <p v-else class="mb-0 text-center">
+                  Trabajos realizados insuficientes para obtener una
+                  clasificación.
+                </p>
+              </template>
+            </v-layout>
+          </v-flex>
+          <v-flex xs12 lg8>
+            <div class="overline mt-2">{{ cantidadTrabajosLabel }}</div>
+            <v-layout align-center mb-1>
+              <v-flex>
+                <p class="headline mb-0" v-text="headline" />
+              </v-flex>
+              <template v-if="showBtnEditable">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn icon text @click="enableEmailNotify" v-on="on">
+                      <v-icon v-if="form.notification">
+                        notifications_active
+                      </v-icon>
+                      <v-icon v-else>notifications_off</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>
+                    {{ form.notification ? 'Deshabilitar ' : 'Habilitar ' }}
+                    notificaciones de email
+                  </span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      icon
+                      text
+                      @click.stop="showModalEdit = true"
+                      v-on="on"
+                    >
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                  </template>
+                  Editar perfil
+                </v-tooltip>
+              </template>
+            </v-layout>
+            <v-layout v-if="isAProfessional" align-center>
+              <!-- <p class="mb-0">Profesiones:</p> -->
+              <v-chip
+                v-for="(h, $i) in perfil.servicios"
+                :key="$i"
                 outlined
-                @click="contratar"
-              >
-                Contactar
-              </v-btn>
-            </template>
-          </v-layout>
-        </v-flex>
-      </v-layout>
+                class="mx-2"
+                v-text="h.nombre"
+              />
+            </v-layout>
+            <span v-if="showBtnEditable">{{ perfil.email }}</span>
+            <div style="min-height: 85px;" v-html="perfil.bibliography" />
+            <v-layout align-center justify-end mt-2>
+              <v-flex v-show="localidadNombre" xs12>
+                Recide en {{ localidadNombre }}
+              </v-flex>
+              <template v-if="!showBtnEditable && isAProfessional">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      color="sencudary"
+                      outlined
+                      :loading="saveMark"
+                      @click="marker()"
+                      v-on="on"
+                    >
+                      <v-icon v-if="isInMarks" left>bookmark</v-icon>
+                      <v-icon v-else left>bookmark_border</v-icon>
+                      Marcadores
+                    </v-btn>
+                  </template>
+                  {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
+                </v-tooltip>
+                <v-btn
+                  color="red darken-4"
+                  class="ml-2"
+                  outlined
+                  @click="contratar"
+                >
+                  Contactar
+                </v-btn>
+              </template>
+            </v-layout>
+          </v-flex>
+        </v-layout>
 
-      <v-layout justify-center align-start mt-4>
-        <v-divider />
-      </v-layout>
-      <PerfilTrabajosList
-        v-if="isAProfessional"
-        :show-add-btn="showBtnEditable"
-        :profil-id="perfil._id"
-      />
-    </v-flex>
-    <v-dialog v-model="showModalEdit" width="550">
-      <ModalProfesional v-if="showModalEdit" @submit="submit" @close="close" />
-    </v-dialog>
-    <ModalContratar v-model="showModalContrart" :perfil="perfil" />
+        <v-layout justify-center align-start mt-4>
+          <v-divider />
+        </v-layout>
+        <PerfilTrabajosList
+          v-if="isAProfessional"
+          :show-add-btn="showBtnEditable"
+          :profil-id="perfil._id"
+        />
+      </v-flex>
+      <v-dialog v-model="showModalEdit" width="550">
+        <ModalProfesional
+          v-if="showModalEdit"
+          @submit="submit"
+          @close="close"
+        />
+      </v-dialog>
+      <ModalContratar v-model="showModalContrart" :perfil="perfil" />
+    </v-layout>
   </v-layout>
 </template>
 

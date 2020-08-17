@@ -1,6 +1,8 @@
 <template>
   <v-layout column mb-2>
-    <v-layout>
+    <div class="hidden-md-and-down" style="margin-top: 60px;"></div>
+    <div class="hidden-md-and-up" style="margin-top: 40px;"></div>
+    <v-layout wrap>
       <v-flex xs12 lg5 xl4>
         <v-layout justify-start align-center>
           <v-chip-group v-model="filters" multiple @change="loadData">
@@ -17,7 +19,7 @@
           </v-chip-group>
         </v-layout>
       </v-flex>
-      <v-flex xs12 lg3 xl4 mt-3>
+      <v-flex xs12 lg3 xl4 mt-3 class="hidden-md-and-down">
         <v-layout v-show="!loadingTrabajos" align-center justify-center>
           <span>Trabajos: {{ score.total }}</span>
           <span class="ml-6">Valorados: </span>
@@ -28,7 +30,11 @@
         </v-layout>
       </v-flex>
       <v-flex xs12 lg4 xl4>
-        <v-layout justify-end align-center>
+        <v-layout
+          :justify-end="$vuetify.breakpoint.lgAndUp"
+          align-center
+          :justify-center="$vuetify.breakpoint.mdAndDown"
+        >
           <v-chip-group
             v-if="isAProfessional"
             v-model="viewLike"
@@ -61,7 +67,14 @@
       </v-flex>
     </v-layout>
 
-    <v-flex v-show="loadingTrabajos" x12 mt-4 mb-2 class="text-center">
+    <v-flex
+      v-show="loadingTrabajos"
+      x12
+      mt-4
+      mb-2
+      class="text-center"
+      fill-height
+    >
       <v-progress-circular
         width="2"
         indeterminate
@@ -116,7 +129,13 @@
   </v-layout>
 </template>
 
+<router>
+  meta:
+    name: "Trabajos"
+</router>
+
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 
 import ModalProfesional from '~/components/ModalProfesional'
@@ -167,6 +186,9 @@ export default {
     showTutorial() {
       return this.user?.['show_tutorial'] ?? false
     },
+  },
+  layout() {
+    return isMobile ? 'mobile' : 'default'
   },
   async mounted() {
     const self = this

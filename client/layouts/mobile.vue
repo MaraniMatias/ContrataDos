@@ -2,8 +2,6 @@
   <v-app ng-cloak>
     <v-card class="overflow-hidden">
       <v-app-bar
-        :collapse="!collapseOnScroll"
-        :collapse-on-scroll="collapseOnScroll"
         absolute
         :color="hideAppBar ? 'transparent' : 'primary'"
         :class="{ 'elevation-0': hideAppBar }"
@@ -39,8 +37,6 @@
         v-model="drawer"
         :hide-overlay="hideOverlay"
         class="grey lighten-4"
-        :right="right"
-        :left="left"
         width="250"
         clipped
         fixed
