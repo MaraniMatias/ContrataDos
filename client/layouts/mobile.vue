@@ -15,7 +15,18 @@
           v-if="isLoggedIn"
           @click.native="drawer = !drawer"
         />
-        <v-toolbar-title class="title" v-text="pageTitle" />
+        <v-toolbar-title v-if="pageTitle" class="title" v-text="pageTitle" />
+        <v-btn
+          v-else-if="hideLogo"
+          nuxt
+          text
+          to="/"
+          color="transparent"
+          tag="a"
+          class="pa-0 mt-2"
+        >
+          <Logo :bg="!hideAppBar" />
+        </v-btn>
         <template v-if="!isLoggedIn">
           <v-spacer />
           <v-btn outlined class="mt-2" color="primary" @click="goToPerfil">
@@ -126,10 +137,11 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 import Avatar from '../components/Avatar'
+import Logo from '~/components/Logo.vue'
 import camelCase from '~~/server/utilities/capitalizeWords'
 
 export default {
-  components: { Avatar },
+  components: { Avatar, Logo },
   data: () => ({
     collapseOnScroll: true,
     drawer: false,
@@ -142,6 +154,9 @@ export default {
     },
     user() {
       return this.$store.state.user
+    },
+    hideLogo() {
+      return this.$route.name !== 'index'
     },
     hideAppBar() {
       return ['index', 'login', 'loginout', 'singup'].includes(this.$route.name)

@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-center>
+  <v-layout align-center justify-center fill-height>
     <v-layout v-show="!loading" column justify-center align-center>
       <v-flex xs12 md6 lg4 xl3>
         <CardForm hide-header @submit="authLocal">
