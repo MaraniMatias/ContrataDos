@@ -53,7 +53,7 @@ const save = (BASE_URL) => async (object = {}) => {
 
 const del = (BASE_URL) => async (object = {}) => {
   try {
-    return await http.path(BASE_URL + `/${object._id}`, { deleted: true })
+    return await http.patch(BASE_URL + `/${object._id}`, { deleted: true })
   } catch (err) {
     return { error: err?.message || 'ApiError' }
   }
