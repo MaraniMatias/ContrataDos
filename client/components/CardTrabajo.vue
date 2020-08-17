@@ -76,13 +76,15 @@
     <v-hover v-slot:default="{ hover }" open-delay="100">
       <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
         <v-card-title v-if="!isPablic" class="pb-0">
-          <v-layout>
+          <v-layout wrap>
             <v-layout align-center>
               <Avatar size="64" :src="displayPicture" class="ma-2" />
-              <v-layout column justify-center>
-                <a class="title mb-0" @click="goToPerfi">{{ displayName }}</a>
-                <span class="body-1" v-text="displayEmail" />
-              </v-layout>
+              <v-flex>
+                <v-layout column>
+                  <a class="title mb-0" @click="goToPerfi">{{ displayName }}</a>
+                  <span class="body-1" v-text="displayEmail" />
+                </v-layout>
+              </v-flex>
             </v-layout>
             <v-layout column justify-start align-end fill-height>
               <v-chip
@@ -195,16 +197,28 @@
             >
               {{ showAsCliente ? 'Cancelar' : 'Rechazar' }}
             </v-btn>
-            <v-btn
+            <template
               v-if="
                 !showAsCliente && (isEstado.PENDIENTE || isEstado.EN_PROGRESO)
               "
-              color="teal"
-              outlined
-              @click.stop="optionsModal = true"
             >
-              Opciones
-            </v-btn>
+              <v-btn
+                v-if="mdAndDown"
+                color="teal"
+                icon
+                @click.stop="optionsModal = true"
+              >
+                <v-icon>edit</v-icon>
+              </v-btn>
+              <v-btn
+                v-else
+                color="teal"
+                outlined
+                @click.stop="optionsModal = true"
+              >
+                Opciones
+              </v-btn>
+            </template>
             <v-btn
               v-show="!showAsCliente && isEstado.EN_PROGRESO"
               color="deep-purple"
@@ -386,6 +400,12 @@ export default {
     interval: null,
   }),
   computed: {
+    lgAndUp() {
+      return this.$vuetify.breakpoint.lgAndUp
+    },
+    mdAndDown() {
+      return this.$vuetify.breakpoint.mdAndDown
+    },
     Estados: () => EstadoTrabajoLabel,
     realEstado() {
       const hours = new Date(this.agenda.fecha_inicio)

@@ -46,6 +46,7 @@
 </router>
 
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { Trabajo } from '~/api'
 
 import CardTrabajo from '~/components/CardTrabajo'
@@ -53,6 +54,9 @@ import ObjectId from '~/utils/formRules/objectId'
 
 export default {
   middleware: 'authenticated',
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   components: { CardTrabajo },
   validate({ params }) {
     return ObjectId()(params.id) === true
