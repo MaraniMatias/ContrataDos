@@ -15,7 +15,7 @@
                 class="ma-2"
                 @change="changeUser"
               />
-              <template v-if="isAProfessional">
+              <template v-if="isAProfessional && lgAndUp">
                 <Rating v-if="showRating" :value="score.rating" star />
                 <p v-else class="mb-0 text-center">
                   Trabajos realizados insuficientes para obtener una
