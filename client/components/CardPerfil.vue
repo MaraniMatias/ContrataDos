@@ -139,7 +139,9 @@ export default {
       return '/perfil/' + this.perfil._id
     },
     isInMarks() {
-      return this.user.marks_professional.includes(this.perfil._id)
+      return this.user
+        ? this.user.marks_professional.includes(this.perfil._id)
+        : false
     },
     showRating() {
       return this.score.total > 10
