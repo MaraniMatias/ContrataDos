@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@nuxtjs/dotenv": "^1.4.0",
-    "@nuxtjs/pwa": "^3.0.0-0",
+    "@nuxtjs/pwa": "^3.0.1",
     "agenda": "^3.1.0",
     "agendash": "^1.0.0",
     "axios": "^0.19.2",
@@ -49,8 +49,7 @@
     "multer": "^1.4.2",
     "nodemailer": "^6.4.11",
     "nodemailer-smtp-transport": "^2.7.4",
-    "nuxt": "^2.14.2",
-    "nuxt-compress": "^2.0.0",
+    "nuxt": "^2.14.3",
     "nuxt-material-design-icons": "^1.0.4",
     "nuxt-social-meta": "0.0.5",
     "object-assign": "^4.1.1",
