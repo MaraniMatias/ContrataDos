@@ -599,11 +599,11 @@ export default {
       const chat = { trabajo: this.trabajo._id }
       chat.detalle = this.form.detalle
       if (this.showAsCliente) {
-        chat.to = this.profesional
+        chat.to = this.trabajo.profesional
         chat.from = this.$store.state.user
       } else {
         chat.to = this.$store.state.user
-        chat.from = this.profesional
+        chat.from = this.trabajo.profesional
       }
       this.loading = true
       const { data, error } = await Comunicacion.save(chat)

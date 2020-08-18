@@ -230,7 +230,9 @@ export default {
       return `Trabajos ${text}: ` + this.cantidadTrabajos
     },
     isInMarks() {
-      return this.user.marks_professional.includes(this.perfil._id)
+      return this.user
+        ? this.user.marks_professional.includes(this.perfil._id)
+        : false
     },
   },
   async mounted() {
