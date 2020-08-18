@@ -600,9 +600,9 @@ export default {
       chat.detalle = this.form.detalle
       if (this.showAsCliente) {
         chat.to = this.trabajo.profesional
-        chat.from = this.$store.state.user
+        chat.from = this.trabajo.cliente
       } else {
-        chat.to = this.$store.state.user
+        chat.to = this.trabajo.cliente
         chat.from = this.trabajo.profesional
       }
       this.loading = true
@@ -621,9 +621,9 @@ export default {
       chat.fecha = this.form.fechaInicio
       if (this.showAsCliente) {
         chat.to = this.trabajo.profesional
-        chat.from = this.$store.state.user
+        chat.from = this.trabajo.cliente
       } else {
-        chat.to = this.$store.state.user
+        chat.to = this.trabajo.cliente
         chat.from = this.trabajo.profesional
       }
       this.loading = true
