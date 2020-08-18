@@ -238,7 +238,7 @@ export default {
       }
     },
     showRating() {
-      return this.score.total > 10
+      return this.score.total >= 10
     },
     cantidadTrabajosLabel() {
       const text = this.isAProfessional ? 'realizados' : 'contratados'

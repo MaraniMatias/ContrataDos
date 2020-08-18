@@ -87,8 +87,8 @@
     <v-layout v-show="!loadingTrabajos" justify-center fill-height mt-0>
       <v-flex xs12 lg7 xl5>
         <CardTrabajo
-          v-for="(j, $i) in listTrabajos"
-          :key="$i"
+          v-for="j in listTrabajos"
+          :key="j._id"
           :trabajo="j"
           @edit="editJob(j)"
           @change="loadData"

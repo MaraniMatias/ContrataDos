@@ -144,7 +144,7 @@ export default {
         : false
     },
     showRating() {
-      return this.score.total > 10
+      return this.score.total >= 10
     },
   },
   mounted() {
