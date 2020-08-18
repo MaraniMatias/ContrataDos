@@ -25,8 +25,8 @@ module.exports.start = async function () {
 
     await this.Agenda.start()
     autoStartJobs.forEach((jobCreate) => jobCreate(this.Agenda))
-    // await this.Agenda.purge() // delete old agenda job
-  } catch (e) {
-    console.error('Error al cargar agenda')
+    await this.Agenda.purge() // delete old agenda job
+  } catch (err) {
+    console.error('Error al cargar agenda', err)
   }
 }
