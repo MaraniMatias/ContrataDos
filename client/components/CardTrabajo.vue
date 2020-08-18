@@ -258,8 +258,10 @@
               </v-btn>
 
               <v-badge color="error" overlap :value="newComments">
-                <v-btn color="black" outlined @click="openChat">
-                  {{ showChat ? 'Ocultar chat' : 'Ver chat' }}
+                <v-btn color="black" icon outlined @click="openChat">
+                  <v-icon v-if="showChat" left>keyboard_arrow_down</v-icon>
+                  <v-icon v-else left>keyboard_arrow_up</v-icon>
+                  Chat
                 </v-btn>
               </v-badge>
             </v-layout>
@@ -297,21 +299,33 @@
             </div>
             <v-layout v-show="!isEstado.CANCELADO">
               <v-flex xs12 mt-2>
-                <v-layout v-show="showSetHours" wrap mx-12>
-                  <FieldDate
-                    v-model="form.fechaInicio"
-                    hide-details
-                    :min="new Date().toISOString().substr(0, 10)"
-                  />
-                  <FieldTime v-model="form.fechaInicio" hide-details />
-                  <v-btn
-                    class="ml-2"
-                    color="primary"
-                    outlined
-                    @click="sendHours"
-                  >
-                    Proponer fecha
-                  </v-btn>
+                <v-layout
+                  v-show="showSetHours"
+                  wrap
+                  mx-12
+                  justify-center
+                  align-center
+                >
+                  <v-flex xs12 md6 lg4>
+                    <FieldDate
+                      v-model="form.fechaInicio"
+                      hide-details
+                      :min="new Date().toISOString().substr(0, 10)"
+                    />
+                  </v-flex>
+                  <v-flex xs12 md6 lg4>
+                    <FieldTime v-model="form.fechaInicio" hide-details />
+                  </v-flex>
+                  <v-flex xs12 md6 lg4>
+                    <v-btn
+                      class="ml-2"
+                      color="primary"
+                      outlined
+                      @click="sendHours"
+                    >
+                      Proponer fecha
+                    </v-btn>
+                  </v-flex>
                 </v-layout>
                 <v-text-field
                   v-show="!showSetHours"
