@@ -21,7 +21,7 @@
           to="/"
           color="transparent"
           tag="a"
-          class="pa-0 mt-2"
+          class="pa-0"
         >
           <Logo :bg="!hideAppBar" />
         </v-btn>
