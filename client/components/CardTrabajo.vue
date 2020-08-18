@@ -95,7 +95,7 @@
               />
               <p
                 v-show="isEstado.PENDIENTE || isEstado.EN_PROGRESO"
-                class="mb-0 mt-2 display-2 font-weight-black"
+                class="mb-0 mt-2 display-1 font-weight-black"
               >
                 {{ displayFecha }}
               </p>
