@@ -13,9 +13,9 @@
           v-if="isLoggedIn"
           @click.native="drawer = !drawer"
         />
-        <v-toolbar-title v-if="pageTitle" class="title" v-text="pageTitle" />
+        <!-- <v-toolbar-title v-if="pageTitle" class="title" v-text="pageTitle" /> -->
         <v-btn
-          v-else-if="hideLogo"
+          v-if="showLogo"
           nuxt
           text
           to="/"
@@ -151,7 +151,7 @@ export default {
     user() {
       return this.$store.state.user
     },
-    hideLogo() {
+    showLogo() {
       return this.$route.name !== 'index'
     },
     hideAppBar() {
