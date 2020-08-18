@@ -219,19 +219,25 @@
                 Opciones
               </v-btn>
             </template>
-            <v-btn v-if="mdAndDown" color="teal" icon @click="markAsDone">
-              <v-icon>done</v-icon>
-            </v-btn>
-            <v-btn
-              v-else
-              v-show="!showAsCliente && isEstado.EN_PROGRESO"
-              color="deep-purple"
-              class="mx-2"
-              text
-              @click="markAsDone"
-            >
-              Trabajo terminado
-            </v-btn>
+            <template v-if="!showAsCliente && isEstado.EN_PROGRESO">
+              <v-btn
+                v-if="mdAndDown"
+                color="deep-purple"
+                icon
+                @click="markAsDone"
+              >
+                <v-icon>done</v-icon>
+              </v-btn>
+              <v-btn
+                v-else
+                color="deep-purple"
+                class="mx-2"
+                text
+                @click="markAsDone"
+              >
+                Trabajo terminado
+              </v-btn>
+            </template>
             <v-btn
               v-show="!showAsCliente && isEstado.TERMINADO"
               class="mx-2"
