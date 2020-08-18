@@ -2,23 +2,23 @@
   <v-hover v-slot:default="{ hover }">
     <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
       <v-card-text>
-        <v-layout :column="$vuetify.breakpoint.smAndDown">
-          <v-flex xs12 lg3 d-inline-flex>
-            <Avatar size="196" :src="perfil.picture" class="ma-2" />
-          </v-flex>
-          <v-flex xs12>
-            <v-layout column pl-4 fill-height>
-              <div class="overline mt-2">
+        <v-layout align-center mb-2 mr-4>
+          <Avatar :size="avatarSize" :src="perfil.picture" />
+          <v-flex d-flex>
+            <v-layout column fill-height>
+              <div class="overline mt-2 ml-2">
                 Trabajos realizados: {{ score.total }}
               </div>
-              <v-layout align-center mb-1>
+              <v-layout align-center mb-1 ml-2>
                 <v-flex d-inline-flex>
                   <p class="headline mb-0" v-text="headline" />
                 </v-flex>
-                <Rating v-if="showRating" :value="score.rating" star />
-                <p v-else class="mb-0 text-center">
-                  Sin clasificar.
-                </p>
+                <template v-if="lgAndUp">
+                  <Rating v-if="showRating" :value="score.rating" star />
+                  <p v-else class="mb-0 text-center">
+                    Sin clasificar.
+                  </p>
+                </template>
               </v-layout>
               <v-layout align-center mb-2>
                 <v-chip
@@ -29,14 +29,37 @@
                   v-text="h.nombre"
                 />
               </v-layout>
-              <v-layout column fill-height align-start>
-                <p class="mb-0" v-html="perfil.bibliography" />
-              </v-layout>
-              <v-layout align-center justify-end>
-                <v-flex v-show="localidadNombre" xs12>
-                  Recide en {{ localidadNombre }}
-                </v-flex>
-                <v-tooltip v-if="isLoggedIn" bottom>
+            </v-layout>
+          </v-flex>
+        </v-layout>
+        <v-layout column>
+          <v-layout align-center mb-2>
+            <Rating v-if="showRating" :value="score.rating" star />
+            <p v-else class="mb-0 text-center">
+              Sin clasificar.
+            </p>
+          </v-layout>
+          <v-layout column fill-height align-start>
+            <p class="mb-0" v-html="perfil.bibliography" />
+          </v-layout>
+          <v-layout wrap align-center justify-end>
+            <v-flex v-show="localidadNombre" class="mb-2">
+              Recide en {{ localidadNombre }}
+            </v-flex>
+            <v-flex d-flex>
+              <v-layout v-if="isLoggedIn" justify-end>
+                <v-btn
+                  v-if="mdAndDown"
+                  color="sencudary"
+                  icon
+                  text
+                  :loading="saveMark"
+                  @click="marker()"
+                >
+                  <v-icon v-if="isInMarks">bookmark</v-icon>
+                  <v-icon v-else>bookmark_border</v-icon>
+                </v-btn>
+                <v-tooltip v-else bottom>
                   <template v-slot:activator="{ on }">
                     <v-btn
                       color="sencudary"
@@ -52,15 +75,15 @@
                   </template>
                   {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
                 </v-tooltip>
-                <v-btn color="primary" text :to="perfilLink" class="mx-2">
-                  Ver Perfil
-                </v-btn>
-                <v-btn color="red darken-4" outlined @click="contactar">
-                  Contactar
-                </v-btn>
               </v-layout>
-            </v-layout>
-          </v-flex>
+              <v-btn color="primary" text :to="perfilLink" class="mx-2">
+                Ver Perfil
+              </v-btn>
+              <v-btn color="red darken-4" outlined @click="contactar">
+                Contactar
+              </v-btn>
+            </v-flex>
+          </v-layout>
         </v-layout>
       </v-card-text>
     </v-card>
@@ -86,6 +109,18 @@ export default {
   }),
   computed: {
     ...mapGetters(['isLoggedIn']),
+    lgAndUp() {
+      return this.$vuetify.breakpoint.lgAndUp
+    },
+    mdAndDown() {
+      return this.$vuetify.breakpoint.mdAndDown
+    },
+    smAndDown() {
+      return this.$vuetify.breakpoint.smAndDown
+    },
+    avatarSize() {
+      return this.mdAndDown ? '56' : '128'
+    },
     user() {
       return this.$store.state.user
     },

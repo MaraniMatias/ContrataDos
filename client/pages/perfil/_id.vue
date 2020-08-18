@@ -4,7 +4,7 @@
     <div class="hidden-md-and-up" style="margin-top: 40px;"></div>
     <v-layout mb-2 px-2 justify-center>
       <v-flex xs12 sm12 md10 lg8 xl6 mt-4 mb-2>
-        <v-layout justify-center align-start>
+        <v-layout wrap justify-center align-start>
           <v-flex xs12 lg4>
             <v-layout column align-center>
               <Avatar
@@ -70,7 +70,7 @@
                 v-text="h.nombre"
               />
             </v-layout>
-            <span v-if="showBtnEditable">{{ perfil.email }}</span>
+            <p v-if="showBtnEditable" class="my-1">{{ perfil.email }}</p>
             <div style="min-height: 85px;" v-html="perfil.bibliography" />
             <v-layout align-center justify-end mt-2>
               <v-flex v-show="localidadNombre" xs12>
@@ -157,10 +157,17 @@ export default {
       return camelCase(value)
     },
   },
-  async asyncData({ params, store, redirect }) {
+  async asyncData({ params, store, redirect, $vuetify }) {
+    const lgAndUp = $vuetify.breakpoint.lgAndUp
+    const mdAndDown = $vuetify.breakpoint.mdAndDown
     if (typeof params.id === 'undefined') {
       if (store.getters.isLoggedIn) {
-        return { perfil: store.state.user, showBtnEditable: true }
+        return {
+          perfil: store.state.user,
+          showBtnEditable: true,
+          lgAndUp,
+          mdAndDown,
+        }
       } else {
         redirect('/login')
       }
@@ -169,7 +176,7 @@ export default {
         populate: 'servicios,localidad',
       })
       if (data) {
-        return { perfil: data, showBtnEditable: false }
+        return { perfil: data, showBtnEditable: false, lgAndUp, mdAndDown }
       } else {
         redirect('/trabajos')
       }
