@@ -95,7 +95,7 @@
               />
               <p
                 v-show="isEstado.PENDIENTE || isEstado.EN_PROGRESO"
-                class="mb-0 mt-2 display-1 font-weight-black"
+                class="mb-0 mt-2 headline font-weight-black"
               >
                 {{ displayFecha }}
               </p>
@@ -219,7 +219,11 @@
                 Opciones
               </v-btn>
             </template>
+            <v-btn v-if="mdAndDown" color="teal" icon @click="markAsDone">
+              <v-icon>check_circle_outline</v-icon>
+            </v-btn>
             <v-btn
+              v-else
               v-show="!showAsCliente && isEstado.EN_PROGRESO"
               color="deep-purple"
               class="mx-2"

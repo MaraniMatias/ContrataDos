@@ -76,32 +76,45 @@
               <v-flex v-show="localidadNombre" xs12>
                 Recide en {{ localidadNombre }}
               </v-flex>
-              <template v-if="!showBtnEditable && isAProfessional">
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      color="sencudary"
-                      outlined
-                      :loading="saveMark"
-                      @click="marker()"
-                      v-on="on"
-                    >
-                      <v-icon v-if="isInMarks" left>bookmark</v-icon>
-                      <v-icon v-else left>bookmark_border</v-icon>
-                      Marcadores
-                    </v-btn>
-                  </template>
-                  {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
-                </v-tooltip>
-                <v-btn
-                  color="red darken-4"
-                  class="ml-2"
-                  outlined
-                  @click="contratar"
-                >
-                  Contactar
-                </v-btn>
-              </template>
+              <v-flex d-flex>
+                <v-layout v-if="isLoggedIn" justify-end>
+                  <v-btn
+                    v-if="mdAndDown"
+                    color="sencudary"
+                    icon
+                    text
+                    :loading="saveMark"
+                    @click="marker()"
+                  >
+                    <v-icon v-if="isInMarks">bookmark</v-icon>
+                    <v-icon v-else>bookmark_border</v-icon>
+                  </v-btn>
+                  <v-tooltip v-else bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        color="sencudary"
+                        outlined
+                        :loading="saveMark"
+                        @click="marker()"
+                        v-on="on"
+                      >
+                        <v-icon v-if="isInMarks" left>bookmark</v-icon>
+                        <v-icon v-else left>bookmark_border</v-icon>
+                        Marcadores
+                      </v-btn>
+                    </template>
+                    {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
+                  </v-tooltip>
+                  <v-btn
+                    color="red darken-4"
+                    class="ml-2"
+                    outlined
+                    @click="contratar"
+                  >
+                    Contactar
+                  </v-btn>
+                </v-layout>
+              </v-flex>
             </v-layout>
           </v-flex>
         </v-layout>
@@ -230,7 +243,7 @@ export default {
       return `Trabajos ${text}: ` + this.cantidadTrabajos
     },
     isInMarks() {
-      return this.user
+      return this.user?.marks_professional
         ? this.user.marks_professional.includes(this.perfil._id)
         : false
     },

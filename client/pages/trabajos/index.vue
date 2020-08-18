@@ -90,6 +90,7 @@
           v-for="(j, $i) in listTrabajos"
           :key="$i"
           :trabajo="j"
+          @edit="editJob(j)"
           @change="loadData"
         />
       </v-flex>
@@ -273,6 +274,10 @@ export default {
     },
     close() {
       this.showModalEdit = false
+    },
+    editJob(trabajo) {
+      this.selectedJob = { ...trabajo }
+      this.showModal = true
     },
   },
 }

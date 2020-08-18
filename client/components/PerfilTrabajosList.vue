@@ -77,8 +77,8 @@ export default {
     },
 
     editJob(trabajo) {
+      this.selectedJob = { ...trabajo }
       this.showModal = true
-      this.selectedJob = trabajo
     },
   },
 }
