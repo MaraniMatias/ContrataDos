@@ -258,7 +258,7 @@
               </v-btn>
 
               <v-badge color="error" overlap :value="newComments">
-                <v-btn color="black" icon outlined @click="openChat">
+                <v-btn color="black" outlined @click="openChat">
                   <v-icon v-if="showChat" left>keyboard_arrow_down</v-icon>
                   <v-icon v-else left>keyboard_arrow_up</v-icon>
                   Chat
