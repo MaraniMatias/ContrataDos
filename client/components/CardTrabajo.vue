@@ -297,7 +297,7 @@
             </div>
             <v-layout v-show="!isEstado.CANCELADO">
               <v-flex xs12 mt-2>
-                <v-layout v-show="showSetHours" mx-12>
+                <v-layout v-show="showSetHours" wrap mx-12>
                   <FieldDate
                     v-model="form.fechaInicio"
                     hide-details
