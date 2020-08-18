@@ -33,12 +33,6 @@
           </v-flex>
         </v-layout>
         <v-layout column>
-          <v-layout align-center mb-2>
-            <Rating v-if="showRating" :value="score.rating" star />
-            <p v-else class="mb-0 text-center">
-              Sin clasificar.
-            </p>
-          </v-layout>
           <v-layout column fill-height align-start>
             <p class="mb-0" v-html="perfil.bibliography" />
           </v-layout>
