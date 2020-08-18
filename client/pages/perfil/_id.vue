@@ -78,7 +78,7 @@
               </v-flex>
               <v-flex d-flex>
                 <v-layout justify-end>
-                  <template v-if="isLoggedIn">
+                  <template v-if="isLoggedIn && !showBtnEditable">
                     <v-btn
                       v-if="mdAndDown"
                       color="sencudary"
@@ -108,6 +108,7 @@
                     </v-tooltip>
                   </template>
                   <v-btn
+                    :disabled="user._id === perfil._id"
                     color="red darken-4"
                     class="ml-2"
                     outlined
@@ -245,9 +246,8 @@ export default {
       return `Trabajos ${text}: ` + this.cantidadTrabajos
     },
     isInMarks() {
-      return this.user?.marks_professional
-        ? this.user.marks_professional.includes(this.perfil._id)
-        : false
+      // eslint-disable-next-line
+      return this.user?.marks_professional.includes(this.perfil._id) || false
     },
   },
   async mounted() {

@@ -47,41 +47,43 @@
               Recide en {{ localidadNombre }}
             </v-flex>
             <v-flex d-flex>
-              <v-layout v-if="isLoggedIn" justify-end>
-                <v-btn
-                  v-if="mdAndDown"
-                  color="sencudary"
-                  icon
-                  text
-                  :loading="saveMark"
-                  @click="marker()"
-                >
-                  <v-icon v-if="isInMarks">bookmark</v-icon>
-                  <v-icon v-else>bookmark_border</v-icon>
+              <v-layout justify-end>
+                <template v-if="isLoggedIn">
+                  <v-btn
+                    v-if="mdAndDown"
+                    color="sencudary"
+                    icon
+                    text
+                    :loading="saveMark"
+                    @click="marker()"
+                  >
+                    <v-icon v-if="isInMarks">bookmark</v-icon>
+                    <v-icon v-else>bookmark_border</v-icon>
+                  </v-btn>
+                  <v-tooltip v-else bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        color="sencudary"
+                        outlined
+                        :loading="saveMark"
+                        @click="marker()"
+                        v-on="on"
+                      >
+                        <v-icon v-if="isInMarks" left>bookmark</v-icon>
+                        <v-icon v-else left>bookmark_border</v-icon>
+                        Marcadores
+                      </v-btn>
+                    </template>
+                    {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
+                  </v-tooltip>
+                </template>
+                <v-btn color="primary" text :to="perfilLink" class="mx-2">
+                  Ver Perfil
                 </v-btn>
-                <v-tooltip v-else bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      color="sencudary"
-                      outlined
-                      :loading="saveMark"
-                      @click="marker()"
-                      v-on="on"
-                    >
-                      <v-icon v-if="isInMarks" left>bookmark</v-icon>
-                      <v-icon v-else left>bookmark_border</v-icon>
-                      Marcadores
-                    </v-btn>
-                  </template>
-                  {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
-                </v-tooltip>
+                <v-btn color="red darken-4" outlined @click="contactar">
+                  Contactar
+                </v-btn>
               </v-layout>
-              <v-btn color="primary" text :to="perfilLink" class="mx-2">
-                Ver Perfil
-              </v-btn>
-              <v-btn color="red darken-4" outlined @click="contactar">
-                Contactar
-              </v-btn>
             </v-flex>
           </v-layout>
         </v-layout>

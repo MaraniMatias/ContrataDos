@@ -1,8 +1,8 @@
 <template>
-  <v-layout column mb-2>
+  <v-layout column mb-5>
     <div class="hidden-md-and-down" style="margin-top: 60px;"></div>
     <div class="hidden-md-and-up" style="margin-top: 40px;"></div>
-    <v-layout wrap class="mb-6">
+    <v-layout wrap class="mb-5">
       <v-flex xs12 lg5 xl4>
         <v-layout justify-start align-center>
           <v-chip-group v-model="filters" multiple @change="loadData">
@@ -127,6 +127,11 @@
         @close="close"
       />
     </v-dialog>
+    <ModalPublicJob
+      v-model="showModal"
+      :trabajo="selectedJob"
+      @change="loadData"
+    />
   </v-layout>
 </template>
 
@@ -139,6 +144,7 @@
 import { isMobile } from 'mobile-device-detect'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 
+import ModalPublicJob from '~/components/ModalPublicJob'
 import ModalProfesional from '~/components/ModalProfesional'
 import CardTrabajo from '~/components/CardTrabajo'
 import { Persona, Trabajo } from '~/api'
@@ -151,7 +157,7 @@ import {
 
 export default {
   middleware: 'authenticated',
-  components: { CardTrabajo, ModalProfesional },
+  components: { CardTrabajo, ModalProfesional, ModalPublicJob },
   asyncData() {
     const filters = []
     EstadoTrabajoLabel.forEach(({ key }, index) => {
@@ -173,6 +179,8 @@ export default {
     ready: true,
     score: {},
     interval: null,
+    selectedJob: null,
+    showModal: false,
   }),
   computed: {
     ...mapGetters(['isAProfessional']),
