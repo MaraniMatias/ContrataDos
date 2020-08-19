@@ -42,7 +42,7 @@
     "helmet": "^4.1.0",
     "http-auth": "^4.1.2",
     "jsonwebtoken": "^8.5.1",
-    "libphonenumber-js": "^1.7.56",
+    "libphonenumber-js": "^1.7.57",
     "mobile-device-detect": "^0.4.3",
     "mongoose": "^5.10.0",
     "morgan": "^1.10.0",
