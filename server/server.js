@@ -38,7 +38,6 @@ app.use(helmet.noSniff())
 app.use(helmet.permittedCrossDomainPolicies())
 app.use(helmet.referrerPolicy())
 app.use(helmet.xssFilter({ reportUri: '/report-xss-violation' }))
-app.use(helmet.xssFilter({ reportUri: '/report-xss-violation' }))
 app.use(compress())
 
 // Initialize Passport and restore authentication state, if any, from the session.

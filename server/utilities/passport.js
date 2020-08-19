@@ -109,7 +109,7 @@ passport.use(
       if (process.env.NODE_ENV === 'development') {
         console.log({ accessToken, profile: profile._json })
       }
-      const email = profile._json.email
+      const { email } = profile._json
       const user = {
         nombre: profile.name.givenName,
         apellido: profile.name.familyName,
