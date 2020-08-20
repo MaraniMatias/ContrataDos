@@ -57,8 +57,6 @@ module.exports = {
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv',
     [
       'nuxt-social-meta',
       {
@@ -71,7 +69,6 @@ module.exports = {
         themeColor: '#086b94',
       },
     ],
-    'nuxt-compress',
     'nuxt-material-design-icons',
   ],
   /*
