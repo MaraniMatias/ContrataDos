@@ -1,0 +1,11 @@
+extends base_email.pug
+//- email body
+block email
+  tr
+    td(align='center' valign='top' style='padding:0px')
+      p Trabajo:
+        b  #{data.descripcion}
+      p Cita programa para las
+        b  #{data.fecha}
+      a(href!=`${data.link}`) Ver los detalle del trabajo
+      p

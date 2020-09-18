@@ -1,0 +1,9 @@
+extends base_email.pug
+//- email body
+block email
+  tr
+    td(align='center' valign='top' style='padding:0px')
+      h1= data.descripcion
+      p Te pedimos tu valoración por el trabajo realizado
+      a(href!=`${data.link}`) Clasificar trabajo
+      p
