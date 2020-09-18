@@ -1,51 +1,51 @@
 <template>
   <v-layout column mb-2 px-2 justify-start fill-height pb-12>
-    <v-row class="mx-4 fill-height">
-      <v-col class="pt-0">
-        <v-toolbar flat color="white">
-          <v-layout align-center>
-            <v-flex xs12 lg4>
-              <v-btn outlined color="grey darken-2" @click="setToday">
-                Hoy
+    <div class="hidden-md-and-down" style="margin-top: 60px"></div>
+    <div class="hidden-md-and-up" style="margin-top: 40px"></div>
+    <v-row class="mx-4 fill-height pa-0">
+      <v-col class="pa-0">
+        <v-layout wrap align-center mb-2>
+          <v-flex xs12 lg4 class="text-center">
+            <v-btn outlined color="grey darken-2" @click="setToday">
+              Hoy
+            </v-btn>
+            <v-menu bottom right>
+              <template v-slot:activator="{ on }">
+                <v-btn outlined color="grey darken-2" v-on="on">
+                  <span>{{ typeToLabel[type] }}</span>
+                  <v-icon right>mdi-menu-down</v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-for="key in Object.keys(typeToLabel)"
+                  :key="key"
+                  @click="type = key"
+                >
+                  <v-list-item-title v-text="typeToLabel[key]" />
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-flex>
+          <v-flex xs12 lg4>
+            <v-layout justify-center align-center>
+              <v-btn fab text small color="grey darken-2" @click="prev">
+                <v-icon small>mdi-chevron-left</v-icon>
               </v-btn>
-              <v-menu bottom right>
-                <template v-slot:activator="{ on }">
-                  <v-btn outlined color="grey darken-2" v-on="on">
-                    <span>{{ typeToLabel[type] }}</span>
-                    <v-icon right>mdi-menu-down</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item
-                    v-for="key in Object.keys(typeToLabel)"
-                    :key="key"
-                    @click="type = key"
-                  >
-                    <v-list-item-title v-text="typeToLabel[key]" />
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </v-flex>
-            <v-flex xs12 lg4>
-              <v-layout justify-center align-center>
-                <v-btn fab text small color="grey darken-2" @click="prev">
-                  <v-icon small>mdi-chevron-left</v-icon>
-                </v-btn>
-                <v-toolbar-title class="mx-6">{{ title }}</v-toolbar-title>
-                <v-btn fab text small color="grey darken-2" @click="next">
-                  <v-icon small>mdi-chevron-right</v-icon>
-                </v-btn>
-              </v-layout>
-            </v-flex>
-            <!--
+              <v-toolbar-title class="mx-6">{{ title }}</v-toolbar-title>
+              <v-btn fab text small color="grey darken-2" @click="next">
+                <v-icon small>mdi-chevron-right</v-icon>
+              </v-btn>
+            </v-layout>
+          </v-flex>
+          <!--
             <v-flex v-if="isAProfessional" xs12 lg4>
               <v-layout justify-end>
                 <v-btn outlined class="mr-4">Agregar trabajo</v-btn>
               </v-layout>
             </v-flex>
             -->
-          </v-layout>
-        </v-toolbar>
+        </v-layout>
         <v-sheet height="100%">
           <v-calendar
             ref="calendar"
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { mapGetters } from 'vuex'
 import { Trabajo } from '~/api'
 import { EstadoTrabajoColor } from '~~/server/utilities/enums'
@@ -91,6 +92,9 @@ export default {
     selectedOpen: false,
     events: [],
   }),
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   computed: {
     ...mapGetters(['isAProfessional']),
     title() {

@@ -3,7 +3,6 @@ tags:
   - registrarse con email
   - registrarse con google
   - registrarse con facebook
-  - registrarse con linkedin
   - olvide mi contraseña
   - recuperar contraseña
 ---
@@ -17,38 +16,44 @@ tags:
 
 Para crear una cuenta de forma **manual** ingresando a [/singup](/singup) o de forma
 **automática** en [/login](/login) y elegir crear una cuenta con **Google**,
-**Facebook** o **LinkedIn** esta opción crea una cuenta y posteriormente puedes
+**Facebook** esta opción crea una cuenta y posteriormente puedes
 iniciar cesión con estos botones.
 
-### Cuenta con google o facebook o linkedin
+### Cuenta con google o facebook
 
-1. Buscar en la parte superior derecha el icono de usuario.
+1. Buscar en la parte superior derecha de la pantalla el botón _"iniciar session"_.
 
-![icono de usuario](./imagen/crear_una_cuenta_1.png)
+![icono de usuario](./imagen/crear_una_cuenta_0.png)
 
 2. Click en el botón correspondiste a la cuenta quieres asociar con ContrataDos,
-   puede ser **Google**, **Facebook** o **LinkedIn**.
+   puede ser **Google**, **Facebook**.
 
 ![botones_redes_crear cuenta local](./imagen/crear_una_cuenta_6.png)
 
-3. Según sea la cuenta **Google**, **Facebook** o **LinkedIn**, se le pedira
+3. Según sea la cuenta **Google**, **Facebook**, se le pedira
    que le de permiso a ContrataDos para obtener datos personales, como ser email,
    nombre, apellido y la imagen de perfil de que uses en esa red social.
-4. Cuando el proceso termine veras un mensaje de bienvenida, te recomendamos
-   que vallas a perfil y para actualizar sus datos.
+4. Cuando el proceso termine veras un mensaje de bienvenida
+
+   ![mensaje de bienvenida](./imagen/crear_una_cuenta_11.png)
+
+5. Click en _"soy un profesional"_.
+6. Complete el formulario, los clientes que vean tú perfil entiendan cuales son
+   tus habilidades y servicios que ofreces.
+
+   ![mensaje de bienvenida como profesional](./imagen/crear_una_cuenta_12.png)
 
 ### Cuenta manual o local
 
-1. Buscar en la parte superior derecha el icono de usuario.
+1. Buscar en la parte superior derecha de la pantalla el botón _"iniciar session"_.
 
-![icono de usuario](./imagen/crear_una_cuenta_1.png)
+![icono de usuario](./imagen/crear_una_cuenta_0.png)
 
 2. Click en el botón _'crear cuenta'_, veras un formulario como este:
 
 ![formulario crear cuenta local](./imagen/crear_una_cuenta_2.png)
 
-3. Completo todos los campos y en _'tipo de usuario'_ puedes marcar la opción _profesional_
-   para crear una cuenta de ese tipo.
+3. Completo todos los campos.
 4. Una vez completado los campos y pulsar _'crear cuenta'_ recibirás un mensaje
    como este:
 
@@ -69,10 +74,18 @@ iniciar cesión con estos botones.
 8. Veras un mensaje de bienvenida, te recomendamos que vallas a perfil y
    lo personalices agregando una foto.
 
+   ![mensaje de bienvenida](./imagen/crear_una_cuenta_11.png)
+
+9. Click en _"soy un profesional"_.
+10. Complete el formulario, los clientes que vean tú perfil entiendan cuales son
+    tus habilidades y servicios que ofreces.
+
+    ![mensaje de bienvenida como profesional](./imagen/crear_una_cuenta_12.png)
+
 ## Iniciar secesión
 
 Solo tienes que dirigirse a [/login](/login) y si asociaste ContrataDos con
-**Google**, **Facebook** o **Linkedin** solo tienes que hacer click en el botón correspondiste,
+**Google**, **Facebook** solo tienes que hacer click en el botón correspondiste,
 en caso de tener una cuenta local o creada de forma manual, solo ingrese el
 correo (email) y la contraseña que ingresaste al crear la cuenta.
 
@@ -131,11 +144,11 @@ de ContrataDos.
 4. Puede pasar que la búsqueda no arroje un resultado, en ese caso cambie los
    criterios de búsqueda.
 
+![Buscar o contratar profesional](./imagen/buscar_o_contratar_profesional_4.png)
+
 ::: tip Nota
 Si usted es un profesional no aparecerá en su propia búsqueda
 :::
-
-![Buscar o contratar profesional](./imagen/buscar_o_contratar_profesional_4.png)
 
 5. Listado de profesionales que concuerdan con su búsqueda.
 
@@ -146,6 +159,9 @@ Si usted es un profesional no aparecerá en su propia búsqueda
 
 > Las estrellas muestra cuan satisfecho están los clientes con los trabajo que
 > realizo el profesional.
+>
+> La evaluación del profesional se vera cuando tenga más de 10 trabajo
+> evaluados.
 
 6. En cada tarjeta de profesional puedes elegir contratarlo o ver su perfil.
 

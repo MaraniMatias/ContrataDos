@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-center>
+  <v-layout align-center justify-center fill-height>
     <v-layout v-show="!changeOk" column justify-center align-center>
       <v-flex xs12 md6 lg4 xl3>
         <CardForm @submit="summit">
@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { mapActions } from 'vuex'
 import CardForm from '../components/CardForm'
 
@@ -80,6 +81,9 @@ export default {
     loading: false,
     changeOk: false,
   }),
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   computed: {},
   created() {},
   mounted() {},

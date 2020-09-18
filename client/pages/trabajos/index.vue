@@ -1,7 +1,9 @@
 <template>
-  <v-layout column mb-2 px-2>
-    <v-layout>
-      <v-flex xs12 lg6 xl4>
+  <v-layout column mb-5>
+    <div class="hidden-md-and-down" style="margin-top: 60px"></div>
+    <div class="hidden-md-and-up" style="margin-top: 40px"></div>
+    <v-layout wrap class="mb-5">
+      <v-flex xs12 lg5 xl4>
         <v-layout justify-start align-center>
           <v-chip-group v-model="filters" multiple @change="loadData">
             <v-chip
@@ -17,17 +19,22 @@
           </v-chip-group>
         </v-layout>
       </v-flex>
-      <v-flex xs12 lg3 xl4 mt-3>
+      <v-flex xs12 lg3 xl4 mt-3 class="hidden-md-and-down">
         <v-layout v-show="!loadingTrabajos" align-center justify-center>
-          <span>Trabajos terminados: {{ score.total }} </span>
+          <span>Trabajos: {{ score.total }}</span>
+          <span class="ml-6">Valorados: </span>
           <v-icon small class="mx-2">mdi-thumb-up</v-icon>
           {{ score.like }}
           <v-icon small class="mx-2">mdi-thumb-down</v-icon>
           {{ score.dontLike }}
         </v-layout>
       </v-flex>
-      <v-flex xs12 lg3 xl4>
-        <v-layout justify-end align-center>
+      <v-flex xs12 lg4 xl4>
+        <v-layout
+          :justify-end="$vuetify.breakpoint.lgAndUp"
+          align-center
+          :justify-center="$vuetify.breakpoint.mdAndDown"
+        >
           <v-chip-group
             v-if="isAProfessional"
             v-model="viewLike"
@@ -41,7 +48,7 @@
             </v-chip>
             <v-chip outlined>
               <v-icon left>build</v-icon>
-              Profecional
+              Profesional
             </v-chip>
           </v-chip-group>
           <!--
@@ -60,7 +67,14 @@
       </v-flex>
     </v-layout>
 
-    <v-flex v-show="loadingTrabajos" x12 mt-4 mb-2 class="text-center">
+    <v-flex
+      v-show="loadingTrabajos"
+      x12
+      mt-4
+      mb-2
+      class="text-center"
+      fill-height
+    >
       <v-progress-circular
         width="2"
         indeterminate
@@ -73,48 +87,65 @@
     <v-layout v-show="!loadingTrabajos" justify-center fill-height mt-0>
       <v-flex xs12 lg7 xl5>
         <CardTrabajo
-          v-for="(j, $i) in listTrabajos"
-          :key="$i"
+          v-for="j in listTrabajos"
+          :key="j._id"
           :trabajo="j"
+          @edit="editJob(j)"
           @change="loadData"
         />
       </v-flex>
     </v-layout>
 
-    <v-dialog :value="showTutorial" width="550">
+    <v-dialog :value="showTutorial" width="400" persistent>
       <v-card>
         <v-card-title>
-          <p class="headline mb-0">Bienvenido</p>
+          <p class="headline">Eres nuevo en ContrataDos</p>
         </v-card-title>
-        <v-card-text class="pb-2">
-          <p>Eres nuevo, deberías completar tus perfil.</p>
-          <template v-if="isAProfessional">
-            <v-divider />
-            <p class="title my-2">Soy un trabajador</p>
-            <p>
-              Para ayudar a que otros encuentre tus trabajo y tus servicios, te
-              recomendamos completar tu perfil.
-            </p>
-          </template>
-        </v-card-text>
-        <v-card-actions>
-          <v-layout justify-end align-center>
-            <v-btn nuxt to="/perfil" class="black--text" text>
-              Ir a perfil
+        <v-card-text>
+          <v-layout column>
+            <v-btn rounded color="teal" outlined large @click="setAsCliente">
+              Seguir como cliente
             </v-btn>
-            <v-btn color="primary" @click="close">
-              Aceptar
+            <v-divider class="my-4" />
+            <v-btn
+              rounded
+              color="primary"
+              outlined
+              large
+              @click="showModalEdit = true"
+            >
+              Soy un profesional
             </v-btn>
           </v-layout>
-        </v-card-actions>
+        </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="showModalEdit" width="550">
+      <ModalProfesional
+        load-like-professional
+        @submit="submit"
+        @close="close"
+      />
+    </v-dialog>
+    <ModalPublicJob
+      v-model="showModal"
+      :trabajo="selectedJob"
+      @change="loadData"
+    />
   </v-layout>
 </template>
 
-<script>
-import { mapMutations, mapGetters } from 'vuex'
+<router>
+  meta:
+    name: "Trabajos"
+</router>
 
+<script>
+import { isMobile } from 'mobile-device-detect'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
+
+import ModalPublicJob from '~/components/ModalPublicJob'
+import ModalProfesional from '~/components/ModalProfesional'
 import CardTrabajo from '~/components/CardTrabajo'
 import { Persona, Trabajo } from '~/api'
 import {
@@ -126,7 +157,7 @@ import {
 
 export default {
   middleware: 'authenticated',
-  components: { CardTrabajo },
+  components: { CardTrabajo, ModalProfesional, ModalPublicJob },
   asyncData() {
     const filters = []
     EstadoTrabajoLabel.forEach(({ key }, index) => {
@@ -137,6 +168,7 @@ export default {
     return { filters }
   },
   data: () => ({
+    showModalEdit: false,
     loadingTrabajos: false,
     totalElement: 0,
     listTrabajos: [],
@@ -146,6 +178,9 @@ export default {
     viewLikeProfesional: true,
     ready: true,
     score: {},
+    interval: null,
+    selectedJob: null,
+    showModal: false,
   }),
   computed: {
     ...mapGetters(['isAProfessional']),
@@ -161,20 +196,30 @@ export default {
       return this.user?.['show_tutorial'] ?? false
     },
   },
-  // created() {
-  //   this.$store.subscribe((mutation) => {
-  //     if (this.ready && mutation.type === 'SET_USER') {
-  //       this.loadData()
-  //       this.ready = false
-  //     }
-  //   })
-  // },
-  mounted() {
-    this.getScore()
-    this.loadData()
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
+  async mounted() {
+    const self = this
+    this.loadingTrabajos = true
+    self.getScore()
+    await self.loadData()
+    this.loadingTrabajos = false
+    this.interval = setInterval(function () {
+      try {
+        self.getScore()
+        self.loadData()
+      } catch (err) {
+        clearInterval(this.interval)
+      }
+    }, 50000)
+  },
+  beforeDestroy() {
+    clearInterval(this.interval)
   },
   methods: {
     ...mapMutations({ updateUser: 'SET_USER' }),
+    ...mapActions(['getMe']),
     async getScore() {
       const query = { estado: EstadoTrabajo.TERMINADO }
       if (this.isAProfessional) {
@@ -196,7 +241,7 @@ export default {
       })
       this.score = { total: data.length || 0, like, dontLike }
     },
-    async close() {
+    async setAsCliente() {
       const { data } = await Persona.save({
         _id: this.user._id,
         show_tutorial: false,
@@ -204,7 +249,6 @@ export default {
       if (data) this.updateUser(data)
     },
     async loadData() {
-      this.loadingTrabajos = true
       const filtersLike = {
         profesional: this.viewLike.includes(1),
         cliente: this.viewLike.includes(0),
@@ -231,7 +275,17 @@ export default {
       const params = { query, populate, sort: '-createdAt' }
       const { data } = await Trabajo.get(params)
       this.listTrabajos = data || []
-      this.loadingTrabajos = false
+    },
+    async submit() {
+      await this.getMe()
+      this.showModalEdit = false
+    },
+    close() {
+      this.showModalEdit = false
+    },
+    editJob(trabajo) {
+      this.selectedJob = { ...trabajo }
+      this.showModal = true
     },
   },
 }

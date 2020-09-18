@@ -17,7 +17,7 @@
         :hide-details="hideDetails"
         :clearable="clearable"
         class="pt-0"
-        prepend-icon="event"
+        prepend-icon="alarm"
         :dense="dense"
         :color="color"
         readonly

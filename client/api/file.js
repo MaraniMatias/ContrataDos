@@ -1,5 +1,5 @@
 import axios from 'axios'
-const BASE_URL = process.env.SERVER_URL + '/api/file'
+const BASE_URL = process.env.NUXT_SERVER_URL + '/api/file'
 let EVENT
 
 function emit({ loaded = 0, total }) {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <form enctype="multipart/form-data" novalidate>
-      <label for="files" style="display: none;">
+      <label for="files" style="display: none">
         <input
           ref="file"
           name="file"

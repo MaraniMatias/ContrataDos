@@ -1,5 +1,7 @@
 <template>
   <v-layout column mb-2 px-2>
+    <div class="hidden-md-and-down" style="margin-top: 60px"></div>
+    <div class="hidden-md-and-up" style="margin-top: 40px"></div>
     <!--
     <v-flex v-show="loading" x12 mt-4 mb-2 class="text-center">
       <v-progress-circular
@@ -38,7 +40,13 @@
   </v-layout>
 </template>
 
+<router>
+  meta:
+    name: "Trabajo"
+</router>
+
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { Trabajo } from '~/api'
 
 import CardTrabajo from '~/components/CardTrabajo'
@@ -46,6 +54,9 @@ import ObjectId from '~/utils/formRules/objectId'
 
 export default {
   middleware: 'authenticated',
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   components: { CardTrabajo },
   validate({ params }) {
     return ObjectId()(params.id) === true

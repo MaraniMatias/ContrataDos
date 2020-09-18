@@ -12,7 +12,7 @@
           <v-icon size="96">camera_alt</v-icon>
         </template>
         <template v-else>
-          <v-icon v-if="avatarError || !src || loading" :size="size">
+          <v-icon v-if="avatarError || !src" :size="size">
             account_circle
           </v-icon>
           <img v-else :src="base64img" />

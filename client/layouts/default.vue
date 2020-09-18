@@ -22,6 +22,7 @@
           </v-btn>
           <v-btn nuxt text to="/agenda">Agenda</v-btn>
           <v-btn nuxt text to="/trabajos">Trabajos</v-btn>
+          <v-btn nuxt text to="/markers">Marcadores</v-btn>
           <v-btn nuxt text to="/perfil">Perfil</v-btn>
           <v-btn text href="/docs">Ayuda</v-btn>
           <!--
@@ -40,17 +41,15 @@
         </template>
         <template v-else>
           <v-btn text href="/docs">Ayuda</v-btn>
-          <v-btn icon class="ml-4" @click="goToPerfil">
-            <v-icon size="32" style="cursor: pointer;">account_circle</v-icon>
+          <v-btn depressed class="ml-4" color="primary" @click="goToPerfil">
+            Iniciar session
           </v-btn>
         </template>
       </v-layout>
     </v-app-bar>
-    <v-content>
-      <v-container class="fill-height" fluid>
-        <nuxt />
-      </v-container>
-    </v-content>
+    <v-container class="fill-height" fluid>
+      <nuxt />
+    </v-container>
     <v-footer :fixed="fixed" app>
       <copyright />
     </v-footer>

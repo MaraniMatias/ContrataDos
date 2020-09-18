@@ -49,6 +49,7 @@
                 />
               </v-flex>
               <v-flex xs12 md6 py-0>
+                <!--
                 <v-select
                   v-model.lazy="form.roles"
                   index="3"
@@ -60,6 +61,7 @@
                   hint="Se puede cambiar desde perfil."
                   label="Tipo de usuario"
                 />
+                -->
               </v-flex>
               <v-flex xs12 md6 py-0>
                 <v-text-field
@@ -112,9 +114,7 @@
     <v-dialog v-model="dialog" persistent max-width="290">
       <v-card>
         <CardForm>
-          <template v-slot:header>
-            Activación de cuenta
-          </template>
+          <template v-slot:header> Activación de cuenta </template>
           <template>
             Hemos enviado un email a su dirección de correo electrónico para
             activar su cuenta.
@@ -129,6 +129,7 @@
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { mapActions } from 'vuex'
 import CardForm from '../components/CardForm'
 import Token from '~/api/Token'
@@ -151,6 +152,9 @@ export default {
       password2: null,
     },
   }),
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   computed: {
     listTipoUsuario: () => RolesLabel.filter(({ show }) => show),
   },

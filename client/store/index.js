@@ -11,7 +11,8 @@ export const state = () => ({
 
 export const getters = {
   isLoggedIn: (state) => !!state.user._id,
-  isAProfessional: (state) => state.user.roles?.includes(Roles.PROFECIONAL),
+  isAProfessional: (state) => state.user.roles?.includes(Roles.PROFESIONAL),
+  isACliente: (state) => state.user.roles?.includes(Roles.CLIENTE),
 }
 
 export const mutations = {
@@ -30,9 +31,11 @@ export const actions = {
         commit('SET_USER', data)
       }
       return { data }
-    } catch ({ status }) {
+    } catch (resp) {
       return {
-        error: status === 401 && 'Contraseña o email erroneas',
+        error:
+          resp.status === 401 &&
+          (resp.error || 'Contraseña o email no valido.'),
       }
     }
   },

@@ -1,56 +1,84 @@
 <template>
-  <v-layout fill-height align-center justify-center>
-    <v-flex xs12 lg5 xl4>
-      <v-layout column>
-        <img src="/logo.png" style="margin: 2px 0 0 0; height: 160px;" />
-        <v-autocomplete
-          ref="search"
-          v-model="select"
-          append-icon=""
-          autofocus
-          border-radius
-          cache-items
-          flat
-          hide-details
-          hide-no-data
-          :items="items"
-          item-text="text"
-          :loading="loading"
-          menu-props="closeOnContentClick"
-          multiple
-          outlined
-          return-object
-          @keyup.enter="btnSearch()"
-          @click:append="btnSearch()"
-        >
-          <template v-slot:selection="data">
-            <v-chip
-              close
-              :input-value="data.selected"
-              @click="data.select"
-              @click:close="remove(data.item)"
-              v-text="data.item.text"
-            />
-          </template>
-          <template v-slot:item="data">
-            {{ data.item.text }}
-          </template>
-        </v-autocomplete>
-        <v-layout fill-height justify-center mt-4>
-          <v-btn rounded color="primary" x-large @click="btnSearch">
-            Buscar profesional
-          </v-btn>
-        </v-layout>
+  <v-layout align-center justify-center fill-height>
+    <v-flex xs12 lg5 xl3>
+      <v-layout column style="margin-bottom: 100px">
+        <v-flex class="text-center">
+          <img
+            src="/logo.png"
+            alt="logo de ContrataDos"
+            width="100%"
+            height="100%"
+          />
+        </v-flex>
+        <v-flex xs12 lg4 xl3>
+          <v-autocomplete
+            ref="search"
+            v-model="select"
+            append-icon=""
+            border-radius
+            cache-items
+            flat
+            hide-details
+            hide-no-data
+            placeholder="Buscar"
+            :items="items"
+            item-text="text"
+            :loading="loading"
+            menu-props="closeOnContentClick"
+            multiple
+            outlined
+            return-object
+            @keyup.enter="btnSearch()"
+            @click:append="btnSearch()"
+          >
+            <template v-slot:selection="data">
+              <v-chip
+                close
+                :input-value="data.selected"
+                @click="data.select"
+                @click:close="remove(data.item)"
+                v-text="data.item.text"
+              />
+            </template>
+            <template v-slot:item="data">
+              {{ data.item.text }}
+            </template>
+          </v-autocomplete>
+        </v-flex>
+        <v-flex mt-4>
+          <v-layout fill-height justify-center>
+            <v-btn rounded color="primary" x-large @click="btnSearch">
+              Buscar profesional
+            </v-btn>
+          </v-layout>
+        </v-flex>
       </v-layout>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect'
 import { Localidad, Habilidad } from '~/api'
+
+function logoHeight(name) {
+  switch (name) {
+    case 'xs':
+      return '180px'
+    case 'sm':
+      return '200px'
+    case 'md':
+      return '350px'
+    default:
+      return '400px'
+  }
+}
 
 export default {
   components: {},
+  asyncData({ $vuetify }) {
+    return { logoHeight: logoHeight($vuetify.breakpoint.name) }
+  },
   data: () => ({
     loading: false,
     items: [],
@@ -65,6 +93,9 @@ export default {
       }
     },
   }, */
+  layout() {
+    return isMobile ? 'mobile' : 'default'
+  },
   async mounted() {
     this.loading = true
     const { data: localidades } = await Localidad.getAll()

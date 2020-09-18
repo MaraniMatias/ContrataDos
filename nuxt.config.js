@@ -1,16 +1,15 @@
 require('dotenv-flow').config({ purge_dotenv: true, silent: true })
-const SERVER_URL_PROD = 'http://localhost:8080'
 
 module.exports = {
+  target: 'static',
   mode: 'spa',
+  ssr: false,
   // mode: 'universal',
   rootDir: '.',
   srcDir: './client/',
-  /*
-   ** ENV variable
-   */
+
   env: {
-    SERVER_URL: process.env.SERVER_URL || SERVER_URL_PROD,
+    NUXT_SERVER_URL: process.env.NUXT_SERVER_URL,
   },
   /*
    ** Headers of the page
@@ -59,8 +58,6 @@ module.exports = {
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv',
     [
       'nuxt-social-meta',
       {
@@ -73,7 +70,6 @@ module.exports = {
         themeColor: '#086b94',
       },
     ],
-    'nuxt-compress',
     'nuxt-material-design-icons',
   ],
   /*

@@ -1,6 +1,8 @@
 <template>
-  <v-layout align-center :justify-end="isFrom" mt-2>
-    <p v-if="isFrom" class="caption grey--text mb-0 mr-2" v-text="fecha" />
+  <v-layout wrap align-center :justify-end="isFrom" mt-2>
+    <div class="hidden-md-and-down">
+      <p v-if="isFrom" class="caption grey--text mb-0 mr-2" v-text="fecha" />
+    </div>
     <v-card :class="{ 'green lighten-5': isFrom }">
       <v-card-text class="py-1">
         <v-layout v-if="chat.fecha" column>
@@ -22,7 +24,9 @@
         <p v-else class="mb-0" v-text="chat.detalle" />
       </v-card-text>
     </v-card>
-    <p v-if="!isFrom" class="caption grey--text mb-0 ml-2" v-text="fecha" />
+    <div class="hidden-md-and-down">
+      <p v-if="!isFrom" class="caption grey--text mb-0 ml-2" v-text="fecha" />
+    </div>
   </v-layout>
 </template>
 

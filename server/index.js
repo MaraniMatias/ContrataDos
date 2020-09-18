@@ -35,9 +35,6 @@ function startServer() {
           )
         }
         Agenda.start()
-        // .then(() => {
-        //   // app.use('/api/dash', Agendash(Agenda.Agenda))
-        // })
         getLocalIP()
       })
     }

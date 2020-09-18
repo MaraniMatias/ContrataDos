@@ -85,7 +85,7 @@ export default {
       }
     },
     starValue() {
-      return this.value * 0.05
+      return this.value * 5
     },
   },
   methods: {

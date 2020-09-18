@@ -2,7 +2,7 @@ const capitalizeWords = require('./../capitalizeWords')
 
 module.exports.Roles = {
   CLIENTE: 'CLIENTE',
-  PROFECIONAL: 'PROFECIONAL',
+  PROFESIONAL: 'PROFESIONAL',
   ADMIN: 'ADMIN',
 }
 module.exports.RolesLabel = Object.keys(this.Roles).map((key) => ({

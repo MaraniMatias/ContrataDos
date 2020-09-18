@@ -7,7 +7,7 @@
       @keyup.esc="cancel"
     >
       <v-card>
-        <v-card-title class="headline">Notas</v-card-title>
+        <v-card-title class="headline">Notas privadas</v-card-title>
         <v-card-text class="pb-0 px-2">
           <FieldTextArea v-model.lazy="form.notas" heading />
         </v-card-text>
@@ -76,13 +76,15 @@
     <v-hover v-slot:default="{ hover }" open-delay="100">
       <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
         <v-card-title v-if="!isPablic" class="pb-0">
-          <v-layout>
+          <v-layout wrap>
             <v-layout align-center>
               <Avatar size="64" :src="displayPicture" class="ma-2" />
-              <v-layout column justify-center>
-                <a class="title mb-0" @click="goToPerfi">{{ displayName }}</a>
-                <span class="body-1" v-text="displayEmail" />
-              </v-layout>
+              <v-flex>
+                <v-layout column>
+                  <a class="title mb-0" @click="goToPerfi">{{ displayName }}</a>
+                  <span class="body-1" v-text="displayEmail" />
+                </v-layout>
+              </v-flex>
             </v-layout>
             <v-layout column justify-start align-end fill-height>
               <v-chip
@@ -106,9 +108,12 @@
               v-if="isPablic"
               class="grey lighten-3 d-inline-flex xs12 md4"
             >
-              <v-icon v-if="avatarError" size="128" style="margin: auto;">
-                wallpaper
-              </v-icon>
+              <div
+                v-if="avatarError"
+                style="height: 225px; display: flex; flex: auto"
+              >
+                <v-icon size="128" style="margin: auto">wallpaper</v-icon>
+              </div>
               <v-img
                 v-else
                 :src="base64img"
@@ -127,10 +132,23 @@
                       fill-height
                     >
                       <p class="headline black--text text-truncate mb-0">
-                        {{ trabajo.descripcion_breve }}
+                        {{ trabajo.descripcion_breve | camelCase }}
                       </p>
                     </v-layout>
                   </v-flex>
+                  <v-tooltip v-if="isMyPublicJob" bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        icon
+                        text
+                        @click="$emit('edit', trabajo)"
+                        v-on="on"
+                      >
+                        <v-icon>edit</v-icon>
+                      </v-btn>
+                    </template>
+                    Editar trabajo
+                  </v-tooltip>
                 </v-layout>
                 <v-layout column fill-height align-start>
                   <p v-text="trabajo.descripcion" />
@@ -144,7 +162,7 @@
                       v-text="h.nombre"
                     />
                   </v-flex>
-                  <v-flex v-if="isEstado.TERMINADO" xs12 md4>
+                  <v-flex v-if="isEstado.TERMINADO && trabajo.cliente" xs12 md4>
                     <v-layout justify-end align-start>
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
@@ -179,25 +197,47 @@
             >
               {{ showAsCliente ? 'Cancelar' : 'Rechazar' }}
             </v-btn>
-            <v-btn
+            <template
               v-if="
                 !showAsCliente && (isEstado.PENDIENTE || isEstado.EN_PROGRESO)
               "
-              color="teal"
-              outlined
-              @click.stop="optionsModal = true"
             >
-              Opciones
-            </v-btn>
-            <v-btn
-              v-show="!showAsCliente && isEstado.EN_PROGRESO"
-              color="deep-purple"
-              class="mx-2"
-              text
-              @click="markAsDone"
-            >
-              Trabajo terminado
-            </v-btn>
+              <v-btn
+                v-if="mdAndDown"
+                color="teal"
+                icon
+                @click.stop="optionsModal = true"
+              >
+                <v-icon>edit</v-icon>
+              </v-btn>
+              <v-btn
+                v-else
+                color="teal"
+                outlined
+                @click.stop="optionsModal = true"
+              >
+                Opciones
+              </v-btn>
+            </template>
+            <template v-if="!showAsCliente && isEstado.EN_PROGRESO">
+              <v-btn
+                v-if="mdAndDown"
+                color="deep-purple"
+                icon
+                @click="markAsDone"
+              >
+                <v-icon>done</v-icon>
+              </v-btn>
+              <v-btn
+                v-else
+                color="deep-purple"
+                class="mx-2"
+                text
+                @click="markAsDone"
+              >
+                Trabajo terminado
+              </v-btn>
+            </template>
             <v-btn
               v-show="!showAsCliente && isEstado.TERMINADO"
               class="mx-2"
@@ -216,9 +256,14 @@
               >
                 Notas
               </v-btn>
-              <v-btn color="black" outlined @click="openChat">
-                {{ showChat ? 'Ocultar chat' : 'Ver chat' }}
-              </v-btn>
+
+              <v-badge color="error" overlap :value="newComments">
+                <v-btn color="black" outlined @click="openChat">
+                  <v-icon v-if="showChat" left>keyboard_arrow_down</v-icon>
+                  <v-icon v-else left>keyboard_arrow_up</v-icon>
+                  Chat
+                </v-btn>
+              </v-badge>
             </v-layout>
           </v-layout>
         </v-card-actions>
@@ -254,24 +299,48 @@
             </div>
             <v-layout v-show="!isEstado.CANCELADO">
               <v-flex xs12 mt-2>
-                <v-layout v-show="showSetHours" mx-12>
-                  <FieldDate
-                    v-model="form.fechaInicio"
-                    :min="new Date().toISOString().substr(0, 10)"
-                  />
-                  <FieldTime v-model="form.fechaInicio" />
+                <v-layout
+                  v-show="showSetHours"
+                  wrap
+                  mx-12
+                  justify-center
+                  align-center
+                >
+                  <v-flex xs12 md6 lg4>
+                    <FieldDate
+                      v-model="form.fechaInicio"
+                      hide-details
+                      :min="new Date().toISOString().substr(0, 10)"
+                    />
+                  </v-flex>
+                  <v-flex xs12 md6 lg4>
+                    <FieldTime v-model="form.fechaInicio" hide-details />
+                  </v-flex>
+                  <v-flex xs12 md6 lg4>
+                    <v-btn
+                      class="ml-2"
+                      color="primary"
+                      outlined
+                      @click="sendHours"
+                    >
+                      Proponer fecha
+                    </v-btn>
+                  </v-flex>
                 </v-layout>
-                <v-textarea
+                <v-text-field
                   v-show="!showSetHours"
                   v-model.lazy="form.detalle"
-                  auto-grow
-                  counter="60"
                   dense
+                  hide-details
                   outlined
                   :readonly="loading"
+                  append-icon="send"
+                  autocomplete="off"
+                  @click:append="sendComent"
+                  @keypress.enter="sendComent"
                 />
               </v-flex>
-              <v-layout column align-center mx-2 mt-4 ml-4>
+              <v-layout column align-center mx-2 mt-2 ml-2>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
                     <v-btn
@@ -285,27 +354,9 @@
                       <v-icon v-else>insert_invitation</v-icon>
                     </v-btn>
                   </template>
-                  <span v-if="showSetHours">Volver al treclado</span>
+                  <span v-if="showSetHours">Volver al teclado</span>
                   <span v-else>Proponer una fecha para la cita</span>
                 </v-tooltip>
-                <v-btn
-                  v-if="showSetHours && isEstado.CONSULTA"
-                  color="primary"
-                  outlined
-                  class="mt-11"
-                  @click="sendHours"
-                >
-                  Proponer fecha
-                </v-btn>
-                <v-btn
-                  v-else
-                  class="mt-11"
-                  color="primary"
-                  outlined
-                  @click="sendComent"
-                >
-                  Enviar
-                </v-btn>
               </v-layout>
             </v-layout>
           </v-card-text>
@@ -336,8 +387,6 @@ import {
   TipoTrabajo,
 } from '~~/server/utilities/enums'
 
-const NOW = new Date()
-
 export default {
   components: {
     Rating,
@@ -348,6 +397,9 @@ export default {
     FieldTextArea,
     ModalPublicJob,
   },
+  filters: {
+    camelCase,
+  },
   props: {
     trabajo: { type: Object, required: true },
   },
@@ -357,6 +409,7 @@ export default {
     avatarError: true,
     base64img: null,
     showModalPublic: false,
+    newComments: false,
     form: {
       estado: null,
       fechaFin: null,
@@ -368,20 +421,30 @@ export default {
     comunicaciones: [],
     optionsModal: false,
     notesModal: false,
+    interval: null,
   }),
   computed: {
+    lgAndUp() {
+      return this.$vuetify.breakpoint.lgAndUp
+    },
+    mdAndDown() {
+      return this.$vuetify.breakpoint.mdAndDown
+    },
     Estados: () => EstadoTrabajoLabel,
     realEstado() {
       const hours = new Date(this.agenda.fecha_inicio)
       if (
         this.trabajo.estado === EstadoTrabajo.PENDIENTE &&
         hours &&
-        isDateAfter(NOW, hours)
+        isDateAfter(Date.now(), hours)
       ) {
         return EstadoTrabajo.EN_PROGRESO
       } else {
         return this.trabajo.estado
       }
+    },
+    user() {
+      return this.$store.state.user
     },
     estadosColor() {
       return EstadoTrabajoColor[this.realEstado]
@@ -401,6 +464,9 @@ export default {
     },
     cliente() {
       return this.trabajo.cliente
+    },
+    isMyPublicJob() {
+      return this.isPablic && this.profesional._id === this.user._id
     },
     profesional() {
       return this.trabajo.profesional
@@ -437,7 +503,7 @@ export default {
     displayFecha() {
       const hours = this.agenda.fecha_inicio || this.trabajo.createdAt
       if (this.isPablic || this.isEstado.TERMINADO) {
-        const text = this.trabajo.estado ? 'Realiazdo ' : 'Publicado '
+        const text = this.trabajo.estado ? 'Realizado ' : 'Publicado '
         return text + dateFormat(hours, 'dd/MM/yyyy')
       } else {
         return camelCase(dateFormat(hours, "EEEE HH:mm 'hs'"))
@@ -455,13 +521,25 @@ export default {
   async created() {
     const self = this
     this.cancel()
-    await self.getChat()
-    setInterval(function () {
-      self.getChat()
-    }, 10000)
+    if (this.trabajo.tipo !== TipoTrabajo.PUBLICO) {
+      await self.getChat()
+      this.newComments = false
+      this.interval = setInterval(function () {
+        try {
+          self.getChat()
+        } catch (err) {
+          clearInterval(this.interval)
+        }
+      }, 10000)
+    }
   },
   mounted() {
-    if (this.trabajo.tipo === TipoTrabajo.PUBLICO) this.loadImg()
+    if (this.trabajo.tipo === TipoTrabajo.PUBLICO) {
+      this.loadImg()
+    }
+  },
+  beforeDestroy() {
+    clearInterval(this.interval)
   },
   methods: {
     goToPerfi() {
@@ -472,21 +550,25 @@ export default {
     openChat() {
       this.showChat = !this.showChat
       this.scrollChatToBottom()
+      this.newComments = false
     },
     scrollChatToBottom() {
       this.$nextTick(function () {
-        this.$refs.chat.scrollTo(0, 300)
+        this.$refs.chat.scrollTo(0, this.$refs.chat.clientWidth)
       })
     },
-    getChat() {
-      const self = this
-      Comunicacion.getAll({
-        query: { trabajo: self.trabajo._id },
+    async getChat() {
+      const oldLength = this.comunicaciones.length
+      const { data } = await Comunicacion.getAll({
+        query: { trabajo: this.trabajo._id },
         sort: 'createdAt',
-      }).then(({ data }) => {
-        self.comunicaciones = data || []
-        self.page = self.numberOfPages
       })
+      if (this.newComments === false) {
+        this.newComments = oldLength < data.length
+      }
+      this.comunicaciones = data || []
+      this.page = self.numberOfPages
+      // this.scrollChatToBottom() si esta mirando más arriva se va a mover
     },
     async loadImg() {
       try {
@@ -535,14 +617,17 @@ export default {
       this.loading = false
     },
     async sendComent() {
+      if (this.form.detalle === '') {
+        return
+      }
       const chat = { trabajo: this.trabajo._id }
       chat.detalle = this.form.detalle
       if (this.showAsCliente) {
-        chat.to = this.profesional
-        chat.from = this.$store.state.user
+        chat.to = this.trabajo.profesional
+        chat.from = this.trabajo.cliente
       } else {
-        chat.to = this.$store.state.user
-        chat.from = this.profesional
+        chat.to = this.trabajo.cliente
+        chat.from = this.trabajo.profesional
       }
       this.loading = true
       const { data, error } = await Comunicacion.save(chat)
@@ -560,9 +645,9 @@ export default {
       chat.fecha = this.form.fechaInicio
       if (this.showAsCliente) {
         chat.to = this.trabajo.profesional
-        chat.from = this.$store.state.user
+        chat.from = this.trabajo.cliente
       } else {
-        chat.to = this.$store.state.user
+        chat.to = this.trabajo.cliente
         chat.from = this.trabajo.profesional
       }
       this.loading = true
@@ -657,6 +742,6 @@ export default {
 div.chat-box {
   box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.3);
   overflow-y: scroll;
-  height: 250px;
+  height: 260px;
 }
 </style>

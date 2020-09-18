@@ -46,15 +46,17 @@ const schema = new Schema(
     servicios: [{ type: ObjectId, ref: 'habilidad' }],
     localidad: { type: ObjectId, ref: 'localidad' }, // Del trabajador
     provider: { type: String, trim: true, default: 'local' },
+    matricula: { type: String, trim: true },
     google_account: { type: Object, access: 'protected' }, // Datos de google,
     picture: String,
     password: { type: String, access: 'protected' },
     show_tutorial: { type: Boolean, default: true },
     razon_social: { type: String, trim: true }, // O Nombre fisticio
-    zona_trabajo: [{ type: ObjectId, ref: 'localidad' }], // libre todo el mundo
+    // zona_trabajo: [{ type: ObjectId, ref: 'localidad' }], // libre todo el mundo
     // tags: [{ type: String, access: 'protected' }],
     notification: { type: Boolean, default: true },
     deleted: { type: Boolean, default: false },
+    marks_professional: [{ type: ObjectId, ref: 'persona', default: [] }],
   },
   { timestamps: true }
 )

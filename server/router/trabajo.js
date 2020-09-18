@@ -9,7 +9,7 @@ const sendEmailClasificarTrabajo = require('../utilities/agenda/send_email_clasi
 const dateFormat = require('../utilities/dateFormat')
 const { deleteProp, auth } = require('../utilities/router')
 // const Batch = require("../utilities/agendaTask");
-const { Trabajo, EstadoTrabajo } = require('../models/trabajo')
+const { Trabajo, EstadoTrabajo, TipoTrabajo } = require('../models/trabajo')
 const { Persona } = require('../models/persona')
 const camelCase = require('./../utilities/capitalizeWords')
 const getLink = (_id) => process.env.FRONT_URL + '/trabajos/' + _id
@@ -22,6 +22,10 @@ restify.serve(router, Trabajo, {
     async (req, _, next) => {
       const trabajo = req.erm.result
       const { profesional, cliente } = trabajo
+      // typeof cliente === 'undefined' &&
+      if (trabajo.tipo === TipoTrabajo.PUBLICO) {
+        return next()
+      }
 
       const isNewState = (check) => {
         return req.body.oldEstado !== check && req.body.estado === check
@@ -86,8 +90,8 @@ restify.serve(router, Trabajo, {
   ],
   preRead: [
     (req, _, next) => {
-      console.log(req.erm.query, req.user)
       /*
+      console.log(req.erm.query, req.user)
       const { query } = req.erm.query
       const $or = query.$or || []
       const profesional = query.profesional || ($or[0] && $or[0].profesional)

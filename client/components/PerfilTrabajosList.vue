@@ -4,9 +4,9 @@
       <v-flex>
         <p class="headline mb-0">Trabajos</p>
       </v-flex>
-      <v-btn v-if="showAddBtn" icon text @click.stop="showModal = true">
+      <!--<v-btn v-if="showAddBtn" icon text @click.stop="showModal = true">
         <v-icon>add</v-icon>
-      </v-btn>
+      </v-btn>-->
     </v-layout>
 
     <v-layout v-show="loadingTrabajos" my-4>
@@ -21,14 +21,18 @@
     </v-layout>
 
     <v-layout v-if="!loadingTrabajos" column>
-      <v-flex v-if="listTrabajos.length === 0" xs12>
-        <CardTrabajoAdd @click.stop="showModal = true" />
+      <v-flex v-if="showAddBtn" xs12>
+        <CardTrabajoAdd @click="editJob()" />
       </v-flex>
       <v-flex v-for="(trabajo, $i) in listTrabajos" :key="$i" xs12>
-        <CardTrabajo :trabajo="trabajo" />
+        <CardTrabajo :trabajo="trabajo" @edit="editJob(trabajo)" />
       </v-flex>
     </v-layout>
-    <ModalPublicJob v-model="showModal" @change="getTrabajos" />
+    <ModalPublicJob
+      v-model="showModal"
+      :trabajo="selectedJob"
+      @change="getTrabajos"
+    />
   </v-layout>
 </template>
 
@@ -51,6 +55,7 @@ export default {
     loadingTrabajos: true,
     listTrabajos: [],
     showModal: false,
+    selectedJob: null,
   }),
   computed: {},
   mounted() {
@@ -69,6 +74,11 @@ export default {
       // populate Localidation Habilidad
       this.listTrabajos = data || []
       this.loadingTrabajos = false
+    },
+
+    editJob(trabajo) {
+      this.selectedJob = { ...trabajo }
+      this.showModal = true
     },
   },
 }

@@ -24,7 +24,7 @@ function showMsg(type, response) {
 }
 
 // axios defaults
-axios.defaults.baseURL = process.env.SERVER_URL
+axios.defaults.baseURL = process.env.NUXT_SERVER_URL
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.headers.post['Cache-Control'] = 'no-cache'
 

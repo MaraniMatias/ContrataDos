@@ -78,10 +78,12 @@ router.post(
   '/api/auth/login',
   passport.authenticate('local', { session: false }),
   (req, res) => {
-    if (req.user.provider !== 'local') {
+    if (req.user === null) {
+      return sendRes(res, 401, null, 'error', 'Usuario o contraseña icorecta')
+    } else if (req.user.provider !== 'local') {
       return sendRes(
         res,
-        404,
+        401,
         null,
         'error',
         `Inicie sescion con ${req.user.provider}`
@@ -121,13 +123,11 @@ router.post('/api/auth/signup', async function (req, res) {
       nombre: req.body.nombre,
       password: req.body.password,
       role: req.body.role,
-      // picture: '/avatars/matthew.png',
     })
     const userDB = await user.save()
     sendVerifyEmail(userDB._id, userDB.email)
     return sendRes(res, 200, null, 'User created, check your email', null)
   } catch (err) {
-    console.log(err)
     if (err.code === 11000) {
       return sendRes(res, 400, null, 'Error', 'Email ya registrado.')
     } else {
@@ -157,16 +157,19 @@ router.post('/api/auth/signup/verification', async function (req, res) {
 })
 
 // POST /api/auth/sendemail {email}
-router.post('/api/auth/sendemail', function (req, res) {
+router.post('/api/auth/sendemail', async function (req, res) {
   const isValid = checkErrors([check(req.body, 'email').isEmail()])
   if (!isValid) return
-  return sendVerifyEmail(req.body.email)
-    .then(() => {
-      return sendRes(res, 200, null, 'Success', null)
-    })
-    .catch((err) => {
-      return sendRes(res, 500, null, 'Error saving new user', err)
-    })
+  const userDB = await User.findOne({
+    email: req.body.email,
+    deleted: false,
+    email_verified: false,
+  })
+  if (userDB) {
+    sendVerifyEmail(userDB._id, userDB.email)
+    return sendRes(res, 200, null, 'User created, check your email', null)
+  }
+  return sendRes(res, 404, null, 'page not found')
 })
 
 // POST /api/auth/login {mail password}

@@ -3,7 +3,7 @@
     <v-card
       v-for="(alert, $i) in filtersItems"
       :key="$i"
-      style="min-width: 350px;"
+      style="min-width: 350px"
       :color="alert.color"
       class="ma-2"
     >

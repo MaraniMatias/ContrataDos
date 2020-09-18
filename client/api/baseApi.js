@@ -29,6 +29,19 @@ const getById = (BASE_URL) => async (_id, params = {}) => {
   }
 }
 
+const count = (BASE_URL) => async (params = {}) => {
+  try {
+    if (params.query) {
+      params.query.deleted = false
+    } else {
+      params.query = { deleted: false }
+    }
+    return await http.get(BASE_URL + '/count', { params })
+  } catch (err) {
+    return { error: err?.message || 'ApiError' }
+  }
+}
+
 const save = (BASE_URL) => async (object = {}) => {
   try {
     if (object._id) return await http.patch(BASE_URL + `/${object._id}`, object)
@@ -40,19 +53,20 @@ const save = (BASE_URL) => async (object = {}) => {
 
 const del = (BASE_URL) => async (object = {}) => {
   try {
-    return await http.path(BASE_URL + `/${object._id}`, { deleted: true })
+    return await http.patch(BASE_URL + `/${object._id}`, { deleted: true })
   } catch (err) {
     return { error: err?.message || 'ApiError' }
   }
 }
 
 export default (url) => {
-  const BASE_URL = process.env.SERVER_URL + '/api' + url
+  const BASE_URL = process.env.NUXT_SERVER_URL + '/api' + url
   return {
     save: save(BASE_URL),
     delete: del(BASE_URL),
     getAll: getAll(BASE_URL),
     get: get(BASE_URL),
     getById: getById(BASE_URL),
+    count: count(BASE_URL),
   }
 }

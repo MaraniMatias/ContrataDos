@@ -23,7 +23,7 @@
             :items="habilidades"
             item-text="nombre"
             item-value="_id"
-            label="Profesiones"
+            label="Habilidad"
             :loading="habilidades.length === 0"
             multiple
             outlined
@@ -78,10 +78,15 @@
           <error :text="error" />
         </template>
         -->
+      <template v-slot:actions-left>
+        <v-btn v-if="trabajo._id" color="red darken-4" text @click="delJob()">
+          Eliminar
+        </v-btn>
+      </template>
       <template v-slot:actions>
         <v-btn text :disabled="loading" @click="close()">Cancelar </v-btn>
         <v-btn :disabled="loading" color="primary" type="submit">
-          Publicar
+          {{ form._id ? 'Guardar' : 'Publicar' }}
         </v-btn>
       </template>
     </CardForm>
@@ -94,7 +99,7 @@ import CardCropper from '~/components/CardCropper'
 
 import { EstadoTrabajo, TipoTrabajo } from '~~/server/utilities/enums'
 
-import { Localidad } from '~/api'
+import { Localidad, Trabajo } from '~/api'
 import apiFile from '~/api/file'
 const onFileUpload = 'progressFileUpload'
 const { trabajo: saveImg } = apiFile(onFileUpload)
@@ -102,7 +107,7 @@ const { trabajo: saveImg } = apiFile(onFileUpload)
 export default {
   components: { CardForm, CardCropper },
   props: {
-    trabajo: { type: Object },
+    trabajo: { type: Object, default: () => ({}) },
     value: { type: Boolean, default: false },
   },
   data: () => ({
@@ -113,14 +118,22 @@ export default {
     form: {},
     pickedFile: null,
   }),
-  computed: {},
-  watch: {},
-  created() {
-    this.close(true)
-    if (this.trabajo) {
-      this.form = { ...this.trabajo }
-    }
+  computed: {
+    user() {
+      return this.$store.state.user
+    },
   },
+  watch: {
+    trabajo(trabajo) {
+      this.close(true)
+      if (this.trabajo?._id) {
+        this.form = { ...this.trabajo }
+      } else {
+        this.form.localidad = this.user.localidad?._id
+      }
+    },
+  },
+  created() {},
   async mounted() {
     // TODO search query
     const { data: l } = await Localidad.getAll()
@@ -139,9 +152,17 @@ export default {
       if (!formValid) return
       this.loading = true
       this.form.tipo = TipoTrabajo.PUBLICO
-      const { error } = await saveImg(this.pickedFile, this.form)
-      if (error) {
-        this.$notify({ type: 'error', text: error.message || error })
+      this.form.descripcion_breve = this.form.descripcion_breve.toLowerCase()
+      let err
+      if (this.pickedFile) {
+        const { error } = await saveImg(this.pickedFile, this.form)
+        err = error
+      } else {
+        const { error } = await Trabajo.save(this.form)
+        err = error
+      }
+      if (err) {
+        this.$notify({ type: 'error', text: err.message || err })
       } else {
         this.$notify({ type: 'success', text: 'Trabajo actualizado.' })
         this.close()
@@ -164,6 +185,17 @@ export default {
         descripcion_breve: '',
         descripcion: '',
       }
+    },
+    async delJob() {
+      this.loading = true
+      const { error } = await Trabajo.delete(this.trabajo)
+      if (error) {
+        this.$notify({ type: 'error', text: error.message || error })
+      } else {
+        this.$notify({ type: 'success', text: 'Trabajo eliminado.' })
+        this.close()
+      }
+      this.loading = false
     },
   },
 }
