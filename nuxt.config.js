@@ -1,10 +1,7 @@
 require('dotenv-flow').config({ purge_dotenv: true, silent: true })
 
 module.exports = {
-  target: 'static',
-  mode: 'spa',
   ssr: false,
-  // mode: 'universal',
   rootDir: '.',
   srcDir: './client/',
 
