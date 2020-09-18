@@ -8,6 +8,7 @@ const app = express()
 const favicon = require('serve-favicon')
 const helmet = require('helmet')
 const restify = require('express-restify-mongoose')
+const history = require('connect-history-api-fallback')
 const auth = require('http-auth')
 const statusMonitor = require('express-status-monitor')({
   path: '',
@@ -57,7 +58,20 @@ app.use(
 // favicon
 app.use(favicon(getPathPublicWith('favicon.ico')))
 // Static, FronEnd
-app.use(express.static(path.join.apply(null, [__dirname, ...STATIC_PATH])))
+const staticMiddleware = express.static(
+  path.join.apply(null, [__dirname, 'public'])
+)
+app.use(staticMiddleware)
+const historyMiddleware = history({ disableDotRule: true, verbose: true })
+app.use((req, res, next) => {
+  // This is the ignore rule. You can do whatever checks you feel are necessary, e.g.
+  // check headers, req path, external vars…
+  if (/^\/api\/.*/.test(req.path)) {
+    return next()
+  }
+  return historyMiddleware(req, res, next)
+})
+app.use(staticMiddleware)
 
 // System monitor
 const basic = auth.basic({ realm: 'API Monitor' }, function (user, pass, next) {
