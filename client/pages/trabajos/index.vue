@@ -1,7 +1,7 @@
 <template>
   <v-layout column mb-5>
-    <div class="hidden-md-and-down" style="margin-top: 60px;"></div>
-    <div class="hidden-md-and-up" style="margin-top: 40px;"></div>
+    <div class="hidden-md-and-down" style="margin-top: 60px"></div>
+    <div class="hidden-md-and-up" style="margin-top: 40px"></div>
     <v-layout wrap class="mb-5">
       <v-flex xs12 lg5 xl4>
         <v-layout justify-start align-center>

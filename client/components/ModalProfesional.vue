@@ -101,9 +101,7 @@
     </template>
     <template v-slot:actions>
       <v-btn text :disabled="loading" @click="close">Cancelar </v-btn>
-      <v-btn :disabled="loading" color="primary" type="submit">
-        Guardar
-      </v-btn>
+      <v-btn :disabled="loading" color="primary" type="submit"> Guardar </v-btn>
     </template>
   </CardForm>
 </template>

@@ -110,9 +110,9 @@
             >
               <div
                 v-if="avatarError"
-                style="height: 225px; display: flex; flex: auto;"
+                style="height: 225px; display: flex; flex: auto"
               >
-                <v-icon size="128" style="margin: auto;">wallpaper</v-icon>
+                <v-icon size="128" style="margin: auto">wallpaper</v-icon>
               </div>
               <v-img
                 v-else

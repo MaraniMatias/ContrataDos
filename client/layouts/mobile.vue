@@ -119,9 +119,9 @@
         id="scrolling-techniques-6"
         class="overflow-y-auto"
         max-height="100vh"
-        style="min-height: 100vh;"
+        style="min-height: 100vh"
       >
-        <v-container class="fill-height" fluid style="height: 100vh;">
+        <v-container class="fill-height" fluid style="height: 100vh">
           <nuxt />
         </v-container>
       </v-sheet>

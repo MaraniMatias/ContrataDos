@@ -1,7 +1,7 @@
 <template>
   <v-layout align-center justify-center fill-height>
     <v-flex xs12 lg5 xl3>
-      <v-layout column style="margin-bottom: 100px;">
+      <v-layout column style="margin-bottom: 100px">
         <v-flex class="text-center">
           <img
             src="/logo.png"

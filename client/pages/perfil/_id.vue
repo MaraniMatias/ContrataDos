@@ -1,7 +1,7 @@
 <template>
   <v-layout column mb-2>
-    <div class="hidden-md-and-down" style="margin-top: 60px;"></div>
-    <div class="hidden-md-and-up" style="margin-top: 40px;"></div>
+    <div class="hidden-md-and-down" style="margin-top: 60px"></div>
+    <div class="hidden-md-and-up" style="margin-top: 40px"></div>
     <v-layout mb-2 px-2 justify-center>
       <v-flex xs12 sm12 md10 lg8 xl6 mt-4 mb-2>
         <v-layout wrap justify-center align-start>
@@ -71,7 +71,7 @@
               />
             </v-layout>
             <p v-if="showBtnEditable" class="my-1">{{ perfil.email }}</p>
-            <div style="min-height: 85px;" v-html="perfil.bibliography" />
+            <div style="min-height: 85px" v-html="perfil.bibliography" />
             <v-layout align-center justify-end mt-2>
               <v-flex v-show="localidadNombre" xs12>
                 Recide en {{ localidadNombre }}

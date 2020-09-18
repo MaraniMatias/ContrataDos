@@ -7,9 +7,7 @@
       @click="$emit('click')"
     >
       <v-card-text class="text-center py-4">
-        <v-icon size="120" color="grey lighten-1">
-          add_circle_outline
-        </v-icon>
+        <v-icon size="120" color="grey lighten-1"> add_circle_outline </v-icon>
         <p class="headline mb-1">Publicar trabajo realizado.</p>
       </v-card-text>
     </v-card>

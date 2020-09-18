@@ -15,9 +15,7 @@
                 </v-flex>
                 <template v-if="lgAndUp">
                   <Rating v-if="showRating" :value="score.rating" star />
-                  <p v-else class="mb-0 text-center">
-                    Sin clasificar.
-                  </p>
+                  <p v-else class="mb-0 text-center">Sin clasificar.</p>
                 </template>
               </v-layout>
               <v-layout align-center mb-2>

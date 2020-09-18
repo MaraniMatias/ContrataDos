@@ -114,9 +114,7 @@
     <v-dialog v-model="dialog" persistent max-width="290">
       <v-card>
         <CardForm>
-          <template v-slot:header>
-            Activación de cuenta
-          </template>
+          <template v-slot:header> Activación de cuenta </template>
           <template>
             Hemos enviado un email a su dirección de correo electrónico para
             activar su cuenta.
