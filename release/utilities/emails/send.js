@@ -54,12 +54,12 @@ module.exports = async function ({ subject, template }, data) {
 
   await transporter.sendMail({
     from: options.email_no_replay,
-    to: process.env.EMAIL_DEFAULT || sendEmailTo,
-    bcc:
-      process.env.NODE_ENV === 'production' &&
-      process.env.EMAIL_AUTH_USER !== sendEmailTo
-        ? process.env.EMAIL_AUTH_USER
-        : undefined,
+    to: sendEmailTo,
+    // bcc:
+    //   process.env.NODE_ENV === 'production' &&
+    //   process.env.EMAIL_AUTH_USER !== sendEmailTo
+    //     ? process.env.EMAIL_AUTH_USER
+    //     : undefined,
     subject: subject + ' - ' + process.env.EMAIL_NOMBRE,
     html: getHtmlEmail(template, { data, subject }),
   })

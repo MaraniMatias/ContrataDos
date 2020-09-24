@@ -1,7 +1,7 @@
 require('dotenv-flow').config({ purge_dotenv: true, silent: true })
 const PORT = process.env.PORT || 3000
 const cluster = require('cluster')
-const numCPUs = require('os').cpus().length
+// const numCPUs = require('os').cpus().length
 
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
@@ -41,25 +41,25 @@ function startServer() {
   })
 }
 
-if (process.env.NODE_ENV === 'development') {
-  startServer()
-} else if (cluster.isMaster) {
-  console.log(`Master ${process.pid} is running`)
-
-  // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork()
-  }
-
-  cluster.on('exit', (worker) => {
-    console.log(`worker ${worker.process.pid} died`)
-    cluster.fork() // Create a New Worker, If Worker is Dead
-  })
-} else {
-  console.log(`This process is pid ${process.pid}`)
-  console.log(`The parent process is pid ${process.ppid}`)
-  startServer()
-}
+// if (process.env.NODE_ENV === 'development') {
+startServer()
+// } else if (cluster.isMaster) {
+//   console.log(`Master ${process.pid} is running`)
+//
+//   // Fork workers.
+//   for (let i = 0; i < numCPUs; i++) {
+//     cluster.fork()
+//   }
+//
+//   cluster.on('exit', (worker) => {
+//     console.log(`worker ${worker.process.pid} died`)
+//     cluster.fork() // Create a New Worker, If Worker is Dead
+//   })
+// } else {
+//   console.log(`This process is pid ${process.pid}`)
+//   console.log(`The parent process is pid ${process.ppid}`)
+//   startServer()
+// }
 
 // Error
 process.on('uncaughtException', function (err) {

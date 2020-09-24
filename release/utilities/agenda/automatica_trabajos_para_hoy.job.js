@@ -1,3 +1,4 @@
+const { getDayOfYear } = require('date-fns')
 const { Trabajo, EstadoTrabajo } = require('../../models/trabajo')
 const sendEmailTrabajosParaHoy = require('../agenda/send_email_trabajos_para_hoy.job')
 const cambiarEstadoTrabajo = require('../agenda/cambiar_estado_trabajo.job')
@@ -10,11 +11,11 @@ module.exports.jobCreate = (agenda, data) => {
   Agenda = agenda
 
   const isProd = process.env.NODE_ENV === 'production'
-  const times = isProd ? '1 days' : '20 minutes'
+  const times = isProd ? '1440 minutes' : '20 minutes'
 
   agenda
     .create(this.name, data)
-    .repeatEvery(times, { skipImmediate: isProd })
+    .repeatEvery(times /*, { skipImmediate: isProd } */)
     .save()
 }
 
@@ -34,7 +35,7 @@ module.exports.job = async () => {
     .where('agenda.fecha_inicio')
     .gte(new Date().setHours(0, 0, 0, 0))
     .where('agenda.fecha_inicio')
-    .lt(new Date().setHours(59, 59, 59, 0))
+    .lt(new Date().setHours(23, 59, 59, 999))
 
   const orderList = groupByAndFilter(trabajosList)
   console.log('Para hoy %s trabajos', orderList.length)
@@ -76,16 +77,6 @@ function getUtilDate(job) {
     descripcion: job.descripcion_breve,
     fecha: camelCase(dateFormat(hours, "EEEE dd/MM 'a las' HH:mm 'hs'")),
   }
-}
-
-function getDayOfYear(now) {
-  const start = new Date(now.getFullYear(), 0, 0)
-  const diff =
-    now -
-    start +
-    (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000
-  const oneDay = 1000 * 60 * 60 * 24
-  return Math.floor(diff / oneDay)
 }
 
 function groupByAndFilter(trabajosList) {
