@@ -69,7 +69,7 @@
                       <v-icon>delete</v-icon>
                     </v-btn>
                   </template>
-                  <span>Darme de baja como trabajador</span>
+                  <span>Soy un trabajador</span>
                 </v-tooltip>
               </v-layout>
             </v-flex>
