@@ -1,87 +1,90 @@
 <template>
-  <v-hover v-slot:default="{ hover }">
-    <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
-      <v-card-text>
-        <v-layout align-center mb-2 mr-4>
-          <Avatar :size="avatarSize" :src="perfil.picture" />
-          <v-flex d-flex>
-            <v-layout column fill-height>
-              <div class="overline mt-2 ml-2">
-                Trabajos realizados: {{ score.total }}
-              </div>
-              <v-layout align-center mb-1 ml-2>
-                <v-flex d-inline-flex>
-                  <p class="headline mb-0" v-text="headline" />
-                </v-flex>
-                <template v-if="lgAndUp">
-                  <Rating v-if="showRating" :value="score.rating" star />
-                  <p v-else class="mb-0 text-center">Sin clasificar.</p>
-                </template>
-              </v-layout>
-              <v-layout align-center mb-2>
-                <v-chip
-                  v-for="(h, $i) in perfil.servicios"
-                  :key="$i"
-                  outlined
-                  class="mx-2"
-                  v-text="h.nombre"
-                />
-              </v-layout>
-            </v-layout>
-          </v-flex>
-        </v-layout>
-        <v-layout column>
-          <v-layout column fill-height align-start>
-            <p class="mb-0" v-html="perfil.bibliography" />
-          </v-layout>
-          <v-layout wrap align-center justify-end>
-            <v-flex v-show="localidadNombre" class="mb-2">
-              Recide en {{ localidadNombre }}
-            </v-flex>
+  <div>
+    <v-hover v-slot:default="{ hover }">
+      <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
+        <v-card-text>
+          <v-layout align-center mb-2 mr-4>
+            <Avatar :size="avatarSize" :src="perfil.picture" />
             <v-flex d-flex>
-              <v-layout justify-end>
-                <template v-if="isLoggedIn">
-                  <v-btn
-                    v-if="mdAndDown"
-                    color="sencudary"
-                    icon
-                    text
-                    :loading="saveMark"
-                    @click="marker()"
-                  >
-                    <v-icon v-if="isInMarks">bookmark</v-icon>
-                    <v-icon v-else>bookmark_border</v-icon>
-                  </v-btn>
-                  <v-tooltip v-else bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-btn
-                        color="sencudary"
-                        outlined
-                        :loading="saveMark"
-                        @click="marker()"
-                        v-on="on"
-                      >
-                        <v-icon v-if="isInMarks" left>bookmark</v-icon>
-                        <v-icon v-else left>bookmark_border</v-icon>
-                        Marcadores
-                      </v-btn>
-                    </template>
-                    {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
-                  </v-tooltip>
-                </template>
-                <v-btn color="primary" text :to="perfilLink" class="mx-2">
-                  Ver Perfil
-                </v-btn>
-                <v-btn color="red darken-4" outlined @click="contactar">
-                  Contactar
-                </v-btn>
+              <v-layout column fill-height>
+                <div class="overline mt-2 ml-2">
+                  Trabajos realizados: {{ score.total }}
+                </div>
+                <v-layout align-center mb-1 ml-2>
+                  <v-flex d-inline-flex>
+                    <p class="headline mb-0" v-text="headline" />
+                  </v-flex>
+                  <template v-if="lgAndUp">
+                    <Rating v-if="showRating" :value="score.rating" star />
+                    <p v-else class="mb-0 text-center">Sin clasificar.</p>
+                  </template>
+                </v-layout>
+                <v-layout align-center mb-2>
+                  <v-chip
+                    v-for="(h, $i) in perfil.servicios"
+                    :key="$i"
+                    outlined
+                    class="mx-2"
+                    v-text="h.nombre"
+                  />
+                </v-layout>
               </v-layout>
             </v-flex>
           </v-layout>
-        </v-layout>
-      </v-card-text>
-    </v-card>
-  </v-hover>
+          <v-layout column>
+            <v-layout column fill-height align-start>
+              <p class="mb-0" v-html="perfil.bibliography" />
+            </v-layout>
+            <v-layout wrap align-center justify-end>
+              <v-flex v-show="localidadNombre" class="mb-2">
+                Recide en {{ localidadNombre }}
+              </v-flex>
+              <v-flex d-flex>
+                <v-layout justify-end>
+                  <template v-if="isLoggedIn">
+                    <v-btn
+                      v-if="mdAndDown"
+                      color="sencudary"
+                      icon
+                      text
+                      :loading="saveMark"
+                      @click="marker()"
+                    >
+                      <v-icon v-if="isInMarks">bookmark</v-icon>
+                      <v-icon v-else>bookmark_border</v-icon>
+                    </v-btn>
+                    <v-tooltip v-else bottom>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          color="sencudary"
+                          outlined
+                          :loading="saveMark"
+                          @click="marker()"
+                          v-on="on"
+                        >
+                          <v-icon v-if="isInMarks" left>bookmark</v-icon>
+                          <v-icon v-else left>bookmark_border</v-icon>
+                          Marcadores
+                        </v-btn>
+                      </template>
+                      {{ isInMarks ? 'Sacar de ' : 'Agregar a ' }} marcadores
+                    </v-tooltip>
+                  </template>
+                  <v-btn color="primary" text :to="perfilLink" class="mx-2">
+                    Ver Perfil
+                  </v-btn>
+                  <v-btn color="red darken-4" outlined @click="contactar">
+                    Contactar
+                  </v-btn>
+                </v-layout>
+              </v-flex>
+            </v-layout>
+          </v-layout>
+        </v-card-text>
+      </v-card>
+    </v-hover>
+    <ModalContratar v-model="showModal" :perfil="perfil" />
+  </div>
 </template>
 
 <script>
@@ -91,14 +94,16 @@ import Avatar from '~/components/Avatar'
 import Rating from '~/components/Rating'
 import camelCase from '~~/server/utilities/capitalizeWords'
 import { EstadoTrabajo, RatingTrabajo } from '~~/server/utilities/enums'
+import ModalContratar from '~/components/ModalContratar'
 
 export default {
-  components: { Avatar, Rating },
+  components: { Avatar, Rating, ModalContratar },
   props: {
     perfil: { type: Object, required: true },
   },
   data: () => ({
     saveMark: false,
+    showModal: false,
     score: { total: 0 },
   }),
   computed: {
@@ -148,7 +153,8 @@ export default {
     ...mapMutations({ updateUser: 'SET_USER' }),
     contactar() {
       if (this.isLoggedIn) {
-        this.$emit('contactar', this.perfil)
+        // this.$emit('contactar', this.perfil)
+        this.showModal = true
       } else {
         // TODO si tiene que logearse despues de login ok regresar y abrir el modal para contratar
         this.$router.replace({ name: 'login', query: { back: 'search' } })

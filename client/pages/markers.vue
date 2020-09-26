@@ -18,8 +18,7 @@
         </v-layout>
         <v-layout v-if="!loading" column>
           <v-flex v-for="(perfil, $i) in items" :key="$i" xs12>
-            <CardPerfil :perfil="perfil" @contactar="showModal = true" />
-            <ModalContratar v-model="showModal" :perfil="perfil" />
+            <CardPerfil :perfil="perfil" />
           </v-flex>
           <v-flex v-if="totalItems == 0" class="text-center" xs12 mt-4>
             <p class="title">Sin profesional guardados.</p>
@@ -40,15 +39,13 @@ import { isMobile } from 'mobile-device-detect'
 
 import { Persona } from '~/api'
 import CardPerfil from '~/components/CardPerfil'
-import ModalContratar from '~/components/ModalContratar'
 
 export default {
   middleware: 'authenticated',
-  components: { CardPerfil, ModalContratar },
+  components: { CardPerfil },
   data: () => ({
     loading: true,
     items: [],
-    showModal: false,
     totalItems: 0,
   }),
   layout() {

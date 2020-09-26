@@ -32,9 +32,8 @@
           </v-flex>
           <v-flex xs12 md10 lg8 xl6>
             <v-layout v-if="!loading" column>
-              <v-flex v-for="(perfil, $i) in items" :key="$i" xs12>
-                <CardPerfil :perfil="perfil" @contactar="showModal = true" />
-                <ModalContratar v-model="showModal" :perfil="perfil" />
+              <v-flex v-for="(perfil) in items" :key="perfil._id" xs12>
+                <CardPerfil :perfil="perfil" />
               </v-flex>
               <v-flex v-if="totalItems == 0" class="text-center" xs12 mt-4>
                 <v-btn rounded color="primary" outlined x-large to="/">
@@ -53,11 +52,10 @@
 import { isMobile } from 'mobile-device-detect'
 import { Persona, Habilidad, Localidad } from '~/api'
 import CardPerfil from '~/components/CardPerfil'
-import ModalContratar from '~/components/ModalContratar'
 import { Roles } from '~~/server/utilities/enums'
 
 export default {
-  components: { CardPerfil, ModalContratar },
+  components: { CardPerfil },
   asyncData({ query = {}, redirect, error }) {
     // error({ message: 'Internal error', statusCode: 500 })
     if (
