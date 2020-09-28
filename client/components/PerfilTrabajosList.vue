@@ -22,7 +22,7 @@
 
     <v-layout v-if="!loadingTrabajos" column>
       <v-flex v-if="showAddBtn" xs12>
-        <CardTrabajoAdd @click="editJob()" @change="getTrabajos" />
+        <CardTrabajoAdd @change="getTrabajos" />
       </v-flex>
       <v-flex v-for="(trabajo, $i) in listTrabajos" :key="$i" xs12>
         <CardTrabajo :trabajo="trabajo" @change="getTrabajos" />

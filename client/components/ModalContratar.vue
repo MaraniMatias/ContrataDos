@@ -134,7 +134,7 @@ export default {
       this.form = {
         cliente: this.user._id,
         profesional: this.perfil,
-        localidad: this.user.localidad,
+        localidad: this.user.localidad._id || this.user.localidad,
         tipo: TipoTrabajo.PRIVADO,
         descripcion: '',
         descripcion_breve: '', // Asunto
