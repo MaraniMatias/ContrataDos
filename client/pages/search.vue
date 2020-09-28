@@ -32,7 +32,7 @@
           </v-flex>
           <v-flex xs12 md10 lg8 xl6>
             <v-layout v-if="!loading" column>
-              <v-flex v-for="(perfil) in items" :key="perfil._id" xs12>
+              <v-flex v-for="perfil in items" :key="perfil._id" xs12>
                 <CardPerfil :perfil="perfil" />
               </v-flex>
               <v-flex v-if="totalItems == 0" class="text-center" xs12 mt-4>

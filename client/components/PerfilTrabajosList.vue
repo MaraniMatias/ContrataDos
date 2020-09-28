@@ -22,31 +22,25 @@
 
     <v-layout v-if="!loadingTrabajos" column>
       <v-flex v-if="showAddBtn" xs12>
-        <CardTrabajoAdd @click="editJob()" />
+        <CardTrabajoAdd @click="editJob()" @change="getTrabajos" />
       </v-flex>
       <v-flex v-for="(trabajo, $i) in listTrabajos" :key="$i" xs12>
-        <CardTrabajo :trabajo="trabajo" @edit="editJob(trabajo)" />
+        <CardTrabajo :trabajo="trabajo" @change="getTrabajos" />
       </v-flex>
     </v-layout>
-    <ModalPublicJob
-      v-model="showModal"
-      :trabajo="selectedJob"
-      @change="getTrabajos"
-    />
   </v-layout>
 </template>
 
 <script>
 import CardTrabajoAdd from '~/components/CardTrabajoAdd'
 import CardTrabajo from '~/components/CardTrabajo'
-import ModalPublicJob from '~/components/ModalPublicJob'
 
 import { TipoTrabajo } from '~~/server/utilities/enums'
 
 import { Trabajo } from '~/api'
 
 export default {
-  components: { CardTrabajo, CardTrabajoAdd, ModalPublicJob },
+  components: { CardTrabajo, CardTrabajoAdd },
   props: {
     showAddBtn: { type: Boolean, default: false },
     profilId: { type: String, required: true },
@@ -55,7 +49,6 @@ export default {
     loadingTrabajos: true,
     listTrabajos: [],
     showModal: false,
-    selectedJob: null,
   }),
   computed: {},
   mounted() {
@@ -74,11 +67,6 @@ export default {
       // populate Localidation Habilidad
       this.listTrabajos = data || []
       this.loadingTrabajos = false
-    },
-
-    editJob(trabajo) {
-      this.selectedJob = { ...trabajo }
-      this.showModal = true
     },
   },
 }

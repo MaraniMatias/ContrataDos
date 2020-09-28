@@ -90,7 +90,6 @@
           v-for="j in listTrabajos"
           :key="j._id"
           :trabajo="j"
-          @edit="editJob(j)"
           @change="loadData"
         />
       </v-flex>
@@ -127,11 +126,6 @@
         @close="close"
       />
     </v-dialog>
-    <ModalPublicJob
-      v-model="showModal"
-      :trabajo="selectedJob"
-      @change="loadData"
-    />
   </v-layout>
 </template>
 
@@ -144,7 +138,6 @@
 import { isMobile } from 'mobile-device-detect'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 
-import ModalPublicJob from '~/components/ModalPublicJob'
 import ModalProfesional from '~/components/ModalProfesional'
 import CardTrabajo from '~/components/CardTrabajo'
 import { Persona, Trabajo } from '~/api'
@@ -157,7 +150,7 @@ import {
 
 export default {
   middleware: 'authenticated',
-  components: { CardTrabajo, ModalProfesional, ModalPublicJob },
+  components: { CardTrabajo, ModalProfesional },
   asyncData() {
     const filters = []
     EstadoTrabajoLabel.forEach(({ key }, index) => {
@@ -179,8 +172,6 @@ export default {
     ready: true,
     score: {},
     interval: null,
-    selectedJob: null,
-    showModal: false,
   }),
   computed: {
     ...mapGetters(['isAProfessional']),
@@ -282,10 +273,6 @@ export default {
     },
     close() {
       this.showModalEdit = false
-    },
-    editJob(trabajo) {
-      this.selectedJob = { ...trabajo }
-      this.showModal = true
     },
   },
 }
