@@ -68,11 +68,19 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <ModalPublicJob
+    <v-dialog
       v-model="showModalPublic"
-      :trabajo="trabajo"
-      @change="publish()"
-    />
+      width="550"
+      persistent
+      @keyup.esc="showModalPublic = false"
+    >
+      <ModalPublicJob
+        v-if="showModalPublic"
+        :trabajo="trabajo"
+        @change="publish()"
+        @close="showModalPublic = false"
+      />
+    </v-dialog>
     <v-hover v-slot:default="{ hover }" open-delay="100">
       <v-card outlined :elevation="hover ? 1 : 0" class="my-4">
         <v-card-title v-if="!isPablic" class="pb-0">
@@ -521,7 +529,12 @@ export default {
   async created() {
     const self = this
     this.cancel()
-    if (this.trabajo.tipo !== TipoTrabajo.PUBLICO) {
+    if (
+      [EstadoTrabajo.TERMINADO, EstadoTrabajo.CANCELADO].includes(
+        this.trabajo.estado
+      ) === false &&
+      this.trabajo.tipo !== TipoTrabajo.PUBLICO
+    ) {
       await self.getChat()
       this.newComments = false
       this.interval = setInterval(function () {
