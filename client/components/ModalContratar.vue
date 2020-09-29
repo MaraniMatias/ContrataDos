@@ -32,7 +32,21 @@
           />
         </v-flex>
         <!-- Avanzada -->
-        <v-flex xs12 mt-2>
+        <v-flex xs12>
+          <v-select
+            v-model.lazy="form.localidad"
+            dense
+            :items="localidades"
+            item-text="nombre"
+            item-value="_id"
+            label="Localidad"
+            hide-details
+            outlined
+            :readonly="loading"
+            :rules="[rules.required()]"
+          />
+        </v-flex>
+        <v-flex xs12 mt-3>
           <v-select
             v-model.lazy="form.servicios"
             dense
@@ -48,23 +62,6 @@
             :rules="[rules.required()]"
           />
         </v-flex>
-        <!--
-          <v-flex xs12 mt-2>
-            <v-select
-              v-model.lazy="form.localidad"
-              dense
-              hide-details
-              :items="form.perfil.localidades"
-              item-text="nombre"
-              item-value="_id"
-              label="Localidad"
-              :loading="form.perfil.localidades.length === 0"
-              outlined
-              :readonly="loading"
-              :rules="[rules.required()]"
-            />
-          </v-flex>
-          -->
       </template>
       <template v-slot:actions>
         <v-btn text :disabled="loading" @click="close()">Cancelar </v-btn>
@@ -77,7 +74,7 @@
 </template>
 
 <script>
-import { Trabajo } from '~/api'
+import { Localidad, Trabajo } from '~/api'
 import CardForm from '~/components/CardForm'
 import { TipoTrabajo } from '~~/server/utilities/enums'
 import camelCase from '~~/server/utilities/capitalizeWords'
@@ -91,6 +88,7 @@ export default {
   data: () => ({
     loading: false,
     form: { profesional: {} },
+    localidades: [],
   }),
   computed: {
     user() {
@@ -108,7 +106,10 @@ export default {
   created() {
     this.close(true)
   },
-  mounted() {},
+  async mounted() {
+    const { data: l } = await Localidad.getAll()
+    this.localidades = l || []
+  },
   methods: {
     async submit(formValid) {
       if (!formValid) return
@@ -134,7 +135,9 @@ export default {
       this.form = {
         cliente: this.user._id,
         profesional: this.perfil,
-        localidad: this.user.localidad._id || this.user.localidad,
+        localidad: this.user.localidad
+          ? this.user.localidad
+          : this.user.localidad._id,
         tipo: TipoTrabajo.PRIVADO,
         descripcion: '',
         descripcion_breve: '', // Asunto
