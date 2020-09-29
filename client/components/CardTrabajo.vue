@@ -149,7 +149,7 @@
                       <v-btn
                         icon
                         text
-                        @click="$emit('edit', trabajo)"
+                        @click="showModalPublic = true"
                         v-on="on"
                       >
                         <v-icon>edit</v-icon>

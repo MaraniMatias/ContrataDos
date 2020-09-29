@@ -67,16 +67,12 @@
           >
             Elegir foto
           </v-btn>
-          <p class="mb-0 mx-4" v-text="form.fileName" />
+          <error v-if="error" :text="error" />
+          <p v-else class="mb-0 mx-4" v-text="form.fileName" />
           <CardCropper :on.sync="pickupImg" @submit="saveTrabajoImg" />
         </v-layout>
       </v-flex>
     </template>
-    <!--
-        <template v-slot:message>
-          <error :text="error" />
-        </template>
-        -->
     <template v-slot:actions-left>
       <v-btn v-if="trabajo._id" color="red darken-4" text @click="delJob()">
         Eliminar
@@ -126,6 +122,7 @@ export default {
     habilidades: [],
     form: NewTrabajo(),
     pickedFile: null,
+    error: '',
   }),
   computed: {
     user() {
@@ -154,7 +151,12 @@ export default {
       this.pickupImg = false
     },
     async saveTrabajo(formValid) {
+      this.error = ''
       if (!formValid) return
+      if (!this.form._id && !this.pickedFile) {
+        this.error = 'Elija una imagen para mostrar'
+        return
+      }
       this.loading = true
       this.form.tipo = TipoTrabajo.PUBLICO
       this.form.descripcion_breve = this.form.descripcion_breve.toLowerCase()
