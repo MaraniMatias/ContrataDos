@@ -92,7 +92,7 @@ export default {
   }),
   computed: {
     user() {
-      return this.$store.state.user
+      return this.$store.state.user || {}
     },
     headline() {
       return camelCase(
@@ -132,16 +132,18 @@ export default {
         this.$emit('input', false)
         this.$emit('change', this.form)
       }
-      this.form = {
-        cliente: this.user._id,
-        profesional: this.perfil,
-        localidad: this.user.localidad
-          ? this.user.localidad
-          : this.user.localidad._id,
-        tipo: TipoTrabajo.PRIVADO,
-        descripcion: '',
-        descripcion_breve: '', // Asunto
-        servicios: this.form.servicios,
+      if (this.user) {
+        this.form = {
+          cliente: this.user._id,
+          profesional: this.perfil,
+          localidad: this.user.localidad?._id
+            ? this.user.localidad._id
+            : this.user.localidad,
+          tipo: TipoTrabajo.PRIVADO,
+          descripcion: '',
+          descripcion_breve: '', // Asunto
+          servicios: this.form.servicios,
+        }
       }
     },
   },
