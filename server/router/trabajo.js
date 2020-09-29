@@ -81,10 +81,12 @@ restify.serve(router, Trabajo, {
   postCreate: [
     (req, _, next) => {
       const trabajo = req.erm.result
-      sendEmailNuevaConsulta.jobCreate(Agenda, {
-        email: req.body.profesional.email, // TODO usar el id y buscar el email
-        link: process.env.FRONT_URL + '/trabajos/' + trabajo._id,
-      })
+      if (req.body.profesional && req.body.profesional.email) {
+        sendEmailNuevaConsulta.jobCreate(Agenda, {
+          email: req.body.profesional.email, // TODO usar el id y buscar el email
+          link: process.env.FRONT_URL + '/trabajos/' + trabajo._id,
+        })
+      }
       return next()
     },
   ],
