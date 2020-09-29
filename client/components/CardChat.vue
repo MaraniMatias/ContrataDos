@@ -12,7 +12,7 @@
           </p>
           <v-btn
             v-if="!isFrom"
-            :disabled="!editable"
+            :disabled="disabled"
             color="teal"
             text
             class="mb-1"
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import isBefore from 'date-fns/isBefore'
 import dateFormat from '~/utils/dateFormat'
 import dateFormatDistanceToNow from '~/utils/dateFormatDistanceToNow'
 
@@ -52,7 +53,15 @@ export default {
     fecha() {
       return dateFormatDistanceToNow(this.chat.createdAt)
     },
+    disabled() {
+      if (!this.editable) return true
+      if (this.chat.fecha) {
+        return isBefore(new Date(this.chat.fecha), Date.now())
+      }
+      return false
+    },
   },
+  created() {},
   methods: {
     accept() {
       this.$emit('accept', this.chat.fecha)
