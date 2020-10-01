@@ -48,7 +48,7 @@
             <v-flex xs12>
               <v-layout align-center>
                 <v-flex>
-                  <v-select
+                  <v-autocomplete
                     v-model.lazy="form.servicios"
                     dense
                     hide-details
@@ -59,9 +59,24 @@
                     :loading="habilidades.length === 0"
                     multiple
                     outlined
+                    :search-input.sync="queryHabilidades"
                     :readonly="loading"
                     :rules="[rules.required()]"
-                  />
+                  >
+                    <template v-slot:no-data>
+                      <v-divider class="mb-2" />
+                      <v-list-item @click="addProfession">
+                        <v-list-item-content>
+                          <v-list-item-title>
+                            Agregar profesión
+                          </v-list-item-title>
+                          <v-list-item-subtitle>
+                            {{ queryHabilidades }}
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </template>
+                  </v-autocomplete>
                 </v-flex>
                 <v-tooltip v-if="!loadLikeProfessional" bottom>
                   <template v-slot:activator="{ on }">
@@ -111,6 +126,7 @@ import FieldTextArea from '~/components/FieldTextArea'
 import CardForm from '~/components/CardForm'
 import { Roles } from '~~/server/utilities/enums'
 import { Persona, Localidad, Habilidad } from '~/api'
+import CapitalizeWords from '~~/server/utilities/capitalizeWords'
 
 export default {
   components: {
@@ -122,9 +138,10 @@ export default {
   },
   data: () => ({
     loading: false,
-    form: { roles: [] }, // localidad: {}   razon_social: {}
+    form: { roles: [], servicios: [] }, // localidad: {}   razon_social: {}
     habilidades: [],
     localidades: [],
+    queryHabilidades: '',
   }),
   computed: {
     user() {
@@ -178,6 +195,21 @@ export default {
     },
     close() {
       this.$emit('close')
+    },
+
+    async addProfession() {
+      const { error, data } = await Habilidad.save({
+        nombre: CapitalizeWords(this.queryHabilidades),
+      })
+      this.$notify({
+        type: error ? 'error' : 'success',
+        text: error || 'Profesión agregada',
+      })
+      if (data) {
+        this.queryHabilidades = null
+        this.habilidades.push(data)
+        this.form.servicios.push(data)
+      }
     },
   },
 }
