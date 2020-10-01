@@ -1,7 +1,6 @@
 <template>
   <v-layout column mb-2 px-2 justify-start fill-height pb-12>
-    <div class="hidden-md-and-down" style="margin-top: 60px"></div>
-    <div class="hidden-md-and-up" style="margin-top: 40px"></div>
+    <div style="margin-top: 40px"></div>
     <v-row class="mx-4 fill-height pa-0">
       <v-col class="pa-0">
         <v-layout wrap align-center mb-2>

@@ -1,7 +1,6 @@
 <template>
   <v-layout column mb-2 px-2>
-    <div class="hidden-md-and-down" style="margin-top: 60px"></div>
-    <div class="hidden-md-and-up" style="margin-top: 40px"></div>
+    <div style="margin-top: 40px"></div>
     <!--
     <v-flex v-show="loading" x12 mt-4 mb-2 class="text-center">
       <v-progress-circular
