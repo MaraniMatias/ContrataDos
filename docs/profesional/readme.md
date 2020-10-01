@@ -219,6 +219,13 @@ Escriba lo que quietas en este recuadro y puedes usar las herramientas de texto.
 ![Editar bibliografía](./imagen/editar_mi_perfil_5.png)
 :::
 
+::: details ¿No aparece mi profesión o mi localidad?
+Escriba la localidad o la profesión y si no esta en la lista, veras una opción
+para agregarla.
+
+Recuerde que es la profesión con que tus clientes usan para encontrarte.
+:::
+
 ### Cambiar foto de perfil
 
 1. Estar logeado en ContrataDos, ver como en [Iniciar Secesión](#iniciar-secesion)
