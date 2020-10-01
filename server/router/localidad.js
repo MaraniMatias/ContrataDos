@@ -7,7 +7,7 @@ const { Localidad } = require('../models/localidad')
 restify.serve(router, Localidad, {
   preDelete: block,
   preUpdate: block,
-  preCreate: block,
+  preCreate: [],
   preRead: [],
 })
 

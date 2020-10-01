@@ -7,7 +7,7 @@ const { Habilidad } = require('../models/habilidad')
 restify.serve(router, Habilidad, {
   preDelete: block,
   preUpdate: block,
-  preCreate: block,
+  preCreate: [],
   preRead: [],
 })
 
