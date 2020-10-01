@@ -27,7 +27,7 @@
         </v-flex>
       </v-layout>
       <v-flex xs12 ma-2 mt-2>
-        <v-select
+        <v-autocomplete
           v-model.lazy="form.localidad"
           dense
           hide-details
@@ -38,9 +38,22 @@
           :loading="localidades.length === 0"
           return-object
           outlined
+          :search-input.sync="queryLocalidad"
           :readonly="loading"
           :rules="[rules.required()]"
-        />
+        >
+          <template v-slot:no-data>
+            <v-divider class="mb-2" />
+            <v-list-item @click="addLocalidad">
+              <v-list-item-content>
+                <v-list-item-title>Agregar localidad</v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ queryLocalidad }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </v-autocomplete>
       </v-flex>
       <template v-if="isAProfessional">
         <v-flex xs12 ma-2 mt-2>
@@ -138,10 +151,11 @@ export default {
   },
   data: () => ({
     loading: false,
-    form: { roles: [], servicios: [] }, // localidad: {}   razon_social: {}
+    form: { roles: [], servicios: [], localidad: {} }, // razon_social: {}
     habilidades: [],
     localidades: [],
     queryHabilidades: '',
+    queryLocalidad: '',
   }),
   computed: {
     user() {
@@ -209,6 +223,20 @@ export default {
         this.queryHabilidades = null
         this.habilidades.push(data)
         this.form.servicios.push(data)
+      }
+    },
+    async addLocalidad() {
+      const { error, data } = await Localidad.save({
+        nombre: CapitalizeWords(this.queryLocalidad),
+      })
+      this.$notify({
+        type: error ? 'error' : 'success',
+        text: error || 'Localidad agregada',
+      })
+      if (data) {
+        this.queryLocalidad = null
+        this.localidades.push(data)
+        this.form.localidad = data
       }
     },
   },
