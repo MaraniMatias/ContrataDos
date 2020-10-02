@@ -247,14 +247,20 @@
               </v-btn>
             </template>
             <v-btn
-              v-show="!showAsCliente && isEstado.TERMINADO"
+              v-show="
+                !showAsCliente && isEstado.TERMINADO && !isEstado.CANCELADO
+              "
               class="mx-2"
               text
               @click.stop="showModalPublic = true"
             >
               Publicar
             </v-btn>
-            <v-layout align-center justify-end>
+            <v-layout
+              v-if="!isEstado.TERMINADO && !isEstado.CANCELADO"
+              align-center
+              justify-end
+            >
               <v-btn
                 v-if="!showAsCliente"
                 color="primary"
@@ -468,7 +474,10 @@ export default {
       return rta
     },
     isPablic() {
-      return this.trabajo.tipo === TipoTrabajo.PUBLICO
+      return (
+        this.trabajo.tipo === TipoTrabajo.PUBLICO &&
+        this.$route.name !== 'trabajos'
+      )
     },
     cliente() {
       return this.trabajo.cliente
