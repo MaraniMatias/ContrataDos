@@ -101,12 +101,12 @@
                 small
                 v-text="estadoLabel"
               />
-              <p
-                v-show="isEstado.PENDIENTE || isEstado.EN_PROGRESO"
-                class="mb-0 mt-2 display-1 font-weight-black"
-              >
-                {{ displayFecha }}
-              </p>
+              <template v-if="isEstado.PENDIENTE || isEstado.EN_PROGRESO">
+                <p class="mb-0 mt-2 font-weight-black">
+                  {{ displayFecha }}
+                </p>
+                <span class="subtitle-1">{{ displayHora }}</span>
+              </template>
             </v-layout>
           </v-layout>
         </v-card-title>
@@ -514,8 +514,12 @@ export default {
         const text = this.trabajo.estado ? 'Realizado ' : 'Publicado '
         return text + dateFormat(hours, 'dd/MM/yyyy')
       } else {
-        return camelCase(dateFormat(hours, "EEEE HH:mm 'hs'"))
+        return dateFormat(hours, "EEEE dd 'de' MMMM'")
       }
+    },
+    displayHora() {
+      const hours = this.agenda.fecha_inicio || this.trabajo.createdAt
+      return dateFormat(hours, "HH:mm'hs'")
     },
     canRating() {
       return this.$store.state.user._id === this.trabajo?.cliente?._id
