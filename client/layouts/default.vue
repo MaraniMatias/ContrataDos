@@ -100,6 +100,17 @@ export default {
       }
     },
   },
+  watch: {
+    hideAppBar(val) {
+      if (!val) {
+        setTimeout(function () {
+          document.querySelector(
+            '#app.v-application.v-application--is-ltr.theme--light div.v-application--wrap header.v-sheet.v-sheet--tile.theme--dark.v-toolbar.v-toolbar--dense.v-app-bar.v-app-bar--fixed.black div.v-toolbar__image div.v-responsive.v-image div.v-image__image.v-image__image--cover'
+          ).style.opacity = '70%'
+        }, 600)
+      }
+    },
+  },
   created() {},
   mounted() {
     const self = this
@@ -133,13 +144,5 @@ export default {
 <style>
 ng-cloak {
   display: none !important;
-}
-#app.v-application.v-application--is-ltr.theme--light
-  div.v-application--wrap
-  header.v-sheet.v-sheet--tile.theme--dark.v-toolbar.v-toolbar--dense.v-app-bar.v-app-bar--fixed.black
-  div.v-toolbar__image
-  div.v-responsive.v-image
-  div.v-image__image.v-image__image--cover {
-  opacity: 70%;
 }
 </style>
