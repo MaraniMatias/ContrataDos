@@ -2,6 +2,7 @@
   <div>
     <v-hover v-slot:default="{ hover }">
       <v-avatar
+        :left="left"
         :size="size"
         :class="{ cursor: editable && hover, 'elevation-3': elevation }"
         :color="editable && hover ? '' : ''"
@@ -35,6 +36,7 @@ export default {
     size: { type: String, default: '32' },
     src: { type: String, default: '' },
     on: { type: Object, default: () => {} },
+    left: { type: Boolean, default: false },
     editable: { type: Boolean, default: false },
     elevation: { type: Boolean, default: false },
   },

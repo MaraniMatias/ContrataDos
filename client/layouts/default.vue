@@ -5,10 +5,9 @@
       fixed
       app
       dense
-      :color="hideAppBar ? 'transparent' : user.picture ? 'black' : 'primary'"
+      :color="hideAppBar ? 'transparent' : 'primary'"
       :dark="!hideAppBar"
       :class="{ 'elevation-0': hideAppBar }"
-      :src="hideAppBar ? '' : user.picture"
     >
       <v-btn nuxt text to="/" color="transparent">
         <Logo :bg="!hideAppBar" class="mb-2" />
@@ -26,13 +25,22 @@
             <v-icon>help_outline</v-icon>
           </v-btn>
           <v-btn nuxt text to="/markers">Marcadores</v-btn>
-          <v-btn nuxt text to="/perfil">Perfil</v-btn>
+          <!--
+          <v-btn nuxt text to="/perfil">
+            <span>{{ user.nombre }}</span>
+            <Avatar class="ml-4" :src="user.picture" />
+          </v-btn>
+          -->
+          <!-- <v-btn nuxt text to="/perfil">Perfil</v-btn> -->
           <v-menu offset-y bottom>
             <template v-slot:activator="{ on: menu }">
-              <Avatar class="ml-4" :src="user.picture" :on="menu" />
+              <v-btn text v-on="menu">
+                <span>{{ user.nombre }}</span>
+                <Avatar class="ml-4" :src="user.picture" />
+              </v-btn>
             </template>
             <v-list class="mt-2">
-              <v-list-item>{{ headline }}</v-list-item>
+              <v-list-item nuxt to="/perfil">{{ headline }}</v-list-item>
               <v-list-item @click="loginOut()">Cerrar Sesión</v-list-item>
             </v-list>
           </v-menu>
@@ -100,18 +108,6 @@ export default {
       }
     },
   },
-  watch: {
-    hideAppBar(val) {
-      if (!val) {
-        setTimeout(function () {
-          document.querySelector(
-            '#app.v-application.v-application--is-ltr.theme--light div.v-application--wrap header.v-sheet.v-sheet--tile.theme--dark.v-toolbar.v-toolbar--dense.v-app-bar.v-app-bar--fixed.black div.v-toolbar__image div.v-responsive.v-image div.v-image__image.v-image__image--cover'
-          ).style.opacity = '70%'
-        }, 600)
-      }
-    },
-  },
-  created() {},
   mounted() {
     const self = this
     this.getMe().then(function ({ data }) {
