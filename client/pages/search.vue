@@ -108,7 +108,7 @@ export default {
       const servicios = this.$route?.query?.profesion
       const localidad = this.$route?.query?.localidad
 
-      if (servicios?.length) query.servicios = servicios
+      if (servicios?.length) query.servicios = { $all: servicios }
       if (localidad?.length) query.localidad = localidad
 
       const { data, totalItems } = await Persona.get({
