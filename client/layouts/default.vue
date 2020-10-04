@@ -34,13 +34,13 @@
           <!-- <v-btn nuxt text to="/perfil">Perfil</v-btn> -->
           <v-menu offset-y bottom>
             <template v-slot:activator="{ on: menu }">
-              <v-btn text v-on="menu">
+              <v-btn nuxt text tp="/perfil" v-on="menu">
                 <span>{{ user.nombre }}</span>
                 <Avatar class="ml-4" :src="user.picture" />
               </v-btn>
             </template>
             <v-list class="mt-2">
-              <v-list-item nuxt to="/perfil">{{ headline }}</v-list-item>
+              <v-list-item nuxt to="/perfil">Perfil</v-list-item>
               <v-list-item @click="loginOut()">Cerrar Sesión</v-list-item>
             </v-list>
           </v-menu>
@@ -70,7 +70,6 @@ import Snackbar from '~/components/Snackbar.vue'
 import Logo from '~/components/Logo.vue'
 import Avatar from '~/components/Avatar.vue'
 import Copyright from '~/components/Copyright.vue'
-import camelCase from '~~/server/utilities/capitalizeWords'
 
 export default {
   components: { Copyright, Avatar, Logo, Snackbar },
@@ -81,15 +80,6 @@ export default {
     ...mapGetters(['isLoggedIn']),
     user() {
       return this.$store.state.user || {}
-    },
-    headline() {
-      const nombre = this.user.nombre || ''
-      const apellido = this.user.apellido || ''
-      return camelCase(
-        this.user.razon_social
-          ? this.razon_social + `(${nombre} ${apellido})`
-          : nombre + ' ' + apellido
-      )
     },
     hideAppBar() {
       return ['index', 'login', 'loginout', 'singup'].includes(this.$route.name)
