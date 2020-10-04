@@ -110,7 +110,9 @@ export default {
       text: nombre,
       type: 'habilidad',
     }))
-    this.items = localidadList.concat(habilidadList)
+    this.items = localidadList
+      .concat(habilidadList)
+      .sort((a, b) => a.text > b.text)
     this.loading = false
   },
   methods: {
